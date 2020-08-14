@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="head.html :: head('Maunaloa')">
+    <title>Maunaloa</title>
+</head>
+
+<body>
+    <div th:replace="navbar.html :: navbar"></div>
+
+    <div class="logo"></div>
+    <div role="tabpanel" style="margin-bottom: 1rem">
+        <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom: 1rem">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" data-height="true" href="#calls" role="tab" aria-controls="home"
+                    aria-expanded="true">Calls</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" data-height="true" href="#puts" role="tab" aria-controls="profile"
+                    aria-expanded="false">Puts</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="calls" aria-expanded="true">
+                <div id="my-app"></div>
+            </div>
+            <div class="tab-pane" id="puts" role="tabpanel" aria-expanded="false">
+                <div id="my-app2"></div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="head.html :: scripts"></div>
+    <div th:replace="footer.html :: footer"></div>
+    <script type="text/javascript" src="/js/maunaloa/elm-options.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript">
+        const node1 = document.getElementById('my-app');
+        const node2 = document.getElementById('my-app2');
+        const app1 = Elm.Maunaloa.Options.Main.init({ node: node1, flags: { isCalls: true } });
+        const app2 = Elm.Maunaloa.Options.Main.init({ node: node2, flags: { isCalls: false } });
+    </script>
+</body>
+
+</html>

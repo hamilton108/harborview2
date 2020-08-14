@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Harborview</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       href="#" id="navbarDropdownCritters"
+                       role="button" data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false">Critters</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownCritters">
+                        <a class="dropdown-item" href="/critters/overlook">Overlook</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       href="#" id="navbarDropdownMaunaloa"
+                       role="button" data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false">Maunaloa</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMaunaloa">
+                        <a class="dropdown-item" href="/maunaloa/charts">Charts</a>
+                        <a class="dropdown-item" href="/maunaloa/optiontickers">Options</a>
+                        <a class="dropdown-item" href="/maunaloa/optionpurchases">Option Purchases</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+</html>

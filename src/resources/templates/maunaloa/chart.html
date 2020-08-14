@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chart</title>
+</head>
+<body>
+    <div th:fragment="chart(n)" class="grid-main">
+        <div class="main-chart">
+            <canvas th:id="|chart-${n}|" class="c1"></canvas>
+        </div>
+        <div class="main-chart" th:id="|div-${n}-doodle|">
+            <canvas th:id="|doodle-${n}|" class="c1"></canvas>
+        </div>
+        <div class="main-chart" th:id="|div-${n}-levelline|">
+            <canvas th:id="|levellines-${n}|" class="c1"></canvas>
+        </div>
+        <svg class="main-chart" th:id="|svg-${n}|" width="1310" height="500" viewbox="0 0 1310 500">
+        </svg>
+        <div class="sub-chart-1">
+            <canvas th:id="|vol-${n}|" class="c3"></canvas>
+        </div>
+        <div class="sub-chart-2">
+            <canvas th:id="|osc-${n}|" class="c2"></canvas>
+        </div>
+        <div th:replace="maunaloa/scrapbook.html :: scrapbook(${n})"></div>
+    </div>
+</body>
+</html>
