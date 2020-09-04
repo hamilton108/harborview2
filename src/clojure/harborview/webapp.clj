@@ -5,8 +5,9 @@
     [compojure.route :as R]
     ;[compojure.handler :refer (api)]
     [prone.middleware :as prone]
-    [compojure.core :refer (GET defroutes)]
+    [compojure.core :refer (GET defroutes context)]
     [ring.adapter.jetty :refer (run-jetty)]
+    [harborview.maunaloa :as MAU]
     [ring.util.response :refer (response resource-response)]
     [ring.middleware.params :refer (wrap-params)]))
 
@@ -48,7 +49,7 @@
       wrap-return-favicon 
       wrap-params
       prone/wrap-exceptions
-      ;allow-cross-origin
+      allow-cross-origin
       ;wrap-blub
       ))
 
