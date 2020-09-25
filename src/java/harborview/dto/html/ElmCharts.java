@@ -3,17 +3,17 @@ package harborview.dto.html;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ElmCharts {
     private Chart chart;
     private Chart chart2;
     private Chart chart3;
-    //private String minDx;
+    // private String minDx;
     private long minDx;
     private List<Long> xAxis;
 
-    @JsonIgnore
+    @JsonGetter("chart")
     public Chart getChart() {
         return chart;
     }
@@ -22,7 +22,7 @@ public class ElmCharts {
         this.chart = chart;
     }
 
-    @JsonIgnore
+    @JsonGetter("chart2")
     public Chart getChart2() {
         return chart2;
     }
@@ -31,7 +31,7 @@ public class ElmCharts {
         this.chart2 = chart2;
     }
 
-    @JsonIgnore
+    @JsonGetter("chart3")
     public Chart getChart3() {
         return chart3;
     }
@@ -40,7 +40,7 @@ public class ElmCharts {
         this.chart3 = chart3;
     }
 
-    @JsonGetter
+    @JsonGetter("minDx")
     public long getMinDx() {
         return minDx;
     }
@@ -49,7 +49,7 @@ public class ElmCharts {
         this.minDx = minDx;
     }
 
-    @JsonIgnore
+    @JsonGetter("xAxis")
     public List<Long> getxAxis() {
         return xAxis;
     }

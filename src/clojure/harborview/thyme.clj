@@ -8,14 +8,14 @@
    ))
 
 (defn init-thymeleaf []
-  (let [templateEngine (TemplateEngine.)
+  (let [te (TemplateEngine.)
         resolver (ClassLoaderTemplateResolver.)]
-    (.setPrefix resolver "/resources/templates/")
+    (.setPrefix resolver "/templates/")
     (.setSuffix resolver ".html")
     (.setCharacterEncoding resolver "UTF-8")
     (.setTemplateMode resolver TemplateMode/HTML)
-    (.setTemplateResolver templateEngine resolver) 
-    templateEngine))
+    (.setTemplateResolver te resolver) 
+    te))
 
 (def templateEngine (init-thymeleaf))
 

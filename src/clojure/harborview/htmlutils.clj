@@ -1,6 +1,15 @@
 (ns harborview.htmlutils
+  (:import [com.fasterxml.jackson.databind ObjectMapper])
   (:require
     [cheshire.core :as json]))
+
+(def om (ObjectMapper.))
+
+(defn om->json [bean]
+  (let [data (.writeValueAsString om bean)]
+    {:status 200
+    :headers {"Content-Type" "application/json"}
+    :body data}))
 
 (defn json-response [data & [status]]
   {:status (or status 200)
@@ -25,7 +34,7 @@
         (assoc-in [:headers "Access-Control-Allow-Headers"] "X-Requested-With,Content-Type,Cache-Control")))))
 
 
-(comment rs [v]
+(defn rs [v]
   (if (string? v)
     (let [vs (if-let [v (re-seq #"(\d+),(\d+)" v)]
                (let [[a b c] (first v)] (str b "." c))
