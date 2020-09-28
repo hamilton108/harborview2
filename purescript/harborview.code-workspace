@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "/home/rcs/opt/java/harborview/src/main/resources/static/js"
+		},
+		{
+			"path": "/home/rcs/opt/java/harborview/elm"
+		},
+		{
+			"path": "../src"
+		},
+		{
+			"path": "../../../purescript/evtdemo"
+		}
+	],
+	"settings": {
+	}
+}

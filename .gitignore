@@ -10,3 +10,14 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
+purescript/.cache/
+purescript/.psci_modules/
+purescript/.psc-package/
+purescript/.pulp-cache/
+purescript/.purs-repl
+purescript/.spago/
+purescript/.local/
+purescript/output/
+purescript/server/
+
+

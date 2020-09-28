@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# spago bundle-app --main Main --to dist/ps-charts.js
+
+spago bundle-app --to dist/ps-charts.js
+
+exit 0
