@@ -4,4 +4,6 @@
 
 spago bundle-app --to dist/ps-charts.js
 
+sed -i '$ d' dist/ps-charts.js
+
 exit 0

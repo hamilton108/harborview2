@@ -79,11 +79,13 @@ foreign import resetListeners :: Effect Unit
 
 foreign import getListeners :: Effect (Array EventListenerInfo)
 
+foreign import hasPilotLine :: Effect Boolean
+
 foreign import createLine :: Context2D -> VRuler -> Effect Unit
 
 foreign import onMouseDown :: Event.Event -> Effect Unit
 
-foreign import onMouseDrag :: Event.Event -> Lines -> Context2D -> VRuler -> Effect Unit
+foreign import onMouseDrag :: Event.Event -> Context2D -> VRuler -> Effect Unit
 
 foreign import onMouseUp :: Event.Event -> Effect Unit
 
@@ -107,8 +109,6 @@ newtype Lines =
 
 instance showLines :: Show Lines where
     show (Lines { lines, pilotLine }) = "Lines, " <> show lines <> ", pilotLine: " <> show pilotLine
-
-type LinesRef = Ref.Ref Lines
 
 defaultEventHandling :: Event.Event -> Effect Unit
 defaultEventHandling event = 
@@ -144,6 +144,12 @@ unlisten :: EventListenerInfo -> Effect Unit
 unlisten (EventListenerInfo {target,listener,eventType}) = 
     EventTarget.removeEventListener eventType listener false (toEventTarget target)
 
+unlistenEvents :: Effect Unit
+unlistenEvents = 
+    getListeners >>= \listeners ->
+    Traversable.traverse_ unlisten listeners *>
+    resetListeners 
+
 {-
 unlistener :: EventListenerRef -> Int -> Effect Unit
 unlistener elr dummy =
@@ -169,13 +175,16 @@ addLine :: Line -> Lines -> Lines
 addLine newLine (Lines l@{lines}) = 
     Lines $ l { lines = newLine : lines } 
 
-addRiscLevelLines :: Json -> LinesRef -> CanvasElement -> VRuler -> Effect Unit
-addRiscLevelLines json lref ce vruler =
+addRiscLevelLines :: Json -> CanvasElement -> VRuler -> Effect Unit
+addRiscLevelLines json ce vruler =
+    pure unit 
+    {-
     Ref.modify_ (\_ -> initLines) lref *>
     Canvas.getContext2D ce >>= \ctx ->
     redraw ctx vruler *>
     createRiscLines json ctx vruler >>= \newLines ->
     Traversable.traverse_ (\newLine -> Ref.modify_ (addLine newLine) lref) newLines 
+    -}
 
 mainURL :: String
 mainURL = 
@@ -216,38 +225,20 @@ mouseEventDown evt =
     defaultEventHandling evt *>
     onMouseDown evt 
 
-hasPilotLine :: Lines -> Boolean
-hasPilotLine (Lines {pilotLine}) =
-    pilotLine /= Nothing
-
-
 mouseEventDrag :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
 mouseEventDrag ce vruler evt = 
-    defaultEventHandling evt 
-    {-
-    Ref.read lref >>= \lxx -> 
-        if hasPilotLine lxx then 
+    defaultEventHandling evt *>
+    hasPilotLine >>= \hasPilot ->
+        if hasPilot == true then
             Canvas.getContext2D ce >>= \ctx ->
-            onMouseDrag evt lxx ctx vruler
-        else 
+                onMouseDrag evt ctx vruler
+        else
             pure unit
-    -}
 
 mouseEventUp :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
 mouseEventUp ce vruler evt = 
     defaultEventHandling evt *>
     onMouseUp evt 
-    {-
-    Ref.read lref >>= \lxx -> 
-    onMouseUp evt lxx >>= \selectedLine ->
-        case selectedLine of 
-            Nothing ->
-                logShow "No selected line"
-            Just sx -> 
-                logShow "WHAT?" 
-                --logShow sx *> 
-                --checkIfRiscLine sx
-                -}
 
 handleRiscLine :: Line -> Effect Unit
 handleRiscLine (Line {y,riscLine}) = 
@@ -315,6 +306,7 @@ initEvent toListener element eventType =
 
 initEvents :: String -> VRuler -> ChartLevel -> Effect Unit
 initEvents ticker vruler chartLevel =
+    unlistenEvents *>
     getHtmlContext chartLevel >>= \context ->
         case context of
             Nothing ->

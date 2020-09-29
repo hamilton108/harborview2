@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     const toChartMappings = (c) => {
         const mainChart = {
-            chartId: "chart", canvasId: c.MAIN_CHART, chartHeight: 500.0, 
+            chartId: "chart", canvasId: c.MAIN_CHART, chartHeight: 500.0,
             levelCanvasId: c.LEVEL_LINES, addLevelId: c.BTN_LEVELLINE, fetchLevelId: c.BTN_RISCLINES
         };
         const osc = {
@@ -146,8 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
         };
         return [mainChart, osc];
     };
-
-    let unlistener = null;
 
     const elmApp = (appId, chartRes, myCanvases, config) => {
         //===>>> const levelLines = new LevelLines(config);
@@ -157,18 +155,10 @@ document.addEventListener("DOMContentLoaded", function () {
             node: node,
             flags: chartRes
         });
-        //const myChart = new Chart(myCanvases, levelLines);
         app.ports.drawCanvas.subscribe(cfg => {
-            if (unlistener !== null) {
-                unlistener(1)();
-            }
-            //console.log(cfg);
             scrap.clear();
-            //myChart.drawCanvases(cfg);
             const mappings = toChartMappings(myCanvases);
-            //PS.Main.paint(mappings)(cfg)();
-            unlistener = PS.Main.paint(mappings)(cfg)();
-            console.log(unlistener);
+            PS.Main.paint(mappings)(cfg)();
         });
         const drawRiscLines = function (riscLines) {
             //===>>> levelLines.addRiscLines(riscLines);

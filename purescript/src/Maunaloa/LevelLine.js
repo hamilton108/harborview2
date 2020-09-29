@@ -49,18 +49,22 @@ const closestLine = function (lines, y) {
     }
 }
 
-const draw = function (linesWrapper, vruler, ctx) {
+const draw = function (vruler, ctx) {
     ctx.clearRect(0, 0, vruler.w, vruler.h);
 
-    const lines = linesWrapper.lines;
-    for (var i = 0; i < lines.length; ++i) {
-        const curLine = lines[i];
+    const items = lines.items;
+    for (var i = 0; i < items.length; ++i) {
+        const curLine = items[i];
         if (curLine.selected == true) {
             continue;
         }
         paintLine(curLine, vruler, ctx);
     }
-    paintLine(linesWrapper.pilotLine.value0, vruler, ctx);
+    paintLine(lines.pilotLine.value0, vruler, ctx);
+};
+
+exports.hasPilotLine = function () {
+    return lines.pilotLine !== nothing;
 };
 
 exports.addListener = function (listener) {
@@ -84,6 +88,22 @@ exports.showJson = function (json) {
 }
 exports.onMouseDown = function (evt) {
     return function () {
+        const items = lines.items;
+        if (items.length === 0) {
+            return;
+        }
+        if (items.length === 1) {
+            items[0].selected = true;
+            lines.pilotLine = createPilotLine(items[0]);
+        }
+        else {
+            const cl = closestLine(items, evt.offsetY);
+            if (cl !== null) {
+                items[cl[0]].selected = true;
+                lines.pilotLine = cl[1];
+            }
+        }
+        console.log(lines);
         /*
         const lines = linesWrapper.lines;
         if (lines.length === 0) {
@@ -109,6 +129,8 @@ exports.onMouseDrag = function (evt) {
     return function (ctx) {
         return function (vruler) {
             return function () {
+                lines.pilotLine.value0.y = evt.offsetY;
+                draw(vruler, ctx);
                 /*
                 linesWrapper.pilotLine.value0.y = evt.offsetY;
                 draw(linesWrapper, vruler, ctx);
@@ -120,28 +142,17 @@ exports.onMouseDrag = function (evt) {
 
 exports.onMouseUp = function (evt) {
     return function () {
-        /*
-        var selectedLine = null;
-        const lines = linesWrapper.lines;
-
-        for (var i = 0; i < lines.length; ++i) {
-            const curLine = lines[i];
+        const items = lines.items;
+        for (var i = 0; i < items.length; ++i) {
+            const curLine = items[i];
             console.log(curLine);
             if (curLine.selected == true) {
                 console.log(curLine.pilotLine);
-                curLine.y = linesWrapper.pilotLine.value0.y;
+                curLine.y = lines.pilotLine.value0.y;
                 curLine.selected = false;
-                selectedLine = curLine;
             }
         }
-        linesWrapper.pilotLine = nothing;
-        if (selectedLine === null) {
-            return nothing;
-        }
-        else {
-            return selectedLine;
-        }
-        */
+        lines.pilotLine = nothing;
     }
 };
 
@@ -194,7 +205,9 @@ exports.createLine = function (ctx) {
         return function () {
             const y = vruler.h * Math.random();
             paintDisplayValueDefault(y, vruler, ctx);
-            return { y: y, draggable: true, selected: false, riscLine: false, strokeStyle: "black" };
+            const result = { y: y, draggable: true, selected: false, riscLine: false, strokeStyle: "black" };
+            lines.items.push(result);
+            return result;
         };
     };
 };

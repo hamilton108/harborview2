@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cp dist/ps-charts.js ../src/resources/public/js/maunaloa/
+
+exit 0
