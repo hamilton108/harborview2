@@ -14,10 +14,15 @@ const just = function (obj) {
     return PS["Data.Maybe"].Just.create(obj);
 }
 
-var lines = {
-    items: [],
-    pilotLine: nothing
+const initLines = function () {
+    return {
+        items: [],
+        pilotLine: nothing
+    }
+
 }
+
+var lines = initLines();
 
 var eventListeners = [];
 
@@ -70,14 +75,13 @@ exports.hasPilotLine = function () {
 exports.addListener = function (listener) {
     return function () {
         eventListeners.push(listener);
-        console.log(eventListeners);
     }
 };
 exports.resetListeners = function () {
     eventListeners = [];
+    lines = initLines();
 }
 exports.getListeners = function () {
-    console.log(eventListeners);
     return eventListeners;
 }
 
@@ -103,7 +107,6 @@ exports.onMouseDown = function (evt) {
                 lines.pilotLine = cl[1];
             }
         }
-        console.log(lines);
         /*
         const lines = linesWrapper.lines;
         if (lines.length === 0) {
@@ -145,9 +148,7 @@ exports.onMouseUp = function (evt) {
         const items = lines.items;
         for (var i = 0; i < items.length; ++i) {
             const curLine = items[i];
-            console.log(curLine);
             if (curLine.selected == true) {
-                console.log(curLine.pilotLine);
                 curLine.y = lines.pilotLine.value0.y;
                 curLine.selected = false;
             }
