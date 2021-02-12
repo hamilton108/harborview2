@@ -24,4 +24,10 @@ build/
 gradle/
 .gradle/
 .idea/
+elm/elm-stuff/
+elm/node_modules/
+elm/package-lock.json
+elm/*.js
+elm/selected
+*.swp
 

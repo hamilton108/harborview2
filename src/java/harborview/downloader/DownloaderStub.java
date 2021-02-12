@@ -1,6 +1,8 @@
-package nordnet.downloader;
+package harborview.downloader;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import nordnet.downloader.PageInfo;
+import nordnet.downloader.TickerInfo;
 import oahu.financial.html.EtradeDownloader;
 
 import java.io.IOException;
@@ -8,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class DownloaderStub implements EtradeDownloader<PageInfo, TickerInfo, Serializable> {
     private boolean javaScriptEnabled = false;
@@ -15,6 +18,7 @@ public class DownloaderStub implements EtradeDownloader<PageInfo, TickerInfo, Se
     private String storePath;
     private HashMap<String,Integer> counterMap;
     private boolean applyCounter = false;
+    private Consumer<PageInfo> onPageDownloaded;
 
     public DownloaderStub(String storePath) {
         this();
@@ -45,10 +49,10 @@ public class DownloaderStub implements EtradeDownloader<PageInfo, TickerInfo, Se
     //region Private Methods
     private String tickerUrl(String ticker) {
         if (applyCounter) {
-            return String.format("file:///%s/%s-%d.html", storePath, ticker, getCounter(ticker));
+            return String.format("file:///%s/%s/%d.html", storePath, ticker, getCounter(ticker));
         }
         else {
-            return String.format("file:///%s/%s.html", storePath, ticker);
+            return String.format("file:///%s/%s/1.html", storePath, ticker);
         }
     }
     //endregion Private Methods
@@ -60,7 +64,11 @@ public class DownloaderStub implements EtradeDownloader<PageInfo, TickerInfo, Se
 
         try {
             var page = webClient.getPage(tickerUrl(tickerInfo.getTicker()));
-            result.add(new PageInfo(page, "N/A"));
+            var pageInfo = new PageInfo(page,tickerInfo, "1");
+            result.add(pageInfo);
+            if (onPageDownloaded != null) {
+                onPageDownloaded.accept(pageInfo);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -69,6 +77,9 @@ public class DownloaderStub implements EtradeDownloader<PageInfo, TickerInfo, Se
         return result;
     }
 
+    public void setOnPageDownloaded(Consumer<PageInfo> onPageDownloaded) {
+        this.onPageDownloaded = onPageDownloaded;
+    }
     //region interface EtradeDownloader
     /*
 
@@ -106,6 +117,10 @@ public class DownloaderStub implements EtradeDownloader<PageInfo, TickerInfo, Se
 
     public void setApplyCounter(boolean applyCounter) {
         this.applyCounter = applyCounter;
+    }
+
+    public String getStorePath() {
+        return storePath;
     }
 
     //endregion Properties

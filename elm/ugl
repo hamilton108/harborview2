@@ -1,0 +1,9 @@
+#!/bin/bash
+
+NODE_VER="13.3-alpine3.10"
+
+# docker run --user $(id -u):$(id -g) -it --rm -v $(pwd):/js -w /js --name uglify rcs/node:$NODE_VER "$@"
+
+docker run -it --rm -v $(pwd):/js -w /js --name uglify rcs/node:$NODE_VER "$@"
+
+exit 0
