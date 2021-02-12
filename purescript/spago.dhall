@@ -16,6 +16,7 @@ You can edit this file as you like.
   , "lists"
   , "nullable"
   , "numbers"
+  , "ordered-collections"
   , "prelude"
   , "psci-support"
   , "random"

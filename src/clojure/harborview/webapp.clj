@@ -1,15 +1,15 @@
 (ns harborview.webapp
   (:gen-class)
   (:require
-    [harborview.thyme :as T]
-    [compojure.route :as R]
+   [harborview.thyme :as THYME]
+   [compojure.route :as R]
     ;[compojure.handler :refer (api)]
-    [prone.middleware :as prone]
-    [compojure.core :refer (GET defroutes context)]
-    [ring.adapter.jetty :refer (run-jetty)]
-    [harborview.maunaloa :as MAU]
-    [ring.util.response :refer (response resource-response)]
-    [ring.middleware.params :refer (wrap-params)]))
+   [prone.middleware :as prone]
+   [compojure.core :refer (GET defroutes context)]
+   [ring.adapter.jetty :refer (run-jetty)]
+   [harborview.maunaloa.html :as MAU]
+   [ring.util.response :refer (response resource-response)]
+   [ring.middleware.params :refer (wrap-params)]))
 
 (defn wrap-return-favicon [handler]
   (fn [req]
@@ -18,7 +18,7 @@
       (handler req))))
 
 (defroutes main-routes
-  (GET "/" request (response (T/home)))
+  (GET "/" request (response (THYME/home)))
   (context "/maunaloa" [] MAU/my-routes)
   (R/files "/" {:root "public"})
   (R/resources "/" {:root "public"}))
@@ -31,22 +31,21 @@
   (fn [request]
     (let [response (handler request)]
       (-> response
-        (assoc-in [:headers "Access-Control-Allow-Origin"]  "*")
-        (assoc-in [:headers "Access-Control-Allow-Methods"] "GET,PUT,POST,DELETE,OPTIONS")
-        (assoc-in [:headers "Access-Control-Allow-Headers"] "X-Requested-With,Content-Type,Cache-Control")))))
+          (assoc-in [:headers "Access-Control-Allow-Origin"]  "*")
+          (assoc-in [:headers "Access-Control-Allow-Methods"] "GET,PUT,POST,DELETE,OPTIONS")
+          (assoc-in [:headers "Access-Control-Allow-Headers"] "X-Requested-With,Content-Type,Cache-Control")))))
 
-(defn wrap-blub [handler]
-  (fn [request]
-    (let [sr (:servlet-request request)
-          response (handler request)
-          ]
-      (prn request)
-      response)))
+(comment wrap-blub [handler]
+         (fn [request]
+           (let [sr (:servlet-request request)
+                 response (handler request)]
+             (prn request)
+             response)))
 
 (def webapp
   (-> main-routes
       ;wrap-context
-      wrap-return-favicon 
+      wrap-return-favicon
       wrap-params
       prone/wrap-exceptions
       allow-cross-origin
@@ -55,12 +54,11 @@
 
 ;(def server (run-jetty #'webapp {:port 8082 :join? false}))
 
-      
 
 (defn -main []
   (let [x (run-jetty #'webapp {:port 8082 :join? false})]
     (prn x))
-  (comment 
+  (comment
     (run-jetty #'webapp
                {:port 8443
                 :join? false
@@ -68,36 +66,34 @@
                 :keystore "../local/harborview.ssl"
                 :key-password "VhCHeUJ4"})))
 
-
 (comment
-(defn wrap-blub [handler]
-  (fn [request]
-    (let [uri (:uri request)]
-      (if (= uri "/")
+  (defn wrap-blub [handler]
+    (fn [request]
+      (let [uri (:uri request)]
+        (if (= uri "/")
           {:status 200
            :headers {"Content-Type" "text/html"}
            :body "Hello world"}
-        ""))))
+          ""))))
 
-(def ^:dynamic *app-context* nil)
+  (def ^:dynamic *app-context* nil)
 
-(defn wrap-context [handler]
- (fn [request]
-  (when-let [context (:context request)]
-    (prn (str "Request with context " context)))
-  (when-let [pathdebug (:path-debug request)]
-    (prn (str "Request with path-debug " pathdebug)))
-  (when-let [servlet-context (:servlet-context request)]
-    (prn (str "Request with servlet-context " servlet-context)))
-  (when-let [servlet-context-path (:servlet-context-path request)]
-    (prn (str "Request with servlet-context-path " servlet-context-path)))
-  (binding [*app-context* (str (:context request) "/")]
-     (prn (str "Using appcontext " *app-context*))
-     (-> request
-         handler))))
+  (defn wrap-context [handler]
+    (fn [request]
+      (when-let [context (:context request)]
+        (prn (str "Request with context " context)))
+      (when-let [pathdebug (:path-debug request)]
+        (prn (str "Request with path-debug " pathdebug)))
+      (when-let [servlet-context (:servlet-context request)]
+        (prn (str "Request with servlet-context " servlet-context)))
+      (when-let [servlet-context-path (:servlet-context-path request)]
+        (prn (str "Request with servlet-context-path " servlet-context-path)))
+      (binding [*app-context* (str (:context request) "/")]
+        (prn (str "Using appcontext " *app-context*))
+        (-> request
+            handler))))
 
-(defn url-in-context [url]
-    (str *app-context* url))
-)
+  (defn url-in-context [url]
+    (str *app-context* url)))
 
 

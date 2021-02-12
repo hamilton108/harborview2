@@ -1,0 +1,9 @@
+#!/bin/bash
+
+printf "Building...\n"
+./build 
+
+printf "Deploying ...\n"
+./deploy
+
+exit 0

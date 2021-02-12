@@ -1,4 +1,4 @@
-module Maunaloa.LevelLine (initEvents) where
+module Maunaloa.LevelLine (initEvents,clear) where
 
 import Prelude
 import Data.Maybe (Maybe(..))
@@ -17,7 +17,7 @@ import Graphics.Canvas (CanvasElement,Context2D)
 import Web.Event.Event (EventType(..))
 import Web.Event.Event as Event
 import Web.Event.EventTarget as EventTarget
-import Effect.Ref as Ref
+--import Effect.Ref as Ref
 import Web.DOM.NonElementParentNode (NonElementParentNode,getElementById)
 import Web.DOM.Element (toEventTarget,Element)
 import Web.HTML as HTML
@@ -91,6 +91,8 @@ foreign import onMouseUp :: Event.Event -> Effect Unit
 
 foreign import redraw :: Context2D -> VRuler -> Effect Line
 
+foreign import clearCanvas :: Effect Unit
+
 foreign import createRiscLines :: Json -> Context2D -> VRuler -> Effect (Array Line)
 
 foreign import showJson :: Json -> Effect Unit
@@ -128,9 +130,9 @@ newtype EventListenerInfo =
     , eventType :: EventType
     }
 
-type EventListeners = Array EventListenerInfo -- List.List EventListenerInfo 
+-- type EventListeners = Array EventListenerInfo -- List.List EventListenerInfo 
 
-type EventListenerRef = Ref.Ref EventListeners
+-- type EventListenerRef = Ref.Ref EventListeners
 
 type HtmlContext = 
     { canvasContext :: CanvasElement --Canvas.Context2D
@@ -168,12 +170,24 @@ addLevelLineButtonClick ce vruler evt =
     defaultEventHandling evt *>
     Canvas.getContext2D ce >>= \ctx ->
     createLine ctx vruler 
-    --createLine ctx vruler >>= \newLine ->
-    --Ref.modify_ (addLine newLine) lref 
 
 addLine :: Line -> Lines -> Lines
 addLine newLine (Lines l@{lines}) = 
     Lines $ l { lines = newLine : lines } 
+
+
+mainURL :: String
+mainURL = 
+    "http://localhost:8082/maunaloa"
+
+fetchLevelLinesURL :: String -> String
+fetchLevelLinesURL ticker =
+    -- "http://localhost:6346/maunaloa/risclines/" <> ticker
+    mainURL <>  "/risclines/" <> ticker
+
+optionPriceURL :: String
+optionPriceURL =
+    mainURL <> "/optionprice/3/2" 
 
 addRiscLevelLines :: Json -> CanvasElement -> VRuler -> Effect Unit
 addRiscLevelLines json ce vruler =
@@ -185,20 +199,7 @@ addRiscLevelLines json ce vruler =
     createRiscLines json ctx vruler >>= \newLines ->
     Traversable.traverse_ (\newLine -> Ref.modify_ (addLine newLine) lref) newLines 
     -}
-
-mainURL :: String
-mainURL = 
-    "http://localhost:8082"
-
-fetchLevelLinesURL :: String -> String
-fetchLevelLinesURL ticker =
-    -- "http://localhost:6346/maunaloa/risclines/" <> ticker
-    mainURL <>  "/risclines/" <> ticker
-
-optionPriceURL :: String
-optionPriceURL =
-    mainURL <> "/optionprice/3/2" 
-
+    
 fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ticker ce vruler evt = 
     Aff.launchAff_ $
@@ -211,6 +212,8 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                 )
             Right response -> 
                 liftEffect (
+                    logShow "response OK!" *>
+                    showJson response.body *>
                     defaultEventHandling evt 
                     {--
                     addRiscLevelLines response.body lref ce vruler 
@@ -262,12 +265,16 @@ checkIfRiscLine curLine@(Line {riscLine}) =
         false ->
             pure unit
 
-getHtmlContext1 :: Maybe Element -> Maybe Element -> Maybe Element -> Maybe CanvasElement -> Maybe HtmlContext
-getHtmlContext1 canvas addLlBtn fetchLlBtn ctx = 
-    canvas >>= \canvas1 ->
-    addLlBtn >>= \addLlBtn1 ->
-    fetchLlBtn >>= \fetchLlBtn1 ->
-    ctx >>= \ctx1 ->
+getHtmlContext1 :: 
+    { canvas :: Maybe Element
+    , add :: Maybe Element
+    , fetch :: Maybe Element
+    , ctx :: Maybe CanvasElement } -> Maybe HtmlContext
+getHtmlContext1 prm = 
+    prm.canvas >>= \canvas1 ->
+    prm.add >>= \addLlBtn1 ->
+    prm.fetch >>= \fetchLlBtn1 ->
+    prm.ctx >>= \ctx1 ->
         Just
         { canvasContext: ctx1 
         , canvasElement: canvas1 
@@ -292,7 +299,11 @@ getHtmlContext {levelCanvasId: (HtmlId levelCanvasId1), addLevelId: (HtmlId addL
         validateMaybe "addLevelId2" addLevelId2 *>
         validateMaybe "fetchLevelId2" fetchLevelId2 *>
         validateMaybe "canvas" canvas *>
-        pure (getHtmlContext1 canvasElement addLevelId2 fetchLevelId2 canvas)
+        pure (getHtmlContext1 { canvas: canvasElement
+                              , add: addLevelId2
+                              , fetch: fetchLevelId2
+                              , ctx: canvas })
+
 
 
 initEvent :: (Event.Event -> Effect Unit) -> Element -> EventType -> Effect Unit
@@ -323,3 +334,6 @@ initEvents ticker vruler chartLevel =
                     initEvent mouseEventDown context1.canvasElement (EventType "mousedown") *>
                     initEvent (mouseEventDrag ce vruler) context1.canvasElement (EventType "mousemove") *>
                     initEvent (mouseEventUp ce vruler) context1.canvasElement (EventType "mouseup") 
+
+clear :: Effect Unit
+clear = clearCanvas

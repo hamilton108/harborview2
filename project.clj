@@ -4,29 +4,39 @@
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]
-		         [compojure/compojure "1.6.2"]
-                 [ring "1.8.0"]
+                 [compojure/compojure "1.6.2"]
+                 [ring "1.8.2" :exclusions [ring/ring-core]]
                  [ring/ring-defaults "0.3.2"]
-                 [ring/ring-jetty-adapter "1.8.0"]
-                 [com.fasterxml.jackson.core/jackson-core "2.10.2"] 
-                 [com.fasterxml.jackson.core/jackson-annotations "2.10.2"] 
-                 [com.fasterxml.jackson.core/jackson-databind "2.10.2"] 
-		         [org.mybatis/mybatis "3.5.4"]
-		         [org.postgresql/postgresql "42.2.10"]
+                 [ring/ring-jetty-adapter "1.8.2" :exclusions [ring/ring-core]]
+                 [com.fasterxml.jackson.core/jackson-core "2.10.2"]
+                 [com.fasterxml.jackson.core/jackson-annotations "2.10.2"]
+                 [com.fasterxml.jackson.core/jackson-databind "2.10.2"]
+                 [org.mybatis/mybatis "3.5.4"]
+                 [org.postgresql/postgresql "42.2.10"]
+                 [org.jsoup/jsoup "1.11.3"]
                  [rcstadheim/critter-repos "1.3.0"]
+                 [rcstadheim/nordnet-repos "1.0.0-20201015.214343-1"]
+                 ;[rcstadheim/nordnet-repos "0.4.0"]
                  [rcstadheim/oahu "1.2.0"]
                  [rcstadheim/vega "1.2.0"]
+                 [net.sourceforge.htmlunit/htmlunit "2.44.0"
+                  :exclusions [org.eclipse.jetty/jetty-http org.eclipse.jetty/jetty-io]]
                  [com.google.guava/guava "29.0-jre"]
-                 ;[selmer "1.12.28"]
-                 [prone "2020-01-17"] 
+                 [prone "2020-01-17"]
                  [org.thymeleaf/thymeleaf "3.0.11.RELEASE"]
                  [cheshire "5.10.0"]
+                 [redis.clients/jedis "3.3.0" :exclusions [org.slf4j/slf4j-api]]
+                 ;[cider/cider-nrepl "0.25.3" :exclusions [nrepl]]
                  ;[metosin/jsonista "0.2.5"]
                  ]
+  ;:plugins [[lein-cljfmt "0.7.0"] [lein-virgil "0.1.9"]]
+  :plugins [[lein-cljfmt "0.7.0"]]
   :repositories {"project" "file:/home/rcs/opt/java/mavenlocalrepo"}
-  :resource-paths [ "src/resources" ]
-  :source-paths [ "src/clojure" ]
-  :java-source-paths [ "src/java" ]
+  :resource-paths ["src/resources"]
+  :source-paths ["src/clojure"]
+  :java-source-paths ["src/java"]
   :main ^:skip-aot harborview.webapp
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all} :dev {:ring {:stacktrace-middleware prone.middleware/wrap-exceptions}}})
+  :profiles {:uberjar {:aot :all}
+             ;:dev {:ring {:stacktrace-middleware prone.middleware/wrap-exceptions}}
+             })

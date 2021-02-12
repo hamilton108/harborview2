@@ -2,12 +2,6 @@
 
 const x1 = 45.0;
 
-/*
-const createPilotLine = function (y) {
-    return PS["Data.Maybe"].Just.create(y);
-}
-*/
-
 const nothing = PS["Data.Maybe"].Nothing.value;
 
 const just = function (obj) {
@@ -22,10 +16,9 @@ const initLines = function () {
 
 }
 
-var lines = initLines();
+var _lines = initLines();
 
-var eventListeners = [];
-
+var _eventListeners = [];
 
 const createPilotLine = function (line) {
     return just({ y: line.y, strokeStyle: line.strokeStyle });
@@ -57,7 +50,7 @@ const closestLine = function (lines, y) {
 const draw = function (vruler, ctx) {
     ctx.clearRect(0, 0, vruler.w, vruler.h);
 
-    const items = lines.items;
+    const items = _lines.items;
     for (var i = 0; i < items.length; ++i) {
         const curLine = items[i];
         if (curLine.selected == true) {
@@ -65,24 +58,24 @@ const draw = function (vruler, ctx) {
         }
         paintLine(curLine, vruler, ctx);
     }
-    paintLine(lines.pilotLine.value0, vruler, ctx);
+    paintLine(_lines.pilotLine.value0, vruler, ctx);
 };
 
 exports.hasPilotLine = function () {
-    return lines.pilotLine !== nothing;
+    return _lines.pilotLine !== nothing;
 };
 
 exports.addListener = function (listener) {
     return function () {
-        eventListeners.push(listener);
+        _eventListeners.push(listener);
     }
 };
 exports.resetListeners = function () {
-    eventListeners = [];
-    lines = initLines();
+    _eventListeners = [];
+    _lines = initLines();
 }
 exports.getListeners = function () {
-    return eventListeners;
+    return _eventListeners;
 }
 
 exports.showJson = function (json) {
@@ -92,39 +85,21 @@ exports.showJson = function (json) {
 }
 exports.onMouseDown = function (evt) {
     return function () {
-        const items = lines.items;
+        const items = _lines.items;
         if (items.length === 0) {
             return;
         }
         if (items.length === 1) {
             items[0].selected = true;
-            lines.pilotLine = createPilotLine(items[0]);
+            _lines.pilotLine = createPilotLine(items[0]);
         }
         else {
             const cl = closestLine(items, evt.offsetY);
             if (cl !== null) {
                 items[cl[0]].selected = true;
-                lines.pilotLine = cl[1];
+                _lines.pilotLine = cl[1];
             }
         }
-        /*
-        const lines = linesWrapper.lines;
-        if (lines.length === 0) {
-            return;
-        }
-        if (lines.length === 1) {
-            lines[0].selected = true;
-            //linesWrapper.pilotLine = createPilotLine(lines[0].y);
-            linesWrapper.pilotLine = createPilotLine(lines[0]);
-        }
-        else {
-            const cl = closestLine(lines, evt.offsetY);
-            if (cl !== null) {
-                lines[cl[0]].selected = true;
-                linesWrapper.pilotLine = cl[1];
-            }
-        }
-        */
     }
 };
 
@@ -132,12 +107,8 @@ exports.onMouseDrag = function (evt) {
     return function (ctx) {
         return function (vruler) {
             return function () {
-                lines.pilotLine.value0.y = evt.offsetY;
+                _lines.pilotLine.value0.y = evt.offsetY;
                 draw(vruler, ctx);
-                /*
-                linesWrapper.pilotLine.value0.y = evt.offsetY;
-                draw(linesWrapper, vruler, ctx);
-                */
             }
         }
     }
@@ -145,37 +116,53 @@ exports.onMouseDrag = function (evt) {
 
 exports.onMouseUp = function (evt) {
     return function () {
-        const items = lines.items;
+        const items = _lines.items;
         for (var i = 0; i < items.length; ++i) {
             const curLine = items[i];
             if (curLine.selected == true) {
-                curLine.y = lines.pilotLine.value0.y;
+                curLine.y = _lines.pilotLine.value0.y;
                 curLine.selected = false;
             }
         }
-        lines.pilotLine = nothing;
+        _lines.pilotLine = nothing;
     }
 };
 
 const paintLine = function (line, vruler, ctx) {
     const x2 = vruler.w - x1;
     const y = line.y;
-    const displayValue = pixToValue(vruler, y);
+    const displayValue = pixToValue(vruler, y).toFixed(2);
     paint(x2, y, displayValue, ctx, line.strokeStyle);
 }
 
 const paintDisplayValueDefault = function (y, vruler, ctx) {
     const x2 = vruler.w - x1;
-    const displayValue = pixToValue(vruler, y);
+    const displayValue = pixToValue(vruler, y).toFixed(2);
     paint(x2, y, displayValue, ctx, "black");
 }
+
+var _ctx = null;
+var _vruler = null;
 
 exports.redraw = function (ctx) {
     return function (vruler) {
         return function () {
             ctx.clearRect(0, 0, vruler.w, vruler.h);
+            _ctx = ctx;
+            _vruler = vruler;
         }
     };
+};
+
+exports.clearCanvas = function () {
+    if (_ctx === null) {
+        return;
+    }
+    if (_vruler === null) {
+        return;
+    }
+    _ctx.clearRect(0, 0, _vruler.w, _vruler.h);
+    _lines = initLines();
 };
 
 exports.createRiscLines = function (json) {
@@ -200,14 +187,13 @@ exports.createRiscLines = function (json) {
     };
 };
 
-
 exports.createLine = function (ctx) {
     return function (vruler) {
         return function () {
             const y = vruler.h * Math.random();
             paintDisplayValueDefault(y, vruler, ctx);
             const result = { y: y, draggable: true, selected: false, riscLine: false, strokeStyle: "black" };
-            lines.items.push(result);
+            _lines.items.push(result);
             return result;
         };
     };
@@ -217,7 +203,6 @@ const pixToValue = function (v, pix) {
     return v.maxVal - ((pix - v.padding.top) / v.ppy);
 };
 const valueToPix = function (v, value) {
-    //((maxVal - value) * ppyVal) + curPad.top 
     return ((v.maxVal - value) * v.ppy) + v.padding.top;
 };
 

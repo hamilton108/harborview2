@@ -1,11 +1,10 @@
 (ns harborview.thyme
   (:gen-class)
-  (:import 
-    [org.thymeleaf TemplateEngine]
-    [org.thymeleaf.context Context WebContext]
-    [org.thymeleaf.templatemode TemplateMode]
-    [org.thymeleaf.templateresolver ClassLoaderTemplateResolver]
-   ))
+  (:import
+   [org.thymeleaf TemplateEngine]
+   [org.thymeleaf.context Context WebContext]
+   [org.thymeleaf.templatemode TemplateMode]
+   [org.thymeleaf.templateresolver ClassLoaderTemplateResolver]))
 
 (defn init-thymeleaf []
   (let [te (TemplateEngine.)
@@ -14,16 +13,14 @@
     (.setSuffix resolver ".html")
     (.setCharacterEncoding resolver "UTF-8")
     (.setTemplateMode resolver TemplateMode/HTML)
-    (.setTemplateResolver te resolver) 
+    (.setTemplateResolver te resolver)
     te))
 
 (def templateEngine (init-thymeleaf))
 
 (defn home []
   (let [ctx (Context.)]
-    (.process templateEngine "maunaloa/charts" ctx)
-    ;(.process templateEngine "home" ctx) 
-    ))
+    (.process templateEngine "maunaloa/charts" ctx)))
 
 ;  import org.thymeleaf.TemplateEngine;
 ;  import org.thymeleaf.context.Context;

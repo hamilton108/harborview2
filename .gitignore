@@ -19,5 +19,9 @@ purescript/.spago/
 purescript/.local/
 purescript/output/
 purescript/server/
-
+purescript/dist/
+build/
+gradle/
+.gradle/
+.idea/
 

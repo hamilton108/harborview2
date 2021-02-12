@@ -1,15 +1,15 @@
 (ns harborview.htmlutils
   (:import [com.fasterxml.jackson.databind ObjectMapper])
   (:require
-    [cheshire.core :as json]))
+   [cheshire.core :as json]))
 
 (def om (ObjectMapper.))
 
 (defn om->json [bean]
   (let [data (.writeValueAsString om bean)]
     {:status 200
-    :headers {"Content-Type" "application/json"}
-    :body data}))
+     :headers {"Content-Type" "application/json"}
+     :body data}))
 
 (defn json-response [data & [status]]
   {:status (or status 200)
@@ -17,22 +17,22 @@
    :body (json/generate-string data)})
 
 (defn json-req-parse [req]
-  (let [r (slurp (:body req))]
+  (let
+   [r (slurp (:body req))]
     (json/parse-string r)))
 
 (defn bean->json [b]
   {"v" (str (.getOid b)) "t" (.toHtml b)})
 
 (comment allow-cross-origin
-  "middleware function to allow cross origin"
-  [handler]
-  (fn [request]
-    (let [response (handler request)]
-      (-> response
-        (assoc-in [:headers "Access-Control-Allow-Origin"]  "*")
-        (assoc-in [:headers "Access-Control-Allow-Methods"] "GET,PUT,POST,DELETE,OPTIONS")
-        (assoc-in [:headers "Access-Control-Allow-Headers"] "X-Requested-With,Content-Type,Cache-Control")))))
-
+         "middleware function to allow cross origin"
+         [handler]
+         (fn [request]
+           (let [response (handler request)]
+             (-> response
+                 (assoc-in [:headers "Access-Control-Allow-Origin"]  "*")
+                 (assoc-in [:headers "Access-Control-Allow-Methods"] "GET,PUT,POST,DELETE,OPTIONS")
+                 (assoc-in [:headers "Access-Control-Allow-Headers"] "X-Requested-With,Content-Type,Cache-Control")))))
 
 (defn rs [v]
   (if (string? v)
@@ -43,15 +43,15 @@
     v))
 
 (comment in?
-  "true if seq contains elm"
-  [seq elm]
-  (some #(= elm %) seq))
+         "true if seq contains elm"
+         [seq elm]
+         (some #(= elm %) seq))
 
 (comment str->bool [b]
-  (if (.equals b "true") true false))
+         (if (.equals b "true") true false))
 
 (comment str->date [dx]
-  (LocalDate/parse dx date-fmt-1))
+         (LocalDate/parse dx date-fmt-1))
 
 (comment date->str [dx]
-  (.format dx date-fmt-1))
+         (.format dx date-fmt-1))

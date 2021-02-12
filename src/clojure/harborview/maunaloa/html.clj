@@ -1,17 +1,17 @@
-(ns harborview.maunaloa
+(ns harborview.maunaloa.html
   (:gen-class)
   (:import
-    [java.time LocalDate]
-    [harborview.maunaloa.charts 
-      ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory]
-    [critterrepos.models.impl StockMarketReposImpl])
-  (:require 
+   [java.time LocalDate]
+   [harborview.maunaloa.charts
+    ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory]
+   [critterrepos.models.impl StockMarketReposImpl])
+  (:require
     ;[jsonista.core :as j]
-    [harborview.htmlutils :as U]
-    [compojure.core :refer (GET defroutes)]
-    ))
+   [harborview.htmlutils :as U]
+   [harborview.maunaloa.derivatives :refer (etrade)]
+   [compojure.core :refer (GET defroutes)]))
 
-(def start-date (LocalDate/of 2010 1 1))
+(def start-date (LocalDate/of 2015 1 1))
 
 (def repos (StockMarketReposImpl.))
 
@@ -23,10 +23,11 @@
 
 (def tickers-m (memoize tickers))
 
+(defn calls [ticker]
+  (.calls etrade ticker))
 
-(defn calls [])
-
-(defn puts [])
+(defn puts [ticker]
+  (.puts etrade ticker))
 
 (defn prices [oid]
   (let [ticker (.getTickerFor repos (U/rs oid))]
@@ -49,8 +50,19 @@
         charts (.elmCharts factory (prices oid))]
     (U/om->json charts)))
 
+(defn risclines [ticker]
+  (prn "Fetching risclines: " ticker)
+  (U/json-response
+   [{:ticker "NHY-DEMO"
+     :be 100.0
+     :stockprice 120.0
+     :optionprice 5.0
+     :ask 7.5
+     :risc 4.5} ;(.getCurrentRisc o)})
+    ]))
+
 (defroutes my-routes
-  (GET "/tickers" [] 
+  (GET "/tickers" []
     (tickers-m))
   (GET "/days/:oid" [oid]
     (elmChartsDay-m oid))
@@ -58,9 +70,11 @@
     (elmChartsWeek oid))
   (GET "/months/:oid" [oid]
     (elmChartsMonth oid))
-  (GET "/calls" []
-    (calls))
-  (GET "/puts" []
-      (puts)))
+  (GET "/risclines/:ticker" [ticker]
+    (risclines ticker))
+  (GET "/calls/:ticker" [ticker]
+    (calls ticker))
+  (GET "/puts/:ticker" [ticker]
+    (puts ticker)))
 
 

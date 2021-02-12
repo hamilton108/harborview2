@@ -1,0 +1,4 @@
+includeFlat 'oahu'
+includeFlat 'vega'
+includeFlat 'critter-repos'
+includeFlat 'nordnet-repos'
