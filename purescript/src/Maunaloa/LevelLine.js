@@ -116,15 +116,18 @@ exports.onMouseDrag = function (evt) {
 
 exports.onMouseUp = function (evt) {
     return function () {
+        var result = nothing;
         const items = _lines.items;
         for (var i = 0; i < items.length; ++i) {
             const curLine = items[i];
             if (curLine.selected == true) {
                 curLine.y = _lines.pilotLine.value0.y;
                 curLine.selected = false;
+                result = just(curLine);
             }
         }
         _lines.pilotLine = nothing;
+        return result;
     }
 };
 
@@ -132,6 +135,13 @@ const paintLine = function (line, vruler, ctx) {
     const x2 = vruler.w - x1;
     const y = line.y;
     const displayValue = pixToValue(vruler, y).toFixed(2);
+    paint(x2, y, displayValue, ctx, line.strokeStyle);
+}
+
+const paintRiscLine = function (riscValue, line, vruler, ctx) {
+    const x2 = vruler.w - x1;
+    const y = line.y;
+    const displayValue = pixToValue(vruler, y).toFixed(2) + " - " + riscValue;
     paint(x2, y, displayValue, ctx, line.strokeStyle);
 }
 
@@ -169,32 +179,32 @@ exports.createRiscLines = function (json) {
     return function (ctx) {
         return function (vruler) {
             return function () {
-                var result = [];
+                //var result = [];
                 for (var i = 0; i < json.length; ++i) {
                     const curJson = json[i];
                     const bePix = valueToPix(vruler, curJson.be);
                     const spPix = valueToPix(vruler, curJson.stockprice);
-                    const breakEvenLine = { y: bePix, draggable: false, selected: false, riscLine: false, strokeStyle: "green" };
-                    const riscLine = { y: spPix, draggable: true, selected: false, riscLine: true, strokeStyle: "red" };
-                    paintLine(breakEvenLine, vruler, ctx);
-                    paintLine(riscLine, vruler, ctx);
-                    result.push(breakEvenLine);
-                    result.push(riscLine);
+                    const breakEvenLine = { y: bePix, draggable: false, selected: false, strokeStyle: "green" };
+                    const riscLine = { y: spPix, draggable: true, selected: false, strokeStyle: "red" };
+                    paintRiscLine(curJson.ticker, breakEvenLine, vruler, ctx);
+                    paintRiscLine(curJson.ticker, riscLine, vruler, ctx);
+                    _lines.items.push(breakEvenLine);
+                    _lines.items.push(riscLine);
                 }
-                return result;
             };
         };
     };
 };
 
 exports.createLine = function (ctx) {
+    8
     return function (vruler) {
         return function () {
             const y = vruler.h * Math.random();
             paintDisplayValueDefault(y, vruler, ctx);
-            const result = { y: y, draggable: true, selected: false, riscLine: false, strokeStyle: "black" };
+            const result = { y: y, draggable: true, selected: false, strokeStyle: "black" };
             _lines.items.push(result);
-            return result;
+            //return result;
         };
     };
 };

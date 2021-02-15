@@ -160,18 +160,22 @@ document.addEventListener("DOMContentLoaded", function () {
             const mappings = toChartMappings(myCanvases);
             PS.Main.paint(mappings)(cfg)();
         });
+        /*
         const drawRiscLines = function (riscLines) {
-            //===>>> levelLines.addRiscLines(riscLines);
+            levelLines.addRiscLines(riscLines);
         };
         app.ports.drawRiscLines.subscribe(drawRiscLines);
         const drawSpot = function (spot) {
-            //===>>> levelLines.spot = spot;
+            levelLines.spot = spot;
         };
         app.ports.drawSpot.subscribe(drawSpot);
 
+        */
         const btnClear = document.getElementById(config.BTN_CLEAR);
         btnClear.onclick = () => {
-            //===>>> levelLines.clearCanvas();
+            //levelLines.clearCanvas();
+            scrap.clear();
+            PS.Main.clearLevelLines();
         };
         scrap.clear();
         const btnSave = document.getElementById(config.BTN_SAVE);

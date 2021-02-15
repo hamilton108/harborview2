@@ -54,8 +54,8 @@
   (prn "Fetching risclines: " ticker)
   (U/json-response
    [{:ticker "NHY-DEMO"
-     :be 100.0
-     :stockprice 120.0
+     :be 29.0
+     :stockprice 26.0
      :optionprice 5.0
      :ask 7.5
      :risc 4.5} ;(.getCurrentRisc o)})

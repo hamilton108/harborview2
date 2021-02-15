@@ -63,15 +63,13 @@ newtype PilotLine =
 
 derive instance eqPilotLine :: Eq PilotLine 
 
-newtype Line = 
+data Line = 
     Line 
     { y :: Number
     , draggable :: Boolean
     , selected :: Boolean
-    , riscLine :: Boolean
     , strokeStyle :: String
     } 
-
 
 foreign import addListener :: EventListenerInfo -> Effect Unit
 
@@ -87,13 +85,13 @@ foreign import onMouseDown :: Event.Event -> Effect Unit
 
 foreign import onMouseDrag :: Event.Event -> Context2D -> VRuler -> Effect Unit
 
-foreign import onMouseUp :: Event.Event -> Effect Unit
+foreign import onMouseUp :: Event.Event -> Effect (Maybe Line)
 
-foreign import redraw :: Context2D -> VRuler -> Effect Line
+foreign import redraw :: Context2D -> VRuler -> Effect Unit 
 
 foreign import clearCanvas :: Effect Unit
 
-foreign import createRiscLines :: Json -> Context2D -> VRuler -> Effect (Array Line)
+foreign import createRiscLines :: Json -> Context2D -> VRuler -> Effect Unit -- (Array Line)
 
 foreign import showJson :: Json -> Effect Unit
 
@@ -189,6 +187,30 @@ optionPriceURL :: String
 optionPriceURL =
     mainURL <> "/optionprice/3/2" 
 
+{-
+handleRiscLine :: Line -> Effect Unit
+handleRiscLine (Line {y,riscLine}) = 
+    Aff.launchAff_ $
+    Affjax.get ResponseFormat.json optionPriceURL >>= \res ->
+        case res of  
+            Left err -> 
+                liftEffect (
+                    logShow ("Affjax Error: " <> Affjax.printError err)
+                )
+            Right response -> 
+                liftEffect (
+                    showJson response.body
+                )
+
+checkIfRiscLine :: Line -> Effect Unit
+checkIfRiscLine curLine@(Line {riscLine}) = 
+    case riscLine of 
+        true ->
+            handleRiscLine curLine
+        false ->
+            pure unit
+-}
+
 addRiscLevelLines :: Json -> CanvasElement -> VRuler -> Effect Unit
 addRiscLevelLines json ce vruler =
     pure unit 
@@ -199,9 +221,10 @@ addRiscLevelLines json ce vruler =
     createRiscLines json ctx vruler >>= \newLines ->
     Traversable.traverse_ (\newLine -> Ref.modify_ (addLine newLine) lref) newLines 
     -}
-    
+
 fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ticker ce vruler evt = 
+    Canvas.getContext2D ce >>= \ctx ->
     Aff.launchAff_ $
     Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
         case res of  
@@ -212,8 +235,9 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                 )
             Right response -> 
                 liftEffect (
-                    logShow "response OK!" *>
+                    logShow "response super OK!" *>
                     showJson response.body *>
+                    createRiscLines response.body ctx vruler *>
                     defaultEventHandling evt 
                     {--
                     addRiscLevelLines response.body lref ce vruler 
@@ -238,32 +262,20 @@ mouseEventDrag ce vruler evt =
         else
             pure unit
 
+handleMouseEventUpLine :: Maybe Line -> Effect Unit
+handleMouseEventUpLine line = 
+    case line of 
+        Nothing -> 
+            pure unit
+        Just (Line line1) ->
+            logShow line1
+
 mouseEventUp :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
 mouseEventUp ce vruler evt = 
-    defaultEventHandling evt *>
-    onMouseUp evt 
+    onMouseUp evt >>= \line ->
+    handleMouseEventUpLine line *>
+    defaultEventHandling evt 
 
-handleRiscLine :: Line -> Effect Unit
-handleRiscLine (Line {y,riscLine}) = 
-    Aff.launchAff_ $
-    Affjax.get ResponseFormat.json optionPriceURL >>= \res ->
-        case res of  
-            Left err -> 
-                liftEffect (
-                    logShow ("Affjax Error: " <> Affjax.printError err)
-                )
-            Right response -> 
-                liftEffect (
-                    showJson response.body
-                )
-
-checkIfRiscLine :: Line -> Effect Unit
-checkIfRiscLine curLine@(Line {riscLine}) = 
-    case riscLine of 
-        true ->
-            handleRiscLine curLine
-        false ->
-            pure unit
 
 getHtmlContext1 :: 
     { canvas :: Maybe Element
