@@ -1,8 +1,8 @@
-module Maunaloa.LevelLine (initEvents,clear) where
+module Maunaloa.LevelLine (initEvents,clear,Line(..)) where
 
 import Prelude
 import Data.Maybe (Maybe(..))
-import Data.Array ((:)) 
+--import Data.Array ((:)) 
 import Data.Either (Either(..))
 import Effect (Effect)
 import Effect.Class (liftEffect)
@@ -64,12 +64,18 @@ newtype PilotLine =
 derive instance eqPilotLine :: Eq PilotLine 
 
 data Line = 
-    Line 
+    StdLine 
     { y :: Number
-    , draggable :: Boolean
     , selected :: Boolean
-    , strokeStyle :: String
     } 
+    | RiscLine
+    { y :: Number
+    , selected :: Boolean
+    }
+    | BreakEvenLine
+    { y :: Number
+    }
+
 
 foreign import addListener :: EventListenerInfo -> Effect Unit
 
@@ -77,13 +83,11 @@ foreign import resetListeners :: Effect Unit
 
 foreign import getListeners :: Effect (Array EventListenerInfo)
 
-foreign import hasPilotLine :: Effect Boolean
-
-foreign import createLine :: Context2D -> VRuler -> Effect Unit
+foreign import addLine :: Line -> Effect Unit
 
 foreign import onMouseDown :: Event.Event -> Effect Unit
 
-foreign import onMouseDrag :: Event.Event -> Context2D -> VRuler -> Effect Unit
+foreign import onMouseDrag :: Event.Event -> Effect Unit
 
 foreign import onMouseUp :: Event.Event -> Effect (Maybe Line)
 
@@ -96,7 +100,9 @@ foreign import createRiscLines :: Json -> Context2D -> VRuler -> Effect Unit -- 
 foreign import showJson :: Json -> Effect Unit
 
 instance showLine :: Show Line where
-    show (Line v) = "Line: " <> show v 
+    show (StdLine v) = "StdLine: " <> show v 
+    show (RiscLine v) = "RiscLine: " <> show v 
+    show (BreakEvenLine v) = "BreakEvenLine: " <> show v 
 
 instance showPilotLine :: Show PilotLine where
     show (PilotLine v) = "PilotLine : " <> show v 
@@ -165,14 +171,10 @@ remButtonClick evt =
 
 addLevelLineButtonClick :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
 addLevelLineButtonClick ce vruler evt =
-    defaultEventHandling evt *>
-    Canvas.getContext2D ce >>= \ctx ->
-    createLine ctx vruler 
-
-addLine :: Line -> Lines -> Lines
-addLine newLine (Lines l@{lines}) = 
-    Lines $ l { lines = newLine : lines } 
-
+    let
+        line = StdLine { y: 200.0, selected: false }
+    in
+    addLine line
 
 mainURL :: String
 mainURL = 
@@ -222,6 +224,7 @@ addRiscLevelLines json ce vruler =
     Traversable.traverse_ (\newLine -> Ref.modify_ (addLine newLine) lref) newLines 
     -}
 
+
 fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ticker ce vruler evt = 
     Canvas.getContext2D ce >>= \ctx ->
@@ -235,7 +238,6 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                 )
             Right response -> 
                 liftEffect (
-                    logShow "response super OK!" *>
                     showJson response.body *>
                     createRiscLines response.body ctx vruler *>
                     defaultEventHandling evt 
@@ -255,20 +257,18 @@ mouseEventDown evt =
 mouseEventDrag :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
 mouseEventDrag ce vruler evt = 
     defaultEventHandling evt *>
-    hasPilotLine >>= \hasPilot ->
-        if hasPilot == true then
-            Canvas.getContext2D ce >>= \ctx ->
-                onMouseDrag evt ctx vruler
-        else
-            pure unit
+    onMouseDrag evt
 
 handleMouseEventUpLine :: Maybe Line -> Effect Unit
 handleMouseEventUpLine line = 
+    pure unit
+    {-
     case line of 
         Nothing -> 
             pure unit
         Just (Line line1) ->
             logShow line1
+            -}
 
 mouseEventUp :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
 mouseEventUp ce vruler evt = 

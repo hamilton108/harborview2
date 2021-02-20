@@ -6,6 +6,8 @@ You can edit this file as you like.
 , dependencies =
   [ "aff"
   , "affjax"
+  , "argonaut"
+  , "argonaut-codecs"
   , "arrays"
   , "canvas"
   , "console"

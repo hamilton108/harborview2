@@ -2,10 +2,14 @@
 
 const x1 = 45.0;
 
-const nothing = PS["Data.Maybe"].Nothing.value;
+const Data_Maybe = PS["Data.Maybe"];
+
+const nothing = Data_Maybe.Nothing.value;
+
+const Maunaloa_LevelLine = PS["Maunaloa.LevelLine"];
 
 const just = function (obj) {
-    return PS["Data.Maybe"].Just.create(obj);
+    return Data_Maybe.Just.create(obj);
 }
 
 const initLines = function () {
@@ -13,26 +17,26 @@ const initLines = function () {
         items: [],
         pilotLine: nothing
     }
-
 }
 
 var _lines = initLines();
 
 var _eventListeners = [];
 
-const createPilotLine = function (line) {
-    return just({ y: line.y, strokeStyle: line.strokeStyle });
+const createPilotLine = function (y, strokeStyle) {
+    return just({ y: y, strokeStyle: strokeStyle });
 }
 
-const closestLine = function (lines, y) {
+const closestLine = function (y) {
     var dist = 100000000;
     var index = null;
-    for (var i = 0; i < lines.length; ++i) {
-        const curLine = lines[i];
-        if (curLine.draggable === false) {
+    const items = _lines.items;
+    for (var i = 0; i < items.length; ++i) {
+        if (items[i] instanceof Maunaloa_LevelLine.BreakEvenLine) {
             continue;
         }
-        const dy = curLine.y - y;
+        const curRec = items[i].value0;
+        const dy = curRec.y - y;
         const thisDist = dy * dy;
         if (thisDist < dist) {
             index = i;
@@ -43,26 +47,27 @@ const closestLine = function (lines, y) {
         return null;
     }
     else {
-        return [index, createPilotLine(lines[index])];
+        return items[index];
     }
 }
 
-const draw = function (vruler, ctx) {
-    ctx.clearRect(0, 0, vruler.w, vruler.h);
-
+const draw = function () {
+    _ctx.clearRect(0, 0, _v.w, _v.h);
     const items = _lines.items;
     for (var i = 0; i < items.length; ++i) {
         const curLine = items[i];
-        if (curLine.selected == true) {
-            continue;
-        }
-        paintLine(curLine, vruler, ctx);
-    }
-    paintLine(_lines.pilotLine.value0, vruler, ctx);
-};
 
-exports.hasPilotLine = function () {
-    return _lines.pilotLine !== nothing;
+        if (curLine instanceof Maunaloa_LevelLine.StdLine) {
+            paintStdLine(curLine);
+        }
+        else if (curLine instanceof Maunaloa_LevelLine.RiscLine) {
+            paintRiscLine(curLine);
+        }
+        else {
+            paintBreakEvenLine(curLine);
+        }
+    }
+    paintPilotLine();
 };
 
 exports.addListener = function (listener) {
@@ -90,28 +95,28 @@ exports.onMouseDown = function (evt) {
             return;
         }
         if (items.length === 1) {
-            items[0].selected = true;
-            _lines.pilotLine = createPilotLine(items[0]);
+            const curLine = items[0].value0;
+            curLine.selected = true;
+            _lines.pilotLine = createPilotLine(curLine.y, "black");
         }
         else {
-            const cl = closestLine(items, evt.offsetY);
+            const cl = closestLine(evt.offsetY);
             if (cl !== null) {
-                items[cl[0]].selected = true;
-                _lines.pilotLine = cl[1];
+                cl.value0.selected = true;
+                _lines.pilotLine = createPilotLine(cl.y, "black"); //cl[1];
             }
         }
     }
 };
 
 exports.onMouseDrag = function (evt) {
-    return function (ctx) {
-        return function (vruler) {
-            return function () {
-                _lines.pilotLine.value0.y = evt.offsetY;
-                draw(vruler, ctx);
-            }
+    return function () {
+        if (_lines.pilotLine === nothing) {
+            return;
         }
-    }
+        _lines.pilotLine.value0.y = evt.offsetY;
+        draw();
+    };
 };
 
 exports.onMouseUp = function (evt) {
@@ -120,9 +125,13 @@ exports.onMouseUp = function (evt) {
         const items = _lines.items;
         for (var i = 0; i < items.length; ++i) {
             const curLine = items[i];
-            if (curLine.selected == true) {
-                curLine.y = _lines.pilotLine.value0.y;
-                curLine.selected = false;
+            if (curLine instanceof Maunaloa_LevelLine.BreakEvenLine) {
+                continue;
+            }
+            const curRec = curLine.value0;
+            if (curRec.selected == true) {
+                curRec.y = _lines.pilotLine.value0.y;
+                curRec.selected = false;
                 result = just(curLine);
             }
         }
@@ -131,35 +140,15 @@ exports.onMouseUp = function (evt) {
     }
 };
 
-const paintLine = function (line, vruler, ctx) {
-    const x2 = vruler.w - x1;
-    const y = line.y;
-    const displayValue = pixToValue(vruler, y).toFixed(2);
-    paint(x2, y, displayValue, ctx, line.strokeStyle);
-}
-
-const paintRiscLine = function (riscValue, line, vruler, ctx) {
-    const x2 = vruler.w - x1;
-    const y = line.y;
-    const displayValue = pixToValue(vruler, y).toFixed(2) + " - " + riscValue;
-    paint(x2, y, displayValue, ctx, line.strokeStyle);
-}
-
-const paintDisplayValueDefault = function (y, vruler, ctx) {
-    const x2 = vruler.w - x1;
-    const displayValue = pixToValue(vruler, y).toFixed(2);
-    paint(x2, y, displayValue, ctx, "black");
-}
-
 var _ctx = null;
-var _vruler = null;
+var _v = null;
 
 exports.redraw = function (ctx) {
     return function (vruler) {
         return function () {
             ctx.clearRect(0, 0, vruler.w, vruler.h);
             _ctx = ctx;
-            _vruler = vruler;
+            _v = vruler;
         }
     };
 };
@@ -168,10 +157,10 @@ exports.clearCanvas = function () {
     if (_ctx === null) {
         return;
     }
-    if (_vruler === null) {
+    if (_v === null) {
         return;
     }
-    _ctx.clearRect(0, 0, _vruler.w, _vruler.h);
+    _ctx.clearRect(0, 0, _v.w, _v.h);
     _lines = initLines();
 };
 
@@ -179,7 +168,7 @@ exports.createRiscLines = function (json) {
     return function (ctx) {
         return function (vruler) {
             return function () {
-                //var result = [];
+                /*
                 for (var i = 0; i < json.length; ++i) {
                     const curJson = json[i];
                     const bePix = valueToPix(vruler, curJson.be);
@@ -191,39 +180,69 @@ exports.createRiscLines = function (json) {
                     _lines.items.push(breakEvenLine);
                     _lines.items.push(riscLine);
                 }
+                */
             };
         };
     };
 };
 
-exports.createLine = function (ctx) {
-    8
-    return function (vruler) {
-        return function () {
-            const y = vruler.h * Math.random();
-            paintDisplayValueDefault(y, vruler, ctx);
-            const result = { y: y, draggable: true, selected: false, strokeStyle: "black" };
-            _lines.items.push(result);
-            //return result;
-        };
+exports.addLine = function (line) {
+    return function () {
+        _lines.items.push(line);
+        paintStdLine(line);
+
     };
 };
 
-const pixToValue = function (v, pix) {
-    return v.maxVal - ((pix - v.padding.top) / v.ppy);
+const paintStdLine = function (line) {
+    if (line.value0.selected === true) {
+        return;
+    }
+    const y = line.value0.y;
+    const displayValue = pixToValue(y).toFixed(2);
+    const x2 = _v.w - x1;
+    paint(x2, y, displayValue, "black");
 };
-const valueToPix = function (v, value) {
-    return ((v.maxVal - value) * v.ppy) + v.padding.top;
+const paintRiscLine = function (line) {
+    if (line.value0.selected === true) {
+        return;
+    }
+    const y = line.value0.y;
+    const displayValue = pixToValue(y).toFixed(2);
+    const x2 = _v.w - x1;
+    paint(x2, y, displayValue, "black");
+};
+const paintBreakEvenLine = function (line) {
+    if (line.value0.selected === true) {
+        return;
+    }
+    const y = line.value0.y;
+    const displayValue = pixToValue(y).toFixed(2);
+    const x2 = _v.w - x1;
+    paint(x2, y, displayValue, "black");
+};
+const paintPilotLine = function () {
+    const y = _lines.pilotLine.value0.y;
+    const displayValue = pixToValue(y).toFixed(2);
+    const x2 = _v.w - x1;
+    paint(x2, y, displayValue, "black");
 };
 
-const paint = function (x2, y, displayValue, ctx, strokeStyle) {
-    ctx.lineWidth = 1.0;
-    ctx.strokeStyle = strokeStyle;
-    ctx.beginPath();
-    ctx.moveTo(x1, y);
-    ctx.lineTo(x2, y);
-    ctx.stroke();
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#000000";
-    ctx.fillText(displayValue, x1, y - 10);
+const pixToValue = function (pix) {
+    return _v.maxVal - ((pix - _v.padding.top) / _v.ppy);
+};
+const valueToPix = function (value) {
+    return ((_v.maxVal - value) * _v.ppy) + _v.padding.top;
+};
+
+const paint = function (x2, y, displayValue, strokeStyle) {
+    _ctx.lineWidth = 1.0;
+    _ctx.strokeStyle = strokeStyle;
+    _ctx.beginPath();
+    _ctx.moveTo(x1, y);
+    _ctx.lineTo(x2, y);
+    _ctx.stroke();
+    _ctx.font = "16px Arial";
+    _ctx.fillStyle = "#000000";
+    _ctx.fillText(displayValue, x1, y - 10);
 };

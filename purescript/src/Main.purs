@@ -10,6 +10,7 @@ import Maunaloa.ElmTypes (ChartInfoWindow)
 import Maunaloa.Elm as Elm
 import Effect.Console (logShow)
 --import Effect.Console (logShow)
+import Maunaloa.LevelLine (Line(..))
 
 {-
 newtype Ax = Ax
@@ -45,3 +46,9 @@ clearLevelLines :: Effect Unit
 clearLevelLines =
   logShow "clearLevelLines" *>
   LevelLine.clear
+
+
+tmp :: Line -> Int
+tmp (StdLine v) = 1
+tmp (RiscLine v) = 2
+tmp (BreakEvenLine v) = 3
