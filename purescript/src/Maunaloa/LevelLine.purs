@@ -71,9 +71,11 @@ data Line =
     | RiscLine
     { y :: Number
     , selected :: Boolean
+    , ticker :: String
     }
     | BreakEvenLine
     { y :: Number
+    , ticker :: String
     }
 
 
@@ -169,8 +171,8 @@ remButtonClick evt =
     resetListeners 
 -}
 
-addLevelLineButtonClick :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
-addLevelLineButtonClick ce vruler evt =
+addLevelLineButtonClick :: Event.Event -> Effect Unit
+addLevelLineButtonClick evt =
     let
         line = StdLine { y: 200.0, selected: false }
     in
@@ -238,9 +240,13 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                 )
             Right response -> 
                 liftEffect (
+                    defaultEventHandling evt *>
                     showJson response.body *>
-                    createRiscLines response.body ctx vruler *>
-                    defaultEventHandling evt 
+                    -- createRiscLines response.body ctx vruler *>
+                    let 
+                        line = RiscLine { y: 300.0, selected: false, ticker: "NHY-XXX" }
+                    in 
+                    addLine line
                     {--
                     addRiscLevelLines response.body lref ce vruler 
                     Canvas.getContext2D ce >>= \ctx ->
@@ -341,7 +347,7 @@ initEvents ticker vruler chartLevel =
                 in
                 Canvas.getContext2D ce >>= \ctx ->
                     redraw ctx vruler *>
-                    initEvent (addLevelLineButtonClick ce vruler) context1.addLevelLineBtn (EventType "click") *>
+                    initEvent addLevelLineButtonClick context1.addLevelLineBtn (EventType "click") *>
                     initEvent (fetchLevelLineButtonClick ticker ce vruler) context1.fetchLevelLinesBtn (EventType "click") *>
                     initEvent mouseEventDown context1.canvasElement (EventType "mousedown") *>
                     initEvent (mouseEventDrag ce vruler) context1.canvasElement (EventType "mousemove") *>

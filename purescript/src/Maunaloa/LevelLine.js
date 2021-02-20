@@ -134,6 +134,9 @@ exports.onMouseUp = function (evt) {
                 curRec.selected = false;
                 result = just(curLine);
             }
+            if (curLine instanceof Maunaloa_LevelLine.RiscLine) {
+                paintRiscLine(curLine);
+            }
         }
         _lines.pilotLine = nothing;
         return result;
@@ -189,7 +192,15 @@ exports.createRiscLines = function (json) {
 exports.addLine = function (line) {
     return function () {
         _lines.items.push(line);
-        paintStdLine(line);
+        if (line instanceof Maunaloa_LevelLine.StdLine) {
+            paintStdLine(line);
+        }
+        else if (line instanceof Maunaloa_LevelLine.RiscLine) {
+            paintRiscLine(line);
+        }
+        else {
+            paintBreakEvenLine(line);
+        }
 
     };
 };
@@ -207,10 +218,10 @@ const paintRiscLine = function (line) {
     if (line.value0.selected === true) {
         return;
     }
-    const y = line.value0.y;
-    const displayValue = pixToValue(y).toFixed(2);
+    const rec = line.value0;
+    const displayValue = pixToValue(rec.y).toFixed(2) + " - " + rec.ticker;
     const x2 = _v.w - x1;
-    paint(x2, y, displayValue, "black");
+    paint(x2, rec.y, displayValue, "red");
 };
 const paintBreakEvenLine = function (line) {
     if (line.value0.selected === true) {
