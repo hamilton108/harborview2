@@ -10,7 +10,6 @@ import Common.Html
         , InputCaption(..)
         , InputType(..)
         , InputValue(..)
-        , inputItem
         , labelCheckBox
         , labelInputItem
         )

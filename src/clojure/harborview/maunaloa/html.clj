@@ -56,7 +56,7 @@
    [{:ticker "NHY-DEMO"
      :be 29.0
      :stockprice 26.0
-     :optionprice 5.0
+     :bid 5.0
      :ask 7.5
      :risc 4.5} ;(.getCurrentRisc o)})
     ]))

@@ -60,8 +60,8 @@ update msg model =
 
         ChartsFetched (Ok chartInfo) ->
             let
-                curTick = 
-                    asTicker model.selectedTicker 
+                curTick =
+                    asTicker model.selectedTicker
 
                 ciWin =
                     ChartCommon.chartInfoWindow curTick model.dropAmount model.takeAmount model.chartType chartInfo
@@ -96,49 +96,53 @@ update msg model =
         Last ->
             shift model (Drop 0)
 
-        FetchRiscLines ->
-            ( model, C.fetchRiscLines <| asTicker model.selectedTicker )
 
-        --( model, fetchRiscLines model )
-        RiscLinesFetched (Ok riscLines) ->
-            case model.curValueRange of
-                Just vr ->
-                    let
-                        riscLinesJs =
-                            RiscLinesJs riscLines vr
-                    in
-                    --( { model | riscLines = Just riscLines }, drawRiscLines riscLinesJs )
-                    ( model, drawRiscLines riscLinesJs )
 
-                Nothing ->
-                    --( { model | riscLines = Just riscLines }, Cmd.none )
-                    ( model, Cmd.none )
+{-
+   FetchRiscLines ->
+       ( model, C.fetchRiscLines <| asTicker model.selectedTicker )
 
-        RiscLinesFetched (Err s) ->
-            --Debug.log ("RiscLinesFetched Error: " ++ CH.httpErr2str s) ( model, Cmd.none )
-            ( DLG.errorAlert "Error" "RiscLinesFetched Error: " s model, Cmd.none )
+   --( model, fetchRiscLines model )
+   RiscLinesFetched (Ok riscLines) ->
+       case model.curValueRange of
+           Just vr ->
+               let
+                   riscLinesJs =
+                       RiscLinesJs riscLines vr
+               in
+               --( { model | riscLines = Just riscLines }, drawRiscLines riscLinesJs )
+               ( model, drawRiscLines riscLinesJs )
 
-        ClearRiscLines ->
-            ( model, C.clearRiscLines <| asTicker model.selectedTicker )
+           Nothing ->
+               --( { model | riscLines = Just riscLines }, Cmd.none )
+               ( model, Cmd.none )
 
-        RiscLinesCleared (Ok status) ->
-            if status.ok == True then
-                ( { model | dlgAlert = DLG.DialogVisibleAlert "RiscLinesCleared Ok" status.msg DLG.Info }, Cmd.none )
+   RiscLinesFetched (Err s) ->
+       --Debug.log ("RiscLinesFetched Error: " ++ CH.httpErr2str s) ( model, Cmd.none )
+       ( DLG.errorAlert "Error" "RiscLinesFetched Error: " s model, Cmd.none )
 
-            else
-                ( { model | dlgAlert = DLG.DialogVisibleAlert "RiscLinesCleared Error" status.msg DLG.Error }, Cmd.none )
+   ClearRiscLines ->
+       ( model, C.clearRiscLines <| asTicker model.selectedTicker )
 
-        RiscLinesCleared (Err s) ->
-            ( DLG.errorAlert "Error" "RiscLinesCleared Error: " s model, Cmd.none )
+   RiscLinesCleared (Ok status) ->
+       if status.ok == True then
+           ( { model | dlgAlert = DLG.DialogVisibleAlert "RiscLinesCleared Ok" status.msg DLG.Info }, Cmd.none )
 
-        FetchSpot ->
-            ( model, C.fetchSpot (asTicker <| model.selectedTicker) )
+       else
+           ( { model | dlgAlert = DLG.DialogVisibleAlert "RiscLinesCleared Error" status.msg DLG.Error }, Cmd.none )
 
-        SpotFetched (Ok s) ->
-            ( model, drawSpot s )
+   RiscLinesCleared (Err s) ->
+       ( DLG.errorAlert "Error" "RiscLinesCleared Error: " s model, Cmd.none )
 
-        SpotFetched (Err s) ->
-            ( DLG.errorAlert "Error" "SpotFetched Error: " s model, Cmd.none )
+   FetchSpot ->
+       ( model, C.fetchSpot (asTicker <| model.selectedTicker) )
+
+   SpotFetched (Ok s) ->
+       ( model, drawSpot s )
+
+   SpotFetched (Err s) ->
+       ( DLG.errorAlert "Error" "SpotFetched Error: " s model, Cmd.none )
+-}
 
 
 shift : Model -> Drop -> ( Model, Cmd Msg )
@@ -149,8 +153,8 @@ shift model newDrop =
 
         Just chartInfo ->
             let
-                curTick = 
-                    asTicker model.selectedTicker 
+                curTick =
+                    asTicker model.selectedTicker
 
                 ciWin =
                     ChartCommon.chartInfoWindow curTick newDrop model.takeAmount model.chartType chartInfo

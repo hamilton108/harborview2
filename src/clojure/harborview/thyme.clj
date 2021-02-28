@@ -18,9 +18,17 @@
 
 (def templateEngine (init-thymeleaf))
 
-(defn home []
+(defn charts []
   (let [ctx (Context.)]
     (.process templateEngine "maunaloa/charts" ctx)))
+
+(defn optiontickers []
+  (let [ctx (Context.)]
+    (.process templateEngine "maunaloa/options" ctx)))
+
+(defn optionpurchases []
+  (let [ctx (Context.)]
+    (.process templateEngine "maunaloa/optionpurchases" ctx)))
 
 ;  import org.thymeleaf.TemplateEngine;
 ;  import org.thymeleaf.context.Context;

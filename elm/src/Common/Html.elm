@@ -18,7 +18,6 @@ import Html.Attributes as A
 import Html.Events as E
 import Http
 import Json.Decode as JD
-import VirtualDom as VD
 
 
 httpErr2str : Http.Error -> String

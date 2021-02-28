@@ -18,7 +18,10 @@
       (handler req))))
 
 (defroutes main-routes
-  (GET "/" request (response (THYME/home)))
+  (GET "/" request (response (THYME/charts)))
+  (GET "/maunaloa/charts" request (response (THYME/charts)))
+  (GET "/maunaloa/optiontickers" request (response (THYME/optiontickers)))
+  (GET "/maunaloa/optionpurchases" request (response (THYME/optionpurchases)))
   (context "/maunaloa" [] MAU/my-routes)
   (R/files "/" {:root "public"})
   (R/resources "/" {:root "public"}))

@@ -21,9 +21,7 @@ module Maunaloa.Charts.Types exposing
 import Common.DateUtil exposing (UnixTime)
 import Common.ModalDialog as DLG
 import Common.Select as CS
-import Common.Types as T
 import Http
-import Time
 
 
 type alias Flags =
@@ -143,12 +141,17 @@ type Msg
     | Previous
     | Next
     | Last
-    | FetchRiscLines
-    | RiscLinesFetched (Result Http.Error RiscLines)
-    | ClearRiscLines
-    | RiscLinesCleared (Result Http.Error T.JsonStatus)
-    | FetchSpot
-    | SpotFetched (Result Http.Error Spot)
+
+
+
+{-
+   | FetchRiscLines
+   | RiscLinesFetched (Result Http.Error RiscLines)
+   | ClearRiscLines
+   | RiscLinesCleared (Result Http.Error T.JsonStatus)
+   | FetchSpot
+   | SpotFetched (Result Http.Error Spot)
+-}
 
 
 type alias Model =

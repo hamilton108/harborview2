@@ -25,9 +25,12 @@ import Web.HTML.Window as Window
 import Web.HTML.HTMLDocument as HTMLDocument
 
 import Data.Argonaut.Core (Json)
+import Data.Argonaut.Decode as Decode
+import Data.Argonaut.Decode.Error (JsonDecodeError)
+
 
 import Maunaloa.Common (HtmlId(..))
-import Maunaloa.VRuler (VRuler)
+import Maunaloa.VRuler (VRuler,valueToPix)
 import Maunaloa.Chart (ChartLevel)
 
 {-
@@ -55,28 +58,6 @@ main = do
 -}
 
 
-newtype PilotLine = 
-    PilotLine 
-    { y :: Number
-    , strokeStyle :: String
-    } 
-
-derive instance eqPilotLine :: Eq PilotLine 
-
-data Line = 
-    StdLine 
-    { y :: Number
-    , selected :: Boolean
-    } 
-    | RiscLine
-    { y :: Number
-    , selected :: Boolean
-    , ticker :: String
-    }
-    | BreakEvenLine
-    { y :: Number
-    , ticker :: String
-    }
 
 
 foreign import addListener :: EventListenerInfo -> Effect Unit
@@ -93,18 +74,44 @@ foreign import onMouseDrag :: Event.Event -> Effect Unit
 
 foreign import onMouseUp :: Event.Event -> Effect (Maybe Line)
 
+foreign import updateRiscLine :: Line -> Number -> Effect Unit
+
 foreign import redraw :: Context2D -> VRuler -> Effect Unit 
 
 foreign import clearCanvas :: Effect Unit
 
-foreign import createRiscLines :: Json -> Context2D -> VRuler -> Effect Unit -- (Array Line)
-
 foreign import showJson :: Json -> Effect Unit
+
+data Line = 
+    StdLine 
+    { y :: Number
+    , selected :: Boolean
+    } 
+    | RiscLine
+    { y :: Number
+    , selected :: Boolean
+    , ticker :: String
+    , optionPrice :: Number
+    }
+    | BreakEvenLine
+    { y :: Number
+    , ticker :: String
+    , optionPrice :: Number
+    }
 
 instance showLine :: Show Line where
     show (StdLine v) = "StdLine: " <> show v 
     show (RiscLine v) = "RiscLine: " <> show v 
     show (BreakEvenLine v) = "BreakEvenLine: " <> show v 
+
+{-}
+newtype PilotLine = 
+    PilotLine 
+    { y :: Number
+    , strokeStyle :: String
+    } 
+
+derive instance eqPilotLine :: Eq PilotLine 
 
 instance showPilotLine :: Show PilotLine where
     show (PilotLine v) = "PilotLine : " <> show v 
@@ -117,6 +124,7 @@ newtype Lines =
 
 instance showLines :: Show Lines where
     show (Lines { lines, pilotLine }) = "Lines, " <> show lines <> ", pilotLine: " <> show pilotLine
+-}
 
 defaultEventHandling :: Event.Event -> Effect Unit
 defaultEventHandling event = 
@@ -146,6 +154,20 @@ type HtmlContext =
     , addLevelLineBtn :: Element
     , fetchLevelLinesBtn :: Element
     }
+
+type RiscLineJson = 
+    { ticker :: String
+    , be :: Number
+    , stockprice :: Number
+    , optionprice :: Number
+    , ask :: Number
+    , risc :: Number
+    }
+
+type RiscLinesJson = Array RiscLineJson
+
+riscLinesFromJson :: Json -> Either JsonDecodeError RiscLinesJson 
+riscLinesFromJson = Decode.decodeJson
 
 
 unlisten :: EventListenerInfo -> Effect Unit
@@ -191,41 +213,25 @@ optionPriceURL :: String
 optionPriceURL =
     mainURL <> "/optionprice/3/2" 
 
-{-
-handleRiscLine :: Line -> Effect Unit
-handleRiscLine (Line {y,riscLine}) = 
-    Aff.launchAff_ $
-    Affjax.get ResponseFormat.json optionPriceURL >>= \res ->
-        case res of  
-            Left err -> 
-                liftEffect (
-                    logShow ("Affjax Error: " <> Affjax.printError err)
-                )
-            Right response -> 
-                liftEffect (
-                    showJson response.body
-                )
 
-checkIfRiscLine :: Line -> Effect Unit
-checkIfRiscLine curLine@(Line {riscLine}) = 
-    case riscLine of 
-        true ->
-            handleRiscLine curLine
-        false ->
-            pure unit
--}
+addRiscLine :: VRuler -> RiscLineJson -> Effect Unit
+addRiscLine vr line = 
+    let 
+        rl = RiscLine
+                { y: valueToPix vr line.stockprice
+                , selected: false
+                , ticker: line.ticker
+                , optionPrice: line.optionprice
+                }
+    in
+    addLine rl
 
-addRiscLevelLines :: Json -> CanvasElement -> VRuler -> Effect Unit
-addRiscLevelLines json ce vruler =
-    pure unit 
-    {-
-    Ref.modify_ (\_ -> initLines) lref *>
-    Canvas.getContext2D ce >>= \ctx ->
-    redraw ctx vruler *>
-    createRiscLines json ctx vruler >>= \newLines ->
-    Traversable.traverse_ (\newLine -> Ref.modify_ (addLine newLine) lref) newLines 
-    -}
-
+addRiscLines :: VRuler -> RiscLinesJson -> Effect Unit
+addRiscLines vr lines = 
+    let 
+        addRiscLine1 = addRiscLine vr
+    in
+    Traversable.traverse_ addRiscLine1 lines
 
 fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ticker ce vruler evt = 
@@ -242,17 +248,14 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                 liftEffect (
                     defaultEventHandling evt *>
                     showJson response.body *>
-                    -- createRiscLines response.body ctx vruler *>
                     let 
-                        line = RiscLine { y: 300.0, selected: false, ticker: "NHY-XXX" }
+                        lines = riscLinesFromJson response.body
                     in 
-                    addLine line
-                    {--
-                    addRiscLevelLines response.body lref ce vruler 
-                    Canvas.getContext2D ce >>= \ctx ->
-                    createLine ctx vruler >>= \newLine ->
-                    showJson response.body
-                    --}
+                    case lines of
+                        Left err 
+                            -> logShow err
+                        Right lines1 
+                            -> logShow lines *> addRiscLines vruler lines1
                 )
     
 mouseEventDown :: Event.Event -> Effect Unit
@@ -267,20 +270,24 @@ mouseEventDrag ce vruler evt =
 
 handleMouseEventUpLine :: Maybe Line -> Effect Unit
 handleMouseEventUpLine line = 
-    pure unit
-    {-
     case line of 
         Nothing -> 
             pure unit
-        Just (Line line1) ->
-            logShow line1
-            -}
+        Just lref@(RiscLine rec0) ->
+            logShow rec0 *>
+            let 
+                oldOpPrice = rec0.optionPrice
+                newPrice = oldOpPrice * 1.2
+            in
+            updateRiscLine lref newPrice 
+        _ -> 
+            pure unit
 
 mouseEventUp :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
 mouseEventUp ce vruler evt = 
+    defaultEventHandling evt *>
     onMouseUp evt >>= \line ->
-    handleMouseEventUpLine line *>
-    defaultEventHandling evt 
+    handleMouseEventUpLine line 
 
 
 getHtmlContext1 :: 

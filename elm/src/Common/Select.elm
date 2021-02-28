@@ -3,7 +3,6 @@ module Common.Select exposing (SelectItem, SelectItems, emptySelectOption, makeS
 import Common.Html as W
 import Html as H
 import Html.Attributes as A
-import Http
 import VirtualDom as VD
 
 

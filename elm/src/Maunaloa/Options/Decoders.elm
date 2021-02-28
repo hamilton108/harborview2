@@ -1,4 +1,4 @@
-module Maunaloa.Options.Decoders exposing (optionDecoder, purchaseStatusDecoder, stockAndOptionsDecoder, stockDecoder)
+module Maunaloa.Options.Decoders exposing (optionDecoder, stockAndOptionsDecoder, stockDecoder)
 
 import Common.Types exposing (JsonStatus)
 import Common.Utils as U

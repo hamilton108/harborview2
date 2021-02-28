@@ -132,16 +132,39 @@ exports.onMouseUp = function (evt) {
             if (curRec.selected == true) {
                 curRec.y = _lines.pilotLine.value0.y;
                 curRec.selected = false;
-                result = just(curLine);
-            }
-            if (curLine instanceof Maunaloa_LevelLine.RiscLine) {
-                paintRiscLine(curLine);
+
+                if (curLine instanceof Maunaloa_LevelLine.RiscLine) {
+                    result = just(curLine);
+                }
             }
         }
         _lines.pilotLine = nothing;
+        if (result === nothing) {
+            // If result is RiscLine, draw() will be called later
+            // in updateRiscLine
+            draw();
+        }
         return result;
     }
 };
+
+exports.updateRiscLine = function (riscLine) {
+    return function (newValue) {
+        return function () {
+            console.log(riscLine);
+
+            const items = _lines.items;
+            for (var i = 0; i < items.length; ++i) {
+                const item = items[i];
+                if (item === riscLine) {
+                    item.value0.optionPrice = newValue;
+                    break;
+                }
+            }
+            draw();
+        }
+    }
+}
 
 var _ctx = null;
 var _v = null;
@@ -165,28 +188,6 @@ exports.clearCanvas = function () {
     }
     _ctx.clearRect(0, 0, _v.w, _v.h);
     _lines = initLines();
-};
-
-exports.createRiscLines = function (json) {
-    return function (ctx) {
-        return function (vruler) {
-            return function () {
-                /*
-                for (var i = 0; i < json.length; ++i) {
-                    const curJson = json[i];
-                    const bePix = valueToPix(vruler, curJson.be);
-                    const spPix = valueToPix(vruler, curJson.stockprice);
-                    const breakEvenLine = { y: bePix, draggable: false, selected: false, strokeStyle: "green" };
-                    const riscLine = { y: spPix, draggable: true, selected: false, strokeStyle: "red" };
-                    paintRiscLine(curJson.ticker, breakEvenLine, vruler, ctx);
-                    paintRiscLine(curJson.ticker, riscLine, vruler, ctx);
-                    _lines.items.push(breakEvenLine);
-                    _lines.items.push(riscLine);
-                }
-                */
-            };
-        };
-    };
 };
 
 exports.addLine = function (line) {
@@ -219,7 +220,7 @@ const paintRiscLine = function (line) {
         return;
     }
     const rec = line.value0;
-    const displayValue = pixToValue(rec.y).toFixed(2) + " - " + rec.ticker;
+    const displayValue = pixToValue(rec.y).toFixed(2) + " - " + rec.ticker + ", op: " + rec.optionPrice.toFixed(2);
     const x2 = _v.w - x1;
     paint(x2, rec.y, displayValue, "red");
 };
@@ -230,9 +231,12 @@ const paintBreakEvenLine = function (line) {
     const y = line.value0.y;
     const displayValue = pixToValue(y).toFixed(2);
     const x2 = _v.w - x1;
-    paint(x2, y, displayValue, "black");
+    paint(x2, y, displayValue, "green");
 };
 const paintPilotLine = function () {
+    if (_lines.pilotLine === nothing) {
+        return;
+    }
     const y = _lines.pilotLine.value0.y;
     const displayValue = pixToValue(y).toFixed(2);
     const x2 = _v.w - x1;

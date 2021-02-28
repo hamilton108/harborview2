@@ -1,13 +1,9 @@
 module Maunaloa.Charts.Commands exposing
-    ( clearRiscLines
-    , fetchCharts
-    , fetchRiscLines
-    , fetchSpot
+    ( fetchCharts
     , fetchTickers
     )
 
 import Common.Decoders as CD
-import Common.Types as T
 import Http
 import Maunaloa.Charts.Decoders as DEC
 import Maunaloa.Charts.Types
@@ -54,46 +50,49 @@ fetchCharts ticker ct resetCache =
             Http.send ChartsFetched <| Http.get url (DEC.chartInfoDecoder s)
 
 
-fetchRiscLines : Ticker -> Cmd Msg
-fetchRiscLines ticker =
-    case ticker of
-        NoTicker ->
-            Cmd.none
 
-        Ticker s ->
-            let
-                url =
-                    mainUrl ++ "/risclines/" ++ s
-            in
-            Http.send RiscLinesFetched <|
-                Http.get url DEC.riscsDecoder
+{- }
+   fetchRiscLines : Ticker -> Cmd Msg
+   fetchRiscLines ticker =
+       case ticker of
+           NoTicker ->
+               Cmd.none
 
-
-clearRiscLines : Ticker -> Cmd Msg
-clearRiscLines ticker =
-    case ticker of
-        NoTicker ->
-            Cmd.none
-
-        Ticker s ->
-            let
-                url =
-                    mainUrl ++ "/clearrisclines/" ++ s
-            in
-            Http.send RiscLinesCleared <|
-                Http.get url T.jsonStatusDecoder
+           Ticker s ->
+               let
+                   url =
+                       mainUrl ++ "/risclines/" ++ s
+               in
+               Http.send RiscLinesFetched <|
+                   Http.get url DEC.riscsDecoder
 
 
-fetchSpot : Ticker -> Cmd Msg
-fetchSpot ticker =
-    case ticker of
-        NoTicker ->
-            Cmd.none
+   clearRiscLines : Ticker -> Cmd Msg
+   clearRiscLines ticker =
+       case ticker of
+           NoTicker ->
+               Cmd.none
 
-        Ticker s ->
-            let
-                url =
-                    mainUrl ++ "/spot/" ++ s
-            in
-            Http.send SpotFetched <|
-                Http.get url DEC.spotDecoder
+           Ticker s ->
+               let
+                   url =
+                       mainUrl ++ "/clearrisclines/" ++ s
+               in
+               Http.send RiscLinesCleared <|
+                   Http.get url T.jsonStatusDecoder
+
+
+   fetchSpot : Ticker -> Cmd Msg
+   fetchSpot ticker =
+       case ticker of
+           NoTicker ->
+               Cmd.none
+
+           Ticker s ->
+               let
+                   url =
+                       mainUrl ++ "/spot/" ++ s
+               in
+               Http.send SpotFetched <|
+                   Http.get url DEC.spotDecoder
+-}
