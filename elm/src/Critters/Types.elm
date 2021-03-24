@@ -107,8 +107,6 @@ type Msg
     | SaleVolChanged String
     | RuleValueChanged String
     | ToggleHasMemory
-    | ResetCache
-    | CacheReset (Result Http.Error JsonStatus)
 
 
 type Oid

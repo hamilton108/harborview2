@@ -5,6 +5,11 @@ module Maunaloa.OptionPurchases exposing (main)
 import Browser
 import Common.Buttons as BTN
 import Common.Html as CH
+    exposing
+        ( Checked(..)
+        , HtmlId(..)
+        , InputCaption(..)
+        )
 import Common.ModalDialog as DLG
 import Common.Utils as U
 import Html as H
@@ -346,13 +351,15 @@ view model =
                 Just sp ->
                     "Option Sale: " ++ sp.ticker
     in
-    H.div [ A.class "container" ]
-        [ H.div [ A.class "row" ]
+    H.div []
+        [ H.div [ A.class "grid-elm" ]
             [ -- ===>>> M.checkbox "Real-time purchase" "col-sm-2 checkbox" True ToggleRealTimePurchase
-              BTN.button "Reset Cache" ResetCache
+              CH.labelCheckBox (HtmlId "cb1") (InputCaption "Real-time purchase") (Checked model.isRealTimePurchase) ToggleRealTimePurchase
+            , BTN.button "Reset Cache" ResetCache
             , BTN.button "Fetch all purchases" FetchPurchases
             ]
-        , purchaseTable
+        , H.div [ A.class "grid-elm" ]
+            [ purchaseTable ]
         , DLG.modalDialog dlgHeader
             model.dlgSell
             SellDlgOk

@@ -2,20 +2,17 @@ module Critters.Main exposing (init, initModel, main)
 
 import Browser
 import Common.ModalDialog as DLG
-import Common.Utils as Utils
 import Critters.Types
     exposing
         ( Flags
         , Model
         , Msg(..)
         , Oid(..)
-        , Oidable
         , RuleType(..)
         , RuleValue(..)
         )
 import Critters.Update as U
 import Critters.Views as V
-import Html as H
 
 
 main : Program Flags Model Msg

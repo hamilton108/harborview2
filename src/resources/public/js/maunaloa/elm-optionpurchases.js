@@ -5257,93 +5257,65 @@ var $elm$core$Task$perform = F2(
 	});
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Common$ModalDialog$DialogHidden = {$: 'DialogHidden'};
-var $author$project$Critters$Types$NoRuleType = {$: 'NoRuleType'};
-var $author$project$Critters$Types$Oid = function (a) {
-	return {$: 'Oid', a: a};
-};
-var $author$project$Critters$Types$RuleValue = function (a) {
-	return {$: 'RuleValue', a: a};
-};
-var $author$project$Critters$Main$initModel = function (flags) {
-	return {
-		currentAccId: $author$project$Critters$Types$Oid(0),
-		currentCritId: $author$project$Critters$Types$Oid(0),
-		currentPurchaseType: 0,
-		dlgAlert: $author$project$Common$ModalDialog$DialogHidden,
-		dlgNewAccRule: $author$project$Common$ModalDialog$DialogHidden,
-		dlgNewCritter: $author$project$Common$ModalDialog$DialogHidden,
-		dlgNewDenyRule: $author$project$Common$ModalDialog$DialogHidden,
-		hasMemory: true,
-		purchases: _List_Nil,
-		ruleValue: $author$project$Critters$Types$RuleValue('0.0'),
-		saleVol: '10',
-		selectedPurchase: $elm$core$Maybe$Nothing,
-		selectedRule: $author$project$Critters$Types$NoRuleType
-	};
+var $author$project$Maunaloa$OptionPurchases$initModel = function (flags) {
+	return {dlgAlert: $author$project$Common$ModalDialog$DialogHidden, dlgSell: $author$project$Common$ModalDialog$DialogHidden, isRealTimePurchase: true, purchases: $elm$core$Maybe$Nothing, salePrice: '0.0', saleVolume: '10', selectedPurchase: $elm$core$Maybe$Nothing};
 };
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Critters$Main$init = function (flags) {
+var $author$project$Maunaloa$OptionPurchases$init = function (flags) {
 	return _Utils_Tuple2(
-		$author$project$Critters$Main$initModel(flags),
+		$author$project$Maunaloa$OptionPurchases$initModel(flags),
 		$elm$core$Platform$Cmd$none);
 };
+var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$Common$ModalDialog$DialogVisible = {$: 'DialogVisible'};
 var $author$project$Common$ModalDialog$DialogVisibleAlert = F3(
 	function (a, b, c) {
 		return {$: 'DialogVisibleAlert', a: a, b: b, c: c};
 	});
-var $author$project$Common$ModalDialog$Info = {$: 'Info'};
-var $author$project$Critters$Types$RuleType = function (a) {
-	return {$: 'RuleType', a: a};
-};
 var $author$project$Common$ModalDialog$Error = {$: 'Error'};
-var $author$project$Common$Html$httpErr2str = function (err) {
-	switch (err.$) {
-		case 'Timeout':
-			return 'Timeout';
-		case 'NetworkError':
-			return 'NetworkError';
-		case 'BadUrl':
-			var s = err.a;
-			return 'BadUrl: ' + s;
-		case 'BadStatus':
-			var r = err.a;
-			return 'BadStatus: ';
-		default:
-			var s = err.a;
-			var r = err.b;
-			return 'BadPayload: ' + s;
-	}
+var $author$project$Common$ModalDialog$Info = {$: 'Info'};
+var $author$project$Maunaloa$OptionPurchases$PurchaseWithSales = function (oid) {
+	return function (stock) {
+		return function (dx) {
+			return function (optionType) {
+				return function (ticker) {
+					return function (purchaseDate) {
+						return function (exp) {
+							return function (days) {
+								return function (price) {
+									return function (bid) {
+										return function (spot) {
+											return function (purchaseVolume) {
+												return function (volumeSold) {
+													return function (iv) {
+														return function (curAsk) {
+															return function (curBid) {
+																return function (curIv) {
+																	return {bid: bid, curAsk: curAsk, curBid: curBid, curIv: curIv, days: days, dx: dx, exp: exp, iv: iv, oid: oid, optionType: optionType, price: price, purchaseDate: purchaseDate, purchaseVolume: purchaseVolume, spot: spot, stock: stock, ticker: ticker, volumeSold: volumeSold};
+																};
+															};
+														};
+													};
+												};
+											};
+										};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
 };
-var $author$project$Common$ModalDialog$errorAlert = F4(
-	function (title, errMsg, httpErr, model) {
-		var errStr = _Utils_ap(
-			errMsg,
-			$author$project$Common$Html$httpErr2str(httpErr));
-		return _Utils_update(
-			model,
-			{
-				dlgAlert: A3($author$project$Common$ModalDialog$DialogVisibleAlert, title, errStr, $author$project$Common$ModalDialog$Error)
-			});
-	});
-var $elm$core$Basics$negate = function (n) {
-	return -n;
+var $author$project$Maunaloa$OptionPurchases$PurchasesFetched = function (a) {
+	return {$: 'PurchasesFetched', a: a};
 };
-var $elm$core$Basics$not = _Basics_not;
-var $author$project$Common$ModalDialog$DialogVisible = {$: 'DialogVisible'};
-var $author$project$Critters$Types$AccRuleMsgFor = function (a) {
-	return {$: 'AccRuleMsgFor', a: a};
-};
-var $author$project$Critters$Types$OnNewAccRule = function (a) {
-	return {$: 'OnNewAccRule', a: a};
-};
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
+var $elm$json$Json$Decode$float = _Json_decodeFloat;
 var $elm$http$Http$Internal$EmptyBody = {$: 'EmptyBody'};
 var $elm$http$Http$emptyBody = $elm$http$Http$Internal$EmptyBody;
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
@@ -5934,12 +5906,8 @@ var $elm$http$Http$get = F2(
 				withCredentials: false
 			});
 	});
-var $author$project$Critters$Types$JsonStatus = F3(
-	function (ok, msg, statusCode) {
-		return {msg: msg, ok: ok, statusCode: statusCode};
-	});
-var $elm$json$Json$Decode$bool = _Json_decodeBool;
-var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $elm$json$Json$Decode$list = _Json_decodeList;
+var $author$project$Maunaloa$OptionPurchases$mainUrl = '/maunaloa';
 var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
@@ -5949,21 +5917,11 @@ var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
 			A2($elm$json$Json$Decode$field, key, valDecoder),
 			decoder);
 	});
-var $elm$json$Json$Decode$string = _Json_decodeString;
-var $author$project$Common$Decoders$jsonStatusDecoder = A3(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-	'statusCode',
-	$elm$json$Json$Decode$int,
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'msg',
-		$elm$json$Json$Decode$string,
-		A3(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-			'ok',
-			$elm$json$Json$Decode$bool,
-			$elm$json$Json$Decode$succeed($author$project$Critters$Types$JsonStatus))));
-var $author$project$Critters$Commands$mainUrl = 'purchases';
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
 var $elm$core$Task$onError = _Scheduler_onError;
 var $elm$core$Task$attempt = F2(
 	function (resultToMessage, task) {
@@ -5994,574 +5952,204 @@ var $elm$http$Http$send = F2(
 			resultToMessage,
 			$elm$http$Http$toTask(request_));
 	});
-var $author$project$Critters$Commands$newAccRule = F3(
-	function (_v0, ruleType, _v1) {
-		var oid = _v0.a;
-		var val = _v1.a;
-		if (ruleType.$ === 'NoRuleType') {
-			return $elm$core$Platform$Cmd$none;
-		} else {
-			var rt = ruleType.a;
-			var url = $author$project$Critters$Commands$mainUrl + ('/newacc/' + ($elm$core$String$fromInt(oid) + ('/' + ($elm$core$String$fromInt(rt) + ('/' + val)))));
-			return A2(
-				$elm$http$Http$send,
-				A2($elm$core$Basics$composeL, $author$project$Critters$Types$AccRuleMsgFor, $author$project$Critters$Types$OnNewAccRule),
-				A2($elm$http$Http$get, url, $author$project$Common$Decoders$jsonStatusDecoder));
-		}
-	});
-var $author$project$Critters$Types$CritterMsgFor = function (a) {
-	return {$: 'CritterMsgFor', a: a};
-};
-var $author$project$Critters$Types$PaperCrittersFetched = function (a) {
-	return {$: 'PaperCrittersFetched', a: a};
-};
-var $author$project$Critters$Types$RealTimeCrittersFetched = function (a) {
-	return {$: 'RealTimeCrittersFetched', a: a};
-};
-var $elm$json$Json$Decode$list = _Json_decodeList;
-var $author$project$Critters$Types$OptionPurchase = F3(
-	function (oid, ticker, critters) {
-		return {critters: critters, oid: oid, ticker: ticker};
-	});
-var $author$project$Critters$Types$Critter = F4(
-	function (oid, sellVolume, status, accRules) {
-		return {accRules: accRules, oid: oid, sellVolume: sellVolume, status: status};
-	});
-var $author$project$Critters$Types$AccRule = F7(
-	function (oid, purchaseId, critId, rtyp, value, active, denyRules) {
-		return {active: active, critId: critId, denyRules: denyRules, oid: oid, purchaseId: purchaseId, rtyp: rtyp, value: value};
-	});
-var $author$project$Critters$Types$DenyRule = F8(
-	function (oid, purchaseId, critId, accId, rtyp, value, active, memory) {
-		return {accId: accId, active: active, critId: critId, memory: memory, oid: oid, purchaseId: purchaseId, rtyp: rtyp, value: value};
-	});
-var $elm$json$Json$Decode$float = _Json_decodeFloat;
-var $author$project$Critters$Decoders$denyRuleDecoder = A3(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-	'mem',
-	$elm$json$Json$Decode$bool,
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'active',
-		$elm$json$Json$Decode$bool,
-		A3(
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $author$project$Maunaloa$OptionPurchases$fetchPurchases = F2(
+	function (isRealTime, resetCache) {
+		var resetCacheJson = function () {
+			if (resetCache) {
+				return 'true';
+			} else {
+				return 'false';
+			}
+		}();
+		var purchaseType = function () {
+			if (isRealTime) {
+				return '3';
+			} else {
+				return '11';
+			}
+		}();
+		var url = $author$project$Maunaloa$OptionPurchases$mainUrl + ('/fetchpurchases?ptype=' + (purchaseType + ('&resetcache=' + resetCacheJson)));
+		var purchaseDecoder = A3(
 			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-			'value',
+			'cur-iv',
 			$elm$json$Json$Decode$float,
 			A3(
 				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-				'rtyp',
-				$elm$json$Json$Decode$int,
+				'cur-bid',
+				$elm$json$Json$Decode$float,
 				A3(
 					$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-					'accid',
-					$elm$json$Json$Decode$int,
+					'cur-ask',
+					$elm$json$Json$Decode$float,
 					A3(
 						$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-						'cid',
-						$elm$json$Json$Decode$int,
+						'iv',
+						$elm$json$Json$Decode$float,
 						A3(
 							$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-							'pid',
+							'svol',
 							$elm$json$Json$Decode$int,
 							A3(
 								$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-								'oid',
+								'pvol',
 								$elm$json$Json$Decode$int,
-								$elm$json$Json$Decode$succeed($author$project$Critters$Types$DenyRule)))))))));
-var $elm$json$Json$Decode$andThen = _Json_andThen;
-var $elm$json$Json$Decode$decodeValue = _Json_run;
-var $elm$json$Json$Decode$fail = _Json_fail;
-var $elm$json$Json$Decode$null = _Json_decodeNull;
-var $elm$json$Json$Decode$oneOf = _Json_oneOf;
-var $elm$json$Json$Decode$value = _Json_decodeValue;
-var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder = F3(
-	function (pathDecoder, valDecoder, fallback) {
-		var nullOr = function (decoder) {
-			return $elm$json$Json$Decode$oneOf(
-				_List_fromArray(
-					[
-						decoder,
-						$elm$json$Json$Decode$null(fallback)
-					]));
-		};
-		var handleResult = function (input) {
-			var _v0 = A2($elm$json$Json$Decode$decodeValue, pathDecoder, input);
-			if (_v0.$ === 'Ok') {
-				var rawValue = _v0.a;
-				var _v1 = A2(
-					$elm$json$Json$Decode$decodeValue,
-					nullOr(valDecoder),
-					rawValue);
-				if (_v1.$ === 'Ok') {
-					var finalResult = _v1.a;
-					return $elm$json$Json$Decode$succeed(finalResult);
-				} else {
-					var finalErr = _v1.a;
-					return $elm$json$Json$Decode$fail(
-						$elm$json$Json$Decode$errorToString(finalErr));
-				}
-			} else {
-				return $elm$json$Json$Decode$succeed(fallback);
-			}
-		};
-		return A2($elm$json$Json$Decode$andThen, handleResult, $elm$json$Json$Decode$value);
-	});
-var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional = F4(
-	function (key, valDecoder, fallback, decoder) {
+								A3(
+									$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+									'spot',
+									$elm$json$Json$Decode$float,
+									A3(
+										$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+										'bid',
+										$elm$json$Json$Decode$float,
+										A3(
+											$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+											'price',
+											$elm$json$Json$Decode$float,
+											A3(
+												$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+												'days',
+												$elm$json$Json$Decode$int,
+												A3(
+													$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+													'exp',
+													$elm$json$Json$Decode$string,
+													A3(
+														$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+														'dx',
+														$elm$json$Json$Decode$string,
+														A3(
+															$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+															'ticker',
+															$elm$json$Json$Decode$string,
+															A3(
+																$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+																'ot',
+																$elm$json$Json$Decode$string,
+																A3(
+																	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+																	'dx',
+																	$elm$json$Json$Decode$string,
+																	A3(
+																		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+																		'stock',
+																		$elm$json$Json$Decode$string,
+																		A3(
+																			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+																			'oid',
+																			$elm$json$Json$Decode$int,
+																			$elm$json$Json$Decode$succeed($author$project$Maunaloa$OptionPurchases$PurchaseWithSales))))))))))))))))));
 		return A2(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom,
-			A3(
-				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder,
-				A2($elm$json$Json$Decode$field, key, $elm$json$Json$Decode$value),
-				valDecoder,
-				fallback),
-			decoder);
+			$elm$http$Http$send,
+			$author$project$Maunaloa$OptionPurchases$PurchasesFetched,
+			A2(
+				$elm$http$Http$get,
+				url,
+				$elm$json$Json$Decode$list(purchaseDecoder)));
 	});
-var $author$project$Critters$Decoders$accRuleDecoder = A4(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
-	'dnyRules',
-	$elm$json$Json$Decode$list($author$project$Critters$Decoders$denyRuleDecoder),
-	_List_Nil,
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'active',
-		$elm$json$Json$Decode$bool,
-		A3(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-			'value',
-			$elm$json$Json$Decode$float,
-			A3(
-				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-				'rtyp',
-				$elm$json$Json$Decode$int,
-				A3(
-					$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-					'cid',
-					$elm$json$Json$Decode$int,
-					A3(
-						$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-						'pid',
-						$elm$json$Json$Decode$int,
-						A3(
-							$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-							'oid',
-							$elm$json$Json$Decode$int,
-							$elm$json$Json$Decode$succeed($author$project$Critters$Types$AccRule))))))));
-var $author$project$Critters$Decoders$critterDecoder = A4(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
-	'accRules',
-	$elm$json$Json$Decode$list($author$project$Critters$Decoders$accRuleDecoder),
-	_List_Nil,
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'status',
-		$elm$json$Json$Decode$int,
-		A3(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-			'vol',
-			$elm$json$Json$Decode$int,
-			A3(
-				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-				'oid',
-				$elm$json$Json$Decode$int,
-				$elm$json$Json$Decode$succeed($author$project$Critters$Types$Critter)))));
-var $author$project$Critters$Decoders$optionPurchaseDecoder = A4(
-	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
-	'critters',
-	$elm$json$Json$Decode$list($author$project$Critters$Decoders$critterDecoder),
-	_List_Nil,
-	A3(
-		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'ticker',
-		$elm$json$Json$Decode$string,
-		A3(
-			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-			'oid',
-			$elm$json$Json$Decode$int,
-			$elm$json$Json$Decode$succeed($author$project$Critters$Types$OptionPurchase))));
-var $author$project$Critters$Decoders$optionPurchasesDecoder = $elm$json$Json$Decode$list($author$project$Critters$Decoders$optionPurchaseDecoder);
-var $author$project$Critters$Commands$fetchCritters = function (isRealTime) {
-	var msg = isRealTime ? A2($elm$core$Basics$composeL, $author$project$Critters$Types$CritterMsgFor, $author$project$Critters$Types$RealTimeCrittersFetched) : A2($elm$core$Basics$composeL, $author$project$Critters$Types$CritterMsgFor, $author$project$Critters$Types$PaperCrittersFetched);
-	var critterTypeUrl = isRealTime ? '3' : '11';
-	var url = $author$project$Critters$Commands$mainUrl + ('/' + critterTypeUrl);
-	return A2(
-		$elm$http$Http$send,
-		msg,
-		A2($elm$http$Http$get, url, $author$project$Critters$Decoders$optionPurchasesDecoder));
-};
-var $author$project$Critters$Update$refreshCritters = F3(
-	function (title, statusMsg, model) {
-		var cmd = (model.currentPurchaseType === 4) ? $author$project$Critters$Commands$fetchCritters(true) : $author$project$Critters$Commands$fetchCritters(false);
-		return _Utils_Tuple2(
-			_Utils_update(
-				model,
-				{
-					dlgAlert: A3($author$project$Common$ModalDialog$DialogVisibleAlert, title, statusMsg, $author$project$Common$ModalDialog$Info)
-				}),
-			cmd);
-	});
-var $elm$core$List$filter = F2(
-	function (isGood, list) {
-		return A3(
-			$elm$core$List$foldr,
-			F2(
-				function (x, xs) {
-					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
-				}),
-			_List_Nil,
-			list);
-	});
-var $elm$core$List$head = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(x);
-	} else {
-		return $elm$core$Maybe$Nothing;
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $author$project$Common$Html$httpErr2str = function (err) {
+	switch (err.$) {
+		case 'Timeout':
+			return 'Timeout';
+		case 'NetworkError':
+			return 'NetworkError';
+		case 'BadUrl':
+			var s = err.a;
+			return 'BadUrl: ' + s;
+		case 'BadStatus':
+			var r = err.a;
+			return 'BadStatus: ';
+		default:
+			var s = err.a;
+			var r = err.b;
+			return 'BadPayload: ' + s;
 	}
 };
-var $author$project$Common$Utils$findInList = F2(
-	function (lx, oid) {
-		return $elm$core$List$head(
-			A2(
-				$elm$core$List$filter,
-				function (x) {
-					return _Utils_eq(x.oid, oid);
-				},
-				lx));
-	});
-var $author$project$Common$Utils$replaceWith = F2(
-	function (newEl, el) {
-		return _Utils_eq(el.oid, newEl.oid) ? newEl : el;
-	});
-var $author$project$Critters$Update$toggleOid = F2(
-	function (oid, acc) {
-		return _Utils_eq(acc.oid, oid) ? _Utils_update(
-			acc,
-			{active: !acc.active}) : acc;
-	});
-var $author$project$Critters$Update$toggleAccRule = F2(
-	function (model, curAcc) {
-		var pm = A2($author$project$Common$Utils$findInList, model.purchases, curAcc.purchaseId);
-		if (pm.$ === 'Nothing') {
-			return model;
-		} else {
-			var p = pm.a;
-			var cm = A2($author$project$Common$Utils$findInList, p.critters, curAcc.critId);
-			if (cm.$ === 'Nothing') {
-				return model;
-			} else {
-				var c = cm.a;
-				var newAccs = A2(
-					$elm$core$List$map,
-					$author$project$Critters$Update$toggleOid(curAcc.oid),
-					c.accRules);
-				var newCrit = _Utils_update(
-					c,
-					{accRules: newAccs});
-				var newCrits = A2(
-					$elm$core$List$map,
-					$author$project$Common$Utils$replaceWith(newCrit),
-					p.critters);
-				var newPurchase = _Utils_update(
-					p,
-					{critters: newCrits});
-				var newPurchases = A2(
-					$elm$core$List$map,
-					$author$project$Common$Utils$replaceWith(newPurchase),
-					model.purchases);
-				return _Utils_update(
-					model,
-					{purchases: newPurchases});
-			}
-		}
-	});
-var $author$project$Critters$Types$Toggled = function (a) {
-	return {$: 'Toggled', a: a};
+var $elm$core$Basics$negate = function (n) {
+	return -n;
 };
-var $author$project$Critters$Commands$toggleRule = F3(
-	function (isAccRule, oid, newVal) {
-		var rt = isAccRule ? '1' : '2';
-		var newValx = newVal ? 'true' : 'false';
-		var url = $author$project$Critters$Commands$mainUrl + ('/toggle/' + (rt + ('/' + ($elm$core$String$fromInt(oid) + ('/' + newValx)))));
+var $elm$core$Basics$not = _Basics_not;
+var $author$project$Maunaloa$OptionPurchases$SaleOk = function (a) {
+	return {$: 'SaleOk', a: a};
+};
+var $elm$json$Json$Encode$object = function (pairs) {
+	return _Json_wrap(
+		A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v0, obj) {
+					var k = _v0.a;
+					var v = _v0.b;
+					return A3(_Json_addField, k, v, obj);
+				}),
+			_Json_emptyObject(_Utils_Tuple0),
+			pairs));
+};
+var $elm$http$Http$Internal$StringBody = F2(
+	function (a, b) {
+		return {$: 'StringBody', a: a, b: b};
+	});
+var $elm$http$Http$stringBody = $elm$http$Http$Internal$StringBody;
+var $author$project$Common$Utils$asHttpBody = function (lx) {
+	var x = $elm$json$Json$Encode$object(lx);
+	return A2(
+		$elm$http$Http$stringBody,
+		'application/json',
+		A2($elm$json$Json$Encode$encode, 0, x));
+};
+var $elm$json$Json$Encode$float = _Json_wrap;
+var $elm$json$Json$Encode$int = _Json_wrap;
+var $elm$http$Http$post = F3(
+	function (url, body, decoder) {
+		return $elm$http$Http$request(
+			{
+				body: body,
+				expect: $elm$http$Http$expectJson(decoder),
+				headers: _List_Nil,
+				method: 'POST',
+				timeout: $elm$core$Maybe$Nothing,
+				url: url,
+				withCredentials: false
+			});
+	});
+var $author$project$Maunaloa$OptionPurchases$sellPurchase = F3(
+	function (oid, volume, price) {
+		var url = $author$project$Maunaloa$OptionPurchases$mainUrl + '/sellpurchase';
+		var params = _List_fromArray(
+			[
+				_Utils_Tuple2(
+				'oid',
+				$elm$json$Json$Encode$int(oid)),
+				_Utils_Tuple2(
+				'vol',
+				$elm$json$Json$Encode$int(volume)),
+				_Utils_Tuple2(
+				'price',
+				$elm$json$Json$Encode$float(price))
+			]);
+		var jbody = $author$project$Common$Utils$asHttpBody(params);
 		return A2(
 			$elm$http$Http$send,
-			$author$project$Critters$Types$Toggled,
-			A2($elm$http$Http$get, url, $author$project$Common$Decoders$jsonStatusDecoder));
+			$author$project$Maunaloa$OptionPurchases$SaleOk,
+			A3($elm$http$Http$post, url, jbody, $elm$json$Json$Decode$string));
 	});
-var $author$project$Critters$Update$updateAccRuleMsg = F2(
-	function (accMsg, model) {
-		switch (accMsg.$) {
-			case 'ToggleAccActive':
-				var accRule = accMsg.a;
-				var newVal = !accRule.active;
-				var newModel = A2($author$project$Critters$Update$toggleAccRule, model, accRule);
-				return _Utils_Tuple2(
-					newModel,
-					A3($author$project$Critters$Commands$toggleRule, true, accRule.oid, newVal));
-			case 'NewAccRule':
-				var critId = accMsg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{currentCritId: critId, dlgNewAccRule: $author$project$Common$ModalDialog$DialogVisible}),
-					$elm$core$Platform$Cmd$none);
-			case 'DlgNewAccOk':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{dlgNewAccRule: $author$project$Common$ModalDialog$DialogHidden}),
-					A3($author$project$Critters$Commands$newAccRule, model.currentCritId, model.selectedRule, model.ruleValue));
-			case 'DlgNewAccCancel':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{dlgNewAccRule: $author$project$Common$ModalDialog$DialogHidden}),
-					$elm$core$Platform$Cmd$none);
-			default:
-				if (accMsg.a.$ === 'Ok') {
-					var s = accMsg.a.a;
-					return A3($author$project$Critters$Update$refreshCritters, 'New Acc Rule', s.msg, model);
-				} else {
-					var err = accMsg.a.a;
-					return _Utils_Tuple2(
-						A4($author$project$Common$ModalDialog$errorAlert, 'Error', 'OnNewAccRule Error: ', err, model),
-						$elm$core$Platform$Cmd$none);
-				}
-		}
-	});
-var $elm$core$Maybe$andThen = F2(
-	function (callback, maybeValue) {
-		if (maybeValue.$ === 'Just') {
-			var value = maybeValue.a;
-			return callback(value);
-		} else {
+var $author$project$Maunaloa$OptionPurchases$swap = F3(
+	function (lx, oid, saleVol) {
+		if (lx.$ === 'Nothing') {
 			return $elm$core$Maybe$Nothing;
-		}
-	});
-var $author$project$Critters$Types$OnNewCritter = function (a) {
-	return {$: 'OnNewCritter', a: a};
-};
-var $author$project$Critters$Commands$newCritter_ = F2(
-	function (oid, vol) {
-		var url = $author$project$Critters$Commands$mainUrl + ('/newcritter/' + ($elm$core$String$fromInt(oid) + ('/' + $elm$core$String$fromInt(vol))));
-		return A2(
-			$elm$http$Http$send,
-			A2($elm$core$Basics$composeL, $author$project$Critters$Types$CritterMsgFor, $author$project$Critters$Types$OnNewCritter),
-			A2($elm$http$Http$get, url, $author$project$Common$Decoders$jsonStatusDecoder));
-	});
-var $author$project$Critters$Commands$newCritter = F2(
-	function (oid, vol) {
-		var maybeCmd = A2(
-			$elm$core$Maybe$andThen,
-			function (oidx) {
-				return A2(
-					$elm$core$Maybe$andThen,
-					function (volx) {
-						return $elm$core$Maybe$Just(
-							A2($author$project$Critters$Commands$newCritter_, oidx, volx));
-					},
-					$elm$core$String$toInt(vol));
-			},
-			$elm$core$String$toInt(oid));
-		if (maybeCmd.$ === 'Nothing') {
-			return $elm$core$Platform$Cmd$none;
 		} else {
-			var cmd = maybeCmd.a;
-			return cmd;
+			var lxx = lx.a;
+			var swapFn = function (x) {
+				return _Utils_eq(x.oid, oid) ? _Utils_update(
+					x,
+					{volumeSold: x.volumeSold + saleVol}) : x;
+			};
+			return $elm$core$Maybe$Just(
+				A2($elm$core$List$map, swapFn, lxx));
 		}
 	});
-var $author$project$Critters$Update$updateCritterMsg = F2(
-	function (critMsg, model) {
-		switch (critMsg.$) {
-			case 'PaperCritters':
-				return _Utils_Tuple2(
-					model,
-					$author$project$Critters$Commands$fetchCritters(false));
-			case 'RealTimeCritters':
-				return _Utils_Tuple2(
-					model,
-					$author$project$Critters$Commands$fetchCritters(true));
-			case 'NewCritter':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{dlgNewCritter: $author$project$Common$ModalDialog$DialogVisible}),
-					$elm$core$Platform$Cmd$none);
-			case 'PaperCrittersFetched':
-				if (critMsg.a.$ === 'Ok') {
-					var p = critMsg.a.a;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{currentPurchaseType: 11, purchases: p}),
-						$elm$core$Platform$Cmd$none);
-				} else {
-					var s = critMsg.a.a;
-					return _Utils_Tuple2(
-						A4($author$project$Common$ModalDialog$errorAlert, 'Error', 'PaperCrittersFetched Error: ', s, model),
-						$elm$core$Platform$Cmd$none);
-				}
-			case 'RealTimeCrittersFetched':
-				if (critMsg.a.$ === 'Ok') {
-					var p = critMsg.a.a;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{currentPurchaseType: 4, purchases: p}),
-						$elm$core$Platform$Cmd$none);
-				} else {
-					var s = critMsg.a.a;
-					return _Utils_Tuple2(
-						A4($author$project$Common$ModalDialog$errorAlert, 'Error', 'RealTimeCrittersFetched Error: ', s, model),
-						$elm$core$Platform$Cmd$none);
-				}
-			case 'DlgNewCritterOk':
-				var cmd = function () {
-					var _v1 = model.selectedPurchase;
-					if (_v1.$ === 'Nothing') {
-						return $elm$core$Platform$Cmd$none;
-					} else {
-						var p = _v1.a;
-						return A2($author$project$Critters$Commands$newCritter, p, model.saleVol);
-					}
-				}();
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{dlgNewCritter: $author$project$Common$ModalDialog$DialogHidden}),
-					cmd);
-			case 'DlgNewCritterCancel':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{dlgNewCritter: $author$project$Common$ModalDialog$DialogHidden}),
-					$elm$core$Platform$Cmd$none);
-			default:
-				if (critMsg.a.$ === 'Ok') {
-					var s = critMsg.a.a;
-					return A3($author$project$Critters$Update$refreshCritters, 'New Critter', s.msg, model);
-				} else {
-					var s = critMsg.a.a;
-					return _Utils_Tuple2(
-						A4($author$project$Common$ModalDialog$errorAlert, 'Error', 'OnNewCritter Error: ', s, model),
-						$elm$core$Platform$Cmd$none);
-				}
-		}
-	});
-var $author$project$Critters$Types$DenyRuleMsgFor = function (a) {
-	return {$: 'DenyRuleMsgFor', a: a};
-};
-var $author$project$Critters$Types$OnNewDenyRule = function (a) {
-	return {$: 'OnNewDenyRule', a: a};
-};
-var $author$project$Critters$Commands$newDenyRule = F4(
-	function (_v0, ruleType, _v1, hasMemory) {
-		var oid = _v0.a;
-		var val = _v1.a;
-		if (ruleType.$ === 'NoRuleType') {
-			return $elm$core$Platform$Cmd$none;
-		} else {
-			var rt = ruleType.a;
-			var boolStr = hasMemory ? 'true' : 'false';
-			var url = $author$project$Critters$Commands$mainUrl + ('/newdeny/' + ($elm$core$String$fromInt(oid) + ('/' + ($elm$core$String$fromInt(rt) + ('/' + (val + ('/' + boolStr)))))));
-			return A2(
-				$elm$http$Http$send,
-				A2($elm$core$Basics$composeL, $author$project$Critters$Types$DenyRuleMsgFor, $author$project$Critters$Types$OnNewDenyRule),
-				A2($elm$http$Http$get, url, $author$project$Common$Decoders$jsonStatusDecoder));
-		}
-	});
-var $author$project$Critters$Update$toggleDenyRule = F2(
-	function (model, dny) {
-		var pm = A2($author$project$Common$Utils$findInList, model.purchases, dny.purchaseId);
-		if (pm.$ === 'Nothing') {
-			return model;
-		} else {
-			var p = pm.a;
-			var cm = A2($author$project$Common$Utils$findInList, p.critters, dny.critId);
-			if (cm.$ === 'Nothing') {
-				return model;
-			} else {
-				var c = cm.a;
-				var accm = A2($author$project$Common$Utils$findInList, c.accRules, dny.accId);
-				if (accm.$ === 'Nothing') {
-					return model;
-				} else {
-					var acc = accm.a;
-					var newDenys = A2(
-						$elm$core$List$map,
-						$author$project$Critters$Update$toggleOid(dny.oid),
-						acc.denyRules);
-					var newAcc = _Utils_update(
-						acc,
-						{denyRules: newDenys});
-					var newAccs = A2(
-						$elm$core$List$map,
-						$author$project$Common$Utils$replaceWith(newAcc),
-						c.accRules);
-					var newCrit = _Utils_update(
-						c,
-						{accRules: newAccs});
-					var newCrits = A2(
-						$elm$core$List$map,
-						$author$project$Common$Utils$replaceWith(newCrit),
-						p.critters);
-					var newPurchase = _Utils_update(
-						p,
-						{critters: newCrits});
-					var newPurchases = A2(
-						$elm$core$List$map,
-						$author$project$Common$Utils$replaceWith(newPurchase),
-						model.purchases);
-					return _Utils_update(
-						model,
-						{purchases: newPurchases});
-				}
-			}
-		}
-	});
-var $author$project$Critters$Update$updateDenyRuleMsg = F2(
-	function (denyMsg, model) {
-		switch (denyMsg.$) {
-			case 'ToggleDenyActive':
-				var denyRule = denyMsg.a;
-				var newVal = !denyRule.active;
-				var newModel = A2($author$project$Critters$Update$toggleDenyRule, model, denyRule);
-				return _Utils_Tuple2(
-					newModel,
-					A3($author$project$Critters$Commands$toggleRule, false, denyRule.oid, newVal));
-			case 'NewDenyRule':
-				var accId = denyMsg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{currentAccId: accId, dlgNewDenyRule: $author$project$Common$ModalDialog$DialogVisible}),
-					$elm$core$Platform$Cmd$none);
-			case 'DlgNewDenyOk':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{dlgNewDenyRule: $author$project$Common$ModalDialog$DialogHidden}),
-					A4($author$project$Critters$Commands$newDenyRule, model.currentAccId, model.selectedRule, model.ruleValue, model.hasMemory));
-			case 'DlgNewDenyCancel':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{dlgNewDenyRule: $author$project$Common$ModalDialog$DialogHidden}),
-					$elm$core$Platform$Cmd$none);
-			default:
-				if (denyMsg.a.$ === 'Ok') {
-					var s = denyMsg.a.a;
-					return A3($author$project$Critters$Update$refreshCritters, 'New Deny Rule', s.msg, model);
-				} else {
-					var err = denyMsg.a.a;
-					return _Utils_Tuple2(
-						A4($author$project$Common$ModalDialog$errorAlert, 'Error', 'OnNewDenyRule Error: ', err, model),
-						$elm$core$Platform$Cmd$none);
-				}
-		}
-	});
+var $elm$core$String$toFloat = _String_toFloat;
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
 		if (maybe.$ === 'Just') {
@@ -6571,7 +6159,7 @@ var $elm$core$Maybe$withDefault = F2(
 			return _default;
 		}
 	});
-var $author$project$Critters$Update$update = F2(
+var $author$project$Maunaloa$OptionPurchases$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'AlertOk':
@@ -6580,123 +6168,144 @@ var $author$project$Critters$Update$update = F2(
 						model,
 						{dlgAlert: $author$project$Common$ModalDialog$DialogHidden}),
 					$elm$core$Platform$Cmd$none);
-			case 'CritterMsgFor':
-				var critMsg = msg.a;
-				return A2($author$project$Critters$Update$updateCritterMsg, critMsg, model);
-			case 'AccRuleMsgFor':
-				var accMsg = msg.a;
-				return A2($author$project$Critters$Update$updateAccRuleMsg, accMsg, model);
-			case 'DenyRuleMsgFor':
-				var denyMsg = msg.a;
-				return A2($author$project$Critters$Update$updateDenyRuleMsg, denyMsg, model);
-			case 'Toggled':
+			case 'ToggleRealTimePurchase':
+				var curCmd = $elm$core$Platform$Cmd$none;
+				var checked = !model.isRealTimePurchase;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isRealTimePurchase: checked}),
+					curCmd);
+			case 'FetchPurchases':
+				var curCmd = A2($author$project$Maunaloa$OptionPurchases$fetchPurchases, model.isRealTimePurchase, false);
+				return _Utils_Tuple2(model, curCmd);
+			case 'PurchasesFetched':
 				if (msg.a.$ === 'Ok') {
 					var s = msg.a.a;
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
 							{
-								dlgAlert: A3($author$project$Common$ModalDialog$DialogVisibleAlert, 'Toggle', s.msg, $author$project$Common$ModalDialog$Info)
+								purchases: $elm$core$Maybe$Just(s)
 							}),
 						$elm$core$Platform$Cmd$none);
 				} else {
 					var s = msg.a.a;
+					var errStr = 'PurchasesFetched Error: ' + $author$project$Common$Html$httpErr2str(s);
 					return _Utils_Tuple2(
-						A4($author$project$Common$ModalDialog$errorAlert, 'Error', 'Toggled Error: ', s, model),
+						_Utils_update(
+							model,
+							{
+								dlgAlert: A3($author$project$Common$ModalDialog$DialogVisibleAlert, 'PurchasesFetched ERROR!', errStr, $author$project$Common$ModalDialog$Error)
+							}),
 						$elm$core$Platform$Cmd$none);
 				}
-			case 'SelectedPurchaseChanged':
-				var s = msg.a;
+			case 'SellClick':
+				var p = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							selectedPurchase: $elm$core$Maybe$Just(s)
+							dlgSell: $author$project$Common$ModalDialog$DialogVisible,
+							salePrice: $elm$core$String$fromFloat(p.curBid),
+							saleVolume: $elm$core$String$fromInt(p.purchaseVolume - p.volumeSold),
+							selectedPurchase: $elm$core$Maybe$Just(p)
 						}),
 					$elm$core$Platform$Cmd$none);
-			case 'SelectedRuleChanged':
-				var s = msg.a;
-				var rt = function () {
-					if ($elm$core$String$isEmpty(s)) {
-						return $author$project$Critters$Types$NoRuleType;
-					} else {
-						var ruleId = A2(
-							$elm$core$Maybe$withDefault,
-							-1,
-							$elm$core$String$toInt(s));
-						return (ruleId < 0) ? $author$project$Critters$Types$NoRuleType : $author$project$Critters$Types$RuleType(ruleId);
-					}
-				}();
+			case 'SellDlgOk':
+				var _v1 = model.selectedPurchase;
+				if (_v1.$ === 'Nothing') {
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				} else {
+					var curPur = _v1.a;
+					var saleVol = A2(
+						$elm$core$Maybe$withDefault,
+						-1,
+						$elm$core$String$toInt(model.saleVolume));
+					var salePri = A2(
+						$elm$core$Maybe$withDefault,
+						-1.0,
+						$elm$core$String$toFloat(model.salePrice));
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								dlgSell: $author$project$Common$ModalDialog$DialogHidden,
+								purchases: A3($author$project$Maunaloa$OptionPurchases$swap, model.purchases, curPur.oid, saleVol)
+							}),
+						A3($author$project$Maunaloa$OptionPurchases$sellPurchase, curPur.oid, saleVol, salePri));
+				}
+			case 'SellDlgCancel':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{selectedRule: rt}),
+						{dlgSell: $author$project$Common$ModalDialog$DialogHidden}),
 					$elm$core$Platform$Cmd$none);
-			case 'SaleVolChanged':
+			case 'SaleOk':
+				if (msg.a.$ === 'Ok') {
+					var s = msg.a.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								dlgAlert: A3($author$project$Common$ModalDialog$DialogVisibleAlert, 'Purchase Sale', s, $author$project$Common$ModalDialog$Info)
+							}),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					var s = msg.a.a;
+					var errStr = 'SaleOk Error: ' + $author$project$Common$Html$httpErr2str(s);
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								dlgAlert: A3($author$project$Common$ModalDialog$DialogVisibleAlert, 'Purchase Sale ERROR!', errStr, $author$project$Common$ModalDialog$Error)
+							}),
+						$elm$core$Platform$Cmd$none);
+				}
+			case 'SalePriceChange':
 				var s = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{saleVol: s}),
+						{salePrice: s}),
 					$elm$core$Platform$Cmd$none);
-			case 'RuleValueChanged':
+			case 'SaleVolumeChange':
 				var s = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{
-							ruleValue: $author$project$Critters$Types$RuleValue(s)
-						}),
+						{saleVolume: s}),
 					$elm$core$Platform$Cmd$none);
 			default:
 				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{hasMemory: !model.hasMemory}),
-					$elm$core$Platform$Cmd$none);
+					model,
+					A2($author$project$Maunaloa$OptionPurchases$fetchPurchases, model.isRealTimePurchase, true));
 		}
 	});
-var $author$project$Critters$Types$AlertOk = {$: 'AlertOk'};
+var $author$project$Maunaloa$OptionPurchases$AlertOk = {$: 'AlertOk'};
 var $author$project$Common$Html$Checked = function (a) {
 	return {$: 'Checked', a: a};
 };
-var $author$project$Critters$Types$DlgNewAccCancel = {$: 'DlgNewAccCancel'};
-var $author$project$Critters$Types$DlgNewAccOk = {$: 'DlgNewAccOk'};
-var $author$project$Critters$Types$DlgNewCritterCancel = {$: 'DlgNewCritterCancel'};
-var $author$project$Critters$Types$DlgNewCritterOk = {$: 'DlgNewCritterOk'};
-var $author$project$Critters$Types$DlgNewDenyCancel = {$: 'DlgNewDenyCancel'};
-var $author$project$Critters$Types$DlgNewDenyOk = {$: 'DlgNewDenyOk'};
-var $author$project$Common$Html$HtmlClass = function (a) {
-	return {$: 'HtmlClass', a: a};
-};
+var $author$project$Maunaloa$OptionPurchases$FetchPurchases = {$: 'FetchPurchases'};
 var $author$project$Common$Html$HtmlId = function (a) {
 	return {$: 'HtmlId', a: a};
 };
 var $author$project$Common$Html$InputCaption = function (a) {
 	return {$: 'InputCaption', a: a};
 };
-var $author$project$Common$Html$InputType = function (a) {
-	return {$: 'InputType', a: a};
+var $author$project$Maunaloa$OptionPurchases$ResetCache = {$: 'ResetCache'};
+var $author$project$Maunaloa$OptionPurchases$SalePriceChange = function (a) {
+	return {$: 'SalePriceChange', a: a};
 };
-var $author$project$Common$Html$InputValue = function (a) {
-	return {$: 'InputValue', a: a};
+var $author$project$Maunaloa$OptionPurchases$SaleVolumeChange = function (a) {
+	return {$: 'SaleVolumeChange', a: a};
 };
-var $author$project$Critters$Types$NewCritter = {$: 'NewCritter'};
-var $author$project$Critters$Types$PaperCritters = {$: 'PaperCritters'};
-var $author$project$Critters$Types$RealTimeCritters = {$: 'RealTimeCritters'};
-var $author$project$Critters$Types$RuleValueChanged = function (a) {
-	return {$: 'RuleValueChanged', a: a};
+var $author$project$Maunaloa$OptionPurchases$SellClick = function (a) {
+	return {$: 'SellClick', a: a};
 };
-var $author$project$Critters$Types$SaleVolChanged = function (a) {
-	return {$: 'SaleVolChanged', a: a};
-};
-var $author$project$Critters$Types$SelectedPurchaseChanged = function (a) {
-	return {$: 'SelectedPurchaseChanged', a: a};
-};
-var $author$project$Critters$Types$SelectedRuleChanged = function (a) {
-	return {$: 'SelectedRuleChanged', a: a};
-};
-var $author$project$Critters$Types$ToggleHasMemory = {$: 'ToggleHasMemory'};
+var $author$project$Maunaloa$OptionPurchases$SellDlgCancel = {$: 'SellDlgCancel'};
+var $author$project$Maunaloa$OptionPurchases$SellDlgOk = {$: 'SellDlgOk'};
+var $author$project$Maunaloa$OptionPurchases$ToggleRealTimePurchase = {$: 'ToggleRealTimePurchase'};
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
@@ -6829,32 +6438,6 @@ var $author$project$Common$Buttons$button = F2(
 						]))
 				]));
 	});
-var $elm$core$List$append = F2(
-	function (xs, ys) {
-		if (!ys.b) {
-			return xs;
-		} else {
-			return A3($elm$core$List$foldr, $elm$core$List$cons, ys, xs);
-		}
-	});
-var $elm$core$List$concat = function (lists) {
-	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
-};
-var $author$project$Critters$Types$NewDenyRule = function (a) {
-	return {$: 'NewDenyRule', a: a};
-};
-var $author$project$Critters$Types$ToggleAccActive = function (a) {
-	return {$: 'ToggleAccActive', a: a};
-};
-var $elm$html$Html$a = _VirtualDom_node('a');
-var $elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
-var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$json$Json$Encode$bool = _Json_wrap;
 var $elm$html$Html$Attributes$boolProperty = F2(
 	function (key, bool) {
@@ -6864,649 +6447,12 @@ var $elm$html$Html$Attributes$boolProperty = F2(
 			$elm$json$Json$Encode$bool(bool));
 	});
 var $elm$html$Html$Attributes$checked = $elm$html$Html$Attributes$boolProperty('checked');
-var $elm$core$String$fromFloat = _String_fromNumber;
-var $elm$html$Html$Attributes$href = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'href',
-		_VirtualDom_noJavaScriptUri(url));
-};
-var $elm$html$Html$input = _VirtualDom_node('input');
-var $author$project$Critters$Types$rtypDesc = function (rtyp) {
-	switch (rtyp) {
-		case 1:
-			return '[1] Diff from watermark';
-		case 2:
-			return '[2] Diff from watermark percent';
-		case 3:
-			return '[3] Stock price floor (valid if above price)';
-		case 4:
-			return '[4] Stock price roof (valid if below price)';
-		case 5:
-			return '[5] Option price floor (valid if above price)';
-		case 6:
-			return '[6] Option price roof (valid if below price)';
-		case 7:
-			return '[7] Diff from bought';
-		case 9:
-			return '[9] Gradient diff from watermark';
-		default:
-			return 'Composite';
-	}
-};
-var $elm$html$Html$td = _VirtualDom_node('td');
-var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
-var $author$project$Critters$Views$accPart = function (acc) {
-	if (acc.$ === 'Nothing') {
-		return _List_fromArray(
-			[
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					]))
-			]);
-	} else {
-		var curAcc = acc.a;
-		var cbActive = A2(
-			$elm$html$Html$input,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$checked(curAcc.active),
-					$elm$html$Html$Attributes$type_('checkbox'),
-					A2(
-					$elm$html$Html$Attributes$attribute,
-					'data-oid',
-					$elm$core$String$fromInt(curAcc.oid)),
-					$elm$html$Html$Events$onClick(
-					$author$project$Critters$Types$AccRuleMsgFor(
-						$author$project$Critters$Types$ToggleAccActive(curAcc)))
-				]),
-			_List_Nil);
-		return _List_fromArray(
-			[
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromInt(curAcc.oid))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromInt(curAcc.rtyp))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$author$project$Critters$Types$rtypDesc(curAcc.rtyp))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromFloat(curAcc.value))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[cbActive])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$a,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$href('#'),
-								$elm$html$Html$Attributes$class('newdnyrule href-td'),
-								$elm$html$Html$Events$onClick(
-								$author$project$Critters$Types$DenyRuleMsgFor(
-									$author$project$Critters$Types$NewDenyRule(
-										$author$project$Critters$Types$Oid(curAcc.oid))))
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('New Deny')
-							]))
-					]))
-			]);
-	}
-};
-var $author$project$Critters$Types$NewAccRule = function (a) {
-	return {$: 'NewAccRule', a: a};
-};
-var $author$project$Critters$Views$critterPart = function (crit) {
-	if (crit.$ === 'Nothing') {
-		return _List_fromArray(
-			[
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					]))
-			]);
-	} else {
-		var c = crit.a;
-		return _List_fromArray(
-			[
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromInt(c.oid))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromInt(c.sellVolume))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromInt(c.status))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$a,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$href('#'),
-								$elm$html$Html$Attributes$class('newaccrule href-td'),
-								$elm$html$Html$Events$onClick(
-								$author$project$Critters$Types$AccRuleMsgFor(
-									$author$project$Critters$Types$NewAccRule(
-										$author$project$Critters$Types$Oid(c.oid))))
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('New Acc')
-							]))
-					]))
-			]);
-	}
-};
-var $author$project$Critters$Types$ToggleDenyActive = function (a) {
-	return {$: 'ToggleDenyActive', a: a};
-};
-var $author$project$Critters$Views$denyPart = function (dny) {
-	if (dny.$ === 'Nothing') {
-		return _List_fromArray(
-			[
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					]))
-			]);
-	} else {
-		var d = dny.a;
-		var cbMemory = A2(
-			$elm$html$Html$input,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$checked(d.memory),
-					$elm$html$Html$Attributes$type_('checkbox')
-				]),
-			_List_Nil);
-		var cbActive = A2(
-			$elm$html$Html$input,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$checked(d.active),
-					$elm$html$Html$Attributes$type_('checkbox'),
-					A2(
-					$elm$html$Html$Attributes$attribute,
-					'data-oid',
-					$elm$core$String$fromInt(d.oid)),
-					$elm$html$Html$Events$onClick(
-					$author$project$Critters$Types$DenyRuleMsgFor(
-						$author$project$Critters$Types$ToggleDenyActive(d)))
-				]),
-			_List_Nil);
-		return _List_fromArray(
-			[
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromInt(d.oid))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromInt(d.rtyp))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$author$project$Critters$Types$rtypDesc(d.rtyp))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromFloat(d.value))
-					])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[cbActive])),
-				A2(
-				$elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[cbMemory]))
-			]);
-	}
-};
-var $elm$html$Html$tr = _VirtualDom_node('tr');
-var $author$project$Critters$Views$critAccDenyTr = F3(
-	function (crit, acc, dny) {
-		var tdRow = $elm$core$List$concat(
-			_List_fromArray(
-				[
-					$author$project$Critters$Views$critterPart(crit),
-					$author$project$Critters$Views$accPart(acc),
-					$author$project$Critters$Views$denyPart(dny)
-				]));
-		return A2($elm$html$Html$tr, _List_Nil, tdRow);
-	});
-var $author$project$Critters$Views$denyTr = function (dny) {
-	var tdRow = $elm$core$List$concat(
-		_List_fromArray(
-			[
-				$author$project$Critters$Views$critterPart($elm$core$Maybe$Nothing),
-				$author$project$Critters$Views$accPart($elm$core$Maybe$Nothing),
-				$author$project$Critters$Views$denyPart(
-				$elm$core$Maybe$Just(dny))
-			]));
-	return A2($elm$html$Html$tr, _List_Nil, tdRow);
-};
-var $author$project$Critters$Views$critAccTr = F2(
-	function (crit, acc) {
-		var _v0 = acc.denyRules;
-		if (!_v0.b) {
-			var tdRow = $elm$core$List$concat(
-				_List_fromArray(
-					[
-						$author$project$Critters$Views$critterPart(crit),
-						$author$project$Critters$Views$accPart(
-						$elm$core$Maybe$Just(acc)),
-						$author$project$Critters$Views$denyPart($elm$core$Maybe$Nothing)
-					]));
-			return _List_fromArray(
-				[
-					A2($elm$html$Html$tr, _List_Nil, tdRow)
-				]);
-		} else {
-			if (!_v0.b.b) {
-				var dny = _v0.a;
-				var tdRow = $elm$core$List$concat(
-					_List_fromArray(
-						[
-							$author$project$Critters$Views$critterPart(crit),
-							$author$project$Critters$Views$accPart(
-							$elm$core$Maybe$Just(acc)),
-							$author$project$Critters$Views$denyPart(
-							$elm$core$Maybe$Just(dny))
-						]));
-				return _List_fromArray(
-					[
-						A2($elm$html$Html$tr, _List_Nil, tdRow)
-					]);
-			} else {
-				var x = _v0.a;
-				var xs = _v0.b;
-				var restRows = A2($elm$core$List$map, $author$project$Critters$Views$denyTr, xs);
-				var firstRow = A3(
-					$author$project$Critters$Views$critAccDenyTr,
-					crit,
-					$elm$core$Maybe$Just(acc),
-					$elm$core$Maybe$Just(x));
-				return A2($elm$core$List$cons, firstRow, restRows);
-			}
-		}
-	});
-var $author$project$Critters$Views$critterRows = function (crit) {
-	var _v0 = crit.accRules;
-	if (!_v0.b) {
-		return _List_fromArray(
-			[
-				A3(
-				$author$project$Critters$Views$critAccDenyTr,
-				$elm$core$Maybe$Just(crit),
-				$elm$core$Maybe$Nothing,
-				$elm$core$Maybe$Nothing)
-			]);
-	} else {
-		if (!_v0.b.b) {
-			var acc = _v0.a;
-			return A2(
-				$author$project$Critters$Views$critAccTr,
-				$elm$core$Maybe$Just(crit),
-				acc);
-		} else {
-			var x = _v0.a;
-			var xs = _v0.b;
-			var firstRow = A2(
-				$author$project$Critters$Views$critAccTr,
-				$elm$core$Maybe$Just(crit),
-				x);
-			return $elm$core$List$concat(
-				_List_fromArray(
-					[
-						firstRow,
-						$elm$core$List$concat(
-						A2(
-							$elm$core$List$map,
-							$author$project$Critters$Views$critAccTr($elm$core$Maybe$Nothing),
-							xs))
-					]));
-		}
-	}
-};
-var $author$project$Critters$Views$critterArea = function (opx) {
-	return $elm$core$List$concat(
-		A2($elm$core$List$map, $author$project$Critters$Views$critterRows, opx.critters));
-};
-var $elm$html$Html$details = _VirtualDom_node('details');
-var $elm$html$Html$summary = _VirtualDom_node('summary');
-var $elm$html$Html$table = _VirtualDom_node('table');
-var $elm$html$Html$th = _VirtualDom_node('th');
-var $elm$html$Html$thead = _VirtualDom_node('thead');
-var $author$project$Critters$Views$tableHeader = A2(
-	$elm$html$Html$thead,
-	_List_Nil,
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$tr,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Oid')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Sell')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Status')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('-')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Acc.oid')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Rtyp')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Desc')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Value')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Active')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('-')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Deny.oid')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Rtyp')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Desc')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Value')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Active')
-						])),
-					A2(
-					$elm$html$Html$th,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Memory')
-						]))
-				]))
-		]));
-var $elm$html$Html$tbody = _VirtualDom_node('tbody');
-var $author$project$Critters$Views$details = function (opx) {
-	return A2(
-		$elm$html$Html$details,
-		_List_Nil,
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$summary,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						'[ ' + ($elm$core$String$fromInt(opx.oid) + ('  ] ' + opx.ticker)))
-					])),
-				A2(
-				$elm$html$Html$table,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('table')
-					]),
-				_List_fromArray(
-					[
-						$author$project$Critters$Views$tableHeader,
-						A2(
-						$elm$html$Html$tbody,
-						_List_Nil,
-						$author$project$Critters$Views$critterArea(opx))
-					]))
-			]));
-};
 var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$label = _VirtualDom_node('label');
 var $elm$html$Html$span = _VirtualDom_node('span');
+var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $author$project$Common$Html$labelCheckBox = F4(
 	function (_v0, _v1, _v2, event) {
 		var htmlId = _v0.a;
@@ -7568,19 +6514,6 @@ var $author$project$Common$Html$labelCheckBox = F4(
 						]))
 				]));
 	});
-var $elm$html$Html$Events$alwaysStop = function (x) {
-	return _Utils_Tuple2(x, true);
-};
-var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
-	return {$: 'MayStopPropagation', a: a};
-};
-var $elm$html$Html$Events$stopPropagationOn = F2(
-	function (event, decoder) {
-		return A2(
-			$elm$virtual_dom$VirtualDom$on,
-			event,
-			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
-	});
 var $elm$json$Json$Decode$at = F2(
 	function (fields, decoder) {
 		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
@@ -7590,79 +6523,17 @@ var $elm$html$Html$Events$targetValue = A2(
 	_List_fromArray(
 		['target', 'value']),
 	$elm$json$Json$Decode$string);
-var $elm$html$Html$Events$onInput = function (tagger) {
-	return A2(
-		$elm$html$Html$Events$stopPropagationOn,
-		'input',
-		A2(
-			$elm$json$Json$Decode$map,
-			$elm$html$Html$Events$alwaysStop,
-			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
-};
-var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
-var $author$project$Common$Html$inputItem = F4(
-	function (_v0, _v1, _v2, event) {
-		var inputType = _v0.a;
-		var value = _v1.a;
-		var clazz = _v2.a;
-		if (event.$ === 'Nothing') {
-			return A2(
-				$elm$html$Html$input,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$value(value),
-						$elm$html$Html$Attributes$type_(inputType),
-						$elm$html$Html$Attributes$class(clazz)
-					]),
-				_List_Nil);
-		} else {
-			var event_ = event.a;
-			return A2(
-				$elm$html$Html$input,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$value(value),
-						$elm$html$Html$Events$onInput(event_),
-						$elm$html$Html$Attributes$type_(inputType),
-						$elm$html$Html$Attributes$class(clazz)
-					]),
-				_List_Nil);
-		}
-	});
-var $author$project$Common$Html$labelInputItem = F5(
-	function (_v0, inputType, inputValue, htmlClass, event) {
-		var caption = _v0.a;
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('form-group')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$label,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('control-label')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(caption)
-						])),
-					A4($author$project$Common$Html$inputItem, inputType, inputValue, htmlClass, event)
-				]));
-	});
 var $author$project$Common$Html$onChange = function (tagger) {
 	return A2(
 		$elm$html$Html$Events$on,
 		'change',
 		A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue));
 };
+var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
 var $author$project$Common$Html$makeInput = F3(
 	function (caption, msg, initVal) {
 		return A2(
-			$elm$html$Html$div,
+			$elm$html$Html$span,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('form-group')
@@ -7687,80 +6558,15 @@ var $author$project$Common$Html$makeInput = F3(
 					_List_Nil)
 				]));
 	});
-var $elm$html$Html$option = _VirtualDom_node('option');
-var $author$project$Common$Select$emptySelectOption = A2(
-	$elm$html$Html$option,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$value('')
-		]),
-	_List_fromArray(
-		[
-			$elm$html$Html$text('-')
-		]));
-var $elm$html$Html$Attributes$selected = $elm$html$Html$Attributes$boolProperty('selected');
-var $author$project$Common$Select$makeSelectOption = F2(
-	function (selected, item) {
-		if (selected.$ === 'Nothing') {
-			return A2(
-				$elm$html$Html$option,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$value(item.val)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text(item.txt)
-					]));
-		} else {
-			var sel = selected.a;
-			return A2(
-				$elm$html$Html$option,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$value(item.val),
-						$elm$html$Html$Attributes$selected(
-						_Utils_eq(sel, item.val))
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text(item.txt)
-					]));
-		}
-	});
-var $elm$html$Html$select = _VirtualDom_node('select');
-var $author$project$Common$Select$makeSelect = F4(
-	function (caption, msg, payload, selected) {
-		var makeSelectOption_ = $author$project$Common$Select$makeSelectOption(selected);
-		var px = A2(
-			$elm$core$List$cons,
-			$author$project$Common$Select$emptySelectOption,
-			A2($elm$core$List$map, makeSelectOption_, payload));
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('form-group')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$label,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(caption)
-						])),
-					A2(
-					$elm$html$Html$select,
-					_List_fromArray(
-						[
-							$author$project$Common$Html$onChange(msg),
-							$elm$html$Html$Attributes$class('form-control')
-						]),
-					px)
-				]));
-	});
+var $author$project$Maunaloa$OptionPurchases$makeLabel = function (caption) {
+	return A2(
+		$elm$html$Html$label,
+		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$text(caption)
+			]));
+};
 var $author$project$Common$ModalDialog$dialogStatePrm = function (s) {
 	if (s.$ === 'DialogHidden') {
 		return _Utils_Tuple2('0', 'none');
@@ -7823,68 +6629,389 @@ var $author$project$Common$ModalDialog$modalDialog = F5(
 						_Utils_ap(content, buttons)))
 				]));
 	});
-var $author$project$Common$Select$SelectItem = F2(
-	function (val, txt) {
-		return {txt: txt, val: val};
+var $elm$html$Html$table = _VirtualDom_node('table');
+var $elm$html$Html$th = _VirtualDom_node('th');
+var $elm$html$Html$thead = _VirtualDom_node('thead');
+var $elm$html$Html$tr = _VirtualDom_node('tr');
+var $author$project$Maunaloa$OptionPurchases$tableHeader = A2(
+	$elm$html$Html$thead,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$tr,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Sell')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Oid')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Stock')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Option Type')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Ticker')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Purchase Date')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Expiry')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Days')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Purchase Price')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Bid')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Purchase vol.')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Sales vol.')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Spot')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Iv')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Cur. Ask')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Cur. Bid')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Cur. Iv')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Profit')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Diff Bid')
+						])),
+					A2(
+					$elm$html$Html$th,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Diff Iv Pct')
+						]))
+				]))
+		]));
+var $elm$html$Html$tbody = _VirtualDom_node('tbody');
+var $elm$html$Html$td = _VirtualDom_node('td');
+var $elm$core$Basics$round = _Basics_round;
+var $author$project$Common$Utils$toDecimal = F2(
+	function (value, roundFactor) {
+		var valx = $elm$core$Basics$round(value * roundFactor);
+		return valx / roundFactor;
 	});
-var $author$project$Critters$Views$purchaseToSelectItem = function (p) {
-	var oidStr = $elm$core$String$fromInt(p.oid);
-	return A2($author$project$Common$Select$SelectItem, oidStr, '[ ' + (oidStr + (' ] ' + p.ticker)));
-};
-var $author$project$Critters$Types$rtypSelectItems = _List_fromArray(
-	[
-		A2(
-		$author$project$Common$Select$SelectItem,
-		'1',
-		$author$project$Critters$Types$rtypDesc(1)),
-		A2(
-		$author$project$Common$Select$SelectItem,
-		'2',
-		$author$project$Critters$Types$rtypDesc(2)),
-		A2(
-		$author$project$Common$Select$SelectItem,
-		'3',
-		$author$project$Critters$Types$rtypDesc(3)),
-		A2(
-		$author$project$Common$Select$SelectItem,
-		'4',
-		$author$project$Critters$Types$rtypDesc(4)),
-		A2(
-		$author$project$Common$Select$SelectItem,
-		'5',
-		$author$project$Critters$Types$rtypDesc(5)),
-		A2(
-		$author$project$Common$Select$SelectItem,
-		'6',
-		$author$project$Critters$Types$rtypDesc(6)),
-		A2(
-		$author$project$Common$Select$SelectItem,
-		'7',
-		$author$project$Critters$Types$rtypDesc(7)),
-		A2(
-		$author$project$Common$Select$SelectItem,
-		'9',
-		$author$project$Critters$Types$rtypDesc(9))
-	]);
-var $author$project$Critters$Views$view = function (model) {
-	var title = function () {
-		var _v3 = model.currentPurchaseType;
-		switch (_v3) {
-			case 4:
-				return 'Real-time Critters';
-			case 11:
-				return 'Paper Critters';
-			default:
-				return '-';
+var $author$project$Maunaloa$OptionPurchases$view = function (model) {
+	var purchaseTable = function () {
+		var _v1 = model.purchases;
+		if (_v1.$ === 'Nothing') {
+			return A2(
+				$elm$html$Html$table,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('table table-hoover')
+					]),
+				_List_fromArray(
+					[
+						$author$project$Maunaloa$OptionPurchases$tableHeader,
+						A2($elm$html$Html$tbody, _List_Nil, _List_Nil)
+					]));
+		} else {
+			var purchases = _v1.a;
+			var toRow = function (x) {
+				var profit = A2($author$project$Common$Utils$toDecimal, x.curBid - x.price, 100.0);
+				var oidStr = $elm$core$String$fromInt(x.oid);
+				var diffIv = A2($author$project$Common$Utils$toDecimal, 100.0 * ((x.curIv / x.iv) - 1.0), 100.0);
+				var diffBid = A2($author$project$Common$Utils$toDecimal, x.curBid - x.bid, 100.0);
+				return A2(
+					$elm$html$Html$tr,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('btn btn-success'),
+									$elm$html$Html$Events$onClick(
+									$author$project$Maunaloa$OptionPurchases$SellClick(x))
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Sell ' + oidStr)
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(oidStr)
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(x.stock)
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(x.optionType)
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(x.ticker)
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(x.purchaseDate)
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(x.exp)
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromInt(x.days))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(x.price))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(x.bid))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromInt(x.purchaseVolume))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromInt(x.volumeSold))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(x.spot))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(x.iv))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(x.curAsk))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(x.curBid))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(x.curIv))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(profit))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(diffBid))
+								])),
+							A2(
+							$elm$html$Html$td,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromFloat(diffIv))
+								]))
+						]));
+			};
+			var rows = A2($elm$core$List$map, toRow, purchases);
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('row')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$table,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('table table-hoover')
+							]),
+						_List_fromArray(
+							[
+								$author$project$Maunaloa$OptionPurchases$tableHeader,
+								A2($elm$html$Html$tbody, _List_Nil, rows)
+							]))
+					]));
 		}
 	}();
-	var ps = A2($elm$core$List$map, $author$project$Critters$Views$details, model.purchases);
-	var _v0 = model.ruleValue;
-	var rv = _v0.a;
-	var _v1 = model.currentCritId;
-	var oid = _v1.a;
-	var _v2 = model.currentAccId;
-	var accId = _v2.a;
+	var dlgHeader = function () {
+		var _v0 = model.selectedPurchase;
+		if (_v0.$ === 'Nothing') {
+			return 'Option Sale:';
+		} else {
+			var sp = _v0.a;
+			return 'Option Sale: ' + sp.ticker;
+		}
+	}();
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
@@ -7898,92 +7025,46 @@ var $author$project$Critters$Views$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A2(
-						$author$project$Common$Buttons$button,
-						'Paper Critters',
-						$author$project$Critters$Types$CritterMsgFor($author$project$Critters$Types$PaperCritters)),
-						A2(
-						$author$project$Common$Buttons$button,
-						'Real Time Critters',
-						$author$project$Critters$Types$CritterMsgFor($author$project$Critters$Types$RealTimeCritters)),
-						A2(
-						$author$project$Common$Buttons$button,
-						'New Critt er',
-						$author$project$Critters$Types$CritterMsgFor($author$project$Critters$Types$NewCritter)),
-						A2(
-						$elm$html$Html$div,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('form-group form-group--elm')
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text(title)
-							]))
-					])),
-				A2($elm$html$Html$div, _List_Nil, ps),
-				A5(
-				$author$project$Common$ModalDialog$modalDialog,
-				'New ' + title,
-				model.dlgNewCritter,
-				$author$project$Critters$Types$CritterMsgFor($author$project$Critters$Types$DlgNewCritterOk),
-				$author$project$Critters$Types$CritterMsgFor($author$project$Critters$Types$DlgNewCritterCancel),
-				_List_fromArray(
-					[
-						A4(
-						$author$project$Common$Select$makeSelect,
-						'Option: ',
-						$author$project$Critters$Types$SelectedPurchaseChanged,
-						A2($elm$core$List$map, $author$project$Critters$Views$purchaseToSelectItem, model.purchases),
-						$elm$core$Maybe$Nothing),
-						A3($author$project$Common$Html$makeInput, 'Sales volume:', $author$project$Critters$Types$SaleVolChanged, model.saleVol)
-					])),
-				A5(
-				$author$project$Common$ModalDialog$modalDialog,
-				'New Accept Rule for crit id: ' + $elm$core$String$fromInt(oid),
-				model.dlgNewAccRule,
-				$author$project$Critters$Types$AccRuleMsgFor($author$project$Critters$Types$DlgNewAccOk),
-				$author$project$Critters$Types$AccRuleMsgFor($author$project$Critters$Types$DlgNewAccCancel),
-				_List_fromArray(
-					[
-						A4($author$project$Common$Select$makeSelect, 'Rule Type: ', $author$project$Critters$Types$SelectedRuleChanged, $author$project$Critters$Types$rtypSelectItems, $elm$core$Maybe$Nothing),
-						A5(
-						$author$project$Common$Html$labelInputItem,
-						$author$project$Common$Html$InputCaption('Value'),
-						$author$project$Common$Html$InputType('number'),
-						$author$project$Common$Html$InputValue(rv),
-						$author$project$Common$Html$HtmlClass('form-control'),
-						$elm$core$Maybe$Just($author$project$Critters$Types$RuleValueChanged))
-					])),
-				A5(
-				$author$project$Common$ModalDialog$modalDialog,
-				'New Deny Rule for acc id: ' + $elm$core$String$fromInt(accId),
-				model.dlgNewDenyRule,
-				$author$project$Critters$Types$DenyRuleMsgFor($author$project$Critters$Types$DlgNewDenyOk),
-				$author$project$Critters$Types$DenyRuleMsgFor($author$project$Critters$Types$DlgNewDenyCancel),
-				_List_fromArray(
-					[
-						A4($author$project$Common$Select$makeSelect, 'Rule Type: ', $author$project$Critters$Types$SelectedRuleChanged, $author$project$Critters$Types$rtypSelectItems, $elm$core$Maybe$Nothing),
-						A3($author$project$Common$Html$makeInput, 'Value:', $author$project$Critters$Types$RuleValueChanged, rv),
 						A4(
 						$author$project$Common$Html$labelCheckBox,
 						$author$project$Common$Html$HtmlId('cb1'),
-						$author$project$Common$Html$InputCaption('Memory'),
-						$author$project$Common$Html$Checked(model.hasMemory),
-						$author$project$Critters$Types$ToggleHasMemory)
+						$author$project$Common$Html$InputCaption('Real-time purchase'),
+						$author$project$Common$Html$Checked(model.isRealTimePurchase),
+						$author$project$Maunaloa$OptionPurchases$ToggleRealTimePurchase),
+						A2($author$project$Common$Buttons$button, 'Reset Cache', $author$project$Maunaloa$OptionPurchases$ResetCache),
+						A2($author$project$Common$Buttons$button, 'Fetch all purchases', $author$project$Maunaloa$OptionPurchases$FetchPurchases)
 					])),
-				A2($author$project$Common$ModalDialog$alert, model.dlgAlert, $author$project$Critters$Types$AlertOk)
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('grid-elm')
+					]),
+				_List_fromArray(
+					[purchaseTable])),
+				A5(
+				$author$project$Common$ModalDialog$modalDialog,
+				dlgHeader,
+				model.dlgSell,
+				$author$project$Maunaloa$OptionPurchases$SellDlgOk,
+				$author$project$Maunaloa$OptionPurchases$SellDlgCancel,
+				_List_fromArray(
+					[
+						$author$project$Maunaloa$OptionPurchases$makeLabel('Sale Price:'),
+						A3($author$project$Common$Html$makeInput, 'Sales price:', $author$project$Maunaloa$OptionPurchases$SalePriceChange, model.salePrice),
+						$author$project$Maunaloa$OptionPurchases$makeLabel('Sale Volume:'),
+						A3($author$project$Common$Html$makeInput, 'Sales volume:', $author$project$Maunaloa$OptionPurchases$SaleVolumeChange, model.saleVolume)
+					])),
+				A2($author$project$Common$ModalDialog$alert, model.dlgAlert, $author$project$Maunaloa$OptionPurchases$AlertOk)
 			]));
 };
-var $author$project$Critters$Main$main = $elm$browser$Browser$element(
+var $author$project$Maunaloa$OptionPurchases$main = $elm$browser$Browser$element(
 	{
-		init: $author$project$Critters$Main$init,
+		init: $author$project$Maunaloa$OptionPurchases$init,
 		subscriptions: function (_v0) {
 			return $elm$core$Platform$Sub$none;
 		},
-		update: $author$project$Critters$Update$update,
-		view: $author$project$Critters$Views$view
+		update: $author$project$Maunaloa$OptionPurchases$update,
+		view: $author$project$Maunaloa$OptionPurchases$view
 	});
-_Platform_export({'Critters':{'Main':{'init':$author$project$Critters$Main$main(
-	$elm$json$Json$Decode$succeed(
-		{}))(0)}}});}(this));
+_Platform_export({'Maunaloa':{'OptionPurchases':{'init':$author$project$Maunaloa$OptionPurchases$main($elm$json$Json$Decode$int)(0)}}});}(this));

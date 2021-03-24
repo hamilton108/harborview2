@@ -1,13 +1,18 @@
 (ns harborview.webapp
   (:gen-class)
   (:require
-   [harborview.thyme :as THYME]
+   ;[clojure.spec.alpha :as s]
    [compojure.route :as R]
+   [harborview.thyme :as THYME]
     ;[compojure.handler :refer (api)]
    [prone.middleware :as prone]
    [compojure.core :refer (GET defroutes context)]
    [ring.adapter.jetty :refer (run-jetty)]
    [harborview.maunaloa.html :as MAU]
+   ;[harborview.critters.adapter :as CRIT]
+   [io.pedestal.http :as http]
+   [io.pedestal.http.route :as route]
+   [io.pedestal.http.body-params :as body-params]
    [ring.util.response :refer (response resource-response)]
    [ring.middleware.params :refer (wrap-params)]))
 
@@ -22,7 +27,9 @@
   (GET "/maunaloa/charts" request (response (THYME/charts)))
   (GET "/maunaloa/optiontickers" request (response (THYME/optiontickers)))
   (GET "/maunaloa/optionpurchases" request (response (THYME/optionpurchases)))
+  (GET "/critters/overlook" request (response (THYME/critters)))
   (context "/maunaloa" [] MAU/my-routes)
+  ;(context "/critters" [] CRIT/my-routes)
   (R/files "/" {:root "public"})
   (R/resources "/" {:root "public"}))
 

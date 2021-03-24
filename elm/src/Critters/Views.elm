@@ -29,7 +29,6 @@ import Critters.Types
         , Msg(..)
         , Oid(..)
         , OptionPurchase
-        , OptionPurchases
         , RuleValue(..)
         , rtypDesc
         , rtypSelectItems
@@ -305,9 +304,6 @@ purchaseToSelectItem p =
 view : Model -> H.Html Msg
 view model =
     let
-        clazz =
-            "form-group form-group--elm"
-
         ps =
             List.map details model.purchases
 
@@ -333,15 +329,11 @@ view model =
     in
     H.div []
         [ H.div [ A.class "grid-elm" ]
-            [ H.div [ A.class clazz ]
-                [ BTN.button "Paper Critters" (CritterMsgFor PaperCritters) ]
-            , H.div [ A.class clazz ]
-                [ BTN.button "Real Time Critters" (CritterMsgFor RealTimeCritters) ]
-            , H.div [ A.class clazz ]
-                [ BTN.button "New Critt er" (CritterMsgFor NewCritter) ]
-            , H.div [ A.class clazz ]
-                [ BTN.button "Reset Cache" ResetCache ]
-            , H.text title
+            [ BTN.button "Paper Critters" (CritterMsgFor PaperCritters)
+            , BTN.button "Real Time Critters" (CritterMsgFor RealTimeCritters)
+            , BTN.button "New Critt er" (CritterMsgFor NewCritter)
+            , H.div [ A.class "form-group form-group--elm" ]
+                [ H.text title ]
             ]
         , H.div []
             ps

@@ -88,6 +88,11 @@ exports.showJson = function (json) {
         console.log(json);
     }
 }
+exports.alert = function (msg) {
+    return function () {
+        alert(msg);
+    }
+}
 exports.onMouseDown = function (evt) {
     return function () {
         const items = _lines.items;
@@ -157,7 +162,7 @@ exports.updateRiscLine = function (riscLine) {
             for (var i = 0; i < items.length; ++i) {
                 const item = items[i];
                 if (item === riscLine) {
-                    item.value0.optionPrice = newValue;
+                    item.value0.bid = newValue;
                     break;
                 }
             }
@@ -220,7 +225,7 @@ const paintRiscLine = function (line) {
         return;
     }
     const rec = line.value0;
-    const displayValue = pixToValue(rec.y).toFixed(2) + " - " + rec.ticker + ", op: " + rec.optionPrice.toFixed(2);
+    const displayValue = pixToValue(rec.y).toFixed(2) + " - " + rec.ticker + ", op: " + rec.bid.toFixed(2);
     const x2 = _v.w - x1;
     paint(x2, rec.y, displayValue, "red");
 };

@@ -1,4 +1,4 @@
-module Critters.Commands exposing (fetchCritters, mainUrl, newAccRule, newCritter, newDenyRule, resetCache, toggleRule)
+module Critters.Commands exposing (fetchCritters, newAccRule, newCritter, newDenyRule, toggleRule)
 
 import Common.Decoders as Dec
 import Critters.Decoders as CD
@@ -126,16 +126,16 @@ newDenyRule (Oid oid) ruleType (RuleValue val) hasMemory =
 --          |> Maybe.andThen (\p -> Utils.findInList p.critters curAcc.critId)
 --          |> Maybe.andThen (\c -> Just (List.map (U.toggleOid curAcc.oid) c.accRules))
 --
-
-
-resetCache : Int -> Cmd Msg
-resetCache purchaseType =
-    let
-        url =
-            mainUrl ++ "/resetcache/" ++ String.fromInt purchaseType
-    in
-    Http.send CacheReset <|
-        Http.get url Dec.jsonStatusDecoder
+{-
+   resetCache : Int -> Cmd Msg
+   resetCache purchaseType =
+       let
+           url =
+               mainUrl ++ "/resetcache/" ++ String.fromInt purchaseType
+       in
+       Http.send CacheReset <|
+           Http.get url Dec.jsonStatusDecoder
+-}
 
 
 toggleRule : Bool -> Int -> Bool -> Cmd Msg

@@ -50,7 +50,7 @@ makeSelect caption msg payload selected =
         px =
             emptySelectOption :: List.map makeSelectOption_ payload
     in
-    H.span [ A.class "form-group" ]
+    H.div [ A.class "form-group" ]
         [ H.label [] [ H.text caption ]
         , H.select
             [ W.onChange msg

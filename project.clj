@@ -17,8 +17,8 @@
                  [rcstadheim/critter-repos "1.3.0"]
                  [rcstadheim/nordnet-repos "1.0.0-20201015.214343-1"]
                  ;[rcstadheim/nordnet-repos "0.4.0"]
-                 [rcstadheim/oahu "1.2.0"]
-                 [rcstadheim/vega "1.2.0"]
+                 [rcstadheim/oahu "2.0.0"]
+                 [rcstadheim/vega "2.0.0"]
                  [net.sourceforge.htmlunit/htmlunit "2.44.0"
                   :exclusions [org.eclipse.jetty/jetty-http org.eclipse.jetty/jetty-io]]
                  [com.google.guava/guava "29.0-jre"]
@@ -26,6 +26,7 @@
                  [org.thymeleaf/thymeleaf "3.0.11.RELEASE"]
                  [cheshire "5.10.0"]
                  [redis.clients/jedis "3.3.0" :exclusions [org.slf4j/slf4j-api]]
+                 [org.clojure/core.async "1.3.610"]
                  ;[cider/cider-nrepl "0.25.3" :exclusions [nrepl]]
                  ;[metosin/jsonista "0.2.5"]
                  ]

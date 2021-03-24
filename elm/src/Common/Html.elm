@@ -102,7 +102,7 @@ labelCheckBox (HtmlId htmlId) (InputCaption caption) (Checked isChecked) event =
 
 makeInput : String -> (String -> msg) -> String -> H.Html msg
 makeInput caption msg initVal =
-    H.span
+    H.div
         [ A.class "form-group" ]
         [ H.label [] [ H.text caption ]
         , H.input

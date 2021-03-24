@@ -30,6 +30,11 @@
   (let [ctx (Context.)]
     (.process templateEngine "maunaloa/optionpurchases" ctx)))
 
+(defn critters []
+  (let [ctx (Context.)]
+    (.process templateEngine "critters/overlook" ctx)))
+
+
 ;  import org.thymeleaf.TemplateEngine;
 ;  import org.thymeleaf.context.Context;
 ;  import org.thymeleaf.templatemode.TemplateMode;

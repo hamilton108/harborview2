@@ -82,6 +82,8 @@ foreign import clearCanvas :: Effect Unit
 
 foreign import showJson :: Json -> Effect Unit
 
+foreign import alert :: String -> Effect Unit
+
 data Line = 
     StdLine 
     { y :: Number
@@ -91,7 +93,7 @@ data Line =
     { y :: Number
     , selected :: Boolean
     , ticker :: String
-    , optionPrice :: Number
+    , bid :: Number
     }
     | BreakEvenLine
     { y :: Number
@@ -159,7 +161,7 @@ type RiscLineJson =
     { ticker :: String
     , be :: Number
     , stockprice :: Number
-    , optionprice :: Number
+    , bid :: Number
     , ask :: Number
     , risc :: Number
     }
@@ -221,7 +223,7 @@ addRiscLine vr line =
                 { y: valueToPix vr line.stockprice
                 , selected: false
                 , ticker: line.ticker
-                , optionPrice: line.optionprice
+                , bid: line.bid
                 }
     in
     addLine rl
@@ -242,7 +244,7 @@ fetchLevelLineButtonClick ticker ce vruler evt =
             Left err -> 
                 liftEffect (
                     defaultEventHandling evt *>
-                    logShow ("Affjax Error: " <> Affjax.printError err)
+                    alert ("Affjax Error: " <> Affjax.printError err)
                 )
             Right response -> 
                 liftEffect (
@@ -253,7 +255,7 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                     in 
                     case lines of
                         Left err 
-                            -> logShow err
+                            -> alert (show err)
                         Right lines1 
                             -> logShow lines *> addRiscLines vruler lines1
                 )
@@ -276,7 +278,7 @@ handleMouseEventUpLine line =
         Just lref@(RiscLine rec0) ->
             logShow rec0 *>
             let 
-                oldOpPrice = rec0.optionPrice
+                oldOpPrice = rec0.bid
                 newPrice = oldOpPrice * 1.2
             in
             updateRiscLine lref newPrice 
@@ -310,7 +312,7 @@ getHtmlContext1 prm =
 validateMaybe :: forall a . String -> Maybe a -> Effect Unit
 validateMaybe desc el = 
     case el of
-        Nothing -> logShow ("ERROR!: " <> desc)
+        Nothing -> alert ("ERROR!: " <> desc)
         Just _ -> pure unit -- logShow ("OK: " <> desc)
 
 getHtmlContext :: ChartLevel -> Effect (Maybe HtmlContext)
@@ -346,7 +348,7 @@ initEvents ticker vruler chartLevel =
     getHtmlContext chartLevel >>= \context ->
         case context of
             Nothing ->
-                logShow "ERROR! (initEvents) No getHtmlContext chartLevel!" *>
+                alert "ERROR! (initEvents) No getHtmlContext chartLevel!" *>
                 pure unit
             Just context1 ->
                 let 

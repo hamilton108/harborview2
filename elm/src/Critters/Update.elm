@@ -1,6 +1,5 @@
 module Critters.Update exposing (toggleAccRule, toggleDenyRule, toggleOid, update, updateAccRuleMsg, updateCritterMsg, updateDenyRuleMsg)
 
-import Common.Html as W
 import Common.ModalDialog as DLG
 import Common.Utils as U
 import Critters.Commands as C
@@ -15,8 +14,6 @@ import Critters.Types
         , Model
         , Msg(..)
         , Oid(..)
-        , OptionPurchase
-        , OptionPurchases
         , RuleType(..)
         , RuleValue(..)
         )
@@ -336,11 +333,15 @@ update msg model =
         ToggleHasMemory ->
             ( { model | hasMemory = not model.hasMemory }, Cmd.none )
 
-        ResetCache ->
-            ( model, C.resetCache model.currentPurchaseType )
 
-        CacheReset (Ok s) ->
-            ( model, Cmd.none )
 
-        CacheReset (Err s) ->
-            ( DLG.errorAlert "Error" "CacheReset Error: " s model, Cmd.none )
+{-
+   ResetCache ->
+       ( model, C.resetCache model.currentPurchaseType )
+
+   CacheReset (Ok s) ->
+       ( model, Cmd.none )
+
+   CacheReset (Err s) ->
+       ( DLG.errorAlert "Error" "CacheReset Error: " s model, Cmd.none )
+-}
