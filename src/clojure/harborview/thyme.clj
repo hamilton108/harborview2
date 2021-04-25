@@ -20,19 +20,19 @@
 
 (defn charts []
   (let [ctx (Context.)]
-    (.process templateEngine "maunaloa/charts" ctx)))
+    (.process ^TemplateEngine templateEngine "maunaloa/charts" ctx)))
 
 (defn optiontickers []
   (let [ctx (Context.)]
-    (.process templateEngine "maunaloa/options" ctx)))
+    (.process ^TemplateEngine templateEngine "maunaloa/options" ctx)))
 
 (defn optionpurchases []
   (let [ctx (Context.)]
-    (.process templateEngine "maunaloa/optionpurchases" ctx)))
+    (.process ^TemplateEngine templateEngine "maunaloa/optionpurchases" ctx)))
 
 (defn critters []
   (let [ctx (Context.)]
-    (.process templateEngine "critters/overlook" ctx)))
+    (.process ^TemplateEngine templateEngine "critters/overlook" ctx)))
 
 
 ;  import org.thymeleaf.TemplateEngine;

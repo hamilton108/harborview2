@@ -1,7 +1,12 @@
 (ns harborview.htmlutils
-  (:import [com.fasterxml.jackson.databind ObjectMapper])
+  (:import
+   [com.fasterxml.jackson.databind ObjectMapper])
   (:require
+   [io.pedestal.http :as http]
+   [io.pedestal.http.body-params :as body-params]
    [cheshire.core :as json]))
+
+(def common-interceptors [(body-params/body-params) http/html-body])
 
 (def om (ObjectMapper.))
 
@@ -15,6 +20,9 @@
   {:status (or status 200)
    :headers {"Content-Type" "application/json"}
    :body (json/generate-string data)})
+
+(defn response [status body & {:as headers}]
+  {:status status :body body :headers headers})
 
 (defn json-req-parse [req]
   (let

@@ -1,32 +1,39 @@
-(defproject harborview2 "0.2.0"
+(defproject harborview2 "0.3"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.2"]
-                 [compojure/compojure "1.6.2"]
-                 [ring "1.8.2" :exclusions [ring/ring-core]]
-                 [ring/ring-defaults "0.3.2"]
-                 [ring/ring-jetty-adapter "1.8.2" :exclusions [ring/ring-core]]
+                 [org.clojure/core.async "1.3.610"]
+                 ;[org.clojure/data.json "2.1.1"]
+                 ;[compojure/compojure "1.6.2"]
+                 ;[ring "1.8.2" :exclusions [ring/ring-core]]
+                 ;[ring/ring-defaults "0.3.2"]
+                 ;[ring/ring-jetty-adapter "1.8.2" :exclusions [ring/ring-core]]
+                ;------------------ Pedestal ------------------ 
+                 [io.pedestal/pedestal.service "0.5.8"]
+                 [io.pedestal/pedestal.jetty "0.5.8"]
+                ;------------------ Jackson ------------------ 
                  [com.fasterxml.jackson.core/jackson-core "2.10.2"]
                  [com.fasterxml.jackson.core/jackson-annotations "2.10.2"]
                  [com.fasterxml.jackson.core/jackson-databind "2.10.2"]
+                ;------------------ Database ------------------ 
                  [org.mybatis/mybatis "3.5.4"]
                  [org.postgresql/postgresql "42.2.10"]
                  [org.jsoup/jsoup "1.11.3"]
-                 [rcstadheim/critter-repos "1.3.0"]
+                ;------------------ Local libs ------------------ 
+                 [rcstadheim/critter-repos "1.4.0-20210312.093512-2"]
                  [rcstadheim/nordnet-repos "1.0.0-20201015.214343-1"]
-                 ;[rcstadheim/nordnet-repos "0.4.0"]
                  [rcstadheim/oahu "2.0.0"]
                  [rcstadheim/vega "2.0.0"]
+                ;------------------ Diverse ------------------ 
                  [net.sourceforge.htmlunit/htmlunit "2.44.0"
                   :exclusions [org.eclipse.jetty/jetty-http org.eclipse.jetty/jetty-io]]
                  [com.google.guava/guava "29.0-jre"]
                  [prone "2020-01-17"]
                  [org.thymeleaf/thymeleaf "3.0.11.RELEASE"]
-                 [cheshire "5.10.0"]
+                 ;[cheshire "5.10.0"]
                  [redis.clients/jedis "3.3.0" :exclusions [org.slf4j/slf4j-api]]
-                 [org.clojure/core.async "1.3.610"]
                  ;[cider/cider-nrepl "0.25.3" :exclusions [nrepl]]
                  ;[metosin/jsonista "0.2.5"]
                  ]
