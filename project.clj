@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
-  :dependencies [[org.clojure/clojure "1.10.2"]
+  :dependencies [[org.clojure/clojure "1.10.3"]
                  [org.clojure/core.async "1.3.610"]
                  ;[org.clojure/data.json "2.1.1"]
                  ;[compojure/compojure "1.6.2"]
@@ -22,18 +22,23 @@
                  [org.postgresql/postgresql "42.2.10"]
                  [org.jsoup/jsoup "1.11.3"]
                 ;------------------ Local libs ------------------ 
-                 [rcstadheim/critter-repos "1.4.0-20210312.093512-2"]
-                 [rcstadheim/nordnet-repos "1.0.0-20201015.214343-1"]
+                 [rcstadheim/critter-repos "1.7-20210526.143006-6"]
+                 [rcstadheim/nordnet-repos "1.5-20210513.102547-5"]
                  [rcstadheim/oahu "2.0.0"]
                  [rcstadheim/vega "2.0.0"]
                 ;------------------ Diverse ------------------ 
                  [net.sourceforge.htmlunit/htmlunit "2.44.0"
                   :exclusions [org.eclipse.jetty/jetty-http org.eclipse.jetty/jetty-io]]
+                 [colt/colt "1.2.0"]
                  [com.google.guava/guava "29.0-jre"]
                  [prone "2020-01-17"]
                  [org.thymeleaf/thymeleaf "3.0.11.RELEASE"]
                  ;[cheshire "5.10.0"]
                  [redis.clients/jedis "3.3.0" :exclusions [org.slf4j/slf4j-api]]
+                 [org.clojure/tools.trace "0.7.11"]
+                 ;[org.clojure/core.cache "1.0.207"]
+                 ;[com.github.ben-manes.caffeine/caffeine "3.0.2"]
+
                  ;[cider/cider-nrepl "0.25.3" :exclusions [nrepl]]
                  ;[metosin/jsonista "0.2.5"]
                  ]

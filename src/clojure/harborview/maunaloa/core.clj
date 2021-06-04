@@ -6,9 +6,10 @@
    [ring.util.response :as ring-resp]
    [harborview.maunaloa.adapters] ; :refer (->Postgres)]
    [harborview.htmlutils :as hu]
+   [cheshire.core :as json]
    [harborview.thyme :as thyme])
   (:import
-   [harborview.maunaloa.adapters Postgres]
+   [harborview.maunaloa.adapters Postgres NordnetEtrade]
    [harborview.maunaloa.charts
     ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory]
    [critterrepos.models.impl StockMarketReposImpl]
@@ -17,6 +18,8 @@
    [java.time LocalDate]))
 
 (def db (Postgres.))
+
+(def nordnet (NordnetEtrade.))
 
 (def factory (ElmChartsFactory.))
 
@@ -34,10 +37,6 @@
   {:status 200 :body body
    :headers {"Content-Type" "application/json"}})
 
-(defn respond-hello [request]
-  (let [nm (get-in request [:query-params :name])]
-    {:status 200 :body (str "Hello, " nm "\n")}))
-
 (defn tix [request]
   (tix-m))
 
@@ -45,9 +44,13 @@
   [request]
   (ring-resp/response (thyme/charts)))
 
+(defn stockoptions
+  [request]
+  (ring-resp/response (thyme/stockoptions)))
+
 (defn charts [request ^ElmChartsFactory factory]
   (let [oid (get-in request [:path-params :oid])
-        prices (.prices ^Postgres db oid)
+        prices (.prices db oid)
         charts (.elmCharts factory prices)]
     (hu/om->json charts)))
 
@@ -60,6 +63,34 @@
 (defn months [request]
   (charts request factory-months))
 
+(defn risclines [request]
+  (let [oid (get-in request [:path-params :oid])]))
+
+(defn check-implied-vol [ox]
+  (if (= (.isPresent (.getIvBuy ox)) true)
+    (if (= (.isPresent (.getIvSell ox)) true)
+      true
+      false)
+    false))
+
+(defn valid? [ox]
+  (if (> (.getBuy ox) 0)
+    (if (> (.getSell ox) 0)
+      (if (= (check-implied-vol ox) true)
+        (.isPresent (.getBreakEven ox)))
+      false)
+    false))
+
+(defn puts [request op-fn]
+  (let [oid (get-in request [:path-params :oid])
+        items (.puts nordnet oid)]
+    (hu/om->json items)))
+
+(defn calls [request]
+  (let [oid (get-in request [:path-params :oid])
+        items (.calls nordnet oid)]
+    (hu/om->json items)))
+
 (def echo
   {:name ::echo
    :enter (fn [context]
@@ -67,14 +98,32 @@
                   response (ok request)]
               (assoc context :response response)))})
 
+(def calcriscstockprices
+  {:name ::calcriscstockprices
+   :enter
+   (fn [context]
+     (let [req (:request context)
+           oid (get-in req [:path-params :oid] "-1")
+           body (hu/json-req-parse req)
+           response (ok (json/generate-string {:a 3, :oid oid}))]
+       (prn body)
+       (prn (type body))
+       (prn (type (first body)))
+       (assoc context :response response)))})
+
 (def routes
   (route/expand-routes
    #{["/" :get (conj hu/common-interceptors `home) :route-name :home]
+     ["/maunaloa/charts" :get (conj hu/common-interceptors `home) :route-name :charts]
+     ["/maunaloa/optiontickers" :get (conj hu/common-interceptors `stockoptions) :route-name :stockoptions]
      ["/maunaloa/tickers" :get tix :route-name :tix]
      ["/maunaloa/days/:oid" :get days :route-name :days]
      ["/maunaloa/weeks/:oid" :get weeks :route-name :weeks]
      ["/maunaloa/months/:oid" :get months :route-name :months]
-     ["/greet" :get respond-hello :route-name :greet]
+     ["/maunaloa/risclines/:oid" :get risclines :route-name :risclines]
+     ["/maunaloa/calls/:oid" :get calls :route-name :calls]
+     ["/maunaloa/puts/:oid" :get puts :route-name :puts]
+     ["/maunaloa/calcriscstockprices/:oid" :post [calcriscstockprices]]
      ["/echo"  :get echo :route-name :echo]}))
 
 (comment

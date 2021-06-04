@@ -6558,7 +6558,7 @@ var PS = {};
           if (el instanceof Data_Maybe.Just) {
               return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
           };
-          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 314, column 5 - line 316, column 28): " + [ el.constructor.name ]);
+          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 315, column 5 - line 317, column 28): " + [ el.constructor.name ]);
       };
   };
   var unlisten = function (v) {
@@ -6581,7 +6581,7 @@ var PS = {};
   }))()())(new Data_Symbol.IsSymbol(function () {
       return "ask";
   }))()())()));
-  var mainURL = "http://localhost:8082/maunaloa";   
+  var mainURL = "maunaloa";                         
   var initEvent = function (toListener) {
       return function (element) {
           return function (eventType) {
@@ -6728,10 +6728,10 @@ var PS = {};
                                           return "ticker";
                                       }))(Data_Show.showRecordFieldsNil)(Data_Show.showString))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber)))))(lines))(addRiscLines(vruler)(lines.value0));
                                   };
-                                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 256, column 21 - line 260, column 75): " + [ lines.constructor.name ]);
+                                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 257, column 21 - line 261, column 75): " + [ lines.constructor.name ]);
                               })()));
                           };
-                          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 243, column 9 - line 261, column 18): " + [ res.constructor.name ]);
+                          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 244, column 9 - line 262, column 18): " + [ res.constructor.name ]);
                       }))();
                   };
               };
@@ -6757,7 +6757,7 @@ var PS = {};
                       var ctx = Graphics_Canvas.getContext2D(context.value0.canvasContext)();
                       return Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)($foreign.redraw(ctx)(vruler))(initEvent(addLevelLineButtonClick)(context.value0.addLevelLineBtn)("click")))(initEvent(fetchLevelLineButtonClick(ticker)(context.value0.canvasContext)(vruler))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(mouseEventDown)(context.value0.canvasElement)("mousedown")))(initEvent(mouseEventDrag(context.value0.canvasContext)(vruler))(context.value0.canvasElement)("mousemove")))(initEvent(mouseEventUp(context.value0.canvasContext)(vruler))(context.value0.canvasElement)("mouseup"))();
                   };
-                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 349, column 9 - line 363, column 100): " + [ context.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 350, column 9 - line 364, column 100): " + [ context.constructor.name ]);
               };
           };
       };

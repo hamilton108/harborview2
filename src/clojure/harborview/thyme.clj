@@ -22,7 +22,7 @@
   (let [ctx (Context.)]
     (.process ^TemplateEngine templateEngine "maunaloa/charts" ctx)))
 
-(defn optiontickers []
+(defn stockoptions []
   (let [ctx (Context.)]
     (.process ^TemplateEngine templateEngine "maunaloa/options" ctx)))
 

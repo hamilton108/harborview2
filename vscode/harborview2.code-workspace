@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": ".."
+		},
+		{
+			"path": "../../../haskell/etradejanitor"
 		}
 	],
 	"settings": {}

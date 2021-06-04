@@ -111,12 +111,11 @@ updatePurchase msg model =
             else
                 let
                     alertCat =
-                        case s.ok of
-                            True ->
-                                DLG.Info
+                        if s.ok == True then
+                            DLG.Info
 
-                            False ->
-                                DLG.Error
+                        else
+                            DLG.Error
                 in
                 ( { model | dlgAlert = DLG.DialogVisibleAlert "Option purchase" s.msg alertCat }, Cmd.none )
 

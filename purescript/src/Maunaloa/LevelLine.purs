@@ -204,7 +204,8 @@ addLevelLineButtonClick evt =
 
 mainURL :: String
 mainURL = 
-    "http://localhost:8082/maunaloa"
+    --"http://localhost:8082/maunaloa"
+    "maunaloa"
 
 fetchLevelLinesURL :: String -> String
 fetchLevelLinesURL ticker =
