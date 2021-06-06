@@ -2,6 +2,7 @@
   (:gen-class)
   (:import
    ;[com.github.benmanes.caffeine.cache Caffeine]
+    [org.jsoup Jsoup]
    [java.time Instant]
    ;[java.util UUID]
    ;[redis.clients.jedis Jedis]
@@ -133,6 +134,57 @@
     (if-let [o (cu/find-first #(= (.getTicker %) (risc "ticker")) opx)]
       (let [sp (.getStockOptionPrice o)]
         (.stockPriceFor sp (.getSell o))))))
+
+(def soup 
+  (memoize 
+    (fn []
+      (let [tif (ticker-info 2)
+            pages (.downloadDerivatives my-dl tif)
+            p (first pages)
+            content (-> p .getPage .getWebResponse .getContentAsString)
+            doc (Jsoup/parse content)]
+          (prn "SOUP Init")
+          doc))))
+
+(defn soup-row [index]
+  (.get (.select (soup) "[role=row]") index))
+
+(defn z []
+  (let [row (soup-row 1)
+        arias (.select row "[aria-hidden=true]")
+        cls (-> arias (.get 2) .text)
+        hi (-> arias (.get 5) .text)
+        lo (-> arias (.get 6) .text)]
+    {:hi hi
+     :lo lo
+     :cls cls}))
+
+
+(defn o [row]
+  (let [;row (soup-row 8)
+        arias (.select row "[aria-hidden=true]")
+        x (-> arias (.get 5) .text)
+        call_bid (-> arias (.get 0) .text)
+        call_ask (-> arias (.get 2) .text)
+        put_bid (-> arias (.get 10) .text)
+        put_ask (-> arias (.get 8) .text)
+        ax (.getElementsByTag row "a")
+        call (-> ax (.get 2) .text)
+        put (-> ax (.get 3) .text)]
+    {:x x
+    :call_bid call_bid 
+    :call_ask call_ask
+    :put_bid put_bid 
+    :put_ask put_ask
+    :call call 
+    :put put
+    }))
+
+(defn all []
+  (let [rows (.select (soup) "[role=row]")]
+    (map o (drop 3 rows))))
+
+
 
 (defrecord NordnetEtrade []
   ports/Etrade
