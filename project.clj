@@ -23,7 +23,7 @@
                  [org.jsoup/jsoup "1.11.3"]
                 ;------------------ Local libs ------------------ 
                  [rcstadheim/critter-repos "1.7-20210526.143006-6"]
-                 [rcstadheim/nordnet-repos "1.5-20210513.102547-5"]
+                 [rcstadheim/nordnet-repos "1.5-20210610.132009-6"]
                  [rcstadheim/oahu "2.0.0"]
                  [rcstadheim/vega "2.0.0"]
                 ;------------------ Diverse ------------------ 

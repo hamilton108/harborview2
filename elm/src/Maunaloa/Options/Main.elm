@@ -21,7 +21,22 @@ main =
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( initModel flags, C.fetchTickers )
+    ( initModel flags
+    , C.fetchTickers
+    )
+
+
+
+{-
+   init : Flags -> ( Model, Cmd Msg )
+   init flags =
+       ( initModel flags
+       , Cmd.batch
+           [ Task.perform SetModelId Time.now
+           , C.fetchTickers
+           ]
+       )
+-}
 
 
 initModel : Flags -> Model

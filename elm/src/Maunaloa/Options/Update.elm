@@ -19,6 +19,7 @@ import Maunaloa.Options.Types
         , Ticker(..)
         , Volume(..)
         )
+import Time
 
 
 updateOption : OptionMsg -> Model -> ( Model, Cmd Msg )
@@ -129,12 +130,12 @@ updateRisc msg model =
         CalcRisc ->
             ( model, C.calcRisc model.selectedTicker model.risc model.options )
 
-        RiscCalculated (Ok riscItems) ->
+        RiscCalculated (Ok riscResults) ->
             let
                 curRisc =
                     Maybe.withDefault 0 (String.toFloat model.risc)
             in
-            ( { model | options = List.map (C.setRisc curRisc riscItems) model.options }, Cmd.none )
+            ( { model | options = List.map (C.setRisc curRisc riscResults) model.options }, Cmd.none )
 
         RiscCalculated (Err s) ->
             ( errorAlert "RiscCalculated" "RiscCalculated Error: " s model, Cmd.none )
@@ -203,3 +204,14 @@ update msg model =
 
         SpotChange s ->
             ( { model | spot = s }, Cmd.none )
+
+
+
+{-
+   SetModelId time ->
+       let
+           cur =
+               String.fromInt <| Time.posixToMillis time
+       in
+       ( { model | modelId = cur }, Cmd.none )
+-}

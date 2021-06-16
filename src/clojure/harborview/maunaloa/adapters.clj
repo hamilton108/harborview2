@@ -2,7 +2,7 @@
   (:gen-class)
   (:import
    ;[com.github.benmanes.caffeine.cache Caffeine]
-    [org.jsoup Jsoup]
+   [org.jsoup Jsoup]
    [java.time Instant]
    ;[java.util UUID]
    ;[redis.clients.jedis Jedis]
@@ -14,7 +14,7 @@
    [critterrepos.utils StockOptionUtils]
    [nordnet.downloader DefaultDownloader TickerInfo]
    [nordnet.redis NordnetRedis]
-   [nordnet.html StockOptionParser]
+   [nordnet.html StockOptionParser2]
    [harborview.dto.html.options StockPriceAndOptions OptionDTO]
    [harborview.dto.html StockPriceDTO]
    [harborview.downloader DownloaderStub])
@@ -61,7 +61,7 @@
                 (StockOptionUtils. (LocalDate/of 2020 10 5))
                 (StockOptionUtils.))
         calc (BlackScholes.)]
-    (StockOptionParser. calc redis stockmarket utils)))
+    (StockOptionParser2. calc redis stockmarket utils)))
 
 (def my-etrade (etrade))
 
@@ -129,61 +129,22 @@
         s (.stockPrice this oid)]
     (StockPriceAndOptions. (StockPriceDTO. s) opx)))
 
-(defn calcStockPrice [oid risc]
-  (let [opx (fetch-options-cache oid)]
-    (if-let [o (cu/find-first #(= (.getTicker %) (risc "ticker")) opx)]
-      (let [sp (.getStockOptionPrice o)]
-        (.stockPriceFor sp (.getSell o))))))
+(defn calcRiscStockPrice [oid risc]
+  (let [opx (fetch-options-cache oid)
+        risc-ticker (risc "ticker")
+        risc-value (risc "risc")]
+    (if-let [o (cu/find-first #(= (.getTicker %) risc-ticker) opx)]
+      ;then
+      (let [sp (.getStockOptionPrice o)
+            cur-option-price (- (.getSell o) (risc "risc"))
+            adjusted-stockprice (.stockPriceFor sp cur-option-price)]
+        (if (= (.isPresent adjusted-stockprice) true)
+          {:ticker risc-ticker :stockprice (.get adjusted-stockprice) :status 1}
+          {:ticker risc-ticker :stockprice -1.0 :status 2}))
+      ;else
+      {:ticker risc-ticker :stockprice -1.0 :status 3})))
 
-(def soup 
-  (memoize 
-    (fn []
-      (let [tif (ticker-info 2)
-            pages (.downloadDerivatives my-dl tif)
-            p (first pages)
-            content (-> p .getPage .getWebResponse .getContentAsString)
-            doc (Jsoup/parse content)]
-          (prn "SOUP Init")
-          doc))))
-
-(defn soup-row [index]
-  (.get (.select (soup) "[role=row]") index))
-
-(defn z []
-  (let [row (soup-row 1)
-        arias (.select row "[aria-hidden=true]")
-        cls (-> arias (.get 2) .text)
-        hi (-> arias (.get 5) .text)
-        lo (-> arias (.get 6) .text)]
-    {:hi hi
-     :lo lo
-     :cls cls}))
-
-
-(defn o [row]
-  (let [;row (soup-row 8)
-        arias (.select row "[aria-hidden=true]")
-        x (-> arias (.get 5) .text)
-        call_bid (-> arias (.get 0) .text)
-        call_ask (-> arias (.get 2) .text)
-        put_bid (-> arias (.get 10) .text)
-        put_ask (-> arias (.get 8) .text)
-        ax (.getElementsByTag row "a")
-        call (-> ax (.get 2) .text)
-        put (-> ax (.get 3) .text)]
-    {:x x
-    :call_bid call_bid 
-    :call_ask call_ask
-    :put_bid put_bid 
-    :put_ask put_ask
-    :call call 
-    :put put
-    }))
-
-(defn all []
-  (let [rows (.select (soup) "[role=row]")]
-    (map o (drop 3 rows))))
-
+        ;{:ticker (risc "ticker") :risc (.stockPriceFor sp cur-option-price)}))))
 
 
 (defrecord NordnetEtrade []
@@ -200,11 +161,60 @@
   (stockPrice [this oid]
     (let [data (fetch-options-cache oid)]
       (if (> (.size data) 0)
-        (.getStockPrice (first data))))))
+        (.getStockPrice (first data)))))
+  (calcRiscStockprices [this oid riscs]
+    (map (partial calcRiscStockPrice oid) riscs)))
 
 (def n (NordnetEtrade.))
 
 (comment
+  (def soup
+    (memoize
+     (fn []
+       (let [tif (ticker-info 2)
+             pages (.downloadDerivatives my-dl tif)
+             p (first pages)
+             content (-> p .getPage .getWebResponse .getContentAsString)
+             doc (Jsoup/parse content)]
+         (prn "SOUP Init")
+         doc))))
+
+  (defn soup-row [index]
+    (.get (.select (soup) "[role=row]") index))
+
+  (defn z []
+    (let [row (soup-row 1)
+          arias (.select row "[aria-hidden=true]")
+          cls (-> arias (.get 2) .text)
+          hi (-> arias (.get 5) .text)
+          lo (-> arias (.get 6) .text)]
+      {:hi hi
+       :lo lo
+       :cls cls}))
+
+  (defn o [row]
+    (let [;row (soup-row 8)
+          arias (.select row "[aria-hidden=true]")
+          x (-> arias (.get 5) .text)
+          call_bid (-> arias (.get 0) .text)
+          call_ask (-> arias (.get 2) .text)
+          put_bid (-> arias (.get 10) .text)
+          put_ask (-> arias (.get 8) .text)
+          ax (.getElementsByTag row "a")
+          call (-> ax (.get 2) .text)
+          put (-> ax (.get 3) .text)]
+      {:x x
+       :call_bid call_bid
+       :call_ask call_ask
+       :put_bid put_bid
+       :put_ask put_ask
+       :call call
+       :put put}))
+
+  (defn all []
+    (let [rows (.select (soup) "[role=row]")]
+      (map o (drop 3 rows))))
+
   (def my-cache (atom (cache/ttl-cache-factory {} :ttl 3000)))
 
   (defn fetch-data-cache [oid]

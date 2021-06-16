@@ -31,6 +31,8 @@ import Maunaloa.Options.Types
         , RiscItem
         , RiscItems
         , RiscMsg(..)
+        , RiscResult
+        , RiscResults
         , Spot(..)
         , StockId(..)
         , Ticker(..)
@@ -136,22 +138,22 @@ toggle ticker opt =
         opt
 
 
-setRisc : Float -> RiscItems -> Option -> Option
-setRisc curRisc riscItems opt =
+setRisc : Float -> RiscResults -> Option -> Option
+setRisc curRisc riscResults opt =
     let
         predicate =
             \x -> x.ticker == opt.ticker
 
         curRiscItem =
-            List.head <| List.filter predicate riscItems
+            List.head <| List.filter predicate riscResults
     in
     case curRiscItem of
         Nothing ->
             opt
 
-        Just curRiscItem_ ->
+        Just curResult1 ->
             { opt
-                | stockPriceAtRisc = U.toDecimal curRiscItem_.risc 100
+                | stockPriceAtRisc = U.toDecimal curResult1.stockprice 100
                 , optionPriceAtRisc = opt.sell - curRisc
                 , risc = curRisc
             }
@@ -179,9 +181,10 @@ calcRisc stockTicker riscStr options =
                         (List.map (\x -> [ ( "ticker", JE.string x.ticker ), ( "risc", JE.float risc ) ]) checked)
 
                 myDecoder =
-                    JD.succeed RiscItem
+                    JD.succeed RiscResult
                         |> JP.required "ticker" JD.string
-                        |> JP.required "risc" JD.float
+                        |> JP.required "stockprice" JD.float
+                        |> JP.required "status" JD.int
             in
             Http.send
                 (RiscMsgFor << RiscCalculated)

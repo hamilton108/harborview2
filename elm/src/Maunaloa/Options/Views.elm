@@ -70,6 +70,13 @@ view model =
 
             else
                 model.options
+
+        cbStem =
+            if model.flags.isCalls == True then
+                "cb-calls"
+
+            else
+                "cb-puts"
     in
     H.div
         []
@@ -81,7 +88,7 @@ view model =
                 [ H.input [ A.placeholder "Risc", E.onInput (RiscMsgFor << RiscChange) ] [] ]
             , BTN.button "Reset Cache" ResetCache
             , CMB.makeSelect "Tickers: " (OptionMsgFor << FetchOptions) model.tickers model.selectedTicker
-            , labelCheckBox (HtmlId "cb1") (InputCaption "Only iv > 0.0") (Checked model.isOnlyIvGtZero) ToggleOnlyIvGtZero
+            , labelCheckBox (HtmlId (cbStem ++ "-1")) (InputCaption "Only iv > 0.0") (Checked model.isOnlyIvGtZero) ToggleOnlyIvGtZero
             ]
         , H.div [ A.class "grid-elm" ]
             [ Table.view config model.tableState curOptions ]
@@ -89,7 +96,7 @@ view model =
             model.dlgPurchase
             (PurchaseMsgFor PurchaseDlgOk)
             (PurchaseMsgFor PurchaseDlgCancel)
-            [ labelCheckBox (HtmlId "cb2") (InputCaption "Real-time purchase") (Checked model.isRealTimePurchase) ToggleRealTimePurchase
+            [ labelCheckBox (HtmlId (cbStem ++ "-2")) (InputCaption "Real-time purchase") (Checked model.isRealTimePurchase) ToggleRealTimePurchase
             , labelInputItem (InputCaption "Ask:") (InputType "number") (InputValue model.ask) (HtmlClass "form-control") (Just AskChange)
             , labelInputItem (InputCaption "Bid:") (InputType "number") (InputValue model.bid) (HtmlClass "form-control") (Just BidChange)
             , labelInputItem (InputCaption "Voluime:") (InputType "number") (InputValue model.volume) (HtmlClass "form-control") (Just VolumeChange)

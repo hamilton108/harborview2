@@ -48,8 +48,12 @@
   [request]
   (ring-resp/response (thyme/stockoptions)))
 
+(defn req-oid [request]
+  (let [oid (get-in request [:path-params :oid])]
+    (hu/rs oid)))
+
 (defn charts [request ^ElmChartsFactory factory]
-  (let [oid (get-in request [:path-params :oid])
+  (let [oid (req-oid request)
         prices (.prices db oid)
         charts (.elmCharts factory prices)]
     (hu/om->json charts)))
@@ -64,7 +68,7 @@
   (charts request factory-months))
 
 (defn risclines [request]
-  (let [oid (get-in request [:path-params :oid])]))
+  (let [oid (req-oid request)]))
 
 (defn check-implied-vol [ox]
   (if (= (.isPresent (.getIvBuy ox)) true)
@@ -81,13 +85,13 @@
       false)
     false))
 
-(defn puts [request op-fn]
-  (let [oid (get-in request [:path-params :oid])
+(defn puts [request]
+  (let [oid (req-oid request)
         items (.puts nordnet oid)]
     (hu/om->json items)))
 
 (defn calls [request]
-  (let [oid (get-in request [:path-params :oid])
+  (let [oid (req-oid request)
         items (.calls nordnet oid)]
     (hu/om->json items)))
 
@@ -103,13 +107,18 @@
    :enter
    (fn [context]
      (let [req (:request context)
-           oid (get-in req [:path-params :oid] "-1")
+           oid (req-oid req)
            body (hu/json-req-parse req)
-           response (ok (json/generate-string {:a 3, :oid oid}))]
+           result (.calcRiscStockprices nordnet oid body)
+           response (ok (json/generate-string result))]
        (prn body)
-       (prn (type body))
-       (prn (type (first body)))
+       (prn response)
        (assoc context :response response)))})
+
+(defn demo []
+  (.calcRiscStockprices nordnet
+                        "2"
+                        ({"ticker" "EQNR1", "risc" 2.3} {"ticker" "EQNR2", "risc" 2.9} {"ticker" "EQNR3", "risc" 1.75})))
 
 (def routes
   (route/expand-routes

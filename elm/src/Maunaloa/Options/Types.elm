@@ -12,6 +12,8 @@ module Maunaloa.Options.Types exposing
     , RiscItem
     , RiscItems
     , RiscMsg(..)
+    , RiscResult
+    , RiscResults
     , Spot(..)
     , Stock
     , StockAndOptions
@@ -76,8 +78,19 @@ type alias RiscItem =
     }
 
 
+type alias RiscResult =
+    { ticker : String
+    , stockprice : Float
+    , status : Int
+    }
+
+
 type alias RiscItems =
     List RiscItem
+
+
+type alias RiscResults =
+    List RiscResult
 
 
 type alias OptionSale =
@@ -133,7 +146,7 @@ type PurchaseMsg
 
 type RiscMsg
     = CalcRisc
-    | RiscCalculated (Result Http.Error RiscItems)
+    | RiscCalculated (Result Http.Error RiscResults)
     | RiscChange String
 
 
@@ -152,6 +165,10 @@ type Msg
     | RiscMsgFor RiscMsg
     | OptionMsgFor OptionMsg
     | PurchaseMsgFor PurchaseMsg
+
+
+
+--| SetModelId Time.Posix
 
 
 type alias Model =
