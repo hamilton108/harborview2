@@ -16,7 +16,7 @@
    [nordnet.redis NordnetRedis]
    [nordnet.html StockOptionParser2]
    [harborview.dto.html.options StockPriceAndOptions OptionDTO]
-   [harborview.dto.html StockPriceDTO]
+   [harborview.dto.html StockPriceDTO RiscLineDTO]
    [harborview.downloader DownloaderStub])
   (:require
    [clojure.core.cache :as cache]
@@ -45,9 +45,12 @@
 
 (def ^:dynamic is-test true)
 
+;(def dl-stub-path "/home/rcs/opt/java/harborview2/feed/2020/10/13")
+(def dl-stub-path "/home/rcs/opt/java/harborview2/feed/2021/6/21")
+
 (defn downloader [^Consumer page-consumer]
   (let [dl (if (= is-test true)
-             (DownloaderStub. "/home/rcs/opt/java/harborview2/feed/2020/10/13")
+             (DownloaderStub. dl-stub-path)
              (DefaultDownloader. "172.20.1.2" 6379 0))]
     (.setOnPageDownloaded dl page-consumer)
     (println (str "DOWNLOADER: " dl))
@@ -129,14 +132,14 @@
         s (.stockPrice this oid)]
     (StockPriceAndOptions. (StockPriceDTO. s) opx)))
 
-(defn calcRiscStockPrice [oid risc]
+(defn calcRiscStockPrice [oid risc-json]
   (let [opx (fetch-options-cache oid)
-        risc-ticker (risc "ticker")
-        risc-value (risc "risc")]
+        risc-ticker (risc-json "ticker")
+        risc-value (risc-json "risc")]
     (if-let [o (cu/find-first #(= (.getTicker %) risc-ticker) opx)]
       ;then
       (let [sp (.getStockOptionPrice o)
-            cur-option-price (- (.getSell o) (risc "risc"))
+            cur-option-price (- (.getSell o) (risc-json "risc"))
             adjusted-stockprice (.stockPriceFor sp cur-option-price)]
         (if (= (.isPresent adjusted-stockprice) true)
           {:ticker risc-ticker :stockprice (.get adjusted-stockprice) :status 1}
@@ -146,6 +149,11 @@
 
         ;{:ticker (risc "ticker") :risc (.stockPriceFor sp cur-option-price)}))))
 
+
+(defn risc-lines [oid]
+  (let [opx (fetch-options-cache oid)
+        calculated (map #(.getStockOptionPrice %) (filter #(= (.isCalculated %) true) opx))]
+    (map #(RiscLineDTO. %) calculated)))
 
 (defrecord NordnetEtrade []
   ports/Etrade
@@ -163,7 +171,9 @@
       (if (> (.size data) 0)
         (.getStockPrice (first data)))))
   (calcRiscStockprices [this oid riscs]
-    (map (partial calcRiscStockPrice oid) riscs)))
+    (map (partial calcRiscStockPrice oid) riscs))
+  (riscLines [this oid]
+    (risc-lines oid)))
 
 (def n (NordnetEtrade.))
 

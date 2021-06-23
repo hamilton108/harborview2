@@ -51,8 +51,12 @@ const closestLine = function (y) {
     }
 }
 
-const draw = function () {
+const clearRect = function () {
     _ctx.clearRect(0, 0, _v.w, _v.h);
+}
+
+const draw = function () {
+    clearRect();
     const items = _lines.items;
     for (var i = 0; i < items.length; ++i) {
         const curLine = items[i];
@@ -100,6 +104,7 @@ exports.onMouseDown = function (evt) {
             return;
         }
         if (items.length === 1) {
+            // This case will never contain a BreakEvenLine
             const curLine = items[0].value0;
             curLine.selected = true;
             _lines.pilotLine = createPilotLine(curLine.y, "black");
@@ -191,8 +196,13 @@ exports.clearCanvas = function () {
     if (_v === null) {
         return;
     }
-    _ctx.clearRect(0, 0, _v.w, _v.h);
+    clearRect();
     _lines = initLines();
+};
+
+exports.clearLines = function () {
+    _lines = initLines();
+    clearRect();
 };
 
 exports.addLine = function (line) {
@@ -233,8 +243,9 @@ const paintBreakEvenLine = function (line) {
     if (line.value0.selected === true) {
         return;
     }
-    const y = line.value0.y;
-    const displayValue = pixToValue(y).toFixed(2);
+    const bel = line.value0;
+    const y = bel.y;
+    const displayValue = bel.breakEven.toFixed(2); //pixToValue(y).toFixed(2);
     const x2 = _v.w - x1;
     paint(x2, y, displayValue, "green");
 };

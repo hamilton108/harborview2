@@ -31,6 +31,11 @@ public class OptionDTO {
         return price.getDerivative().getOpType() == StockOption.OptionType.CALL;
     }
 
+    @JsonIgnore
+    public boolean isCalculated() {
+        return price.getCurrentRiscStockPrice().isPresent();
+    }
+
     public String getTicker() {
         return price.getTicker();
     }

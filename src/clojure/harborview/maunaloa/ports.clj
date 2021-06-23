@@ -16,6 +16,7 @@
   (calls [this oid])
   (puts [this oid])
   (stockPrice [this oid])
-  (calcRiscStockprices [this oid riscs]))
+  (calcRiscStockprices [this oid riscs])
+  (riscLines [this oid]))
 
 

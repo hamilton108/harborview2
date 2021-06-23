@@ -66,6 +66,8 @@ foreign import resetListeners :: Effect Unit
 
 foreign import getListeners :: Effect (Array EventListenerInfo)
 
+foreign import clearLines :: Effect Unit
+
 foreign import addLine :: Line -> Effect Unit
 
 foreign import onMouseDown :: Event.Event -> Effect Unit
@@ -98,7 +100,8 @@ data Line =
     | BreakEvenLine
     { y :: Number
     , ticker :: String
-    , optionPrice :: Number
+    , ask :: Number
+    , breakEven :: Number
     }
 
 instance showLine :: Show Line where
@@ -160,7 +163,8 @@ type HtmlContext =
 type RiscLineJson = 
     { ticker :: String
     , be :: Number
-    , stockprice :: Number
+    , riscStockPrice :: Number
+    , riscOptionPrice :: Number
     , bid :: Number
     , ask :: Number
     , risc :: Number
@@ -205,7 +209,7 @@ addLevelLineButtonClick evt =
 mainURL :: String
 mainURL = 
     --"http://localhost:8082/maunaloa"
-    "maunaloa"
+    "/maunaloa"
 
 fetchLevelLinesURL :: String -> String
 fetchLevelLinesURL ticker =
@@ -221,13 +225,20 @@ addRiscLine :: VRuler -> RiscLineJson -> Effect Unit
 addRiscLine vr line = 
     let 
         rl = RiscLine
-                { y: valueToPix vr line.stockprice
+                { y: valueToPix vr line.riscStockPrice
                 , selected: false
                 , ticker: line.ticker
                 , bid: line.bid
                 }
+        bl = BreakEvenLine
+                { y: valueToPix vr line.be
+                , ticker: line.ticker
+                , ask: line.ask 
+                , breakEven: line.be
+                }
     in
-    addLine rl
+    addLine rl *>
+    addLine bl
 
 addRiscLines :: VRuler -> RiscLinesJson -> Effect Unit
 addRiscLines vr lines = 
@@ -258,7 +269,9 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                         Left err 
                             -> alert (show err)
                         Right lines1 
-                            -> logShow lines *> addRiscLines vruler lines1
+                            -> logShow lines *> 
+                               clearLines *>
+                               addRiscLines vruler lines1
                 )
     
 mouseEventDown :: Event.Event -> Effect Unit

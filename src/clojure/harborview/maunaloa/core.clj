@@ -67,9 +67,6 @@
 (defn months [request]
   (charts request factory-months))
 
-(defn risclines [request]
-  (let [oid (req-oid request)]))
-
 (defn check-implied-vol [ox]
   (if (= (.isPresent (.getIvBuy ox)) true)
     (if (= (.isPresent (.getIvSell ox)) true)
@@ -119,6 +116,10 @@
   (.calcRiscStockprices nordnet
                         "2"
                         ({"ticker" "EQNR1", "risc" 2.3} {"ticker" "EQNR2", "risc" 2.9} {"ticker" "EQNR3", "risc" 1.75})))
+
+(defn risclines [request]
+  (let [oid (req-oid request)]
+    (hu/om->json (.riscLines nordnet oid))))
 
 (def routes
   (route/expand-routes
