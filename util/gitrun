@@ -1,0 +1,130 @@
+#!/bin/bash
+
+usage()
+{
+cat << EOF
+usage: $0 options
+
+OPTIONS:
+   -h      Show this message
+   -s      Git status (default)
+   -x      Git pull 
+   -a      Git add
+   -c      Git commit  
+   -p      Git push 
+   -m      Commit message 
+EOF
+}
+
+CMD="status"
+MSG=""
+
+while getopts "hscpxm:" OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         s)
+             CMD="status"
+             ;;
+         x)
+             CMD="pull"
+             ;;
+         a)
+             CMD="add"
+             ;;
+         c)
+             CMD="commit"
+             ;;
+         p)
+             CMD="push"
+             ;;
+         m)
+             MSG=$OPTARG
+             ;;
+     esac
+done
+
+exec_git_cmd () {
+    if [ $1 == "commit" ];
+    then
+        git commit -m "$MSG"
+    else
+        git $1
+    fi
+}
+
+
+cd oahu 
+printf "\n\n************* Oahu **************\n"
+exec_git_cmd $CMD
+
+cd ../nordnet-repos 
+printf "\n\n************* Nordnet-repos **************\n"
+exec_git_cmd $CMD
+
+cd ../critter-repos
+printf "\n\n************* Critter-repos **************\n"
+exec_git_cmd $CMD
+
+cd ../rapanui
+printf "\n\n************* Rapanui **************\n"
+exec_git_cmd $CMD
+
+cd ../vega
+printf "\n\n************* Vega **************\n"
+exec_git_cmd $CMD
+
+cd ../gradlecommon
+printf "\n\n************* Gradlecommon **************\n"
+exec_git_cmd $CMD
+
+cd ../harborview2
+printf "\n\n************* Harborview 2 **************\n"
+exec_git_cmd $CMD
+
+exit 0
+
+: <<'COMMENT'
+cd ../stearnswharf-repos 
+printf "\n\n************* Stearnswharf-repos **************\n"
+exec_git_cmd $CMD
+
+cd ../harborview 
+printf "\n\n************* Harborview **************\n"
+git $CMD
+
+cd ../netfondsjanitor 
+printf "\n\n************* Netfondsjanitor **************\n"
+git $CMD
+
+cd ../vega 
+printf "\n\n************* Vega **************\n"
+git $CMD
+
+cd ../gradlecommon
+printf "\n\n************* Gradlecommon **************\n"
+git $CMD
+
+cd ../motunui
+printf "\n\n************* Motu Nui **************\n"
+git $CMD
+
+cd ../tongariki
+printf "\n\n************* Tonga Riki **************\n"
+git $CMD
+
+cd ../netfonds-repos 
+printf "\n\n************* Netfonds-repos **************\n"
+exec_git_cmd $CMD
+
+cd ../harborview
+printf "\n\n************* Harborview **************\n"
+exec_git_cmd $CMD
+
+exit 0
+
+COMMENT 
+
