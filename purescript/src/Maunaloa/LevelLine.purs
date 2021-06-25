@@ -4,10 +4,13 @@ import Prelude
 import Data.Maybe (Maybe(..))
 --import Data.Array ((:)) 
 import Data.Either (Either(..))
+import Data.Number.Format (toStringWith,fixed)
 import Effect (Effect)
 import Effect.Class (liftEffect)
 import Effect.Console (logShow)
 import Effect.Aff as Aff
+import Effect.Aff (Fiber(..))
+
 import Affjax as Affjax
 import Affjax.ResponseFormat as ResponseFormat
 import Data.Traversable as Traversable
@@ -175,6 +178,12 @@ type RiscLinesJson = Array RiscLineJson
 riscLinesFromJson :: Json -> Either JsonDecodeError RiscLinesJson 
 riscLinesFromJson = Decode.decodeJson
 
+type UpdatedOptionPriceJson = 
+    { value :: Number
+    }
+
+updOptionPriceFromJson :: Json -> Either JsonDecodeError UpdatedOptionPriceJson 
+updOptionPriceFromJson = Decode.decodeJson
 
 unlisten :: EventListenerInfo -> Effect Unit
 unlisten (EventListenerInfo {target,listener,eventType}) = 
@@ -216,9 +225,9 @@ fetchLevelLinesURL ticker =
     -- "http://localhost:6346/maunaloa/risclines/" <> ticker
     mainURL <>  "/risclines/" <> ticker
 
-optionPriceURL :: String
-optionPriceURL =
-    mainURL <> "/optionprice/3/2" 
+optionPriceURL :: String -> Number -> String
+optionPriceURL ticker curStockPrice =
+    mainURL <> "/optionprice/" <> ticker <> toStringWith (fixed 2) curStockPrice
 
 
 addRiscLine :: VRuler -> RiscLineJson -> Effect Unit
@@ -238,7 +247,7 @@ addRiscLine vr line =
                 }
     in
     addLine rl *>
-    addLine bl
+    addLine bl 
 
 addRiscLines :: VRuler -> RiscLinesJson -> Effect Unit
 addRiscLines vr lines = 
@@ -274,6 +283,30 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                                addRiscLines vruler lines1
                 )
     
+fetchUpdatedOptionPrice :: String -> Number -> Effect Number
+fetchUpdatedOptionPrice ticker curStockPrice =
+    Aff.launchAff $
+    Affjax.get ResponseFormat.json (optionPriceURL ticker curStockPrice) >>= \res ->
+        case res of  
+            Left err -> 
+                liftEffect (
+                    alert ("Affjax Error: " <> Affjax.printError err)
+                ) *>
+                pure (Fiber 4)
+            Right response -> 
+                pure (Fiber 3)
+{-
+                    let 
+                        result = updOptionPriceFromJson response.body
+                    in 
+                    case result of
+                        Left err -> 
+                            pure 12
+                        Right result1 -> 
+                            pure 12
+-}
+
+
 mouseEventDown :: Event.Event -> Effect Unit
 mouseEventDown evt = 
     defaultEventHandling evt *>

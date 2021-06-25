@@ -245,7 +245,7 @@ const paintBreakEvenLine = function (line) {
     }
     const bel = line.value0;
     const y = bel.y;
-    const displayValue = bel.breakEven.toFixed(2); //pixToValue(y).toFixed(2);
+    const displayValue = bel.breakEven.toFixed(2) + " - " + bel.ticker + ", ask: " + bel.ask.toFixed(2); // + ", be: " + bel.be.toFixed(2);
     const x2 = _v.w - x1;
     paint(x2, y, displayValue, "green");
 };
