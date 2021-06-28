@@ -33,7 +33,7 @@
      (let [t (map hu/bean->json (.tickers ^Postgres db))]
        (hu/json-response t)))))
 
-(defn ok [body]
+(comment ok [body]
   {:status 200 :body body
    :headers {"Content-Type" "application/json"}})
 
@@ -96,7 +96,7 @@
   {:name ::echo
    :enter (fn [context]
             (let [request (:request context)
-                  response (ok request)]
+                  response (hu/json-response request)]
               (assoc context :response response)))})
 
 (def calcriscstockprices
@@ -107,7 +107,7 @@
            oid (req-oid req)
            body (hu/json-req-parse req)
            result (.calcRiscStockprices nordnet oid body)
-           response (ok (json/generate-string result))]
+           response (hu/json-response result)]
        (prn body)
        (prn response)
        (assoc context :response response)))})
@@ -120,6 +120,11 @@
 (defn risclines [request]
   (let [oid (req-oid request)]
     (hu/om->json (.riscLines nordnet oid))))
+
+(defn calcoptionprice [request]
+  (let [ticker (get-in request [:path-params :ticker])
+        sp (get-in request [:path-params :stockprice])]
+    (hu/json-response {:result 12.45})))
 
 (def routes
   (route/expand-routes
@@ -134,6 +139,7 @@
      ["/maunaloa/calls/:oid" :get calls :route-name :calls]
      ["/maunaloa/puts/:oid" :get puts :route-name :puts]
      ["/maunaloa/calcriscstockprices/:oid" :post [calcriscstockprices]]
+     ["/maunaloa/optionprice/:ticker/:stockprice" :get calcoptionprice :route-name :optionprice]
      ["/echo"  :get echo :route-name :echo]}))
 
 (comment

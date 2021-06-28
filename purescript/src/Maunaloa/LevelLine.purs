@@ -8,8 +8,7 @@ import Data.Number.Format (toStringWith,fixed)
 import Effect (Effect)
 import Effect.Class (liftEffect)
 import Effect.Console (logShow)
-import Effect.Aff as Aff
-import Effect.Aff (Fiber(..))
+import Effect.Aff (Aff, launchAff_)
 
 import Affjax as Affjax
 import Affjax.ResponseFormat as ResponseFormat
@@ -227,7 +226,7 @@ fetchLevelLinesURL ticker =
 
 optionPriceURL :: String -> Number -> String
 optionPriceURL ticker curStockPrice =
-    mainURL <> "/optionprice/" <> ticker <> toStringWith (fixed 2) curStockPrice
+    mainURL <> "/optionprice/" <> ticker <> "/" <> toStringWith (fixed 2) curStockPrice
 
 
 addRiscLine :: VRuler -> RiscLineJson -> Effect Unit
@@ -259,7 +258,7 @@ addRiscLines vr lines =
 fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ticker ce vruler evt = 
     Canvas.getContext2D ce >>= \ctx ->
-    Aff.launchAff_ $
+    launchAff_ $
     Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
         case res of  
             Left err -> 
@@ -283,6 +282,7 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                                addRiscLines vruler lines1
                 )
     
+{-
 fetchUpdatedOptionPrice :: String -> Number -> Effect Number
 fetchUpdatedOptionPrice ticker curStockPrice =
     Aff.launchAff $
@@ -295,7 +295,6 @@ fetchUpdatedOptionPrice ticker curStockPrice =
                 pure (Fiber 4)
             Right response -> 
                 pure (Fiber 3)
-{-
                     let 
                         result = updOptionPriceFromJson response.body
                     in 
@@ -317,11 +316,31 @@ mouseEventDrag ce vruler evt =
     defaultEventHandling evt *>
     onMouseDrag evt
 
+fetchUpdatedOptionPrice :: Line -> Aff Number
+fetchUpdatedOptionPrice line = 
+    Affjax.get ResponseFormat.json (optionPriceURL "ticker" 3.4) >>= \res ->
+    pure 12.3
+
+handleUpdateOptionPrice :: Line -> Effect Unit
+handleUpdateOptionPrice lref@(RiscLine _) = 
+    launchAff_ (
+        (liftEffect $ logShow lref) *>
+        fetchUpdatedOptionPrice lref >>= \n ->
+        (liftEffect $ updateRiscLine lref n)
+        --pure unit
+    )
+handleUpdateOptionPrice _ = 
+    pure unit
+
 handleMouseEventUpLine :: Maybe Line -> Effect Unit
 handleMouseEventUpLine line = 
     case line of 
         Nothing -> 
             pure unit
+        Just line ->
+            handleUpdateOptionPrice line
+
+{- 
         Just lref@(RiscLine rec0) ->
             logShow rec0 *>
             let 
@@ -331,6 +350,7 @@ handleMouseEventUpLine line =
             updateRiscLine lref newPrice 
         _ -> 
             pure unit
+-}
 
 mouseEventUp :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
 mouseEventUp ce vruler evt = 
