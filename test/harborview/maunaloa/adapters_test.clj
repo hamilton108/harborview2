@@ -1,11 +1,7 @@
-(ns harborview.core-test
+(ns harborview.maunaloa.adapters-test
   (:require
    [clojure.test :refer :all]
-   [harborview.maunaloa.core :as c])
-  (:import
-   [java.time LocalDate]
-   [harborview.maunaloa.charts ElmChartsFactory]
-   [critterrepos.beans StockPriceBean]))
+   [harborview.maunaloa.adapters :as a]))
 
 (comment
   (defn sp [y m d cls]

@@ -22,7 +22,7 @@
                  [org.postgresql/postgresql "42.2.10"]
                  [org.jsoup/jsoup "1.11.3"]
                 ;------------------ Local libs ------------------ 
-                 [rcstadheim/critter-repos "1.7-20210526.143006-6"]
+                 [rcstadheim/critter-repos "1.7-20210708.150551-8"]
                  [rcstadheim/nordnet-repos "1.5-20210621.114106-7"]
                  [rcstadheim/oahu "2.0.0"]
                  [rcstadheim/vega "2.0.0"]
@@ -36,6 +36,7 @@
                  ;[cheshire "5.10.0"]
                  [redis.clients/jedis "3.3.0" :exclusions [org.slf4j/slf4j-api]]
                  [org.clojure/tools.trace "0.7.11"]
+                 [swiss-arrows "1.0.0"]
                  ;[org.clojure/core.cache "1.0.207"]
                  ;[com.github.ben-manes.caffeine/caffeine "3.0.2"]
 

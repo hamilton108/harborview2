@@ -9,6 +9,9 @@
    [java.util ArrayList]
    [java.util.function Consumer]
    [java.time LocalDate]
+
+   [oahu.dto Tuple2]
+   [oahu.financial StockOption$OptionType]
    [vega.financial.calculator BlackScholes]
    [critterrepos.models.impl StockMarketReposImpl]
    [critterrepos.utils StockOptionUtils]
@@ -58,13 +61,18 @@
 
 (def redis (NordnetRedis. "172.20.1.2" 5))
 
+(def stock-option-utils
+  (if (= is-test true)
+    (StockOptionUtils. (LocalDate/of 2020 10 5))
+    (StockOptionUtils.)))
+
 (defn etrade []
   (let [stockmarket (StockMarketReposImpl.)
-        utils (if (= is-test true)
-                (StockOptionUtils. (LocalDate/of 2020 10 5))
-                (StockOptionUtils.))
+        ;utils (if (= is-test true)
+        ;        (StockOptionUtils. (LocalDate/of 2020 10 5))
+        ;        (StockOptionUtils.))
         calc (BlackScholes.)]
-    (StockOptionParser2. calc redis stockmarket utils)))
+    (StockOptionParser2. calc redis stockmarket stock-option-utils)))
 
 (def my-etrade (etrade))
 
@@ -127,16 +135,29 @@
         data)
       cached)))
 
+(defn calls-or-puts [oid is-call]
+  (filter #(= (.isCall %) is-call)
+          (fetch-options-cache oid)))
+
 (defn stock-and-options [this oid is-call]
-  (let [opx (filter #(= (.isCall %) is-call) (fetch-options-cache oid))
+  (let [opx (calls-or-puts oid is-call)
         s (.stockPrice this oid)]
     (StockPriceAndOptions. (StockPriceDTO. s) opx)))
+
+(defn find-option [ticker opx]
+  (cu/find-first #(= (.getTicker %) ticker) opx))
+
+(defn find-option-from-ticker [ticker]
+  (if-let [info (.stockOptionInfoFromTicker stock-option-utils ticker)]
+    (let [is-calls (= (.second info) StockOption$OptionType/CALL)
+          opx (calls-or-puts (.first info) is-calls)]
+      (find-option ticker opx))))
 
 (defn calcRiscStockPrice [oid risc-json]
   (let [opx (fetch-options-cache oid)
         risc-ticker (risc-json "ticker")
         risc-value (risc-json "risc")]
-    (if-let [o (cu/find-first #(= (.getTicker %) risc-ticker) opx)]
+    (if-let [o (find-option risc-ticker opx)] ;[o (cu/find-first #(= (.getTicker %) risc-ticker) opx)]
       ;then
       (let [sp (.getStockOptionPrice o)
             cur-option-price (- (.getSell o) (risc-json "risc"))
@@ -172,6 +193,9 @@
         (.getStockPrice (first data)))))
   (calcRiscStockprices [this oid riscs]
     (map (partial calcRiscStockPrice oid) riscs))
+  (calcRiscOptionPrice [this ticker stockPrice]
+    (if-let [o (find-option-from-ticker ticker)]
+      (.optionPriceFor (.getStockOptionPrice o) stockPrice)))
   (riscLines [this oid]
     (risc-lines oid)))
 
