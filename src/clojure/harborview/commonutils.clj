@@ -26,6 +26,15 @@
 (defn find-first [f coll]
   (first (drop-while (complement f) coll)))
 
+(defmacro if-let*
+  ([bindings-vec then] `(if-let* ~bindings-vec ~then nil))
+  ([bindings-vec then else]
+   (if (seq bindings-vec)
+     `(let ~bindings-vec
+        (if (and ~@(take-nth 2 bindings-vec))
+          ~then
+          ~else)))))
+
 (defmacro defn-defaults [name args & body]
   "Create a function that can provide default values for arguments.
   Arguments that are optional should be placed in a hash as the

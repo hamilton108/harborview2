@@ -31,8 +31,8 @@ import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
 
 
-import Maunaloa.Common (HtmlId(..))
-import Maunaloa.VRuler (VRuler,valueToPix)
+import Maunaloa.Common (Pix(..),HtmlId(..))
+import Maunaloa.VRuler (VRuler,valueToPix,pixToValue)
 import Maunaloa.Chart (ChartLevel)
 
 {-
@@ -282,29 +282,6 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                                addRiscLines vruler lines1
                 )
     
-{-
-fetchUpdatedOptionPrice :: String -> Number -> Effect Number
-fetchUpdatedOptionPrice ticker curStockPrice =
-    Aff.launchAff $
-    Affjax.get ResponseFormat.json (optionPriceURL ticker curStockPrice) >>= \res ->
-        case res of  
-            Left err -> 
-                liftEffect (
-                    alert ("Affjax Error: " <> Affjax.printError err)
-                ) *>
-                pure (Fiber 4)
-            Right response -> 
-                pure (Fiber 3)
-                    let 
-                        result = updOptionPriceFromJson response.body
-                    in 
-                    case result of
-                        Left err -> 
-                            pure 12
-                        Right result1 -> 
-                            pure 12
--}
-
 
 mouseEventDown :: Event.Event -> Effect Unit
 mouseEventDown evt = 
@@ -316,32 +293,48 @@ mouseEventDrag ce vruler evt =
     defaultEventHandling evt *>
     onMouseDrag evt
 
-fetchUpdatedOptionPrice :: Line -> Aff Number
-fetchUpdatedOptionPrice line = 
-    Affjax.get ResponseFormat.json (optionPriceURL "ticker" 3.4) >>= \res ->
-    pure 12.3
+fetchUpdatedOptionPrice :: String -> Number -> Aff Number
+fetchUpdatedOptionPrice ticker curStockPrice = 
+    Affjax.get ResponseFormat.json (optionPriceURL ticker curStockPrice) >>= \res ->
+        case res of  
+            Left err -> 
+                (liftEffect (alert ("Affjax Error: " <> Affjax.printError err))) *>
+                pure (-1.0)
+            Right response -> 
+                let 
+                    result = updOptionPriceFromJson response.body 
+                in
+                case result of
+                    Left err  ->
+                        (liftEffect (alert (show err))) *>
+                        pure (-1.0)
+                    Right result1 ->
+                        pure result1.value
 
-handleUpdateOptionPrice :: Line -> Effect Unit
-handleUpdateOptionPrice lref@(RiscLine _) = 
+handleUpdateOptionPrice :: VRuler -> Line -> Effect Unit
+handleUpdateOptionPrice vr lref@(RiscLine line) = 
     launchAff_ (
+        let 
+            sp = pixToValue vr (Pix line.y)
+        in
         (liftEffect $ logShow lref) *>
-        fetchUpdatedOptionPrice lref >>= \n ->
+        fetchUpdatedOptionPrice line.ticker sp >>= \n ->
         (liftEffect $ updateRiscLine lref n)
         --pure unit
     )
-handleUpdateOptionPrice _ = 
+handleUpdateOptionPrice _ _ = 
     pure unit
 
-handleMouseEventUpLine :: Maybe Line -> Effect Unit
-handleMouseEventUpLine line = 
+handleMouseEventUpLine :: VRuler -> Maybe Line -> Effect Unit
+handleMouseEventUpLine vr line = 
     case line of 
         Nothing -> 
             pure unit
-        Just line ->
-            handleUpdateOptionPrice line
+        Just line1 ->
+            handleUpdateOptionPrice vr line1
 
 {- 
-        Just lref@(RiscLine rec0) ->
+        Just lref@(RiscLine rec0) ->76
             logShow rec0 *>
             let 
                 oldOpPrice = rec0.bid
@@ -352,11 +345,11 @@ handleMouseEventUpLine line =
             pure unit
 -}
 
-mouseEventUp :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
-mouseEventUp ce vruler evt = 
+mouseEventUp :: VRuler -> Event.Event -> Effect Unit
+mouseEventUp vruler evt = 
     defaultEventHandling evt *>
     onMouseUp evt >>= \line ->
-    handleMouseEventUpLine line 
+    handleMouseEventUpLine vruler line 
 
 
 getHtmlContext1 :: 
@@ -427,7 +420,7 @@ initEvents ticker vruler chartLevel =
                     initEvent (fetchLevelLineButtonClick ticker ce vruler) context1.fetchLevelLinesBtn (EventType "click") *>
                     initEvent mouseEventDown context1.canvasElement (EventType "mousedown") *>
                     initEvent (mouseEventDrag ce vruler) context1.canvasElement (EventType "mousemove") *>
-                    initEvent (mouseEventUp ce vruler) context1.canvasElement (EventType "mouseup") 
+                    initEvent (mouseEventUp vruler) context1.canvasElement (EventType "mouseup") 
 
 clear :: Effect Unit
 clear = clearCanvas

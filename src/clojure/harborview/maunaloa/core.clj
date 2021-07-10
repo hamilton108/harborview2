@@ -34,8 +34,8 @@
        (hu/json-response t)))))
 
 (comment ok [body]
-  {:status 200 :body body
-   :headers {"Content-Type" "application/json"}})
+         {:status 200 :body body
+          :headers {"Content-Type" "application/json"}})
 
 (defn tix [request]
   (tix-m))
@@ -67,20 +67,20 @@
 (defn months [request]
   (charts request factory-months))
 
-(defn check-implied-vol [ox]
-  (if (= (.isPresent (.getIvBuy ox)) true)
-    (if (= (.isPresent (.getIvSell ox)) true)
-      true
-      false)
-    false))
+(comment check-implied-vol [ox]
+         (if (= (.isPresent (.getIvBuy ox)) true)
+           (if (= (.isPresent (.getIvSell ox)) true)
+             true
+             false)
+           false))
 
-(defn valid? [ox]
-  (if (> (.getBuy ox) 0)
-    (if (> (.getSell ox) 0)
-      (if (= (check-implied-vol ox) true)
-        (.isPresent (.getBreakEven ox)))
-      false)
-    false))
+(comment valid? [ox]
+         (if (> (.getBuy ox) 0)
+           (if (> (.getSell ox) 0)
+             (if (= (check-implied-vol ox) true)
+               (.isPresent (.getBreakEven ox)))
+             false)
+           false))
 
 (defn puts [request]
   (let [oid (req-oid request)
@@ -112,10 +112,10 @@
        (prn response)
        (assoc context :response response)))})
 
-(defn demo []
-  (.calcRiscStockprices nordnet
-                        "2"
-                        ({"ticker" "EQNR1", "risc" 2.3} {"ticker" "EQNR2", "risc" 2.9} {"ticker" "EQNR3", "risc" 1.75})))
+(comment demo []
+         (.calcRiscStockprices nordnet
+                               "2"
+                               ({"ticker" "EQNR1", "risc" 2.3} {"ticker" "EQNR2", "risc" 2.9} {"ticker" "EQNR3", "risc" 1.75})))
 
 (defn risclines [request]
   (let [oid (req-oid request)]
@@ -123,8 +123,9 @@
 
 (defn calcoptionprice [request]
   (let [ticker (get-in request [:path-params :ticker])
-        sp (get-in request [:path-params :stockprice])]
-    (hu/json-response {:result 12.45})))
+        sp (hu/rs (get-in request [:path-params :stockprice]))
+        price (.calcRiscOptionPrice nordnet ticker sp)]
+    (hu/json-response {:value price})))
 
 (def routes
   (route/expand-routes

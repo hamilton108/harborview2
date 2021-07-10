@@ -17,6 +17,7 @@
   (puts [this oid])
   (stockPrice [this oid])
   (calcRiscStockprices [this oid riscs])
+  (calcRiscOptionPrice [this ticker stockPrice])
   (riscLines [this oid]))
 
 

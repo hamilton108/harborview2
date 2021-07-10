@@ -3787,6 +3787,7 @@ var PS = {};
   exports["launchAff_"] = launchAff_;
   exports["nonCanceler"] = nonCanceler;
   exports["functorAff"] = functorAff;
+  exports["applyAff"] = applyAff;
   exports["applicativeAff"] = applicativeAff;
   exports["bindAff"] = bindAff;
   exports["monadErrorAff"] = monadErrorAff;
@@ -5675,6 +5676,7 @@ var PS = {};
   exports["paint"] = paint;
   exports["create"] = create;
   exports["valueToPix"] = valueToPix;
+  exports["pixToValue"] = pixToValue;
   exports["eqVRuler"] = eqVRuler;
 })(PS);
 (function($PS) {
@@ -6109,8 +6111,12 @@ var PS = {};
       }
   }
 
-  const draw = function () {
+  const clearRect = function () {
       _ctx.clearRect(0, 0, _v.w, _v.h);
+  }
+
+  const draw = function () {
+      clearRect();
       const items = _lines.items;
       for (var i = 0; i < items.length; ++i) {
           const curLine = items[i];
@@ -6158,6 +6164,7 @@ var PS = {};
               return;
           }
           if (items.length === 1) {
+              // This case will never contain a BreakEvenLine
               const curLine = items[0].value0;
               curLine.selected = true;
               _lines.pilotLine = createPilotLine(curLine.y, "black");
@@ -6249,8 +6256,13 @@ var PS = {};
       if (_v === null) {
           return;
       }
-      _ctx.clearRect(0, 0, _v.w, _v.h);
+      clearRect();
       _lines = initLines();
+  };
+
+  exports.clearLines = function () {
+      _lines = initLines();
+      clearRect();
   };
 
   exports.addLine = function (line) {
@@ -6291,8 +6303,9 @@ var PS = {};
       if (line.value0.selected === true) {
           return;
       }
-      const y = line.value0.y;
-      const displayValue = pixToValue(y).toFixed(2);
+      const bel = line.value0;
+      const y = bel.y;
+      const displayValue = bel.breakEven.toFixed(2) + " - " + bel.ticker + ", ask: " + bel.ask.toFixed(2); // + ", be: " + bel.be.toFixed(2);
       const x2 = _v.w - x1;
       paint(x2, y, displayValue, "green");
   };
@@ -6507,6 +6520,7 @@ var PS = {};
   var Data_Either = $PS["Data.Either"];
   var Data_Foldable = $PS["Data.Foldable"];
   var Data_Maybe = $PS["Data.Maybe"];
+  var Data_Number_Format = $PS["Data.Number.Format"];
   var Data_Show = $PS["Data.Show"];
   var Data_Symbol = $PS["Data.Symbol"];
   var Data_Unit = $PS["Data.Unit"];
@@ -6558,20 +6572,57 @@ var PS = {};
           if (el instanceof Data_Maybe.Just) {
               return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
           };
-          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 315, column 5 - line 317, column 28): " + [ el.constructor.name ]);
+          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 374, column 5 - line 376, column 28): " + [ el.constructor.name ]);
       };
   };
+  var updOptionPriceFromJson = Data_Argonaut_Decode_Class.decodeJson(Data_Argonaut_Decode_Class.decodeRecord(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonNil)(new Data_Symbol.IsSymbol(function () {
+      return "value";
+  }))()())());
   var unlisten = function (v) {
       return Web_Event_EventTarget.removeEventListener(v.eventType)(v.listener)(false)(Web_DOM_Element.toEventTarget(v.target));
   };
   var unlistenEvents = function __do() {
       var listeners = $foreign.getListeners();
       return Control_Apply.applySecond(Effect.applyEffect)(Data_Foldable.traverse_(Effect.applicativeEffect)(Data_Foldable.foldableArray)(unlisten)(listeners))($foreign.resetListeners)();
-  }; 
-  var riscLinesFromJson = Data_Argonaut_Decode_Class.decodeJson(Data_Argonaut_Decode_Class.decodeArray(Data_Argonaut_Decode_Class.decodeRecord(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonString)(Data_Argonaut_Decode_Class.gDecodeJsonNil)(new Data_Symbol.IsSymbol(function () {
+  };
+  var showLine = new Data_Show.Show(function (v) {
+      if (v instanceof StdLine) {
+          return "StdLine: " + Data_Show.show(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "selected";
+          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "y";
+          }))(Data_Show.showRecordFieldsNil)(Data_Show.showNumber))(Data_Show.showBoolean)))(v.value0);
+      };
+      if (v instanceof RiscLine) {
+          return "RiscLine: " + Data_Show.show(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "bid";
+          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "selected";
+          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "ticker";
+          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "y";
+          }))(Data_Show.showRecordFieldsNil)(Data_Show.showNumber))(Data_Show.showString))(Data_Show.showBoolean))(Data_Show.showNumber)))(v.value0);
+      };
+      if (v instanceof BreakEvenLine) {
+          return "BreakEvenLine: " + Data_Show.show(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "ask";
+          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "breakEven";
+          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "ticker";
+          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+              return "y";
+          }))(Data_Show.showRecordFieldsNil)(Data_Show.showNumber))(Data_Show.showString))(Data_Show.showNumber))(Data_Show.showNumber)))(v.value0);
+      };
+      throw new Error("Failed pattern match at Maunaloa.LevelLine (line 109, column 1 - line 112, column 57): " + [ v.constructor.name ]);
+  });
+  var riscLinesFromJson = Data_Argonaut_Decode_Class.decodeJson(Data_Argonaut_Decode_Class.decodeArray(Data_Argonaut_Decode_Class.decodeRecord(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonNumber)(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeJsonString)(Data_Argonaut_Decode_Class.gDecodeJsonNil)(new Data_Symbol.IsSymbol(function () {
       return "ticker";
   }))()())(new Data_Symbol.IsSymbol(function () {
-      return "stockprice";
+      return "riscStockPrice";
+  }))()())(new Data_Symbol.IsSymbol(function () {
+      return "riscOptionPrice";
   }))()())(new Data_Symbol.IsSymbol(function () {
       return "risc";
   }))()())(new Data_Symbol.IsSymbol(function () {
@@ -6581,7 +6632,12 @@ var PS = {};
   }))()())(new Data_Symbol.IsSymbol(function () {
       return "ask";
   }))()())()));
-  var mainURL = "maunaloa";                         
+  var mainURL = "/maunaloa";
+  var optionPriceURL = function (ticker) {
+      return function (curStockPrice) {
+          return mainURL + ("/optionprice/" + (ticker + ("/" + Data_Number_Format.toStringWith(Data_Number_Format.fixed(2))(curStockPrice))));
+      };
+  };
   var initEvent = function (toListener) {
       return function (element) {
           return function (eventType) {
@@ -6596,26 +6652,6 @@ var PS = {};
               };
           };
       };
-  };
-  var handleMouseEventUpLine = function (line) {
-      if (line instanceof Data_Maybe.Nothing) {
-          return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
-      };
-      if (line instanceof Data_Maybe.Just && line.value0 instanceof RiscLine) {
-          return Control_Apply.applySecond(Effect.applyEffect)(Effect_Console.logShow(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "bid";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "selected";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "ticker";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "y";
-          }))(Data_Show.showRecordFieldsNil)(Data_Show.showNumber))(Data_Show.showString))(Data_Show.showBoolean))(Data_Show.showNumber)))(line.value0.value0))((function () {
-              var newPrice = line.value0.value0.bid * 1.2;
-              return $foreign.updateRiscLine(line.value0)(newPrice);
-          })());
-      };
-      return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
   };
   var getHtmlContext1 = function (prm) {
       return Control_Bind.bind(Data_Maybe.bindMaybe)(prm.canvas)(function (canvas1) {
@@ -6653,6 +6689,50 @@ var PS = {};
           })))();
       };
   };
+  var fetchUpdatedOptionPrice = function (ticker) {
+      return function (curStockPrice) {
+          return Control_Bind.bind(Effect_Aff.bindAff)(Affjax.get(Affjax_ResponseFormat.json)(optionPriceURL(ticker)(curStockPrice)))(function (res) {
+              if (res instanceof Data_Either.Left) {
+                  return Control_Apply.applySecond(Effect_Aff.applyAff)(Effect_Class.liftEffect(Effect_Aff.monadEffectAff)($foreign.alert("Affjax Error: " + Affjax.printError(res.value0))))(Control_Applicative.pure(Effect_Aff.applicativeAff)(-1.0));
+              };
+              if (res instanceof Data_Either.Right) {
+                  var result = updOptionPriceFromJson(res.value0.body);
+                  if (result instanceof Data_Either.Left) {
+                      return Control_Apply.applySecond(Effect_Aff.applyAff)(Effect_Class.liftEffect(Effect_Aff.monadEffectAff)($foreign.alert(Data_Show.show(Data_Argonaut_Decode_Error.showJsonDecodeError)(result.value0))))(Control_Applicative.pure(Effect_Aff.applicativeAff)(-1.0));
+                  };
+                  if (result instanceof Data_Either.Right) {
+                      return Control_Applicative.pure(Effect_Aff.applicativeAff)(result.value0.value);
+                  };
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 307, column 17 - line 312, column 43): " + [ result.constructor.name ]);
+              };
+              throw new Error("Failed pattern match at Maunaloa.LevelLine (line 299, column 9 - line 312, column 43): " + [ res.constructor.name ]);
+          });
+      };
+  };
+  var handleUpdateOptionPrice = function (v) {
+      return function (v1) {
+          if (v1 instanceof RiscLine) {
+              return Effect_Aff.launchAff_((function () {
+                  var sp = Maunaloa_VRuler.pixToValue(v)(v1.value0.y);
+                  return Control_Bind.bind(Effect_Aff.bindAff)(Control_Apply.applySecond(Effect_Aff.applyAff)(Effect_Class.liftEffect(Effect_Aff.monadEffectAff)(Effect_Console.logShow(showLine)(v1)))(fetchUpdatedOptionPrice(v1.value0.ticker)(sp)))(function (n) {
+                      return Effect_Class.liftEffect(Effect_Aff.monadEffectAff)($foreign.updateRiscLine(v1)(n));
+                  });
+              })());
+          };
+          return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
+      };
+  };
+  var handleMouseEventUpLine = function (vr) {
+      return function (line) {
+          if (line instanceof Data_Maybe.Nothing) {
+              return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
+          };
+          if (line instanceof Data_Maybe.Just) {
+              return handleUpdateOptionPrice(vr)(line.value0);
+          };
+          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 330, column 5 - line 334, column 45): " + [ line.constructor.name ]);
+      };
+  };
   var fetchLevelLinesURL = function (ticker) {
       return mainURL + ("/risclines/" + ticker);
   };
@@ -6669,13 +6749,11 @@ var PS = {};
           };
       };
   };
-  var mouseEventUp = function (ce) {
-      return function (vruler) {
-          return function (evt) {
-              return function __do() {
-                  var line = Control_Apply.applySecond(Effect.applyEffect)(defaultEventHandling(evt))($foreign.onMouseUp(evt))();
-                  return handleMouseEventUpLine(line)();
-              };
+  var mouseEventUp = function (vruler) {
+      return function (evt) {
+          return function __do() {
+              var line = Control_Apply.applySecond(Effect.applyEffect)(defaultEventHandling(evt))($foreign.onMouseUp(evt))();
+              return handleMouseEventUpLine(vruler)(line)();
           };
       };
   };
@@ -6683,12 +6761,18 @@ var PS = {};
   var addRiscLine = function (vr) {
       return function (line) {
           var rl = new RiscLine({
-              y: Maunaloa_VRuler.valueToPix(vr)(line.stockprice),
+              y: Maunaloa_VRuler.valueToPix(vr)(line.riscStockPrice),
               selected: false,
               ticker: line.ticker,
               bid: line.bid
           });
-          return $foreign.addLine(rl);
+          var bl = new BreakEvenLine({
+              y: Maunaloa_VRuler.valueToPix(vr)(line.be),
+              ticker: line.ticker,
+              ask: line.ask,
+              breakEven: line.be
+          });
+          return Control_Apply.applySecond(Effect.applyEffect)($foreign.addLine(rl))($foreign.addLine(bl));
       };
   };
   var addRiscLines = function (vr) {
@@ -6714,7 +6798,7 @@ var PS = {};
                                       return $foreign.alert(Data_Show.show(Data_Argonaut_Decode_Error.showJsonDecodeError)(lines.value0));
                                   };
                                   if (lines instanceof Data_Either.Right) {
-                                      return Control_Apply.applySecond(Effect.applyEffect)(Effect_Console.logShow(Data_Either.showEither(Data_Argonaut_Decode_Error.showJsonDecodeError)(Data_Show.showArray(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+                                      return Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Effect_Console.logShow(Data_Either.showEither(Data_Argonaut_Decode_Error.showJsonDecodeError)(Data_Show.showArray(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
                                           return "ask";
                                       }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
                                           return "be";
@@ -6723,15 +6807,17 @@ var PS = {};
                                       }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
                                           return "risc";
                                       }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-                                          return "stockprice";
+                                          return "riscOptionPrice";
+                                      }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
+                                          return "riscStockPrice";
                                       }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
                                           return "ticker";
-                                      }))(Data_Show.showRecordFieldsNil)(Data_Show.showString))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber)))))(lines))(addRiscLines(vruler)(lines.value0));
+                                      }))(Data_Show.showRecordFieldsNil)(Data_Show.showString))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber)))))(lines))($foreign.clearLines))(addRiscLines(vruler)(lines.value0));
                                   };
-                                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 257, column 21 - line 261, column 75): " + [ lines.constructor.name ]);
+                                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 276, column 21 - line 282, column 58): " + [ lines.constructor.name ]);
                               })()));
                           };
-                          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 244, column 9 - line 262, column 18): " + [ res.constructor.name ]);
+                          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 263, column 9 - line 283, column 18): " + [ res.constructor.name ]);
                       }))();
                   };
               };
@@ -6755,9 +6841,9 @@ var PS = {};
                   };
                   if (context instanceof Data_Maybe.Just) {
                       var ctx = Graphics_Canvas.getContext2D(context.value0.canvasContext)();
-                      return Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)($foreign.redraw(ctx)(vruler))(initEvent(addLevelLineButtonClick)(context.value0.addLevelLineBtn)("click")))(initEvent(fetchLevelLineButtonClick(ticker)(context.value0.canvasContext)(vruler))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(mouseEventDown)(context.value0.canvasElement)("mousedown")))(initEvent(mouseEventDrag(context.value0.canvasContext)(vruler))(context.value0.canvasElement)("mousemove")))(initEvent(mouseEventUp(context.value0.canvasContext)(vruler))(context.value0.canvasElement)("mouseup"))();
+                      return Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)($foreign.redraw(ctx)(vruler))(initEvent(addLevelLineButtonClick)(context.value0.addLevelLineBtn)("click")))(initEvent(fetchLevelLineButtonClick(ticker)(context.value0.canvasContext)(vruler))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(mouseEventDown)(context.value0.canvasElement)("mousedown")))(initEvent(mouseEventDrag(context.value0.canvasContext)(vruler))(context.value0.canvasElement)("mousemove")))(initEvent(mouseEventUp(vruler))(context.value0.canvasElement)("mouseup"))();
                   };
-                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 350, column 9 - line 364, column 100): " + [ context.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 409, column 9 - line 423, column 97): " + [ context.constructor.name ]);
               };
           };
       };
