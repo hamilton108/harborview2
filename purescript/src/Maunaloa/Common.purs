@@ -7,6 +7,18 @@ import Prelude
 -- import Data.Tuple (Tuple(..),fst,snd)
 import Data.Int (toNumber)
 
+import Effect (Effect)
+
+import Data.Argonaut.Core (Json)
+
+foreign import showJson :: Json -> Effect Unit
+foreign import alert :: String -> Effect Unit
+
+mainURL :: String
+mainURL = 
+    --"http://localhost:8082/maunaloa"
+    "/maunaloa"
+
 ------------------------- Graph ------------------------- 
 --class Graph a where
 --    draw :: a -> Context2D -> Effect Unit
@@ -19,6 +31,7 @@ instance showChartWidth :: Show ChartWidth where
     -}
 
 type Xaxis = Array Number
+
 
 ------------------------- Pix ------------------------- 
 newtype Pix = Pix Number
@@ -90,6 +103,10 @@ derive instance eqValueRange :: Eq ValueRange
 instance showValueRange :: Show ValueRange where
   show (ValueRange v) = "(ValueRange " <> show v <> ")"
 
+valueRange :: Number -> Number -> ValueRange
+valueRange minv maxv = 
+  ValueRange { minVal: minv, maxVal: maxv }
+
 ------------------------- Padding ------------------------- 
 newtype Padding = Padding 
   { left :: Number
@@ -120,6 +137,9 @@ newtype OffsetBoundary = OffsetBoundary
   { oHead :: Int
   , oLast :: Int 
   }
+
+------------------------- Scaling ------------------------- 
+newtype Scaling = Scaling Number
 
 ------------------------- Util ------------------------- 
 

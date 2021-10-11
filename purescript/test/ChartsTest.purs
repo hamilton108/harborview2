@@ -1,81 +1,65 @@
-module Main2 where
+module Test.ChartsTest where
 
 import Prelude
 
-import Effect.Console (logShow)
-import Effect (Effect)
-import Data.Either (Either(..),fromRight)
-import Data.Maybe (Maybe(..))
+import Test.Unit.Assert as Assert
+import Test.Unit 
+    ( suite
+    , test
+    , TestSuite
+    )
+import Data.Maybe 
+    ( fromJust
+    , Maybe(..)
+    )
+import Data.Array 
+    ( length
+    ) 
+import Data.Either 
+    ( Either(..)
+    , fromRight
+    )
+
+--import Partial.Unsafe (unsafePartial)
 
 import Data.Argonaut.Parser as Parser
 import Data.Argonaut.Core (Json,fromString)
 import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
 
--- import Maunaloa.Json(JsonChartInfo,Chart,chartsFromJson)
-
-
-a :: Int
-a = 2 
-
-{-
-type JsonDemo =
-    {
-      a :: Int
-    , b :: String
-    , c :: Maybe Int
-    } 
-
-
-myJson :: Either String Json
-myJson = Parser.jsonParser """{"a": 33, 
-                               "b": "b", "c": 34}"""
-
-json2demo :: Json -> Either JsonDecodeError JsonDemo
-json2demo = Decode.decodeJson
-
-doJson = 
-    myJson >>= \json ->
-    let 
-        result = json2demo json
-    in
-    case result of 
-        Right result' ->
-            pure result'
-        Left _ -> 
-            Left "what" 
-
-myJson2 :: Either String Json
-myJson2 = Parser.jsonParser testJsonStr
-
-defaultChart :: Chart
-defaultChart = 
-    { lines: Nothing
-    , bars: Nothing 
-    , candlesticks: Nothing 
-    }
-
-defaultJsonChartInfo :: JsonChartInfo
-defaultJsonChartInfo =
-    { chart: defaultChart 
-    , chart2: defaultChart 
-    , chart3: defaultChart 
-    , xAxis: []
-    , minDx: 0.0
-    }
-
-doJson2 :: JsonChartInfo
-doJson2 =
-    let 
-        json = fromRight (fromString "{}") myJson2
-        result = chartsFromJson json
-    in
-    fromRight defaultJsonChartInfo result
-
+import Maunaloa.Json.JsonCharts 
+    ( JsonChartInfo
+    , chartsFromJson
+    , emptyChart)
+import Maunaloa.Charts 
+    ( transform
+    )
+import Maunaloa.ChartCollection
+    ( ChartCollection(..)
+    , ChartMappings
+    , ChartMapping(..)
+    , globalChartWidth
+    )
+import Maunaloa.Common 
+    ( HtmlId(..)
+    , Ticker(..)
+    , ChartHeight(..)
+    , Scaling(..)
+    , ValueRange
+    , valueRange
+    )
+import Maunaloa.Chart
+    ( ChartId(..)
+    )
+import Maunaloa.Charts
+    ( minMaxRanges 
+    , normalizeLine 
+    )
+import Maunaloa.HRuler as H
 
 testJsonStr :: String
 testJsonStr =
-        """{"chart":{
+    """{"ticker":"NHY","chart":{
         "lines":[[57.4,57.0,56.5,56.2,56.1,55.8,55.8,56.4,57.2,57.2,56.8,56.4,56.2,55.9,56.1,56.4,56.2,55.7,55.1,54.7,54.4,54.0,53.5,52.8,51.9,
                   51.1,50.8,50.9,51.4,52.3,53.2,53.8,54.0,53.9,54.0,54.3,54.7,55.0,55.0,55.0,54.6,53.7,52.8,52.0,51.2,51.1,51.7,52.3,53.0,54.1,
                   54.9,55.2,55.3,54.9,54.2,53.4,53.1,53.0,52.9,53.0,53.2,53.6,53.9,54.3,54.3,54.1,54.1,54.5,54.7,54.6,54.0,53.3,52.7,52.5,
@@ -243,7 +227,6 @@ testJsonStr =
                         {"o":32.9,"h":33.53,"l":32.9,"c":33.41},{"o":32.66,"h":32.8,"l":32.34,"c":32.64},{"o":32.93,"h":33.65,"l":32.57,"c":32.58},
                         {"o":32.65,"h":32.75,"l":32.43,"c":32.71},{"o":32.52,"h":32.76,"l":32.17,"c":32.51},{"o":32.14,"h":32.64,"l":31.94,"c":32.53},
                         {"o":32.8,"h":32.86,"l":32.3,"c":32.5}]},
-
     "chart2":{
                 "lines":[[0.5,1.1,0.9,-0.1,0.6,0.4,-0.4,-2.9,-1.8,0.8,0.5,0.3,0.0,0.5,-2.4,0.0,-0.1,1.3,0.8,0.3,0.6,0.8,0.9,2.4,2.4,2.1,0.5,
                             0.1,-1.8,-1.9,-1.7,-1.4,0.3,0.2,-0.7,-1.0,-1.2,-1.1,0.2,-0.8,1.7,2.4,2.0,2.2,2.3,-0.6,-1.5,-0.5,-2.4,-3.2,-1.0,-1.3,
@@ -350,7 +333,7 @@ testJsonStr =
                 0.16006774412226027,0.08546685711445061,0.11896404037743172,0.08546532556813827,0.23060687458811774,0.17186026784064798,
                 0.14132917926921884]],
         "candlesticks":null},
-    "minDx":1262304000000,
+    "minDx":1262304000,
     "xAxis":[4226,4225,4224,4221,4220,4219,4218,4217,4214,4213,4212,4211,4210,4207,4206,4205,4204,4203,4200,4199,4198,4197,
             4196,4193,4192,4191,4190,4189,4186,4185,4184,4183,4182,4179,4178,4177,4176,4175,4172,4171,4170,4169,4168,4165,
             4164,4163,4162,4158,4157,4156,4155,4151,4149,4148,4147,4144,4143,4142,4141,4140,4137,4136,4135,4134,4133,4130,
@@ -370,4 +353,129 @@ testJsonStr =
             3710,3709,3708,3707,3706,3703,3702,3701,3700,3699,3696,3695,3694,3693,3692,3689,3688,3687,3686,3685,3682,3681,
             3680,3679,3678,3675,3674,3673,3672,3671,3668,3667,3666,3665,3664,3661,3660,3659,3658,3657,3654,3653,3650,3647,
             3643,3640,3639,3638]}"""
-{--}
+
+testJson :: Either String Json
+testJson = Parser.jsonParser testJsonStr
+
+defaultJsonChartInfo :: JsonChartInfo
+defaultJsonChartInfo =
+    { ticker: "NHY"
+    , chart: emptyChart 
+    , chart2: emptyChart 
+    , chart3: emptyChart 
+    , xAxis: []
+    , minDx: 0.0
+    }
+
+chartMapping :: HtmlId -> HtmlId -> HtmlId -> ChartMapping
+chartMapping levelCanvasId addLevelId fetchLevelId = 
+    ChartMapping 
+    { ticker: Ticker "NHY"
+    , chartId: ChartId "chart"
+    , canvasId: HtmlId "test-canvasId"
+    , chartHeight: ChartHeight 500.0
+    , levelCanvasId: levelCanvasId 
+    , addLevelId: addLevelId 
+    , fetchLevelId: fetchLevelId 
+    }
+
+defaultChartMappings :: ChartMappings
+defaultChartMappings =
+    let 
+        mapping1 = chartMapping (HtmlId "level-id") (HtmlId "add-level-id") (HtmlId "fetch-level-id")
+    in
+    [mapping1]
+
+testJsonChartInfo :: JsonChartInfo
+testJsonChartInfo =
+    let 
+        json = fromRight (fromString "") testJson
+        result = chartsFromJson json
+    in
+    fromRight defaultJsonChartInfo result
+
+testValueRanges :: Array (Maybe ValueRange)
+testValueRanges = 
+    [ Nothing
+    , Nothing
+    , Just (valueRange 1.0 7.5)
+    , Just (valueRange 3.0 10.5)
+    , Just (valueRange 3.5 10.0)
+    , Nothing
+    , Nothing
+    ]
+
+expectedValueRange = 
+    valueRange 1.0 10.5
+
+expectedValueRangeWithScale = 
+    valueRange 0.5 21.0
+
+testLine :: Array Number
+testLine = 
+    [ (-7.0)
+    , (-10.0)
+    , (-6.0)
+    , (-4.0)
+    , (-2.0)
+    , (-3.0)
+    , 0.0
+    , (-1.0)
+    , 0.0
+    , 1.0
+    , 3.0
+    , 4.0
+    , 2.0
+    , 5.0
+    , 6.0
+    , 8.0
+    , 7.0
+    , 6.0
+    , 5.0
+    , 4.0
+    ]
+
+expectedLine :: Array Number
+expectedLine = 
+    [ (-0.7)
+    , (-1.0)
+    , (-0.6)
+    , (-0.4)
+    , (-0.2)
+    , (-0.3)
+    , 0.0
+    , (-0.1)
+    , 0.0
+    , 0.1
+    , 0.3
+    , 0.4
+    , 0.2
+    , 0.5
+    , 0.6
+    , 0.8
+    , 0.7
+    , 0.6
+    , 0.5
+    , 0.4
+    ]
+
+testChartsSuite :: TestSuite
+testChartsSuite = 
+    suite "TestChartsSuite" do
+        {-
+        test "transform" do
+            -- let (ChartCollection collection) = transform defaultChartMappings testJsonChartInfo
+            Assert.equal 1 1 -- (length collection.charts)
+        test "minMaxRanges no scaling" do
+            let actual = minMaxRanges (Scaling 1.0) testValueRanges
+            Assert.equal expectedValueRange actual 
+        test "minMaxRanges with scaling" do
+            let actual = minMaxRanges (Scaling 2.0) testValueRanges
+            Assert.equal expectedValueRangeWithScale actual 
+        -}
+        test "normalizeLine" do
+            let actual = normalizeLine testLine
+            Assert.equal expectedLine actual
+
+
+

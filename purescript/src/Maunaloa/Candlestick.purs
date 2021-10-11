@@ -15,12 +15,12 @@ import Maunaloa.ElmTypes
 
 foreign import fi_paint :: Xaxis -> Candlesticks -> Context2D -> Effect Unit 
 
-newtype Candlestick = Candlestick {
-      o :: Number
-    , h :: Number
-    , l :: Number
-    , c :: Number
-}
+newtype Candlestick = Candlestick 
+  { o :: Number
+  , h :: Number
+  , l :: Number
+  , c :: Number
+  }
 
 instance showCandlestick :: Show Candlestick where
   show (Candlestick v) = "(Candlestick " <> show v <> ")"

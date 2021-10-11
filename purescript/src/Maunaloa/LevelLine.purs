@@ -31,7 +31,7 @@ import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
 
 
-import Maunaloa.Common (Pix(..),HtmlId(..))
+import Maunaloa.Common (Pix(..),HtmlId(..),mainURL,showJson,alert)
 import Maunaloa.VRuler (VRuler,valueToPix,pixToValue)
 import Maunaloa.Chart (ChartLevel)
 
@@ -84,9 +84,9 @@ foreign import redraw :: Context2D -> VRuler -> Effect Unit
 
 foreign import clearCanvas :: Effect Unit
 
-foreign import showJson :: Json -> Effect Unit
+--foreign import showJson :: Json -> Effect Unit
 
-foreign import alert :: String -> Effect Unit
+--foreign import alert :: String -> Effect Unit
 
 data Line = 
     StdLine 
@@ -214,11 +214,6 @@ addLevelLineButtonClick evt =
     in
     addLine line
 
-mainURL :: String
-mainURL = 
-    --"http://localhost:8082/maunaloa"
-    "/maunaloa"
-
 fetchLevelLinesURL :: String -> String
 fetchLevelLinesURL ticker =
     -- "http://localhost:6346/maunaloa/risclines/" <> ticker
@@ -257,6 +252,20 @@ addRiscLines vr lines =
 
 fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ticker ce vruler evt = 
+    launchAff_ $
+    Affjax.get ResponseFormat.json (mainURL <> "/days/1") >>= \res ->
+        case res of  
+            Left err -> 
+                liftEffect (
+                    defaultEventHandling evt *>
+                    alert ("Affjax Error: " <> Affjax.printError err)
+                )
+            Right response -> 
+                liftEffect (alert "OK!") 
+    
+
+xfetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
+xfetchLevelLineButtonClick ticker ce vruler evt = 
     Canvas.getContext2D ce >>= \ctx ->
     launchAff_ $
     Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->

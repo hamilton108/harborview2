@@ -37,6 +37,7 @@ chartMappingWithChartLevel = chartMapping (HtmlId "level-canvasid") (HtmlId "add
 chartMappingsWithChartLevel :: ChartCollection.ChartMappings 
 chartMappingsWithChartLevel = [chartMappingWithChartLevel]
 
+
 {--
 testChartColletionSuite :: TestSuite
 testChartColletionSuite = 
