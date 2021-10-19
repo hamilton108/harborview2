@@ -13,13 +13,19 @@ import Test.ChartTest (testChartSuite)
 import Test.ChartsTest (testChartsSuite)
 --import Test.ChartCollectionTest (testChartColletionSuite)
 import Test.ElmTest (testElmSuite)
+import Test.Util.DateUtilTest (testDateUtilSuite)
 
 
 main :: Effect Unit
 main = runTest do
+    --testDateUtilSuite
     testChartsSuite
+    --testHRulerSuite
+    --testVRulerSuite
     {-
+    testDateUtilSuite
     testChartSuite
+    testChartsSuite
     testCandlestickSuite
     testHRulerSuite
     testVRulerSuite

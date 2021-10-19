@@ -8,12 +8,13 @@ import Effect (Effect)
 import Effect.Console (logShow)
 
 import Maunaloa.Common 
-  ( ValueRange(..)
-  , Padding(..)
-  , ChartWidth(..)
-  , ChartHeight(..)
-  , HtmlId(..)
-  )
+    ( ValueRange(..)
+    , Padding(..)
+    , ChartWidth(..)
+    , ChartHeight(..)
+    , HtmlId(..)
+    , Pix(..)
+    )
 import Maunaloa.HRuler as H
 import Maunaloa.VRuler as V
 import Maunaloa.Line as L
@@ -32,14 +33,38 @@ type ChartLevel =
 
 newtype Chart = 
     Chart 
-    { lines :: L.Lines
-    , candlesticks :: CNDL.Candlesticks
-    , canvasId :: HtmlId 
-    , vruler :: V.VRuler
-    , w :: ChartWidth
-    , h :: ChartHeight
-    -- , levelCanvasId :: Maybe HtmlId 
-    , chartLevel :: Maybe ChartLevel
+        { lines :: L.Lines
+        , candlesticks :: CNDL.Candlesticks
+        , canvasId :: HtmlId 
+        , vruler :: V.VRuler
+        , w :: ChartWidth
+        , h :: ChartHeight
+        -- , levelCanvasId :: Maybe HtmlId 
+        , chartLevel :: Maybe ChartLevel
+        }
+
+emptyChart :: Chart
+emptyChart = 
+    Chart 
+    { lines: []
+    , candlesticks: []
+    , canvasId: HtmlId ""
+    , vruler: V.VRuler 
+                { ppy: Pix 0.0
+                , maxVal: 0.0
+                , w: ChartWidth 0.0
+                , h: ChartHeight 0.0
+                , padding: 
+                    Padding 
+                    { left: 0.0
+                    , top: 0.0
+                    , right: 0.0
+                    , bottom: 0.0
+                    }
+                }
+    , w: ChartWidth 0.0
+    , h: ChartHeight 0.0
+    , chartLevel: Nothing
     }
 
 newtype ChartConfig =

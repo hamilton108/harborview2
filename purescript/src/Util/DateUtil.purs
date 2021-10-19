@@ -1,27 +1,32 @@
 module Util.DateUtil where
   
 import Prelude
-import Data.Maybe (fromMaybe)
-import Data.Array (head,last)
---import Data.Tuple (Tuple(..))
+import Data.Maybe 
+    ( fromMaybe
+    )
+import Data.Array 
+    ( head
+    , last
+    )
+import Data.Tuple 
+    ( Tuple(..)
+    )
+import Data.Int
+    ( toNumber
+    )
 import Maunaloa.Common
-    ( ValueRange(..)
+    ( UnixTime(..) 
+    , dayInMillis
     )
 
+dateRangeOf :: UnixTime -> Array Int -> Tuple UnixTime UnixTime
+dateRangeOf (UnixTime dx) lx =
+    let 
+        hi = 
+            dx + (dayInMillis * (toNumber $ fromMaybe 0 $ head lx))
 
-day_ :: Number 
-day_ =
-    86400000.0
-
-dateRangeOf :: Number -> Array Number -> ValueRange 
-dateRangeOf dx lx =
-    let
-        offsetHi =
-            dx + (day_ * (fromMaybe 0.0 $ head lx))
-
-        offsetLow =
-            dx + (day_ * (fromMaybe 0.0 $ last lx))
+        lo = 
+            dx + (dayInMillis * (toNumber $ fromMaybe 0 $ last lx))
 
     in
-    ValueRange { minVal: offsetLow, maxVal: offsetHi }
-    --Tuple  dx + (offsetLow * day_), dx + (offsetHi * day_) )
+    Tuple (UnixTime lo) (UnixTime hi)

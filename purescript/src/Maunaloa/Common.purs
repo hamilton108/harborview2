@@ -33,6 +33,9 @@ instance showChartWidth :: Show ChartWidth where
 type Xaxis = Array Number
 
 
+dayInMillis :: Number
+dayInMillis = 86400000.0
+
 ------------------------- Pix ------------------------- 
 newtype Pix = Pix Number
 
@@ -138,6 +141,9 @@ newtype OffsetBoundary = OffsetBoundary
   , oLast :: Int 
   }
 
+instance showOffsetBoundary :: Show OffsetBoundary where
+  show (OffsetBoundary v) = "(OffsetBoundary " <> show v <> ")"
+    
 ------------------------- Scaling ------------------------- 
 newtype Scaling = Scaling Number
 

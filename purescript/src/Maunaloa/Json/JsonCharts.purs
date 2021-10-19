@@ -16,7 +16,7 @@ import Maunaloa.Common
     ( ValueRange
     )
 
-foreign import addCharts :: String -> JsonChartInfo -> Effect Unit
+foreign import addCharts :: String -> JsonChartResponse -> Effect Unit
 
 type JsonCandlestick =
     { o :: Number 
@@ -39,7 +39,7 @@ type JsonChartWindow =
     , numVlines :: Int
     }
     
-type JsonChartInfo =
+type JsonChartResponse =
     { ticker :: String
     , chart :: JsonChart
     , chart2 :: JsonChart
@@ -48,14 +48,14 @@ type JsonChartInfo =
     , minDx :: Number
     }
 
-emptyChart :: JsonChart
-emptyChart = 
+emptyJsonChart :: JsonChart
+emptyJsonChart = 
     { lines: Nothing
     , bars: Nothing 
     , candlesticks: Nothing 
     }
 
-chartsFromJson :: Json -> Either JsonDecodeError JsonChartInfo 
+chartsFromJson :: Json -> Either JsonDecodeError JsonChartResponse 
 chartsFromJson = Decode.decodeJson
 
  {-
