@@ -55,22 +55,42 @@ public class ElmChartsFactory {
         return filter.calculate(values).stream()
                 .map(this::roundToNumDecimals).collect(Collectors.toList());
     }
+
+    private int TAKE = 20;
+    private boolean RETURN_ALL_ITEMS = true;
     private Chart mainChart(List<Double> spots, List<StockPrice> winSpots) {
         List<Double> itrend10 = calculateFilter(calcItrend10, spots);
         List<Double> itrend50 = calculateFilter(calcItrend50, spots);
         List<Candlestick> candlesticks = winSpots.stream().map(Candlestick::new).collect(Collectors.toList());
         Chart chart = new Chart();
-        chart.addLine(Lists.reverse(itrend10));
-        chart.addLine(Lists.reverse(itrend50));
-        chart.setCandlesticks(Lists.reverse(candlesticks));
+
+        if (RETURN_ALL_ITEMS == true) {
+            chart.addLine(Lists.reverse(itrend10)); 
+            chart.addLine(Lists.reverse(itrend50));
+            chart.setCandlesticks(Lists.reverse(candlesticks)); 
+        }
+        else {
+            chart.addLine(Lists.reverse(itrend10).stream().limit(TAKE).collect(Collectors.toList()));
+            chart.addLine(Lists.reverse(itrend50).stream().limit(TAKE).collect(Collectors.toList()));
+            chart.setCandlesticks(Lists.reverse(candlesticks).stream().limit(TAKE).collect(Collectors.toList()));
+        }
+
         return chart;
     }
     private Chart cyberCycleChart(List<Double> spots) {
         Chart chart = new Chart();
         List<Double> cc10 = calculateFilter(calcCyberCycle10, spots);
         List<Double> cc10rf = calculateFilter(roofingFilter, spots);
-        chart.addLine(Lists.reverse(cc10));
-        chart.addLine(Lists.reverse(cc10rf));
+
+        if (RETURN_ALL_ITEMS == true) {
+            chart.addLine(Lists.reverse(cc10)); 
+            chart.addLine(Lists.reverse(cc10rf)); 
+        }
+        else {
+            chart.addLine(Lists.reverse(cc10).stream().limit(TAKE).collect(Collectors.toList()));
+            chart.addLine(Lists.reverse(cc10rf).stream().limit(TAKE).collect(Collectors.toList()));
+        }
+
         return chart;
     }
 
@@ -80,7 +100,13 @@ public class ElmChartsFactory {
         OptionalDouble maxVol = vol.stream().mapToDouble(v -> v).max();
         maxVol.ifPresent(v -> {
             List<Double> normalized = vol.stream().map(x -> x/v).collect(Collectors.toList());
-            chart.addBar(Lists.reverse(normalized));
+
+            if (RETURN_ALL_ITEMS == true) {
+                chart.addBar(Lists.reverse(normalized));
+            else {
+                chart.addBar(Lists.reverse(normalized).stream().limit(TAKE).collect(Collectors.toList()));
+            }
+
         });
         return chart;
     }
@@ -97,7 +123,13 @@ public class ElmChartsFactory {
 
         List<LocalDate> dx = winSpots.stream().map(StockPrice::getLocalDx).collect(Collectors.toList());
         List<Long> xAxis = dx.stream().map(this::hRuler).collect(Collectors.toList());
-        result.setxAxis(Lists.reverse(xAxis));
+
+        if (RETURN_ALL_ITEMS == true) {
+            result.setxAxis(Lists.reverse(xAxis));
+        else {
+            result.setxAxis(Lists.reverse(xAxis).stream().limit(TAKE).collect(Collectors.toList()));
+        }
+
         result.setMinDx(unixTime());
         return result;
     }
