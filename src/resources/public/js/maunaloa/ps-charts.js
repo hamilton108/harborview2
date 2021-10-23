@@ -2497,23 +2497,13 @@ var PS = {};
   $PS["Data.Nullable"] = $PS["Data.Nullable"] || {};
   var exports = $PS["Data.Nullable"];
   var $foreign = $PS["Data.Nullable"];
-  var Data_Maybe = $PS["Data.Maybe"];
-  var Data_Show = $PS["Data.Show"];                
+  var Data_Maybe = $PS["Data.Maybe"];              
   var toNullable = Data_Maybe.maybe($foreign["null"])($foreign.notNull);
   var toMaybe = function (n) {
       return $foreign.nullable(n, Data_Maybe.Nothing.value, Data_Maybe.Just.create);
   };
-  var showNullable = function (dictShow) {
-      return new Data_Show.Show((function () {
-          var $5 = Data_Maybe.maybe("null")(Data_Show.show(dictShow));
-          return function ($6) {
-              return $5(toMaybe($6));
-          };
-      })());
-  };
   exports["toMaybe"] = toMaybe;
   exports["toNullable"] = toNullable;
-  exports["showNullable"] = showNullable;
 })(PS);
 (function(exports) {
   /* globals setImmediate, clearImmediate, setTimeout, clearTimeout */
@@ -6999,9 +6989,7 @@ var PS = {};
   $PS["Main"] = $PS["Main"] || {};
   var exports = $PS["Main"];
   var Control_Apply = $PS["Control.Apply"];
-  var Data_Nullable = $PS["Data.Nullable"];
   var Data_Show = $PS["Data.Show"];
-  var Data_Symbol = $PS["Data.Symbol"];
   var Effect = $PS["Effect"];
   var Effect_Console = $PS["Effect.Console"];
   var Maunaloa_ChartCollection = $PS["Maunaloa.ChartCollection"];
@@ -7021,80 +7009,8 @@ var PS = {};
   };
   var paint = function (mappings) {
       return function (ciwin) {
-          return Control_Apply.applySecond(Effect.applyEffect)(Effect_Console.logShow(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "chart";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "chart2";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "chart3";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "numIncMonths";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "startdate";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "strokes";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "ticker";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "xaxis";
-          }))(Data_Show.showRecordFieldsNil)(Data_Show.showArray(Data_Show.showInt)))(Data_Show.showString))(Data_Show.showArray(Data_Show.showString)))(Data_Show.showNumber))(Data_Show.showInt))(Data_Nullable.showNullable(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "bars";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "candlesticks";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "lines";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "numVlines";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "valueRange";
-          }))(Data_Show.showRecordFieldsNil)(Data_Show.showArray(Data_Show.showNumber)))(Data_Show.showInt))(Data_Show.showArray(Data_Show.showArray(Data_Show.showNumber))))(Data_Show.showArray(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "c";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "h";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "l";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "o";
-          }))(Data_Show.showRecordFieldsNil)(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber)))))(Data_Show.showArray(Data_Show.showArray(Data_Show.showNumber)))))))(Data_Nullable.showNullable(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "bars";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "candlesticks";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "lines";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "numVlines";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "valueRange";
-          }))(Data_Show.showRecordFieldsNil)(Data_Show.showArray(Data_Show.showNumber)))(Data_Show.showInt))(Data_Show.showArray(Data_Show.showArray(Data_Show.showNumber))))(Data_Show.showArray(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "c";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "h";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "l";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "o";
-          }))(Data_Show.showRecordFieldsNil)(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber)))))(Data_Show.showArray(Data_Show.showArray(Data_Show.showNumber)))))))(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "bars";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "candlesticks";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "lines";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "numVlines";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "valueRange";
-          }))(Data_Show.showRecordFieldsNil)(Data_Show.showArray(Data_Show.showNumber)))(Data_Show.showInt))(Data_Show.showArray(Data_Show.showArray(Data_Show.showNumber))))(Data_Show.showArray(Data_Show.showRecord()(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "c";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "h";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "l";
-          }))(Data_Show.showRecordFieldsCons(new Data_Symbol.IsSymbol(function () {
-              return "o";
-          }))(Data_Show.showRecordFieldsNil)(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber))(Data_Show.showNumber)))))(Data_Show.showArray(Data_Show.showArray(Data_Show.showNumber)))))))(ciwin))((function () {
-              var coll = Maunaloa_Elm.transform(mappings)(ciwin);
-              return Maunaloa_ChartCollection.paint(coll);
-          })());
+          var coll = Maunaloa_Elm.transform(mappings)(ciwin);
+          return Maunaloa_ChartCollection.paint(coll);
       };
   };
   var clearLevelLines = Control_Apply.applySecond(Effect.applyEffect)(Effect_Console.logShow(Data_Show.showString)("clearLevelLines"))(Maunaloa_LevelLine.clear);
