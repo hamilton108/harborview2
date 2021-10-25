@@ -18,11 +18,6 @@ import Test.Util.DateUtilTest (testDateUtilSuite)
 
 main :: Effect Unit
 main = runTest do
-    --testDateUtilSuite
-    testChartsSuite
-    --testHRulerSuite
-    --testVRulerSuite
-    {-
     testDateUtilSuite
     testChartSuite
     testChartsSuite
@@ -30,5 +25,4 @@ main = runTest do
     testHRulerSuite
     testVRulerSuite
     --testChartColletionSuite
-    testElmSuite
-    -}
+    --testElmSuite

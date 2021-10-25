@@ -46,6 +46,7 @@ import Maunaloa.Common
     ( HtmlId(..)
     , Ticker(..)
     , ChartHeight(..)
+    , ChartWidth(..)
     , Scaling(..)
     , ValueRange
     , UnixTime(..)
@@ -56,6 +57,7 @@ import Maunaloa.Common
 import Maunaloa.Chart
     ( Chart(..)
     , ChartId(..)
+    , ChartLevel
     , emptyChart
     )
 import Maunaloa.Charts
@@ -64,6 +66,12 @@ import Maunaloa.Charts
     )
 import Maunaloa.HRuler
     ( HRuler(..)
+    )
+import Maunaloa.VRuler
+    ( VRuler(..)
+    )
+import Maunaloa.Candlestick
+    ( Candlestick(..)
     )
 
 --import Maunaloa.HRuler as H
@@ -301,10 +309,47 @@ expectedChartLines10 =
     , 134.30285376440227
     ]
 
+expectedCandlesticks10 :: Array Candlestick
+expectedCandlesticks10 = 
+    [ (Candlestick { c: 113.71075893694038, h: 95.54126350094477, l: 128.85200513360354, o: 116.73900817627305})
+    , (Candlestick { c: 107.04861061040862, h: 107.04861061040862, l: 143.9932513302667, o: 134.30285376440227})
+    , (Candlestick { c: 130.06330482933657, h: 124.61245619853783, l: 191.83958931172242, o: 171.24749448426053})
+    , (Candlestick { c: 165.79664585346183, h: 110.0768598497413, l: 185.7830908330571, o: 110.0768598497413})
+    , (Candlestick { c: 151.26104950466507, h: 146.41585072173297, l: 167.00794554919483, o: 155.50059843973077})
+    , (Candlestick { c: 162.76839661412913, h: 156.7118981354638, l: 215.45993337851678, o: 188.20569022452312})
+    , (Candlestick { c: 189.41698992025616, h: 189.41698992025616, l: 229.9955297273135, o: 229.3898798794469})
+    , (Candlestick { c: 245.74242577184307, h: 185.7830908330571, l: 253.01022394624144, o: 185.7830908330571})
+    , (Candlestick { c: 188.81134007238975, h: 88.87911517441279, l: 190.0226397681228, o: 94.93561365307814})
+    , (Candlestick { c: 110.0768598497413, h: 104.02036137107595, l: 131.2746045250698, o: 127.0350555900041})
+    ]
+
+expectedVruler :: VRuler
+expectedVruler = 
+    VRuler 
+    { h: ChartHeight 500.0
+    , maxVal: 61.635000000000005
+    , padding: 
+        Padding 
+        { bottom: 0.0
+        , left: 50.0
+        , right: 50.0
+        , top: 0.0
+        }
+    , ppy: Pix 30.28249239332631
+    , w: ChartWidth 1310.0
+    }
+
+expectedChartLevel :: Maybe ChartLevel
+expectedChartLevel =
+    Just 
+    { levelCanvasId: HtmlId "level-id"
+    , addLevelId: HtmlId "add-level-id"
+    , fetchLevelId: HtmlId "fetch-level-id"
+    }
+
 testChartsSuite :: TestSuite
 testChartsSuite = 
     suite "TestChartsSuite" do
-        {-
         test "minMaxRanges no scaling" do
             let actual = minMaxRanges (Scaling 1.0) testValueRanges
             Assert.equal expectedValueRange actual 
@@ -314,7 +359,6 @@ testChartsSuite =
         test "normalizeLine" do
             let actual = normalizeLine testLine
             Assert.equal expectedLine actual
-        -}
         test "transform" do
             let (ChartCollection collection) = transform defaultChartMappings testJsonChartResponse 
             let (HRuler hruler) = collection.hruler
@@ -326,17 +370,17 @@ testChartsSuite =
             let actualXaxis10 = take 10 hruler.xaxis
             Assert.equal expectedXaxis10 actualXaxis10
             let (Chart chart1) = fromMaybe emptyChart (head collection.charts) 
+            Assert.equal expectedVruler chart1.vruler
             let line1_1 = fromMaybe [] (head chart1.lines)
             let actualChartLines10 = take 10 line1_1 
             Assert.equal expectedChartLines10 actualChartLines10
+            let actualCandlesticks10 = take 10 chart1.candlesticks 
+            Assert.equal expectedCandlesticks10 actualCandlesticks10 
+            Assert.equal (HtmlId "test-canvasId") chart1.canvasId
+            Assert.equal expectedChartLevel chart1.chartLevel
+            Assert.equal (ChartWidth 1310.0) chart1.w
+            Assert.equal (ChartHeight 500.0) chart1.h
 
 
-            {-
-            let (ChartCollection collection) = transform defaultChartMappings testJsonChartResponse 
-            let (HRuler hruler) = collection.hruler
-            Assert.equal 1 (length collection.charts)
-            Assert.equal (UnixTime 1615939200000.0) hruler.startTime
-            Assert.equal (UnixTime 1627430400000.0) hruler.endTime
-            -}
 
 

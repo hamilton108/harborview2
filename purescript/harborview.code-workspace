@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": ".."
+		},
+		{
+			"path": "../../tmp/harborview2/purescript/src"
 		}
 	],
 	"settings": {}
