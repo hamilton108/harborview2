@@ -1,4 +1,4 @@
-module Test.ChartsTest where
+module Test.ChartTransformTest where
 
 import Prelude
 
@@ -33,7 +33,7 @@ import Maunaloa.Json.JsonCharts
     , chartsFromJson
     , emptyJsonChart
     )
-import Maunaloa.Charts 
+import Maunaloa.ChartTransform
     ( transform
     )
 import Maunaloa.ChartCollection
@@ -347,8 +347,8 @@ expectedChartLevel =
     , fetchLevelId: HtmlId "fetch-level-id"
     }
 
-testChartsSuite :: TestSuite
-testChartsSuite = 
+testChartTransformSuite :: TestSuite
+testChartTransformSuite = 
     suite "TestChartsSuite" do
         test "minMaxRanges no scaling" do
             let actual = minMaxRanges (Scaling 1.0) testValueRanges

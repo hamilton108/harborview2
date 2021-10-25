@@ -1,4 +1,4 @@
-module Maunaloa.Charts where
+module Maunaloa.ChartTransform where
   
 import Prelude
 

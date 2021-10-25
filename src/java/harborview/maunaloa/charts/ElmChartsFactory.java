@@ -56,8 +56,8 @@ public class ElmChartsFactory {
                 .map(this::roundToNumDecimals).collect(Collectors.toList());
     }
 
-    private int TAKE = 20;
-    private boolean RETURN_ALL_ITEMS = true;
+    private int TAKE = 100;
+    private boolean RETURN_ALL_ITEMS = false;
     private Chart mainChart(List<Double> spots, List<StockPrice> winSpots) {
         List<Double> itrend10 = calculateFilter(calcItrend10, spots);
         List<Double> itrend50 = calculateFilter(calcItrend50, spots);
@@ -103,6 +103,7 @@ public class ElmChartsFactory {
 
             if (RETURN_ALL_ITEMS == true) {
                 chart.addBar(Lists.reverse(normalized));
+            }
             else {
                 chart.addBar(Lists.reverse(normalized).stream().limit(TAKE).collect(Collectors.toList()));
             }
@@ -126,6 +127,7 @@ public class ElmChartsFactory {
 
         if (RETURN_ALL_ITEMS == true) {
             result.setxAxis(Lists.reverse(xAxis));
+        }
         else {
             result.setxAxis(Lists.reverse(xAxis).stream().limit(TAKE).collect(Collectors.toList()));
         }
