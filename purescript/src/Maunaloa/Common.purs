@@ -178,3 +178,42 @@ calcPpy (ChartHeight dim) (ValueRange {minVal,maxVal}) (Padding p) =
     padding_justified_h = dim - p.top - p.bottom
   in
   padding_justified_h / (maxVal - minVal)
+
+---------------------------- Env ------------------------------
+
+newtype ChartId = ChartId String
+
+instance showChartId :: Show ChartId where
+  show (ChartId c) = "(ChartId " <> c <> ")"
+
+
+newtype ChartMapping = ChartMapping 
+    { ticker ::Ticker 
+    , chartId :: ChartId
+    , canvasId :: HtmlId
+    , chartHeight :: ChartHeight 
+    , levelCanvasId :: HtmlId
+    , addLevelId :: HtmlId
+    , fetchLevelId :: HtmlId
+    }
+
+instance showChartMapping :: Show ChartMapping where
+    show (ChartMapping x) = "(ChartMapping " <> show x <> ")"
+
+type ChartMappings = Array ChartMapping
+
+data ChartType
+    = DayChart
+    | WeekChart
+    | MonthChart
+
+newtype Drop = Drop Int
+
+newtype Take = Take Int
+
+newtype Env = 
+    Env
+    { curDrop :: Drop
+    , curTake :: Take
+    , chartType :: ChartType
+    }

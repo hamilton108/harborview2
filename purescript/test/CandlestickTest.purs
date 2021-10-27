@@ -4,14 +4,19 @@ import Test.Unit (TestSuite,suite,test)
 import Test.Unit.Assert as Assert
 
 import Maunaloa.Candlestick as CA
-import Maunaloa.ElmTypes as ElmTypes
+import Maunaloa.Candlestick
+    ( Candlestick(..)
+    )
+import Maunaloa.Json.JsonCharts
+    ( JsonCandlestick(..)
+    )
 import Test.VRulerTest as VT
 
-testCandle :: ElmTypes.ElmCandlestick
+testCandle :: JsonCandlestick
 testCandle = { o: 40.0, h: 50.0, l: 10.0, c: 30.0 }
 
-pixCandle :: CA.Candlestick
-pixCandle = CA.Candlestick { o: 50.0, h: 0.0, l: 200.0, c: 100.0 }
+pixCandle :: Candlestick
+pixCandle = Candlestick { o: 50.0, h: 0.0, l: 200.0, c: 100.0 }
 
 testCandlestickSuite :: TestSuite
 testCandlestickSuite = 

@@ -14,16 +14,12 @@ import Maunaloa.Common
     , ChartHeight(..)
     , HtmlId(..)
     , Pix(..)
+    , ChartId(..)
     )
 import Maunaloa.HRuler as H
 import Maunaloa.VRuler as V
 import Maunaloa.Line as L
 import Maunaloa.Candlestick as CNDL
-
-newtype ChartId = ChartId String
-
-instance showChartId :: Show ChartId where
-  show (ChartId c) = "(ChartId " <> c <> ")"
 
 type ChartLevel = 
     { levelCanvasId :: HtmlId

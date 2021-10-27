@@ -12,7 +12,6 @@ import Test.VRulerTest (testVRulerSuite)
 import Test.ChartTest (testChartSuite)
 import Test.ChartTransformTest (testChartTransformSuite)
 --import Test.ChartCollectionTest (testChartColletionSuite)
-import Test.ElmTest (testElmSuite)
 import Test.Util.DateUtilTest (testDateUtilSuite)
 
 
@@ -25,4 +24,3 @@ main = runTest do
     testHRulerSuite
     testVRulerSuite
     --testChartColletionSuite
-    --testElmSuite

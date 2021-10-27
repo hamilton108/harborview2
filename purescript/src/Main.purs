@@ -3,7 +3,9 @@ module Main where
 import Prelude
 import Effect (Effect)
 
-import Maunaloa.ChartCollection as Collection
+import Maunaloa.Common 
+    ( ChartMappings
+    )
 import Maunaloa.LevelLine as LevelLine
 
 --import Maunaloa.ElmTypes (ChartInfoWindow)
@@ -43,7 +45,7 @@ paint_ mappings ciwin =
     Collection.paint coll
 -}
 
-paint :: Collection.ChartMappings -> String -> Effect Unit
+paint :: ChartMappings -> String -> Effect Unit
 paint mappings ticker = 
   pure unit
  

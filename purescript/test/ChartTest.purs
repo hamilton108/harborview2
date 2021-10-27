@@ -14,6 +14,7 @@ import Maunaloa.Common
   , HtmlId(..)
   , ChartWidth(..)
   , ChartHeight(..)
+  , ChartId(..)
   )
 --import Util.Value (foreignValue)
 import Maunaloa.Chart as C
@@ -21,8 +22,8 @@ import Maunaloa.Chart as C
 import Maunaloa.Line as L
 import Test.VRulerTest as VT -- (moreOrLessEq,chartDim,pad0,pad1)
 
-cid :: C.ChartId
-cid = C.ChartId "chart"
+cid :: ChartId
+cid = ChartId "chart"
 
 canvId :: HtmlId
 canvId = HtmlId "canvasId"

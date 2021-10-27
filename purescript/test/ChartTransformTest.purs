@@ -18,29 +18,26 @@ import Data.Array
     , head
     ) 
 import Data.Either 
-    ( Either(..)
+    ( Either
     , fromRight
     )
 --import Partial.Unsafe (unsafePartial)
 
 import Data.Argonaut.Parser as Parser
-import Data.Argonaut.Core (Json,fromString)
-import Data.Argonaut.Decode as Decode
-import Data.Argonaut.Decode.Error (JsonDecodeError)
+import Data.Argonaut.Core 
+    ( Json
+    , fromString
+    )
+--import Data.Argonaut.Decode as Decode
+--import Data.Argonaut.Decode.Error (JsonDecodeError)
 
 import Maunaloa.Json.JsonCharts 
     ( JsonChartResponse
     , chartsFromJson
     , emptyJsonChart
     )
-import Maunaloa.ChartTransform
-    ( transform
-    )
 import Maunaloa.ChartCollection
     ( ChartCollection(..)
-    , ChartMappings
-    , ChartMapping(..)
-    , globalChartWidth
     )
 import Maunaloa.Common 
     ( HtmlId(..)
@@ -52,17 +49,20 @@ import Maunaloa.Common
     , UnixTime(..)
     , Pix(..)
     , Padding(..)
+    , ChartId(..)
+    , ChartMappings
+    , ChartMapping(..)
     , valueRange
     )
 import Maunaloa.Chart
     ( Chart(..)
-    , ChartId(..)
     , ChartLevel
     , emptyChart
     )
-import Maunaloa.Charts
+import Maunaloa.ChartTransform
     ( minMaxRanges 
     , normalizeLine 
+    , transform
     )
 import Maunaloa.HRuler
     ( HRuler(..)
