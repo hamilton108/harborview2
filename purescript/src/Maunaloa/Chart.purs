@@ -14,7 +14,7 @@ import Maunaloa.Common
     , ChartHeight(..)
     , HtmlId(..)
     , Pix(..)
-    , ChartId(..)
+    , ChartId
     )
 import Maunaloa.HRuler as H
 import Maunaloa.VRuler as V

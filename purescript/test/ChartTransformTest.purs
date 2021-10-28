@@ -8,6 +8,9 @@ import Test.Unit
     , test
     , TestSuite
     )
+import Control.Monad.Reader 
+    ( runReader 
+    )
 import Data.Maybe 
     ( Maybe(..)
     , fromMaybe
@@ -52,6 +55,10 @@ import Maunaloa.Common
     , ChartId(..)
     , ChartMappings
     , ChartMapping(..)
+    , Env(..)
+    , Drop(..)
+    , Take(..)
+    , ChartType(..)
     , valueRange
     )
 import Maunaloa.Chart
@@ -347,6 +354,15 @@ expectedChartLevel =
     , fetchLevelId: HtmlId "fetch-level-id"
     }
 
+testEnv :: Env
+testEnv = Env
+    { ticker: Ticker "1"
+    , dropAmt: Drop 0
+    , takeAmt: Take 90
+    , chartType: DayChart
+    , mappings: defaultChartMappings 
+    }
+
 testChartTransformSuite :: TestSuite
 testChartTransformSuite = 
     suite "TestChartsSuite" do
@@ -360,7 +376,7 @@ testChartTransformSuite =
             let actual = normalizeLine testLine
             Assert.equal expectedLine actual
         test "transform" do
-            let (ChartCollection collection) = transform defaultChartMappings testJsonChartResponse 
+            let (ChartCollection collection) = runReader (transform testJsonChartResponse) testEnv 
             let (HRuler hruler) = collection.hruler
             Assert.equal 1 (length collection.charts)
             Assert.equal (UnixTime 1615939200000.0) hruler.startTime

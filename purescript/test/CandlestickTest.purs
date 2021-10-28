@@ -8,7 +8,7 @@ import Maunaloa.Candlestick
     ( Candlestick(..)
     )
 import Maunaloa.Json.JsonCharts
-    ( JsonCandlestick(..)
+    ( JsonCandlestick
     )
 import Test.VRulerTest as VT
 

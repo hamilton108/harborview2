@@ -250,8 +250,8 @@ addRiscLines vr lines =
     in
     Traversable.traverse_ addRiscLine1 lines
 
-fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
-fetchLevelLineButtonClick ticker ce vruler evt = 
+fetchLevelLineButtonClick :: String -> CanvasElement -> Event.Event -> Effect Unit
+fetchLevelLineButtonClick ticker ce evt = 
     launchAff_ $
     Affjax.get ResponseFormat.json (mainURL <> "/days/1") >>= \res ->
         case res of  
@@ -260,7 +260,7 @@ fetchLevelLineButtonClick ticker ce vruler evt =
                     defaultEventHandling evt *>
                     alert ("Affjax Error: " <> Affjax.printError err)
                 )
-            Right response -> 
+            Right _ -> 
                 liftEffect (alert "OK!") 
     
 
@@ -297,8 +297,8 @@ mouseEventDown evt =
     defaultEventHandling evt *>
     onMouseDown evt 
 
-mouseEventDrag :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
-mouseEventDrag ce vruler evt = 
+mouseEventDrag :: Event.Event -> Effect Unit
+mouseEventDrag evt = 
     defaultEventHandling evt *>
     onMouseDrag evt
 
@@ -426,9 +426,9 @@ initEvents ticker vruler chartLevel =
                 Canvas.getContext2D ce >>= \ctx ->
                     redraw ctx vruler *>
                     initEvent addLevelLineButtonClick context1.addLevelLineBtn (EventType "click") *>
-                    initEvent (fetchLevelLineButtonClick ticker ce vruler) context1.fetchLevelLinesBtn (EventType "click") *>
+                    initEvent (fetchLevelLineButtonClick ticker ce) context1.fetchLevelLinesBtn (EventType "click") *>
                     initEvent mouseEventDown context1.canvasElement (EventType "mousedown") *>
-                    initEvent (mouseEventDrag ce vruler) context1.canvasElement (EventType "mousemove") *>
+                    initEvent mouseEventDrag context1.canvasElement (EventType "mousemove") *>
                     initEvent (mouseEventUp vruler) context1.canvasElement (EventType "mouseup") 
 
 clear :: Effect Unit

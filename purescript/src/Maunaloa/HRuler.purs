@@ -119,17 +119,6 @@ create w minDx offsets p@(Padding pad) =
             , myIncMonths: 1 
             }
 
-create2 w minDx offsets p@(Padding pad) = 
-    head offsets >>= \offset0 ->
-    last offsets >>= \offsetN ->
-    let 
-      (Tuple startT endT) = dateRangeOf minDx offsets
-      offsetBoundary = OffsetBoundary { oHead: offset0, oLast: offsetN }
-      pix = calcPpx w offsetBoundary p 
-      curPix = Pix pix
-    in
-    Just offsetBoundary
-
 timeStampToPix :: HRuler -> UnixTime -> Number
 timeStampToPix (HRuler {startTime,ppx,padding: (Padding p)}) (UnixTime tm) = 
     let 

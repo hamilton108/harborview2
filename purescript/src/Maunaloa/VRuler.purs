@@ -46,7 +46,7 @@ newtype VRulerLine = VRulerLine {
 foreign import fi_lines :: Context2D -> RulerLineBoundary -> Array RulerLineInfo -> Effect Unit 
 
 paint :: VRuler -> Context2D -> Effect Unit
-paint vruler@(VRuler {padding: (Padding pad), w: (ChartWidth wx)}) ctx = do
+paint vruler@(VRuler {w: (ChartWidth wx)}) ctx = do
     let curLines = lines vruler 4 
     let linesX = { p1: 0.0, p2: wx }
     fi_lines ctx linesX curLines 

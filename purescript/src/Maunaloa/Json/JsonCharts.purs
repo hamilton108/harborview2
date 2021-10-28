@@ -2,7 +2,9 @@ module Maunaloa.Json.JsonCharts where
 
 import Prelude
 
-import Data.Either (Either(..))
+import Data.Either 
+    ( Either
+    )
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)

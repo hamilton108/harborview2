@@ -2,7 +2,7 @@ module Test.ChartCollectionTest where
 
 --import Util.Value (foreignValue)
 import Maunaloa.Chart as Chart 
-import Maunaloa.ChartCollection as ChartCollection
+--import Maunaloa.ChartCollection as ChartCollection
 import Maunaloa.Common 
     ( HtmlId(..)
     , Ticker(..)

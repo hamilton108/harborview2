@@ -30,6 +30,10 @@ import Data.Array
 --import Data.Nullable 
 --    ( Nullable
 --    )
+import Control.Monad.Reader 
+    ( Reader 
+    , ask 
+    )
 import Data.Foldable 
     ( minimum
     , maximum
@@ -58,7 +62,6 @@ import Maunaloa.Common
     , Env(..)
     , ChartType(..)
     , ChartId(..)
-    , ChartMappings
     , ChartMapping(..)
     , valueRange
     )
@@ -233,18 +236,18 @@ transformMapping dropAmt takeAmt response cm@(ChartMapping mapping) =
             Nothing
 
 
-transform :: ChartMappings -> JsonChartResponse -> ChartCollection
-transform mappings response = 
+transform :: JsonChartResponse -> Reader Env ChartCollection
+transform response = 
+    ask >>= \(Env env) ->
     let 
-        dropAmt = Drop 0
-        takeAmt = Take 90
-        xaxis = slice dropAmt takeAmt response.xAxis
+        xaxis = slice env.dropAmt env.takeAmt response.xAxis
         tm = UnixTime response.minDx 
         ruler = H.create globalChartWidth tm xaxis padding
         ruler1 = unsafePartial (fromJust ruler)
-        maybeCharts = filter (\c -> c /= Nothing) (map (transformMapping dropAmt takeAmt response) mappings) 
+        maybeCharts = filter (\c -> c /= Nothing) (map (transformMapping env.dropAmt env.takeAmt response) env.mappings) 
         charts1 = map (unsafePartial $ fromJust) maybeCharts
     in
+    pure $ 
     ChartCollection 
         { ticker: response.ticker
         , charts: charts1

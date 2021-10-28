@@ -1,6 +1,32 @@
 module Demo.Demo1 where
 
 import Prelude
+import Effect (Effect)
+import Control.Monad.Reader 
+    ( Reader 
+    , runReader
+    , ask 
+    )
+import Control.Monad.Reader.Class
+    ( class MonadReader 
+    )
+
+newtype Env =
+    Env
+    { x :: String
+    }
+
+demo :: forall m. (MonadReader Env m) => m String
+demo =
+    ask >>= \(Env t) ->
+    pure t.x 
+
+runDemo :: Effect String
+runDemo = 
+    let 
+        xx = runReader demo (Env { x: "sfsdf" })
+    in
+    pure xx
 
 a :: Int
 a = 3

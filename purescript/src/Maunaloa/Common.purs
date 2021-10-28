@@ -213,7 +213,9 @@ newtype Take = Take Int
 
 newtype Env = 
     Env
-    { curDrop :: Drop
-    , curTake :: Take
+    { ticker :: Ticker
+    , dropAmt :: Drop
+    , takeAmt :: Take
     , chartType :: ChartType
+    , mappings :: ChartMappings 
     }
