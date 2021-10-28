@@ -11,6 +11,7 @@
 (def routes maunaloa/routes)
 
 (def service {:env :prod
+              ;::http/allowed-origins {:creds true, :allowed-origins (constantly true)}
               ::http/routes routes
               ::http/secure-headers {:content-security-policy-settings {:object-src "'none'"}}
               ::http/resource-path "/public"

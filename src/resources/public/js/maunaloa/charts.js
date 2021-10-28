@@ -97,12 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setCanvasSize('canvas.c3', 1310, 110);
     };
     setCanvasSizes();
-    /*
-    const draggableBtn1 = document.getElementById("btn-draggable-1");
-    draggableBtn1.onclick = function() {
-        Draggable.addLine("svg-1");
-    };
-    */
+
     //---------------------- Elm.Maunaloa.Charts ---------------------------
 
     const saveCanvases = (canvases, canvasVolume, canvasCyberCycle) => {
@@ -147,9 +142,34 @@ document.addEventListener("DOMContentLoaded", function () {
         return [mainChart, osc];
     };
 
-    const elmApp = (appId, chartRes, myCanvases, config) => {
-        //===>>> const levelLines = new LevelLines(config);
+
+    const fetchDays = (chartMappings) => {
+        const _chartMappings = chartMappings;
+        return function (event) {
+            //console.log(event.target.value + " " + _chartMappings[0].levelCanvasId);
+            PS.Main.paint(_chartMappings)(event.target.value)();
+        };
+    };
+
+    const fetchTickers = (selectId, eventHandler) => {
+        fetch("/maunaloa/tickers").then(result => {
+            result.json().then(data => {
+                const node = document.getElementById(selectId);
+                node.addEventListener("change", eventHandler);
+
+                data.forEach(x => {
+                    let opt = document.createElement("option");
+                    opt.value = x.v;
+                    opt.text = x.t;
+                    node.add(opt);
+                })
+            });
+        });
+    };
+
+    const elmApp = (nodeId, eventHandler, myCanvases, config) => {
         const scrap = new Scrapbook(config);
+        /*
         const node = document.getElementById(appId);
         const app = Elm.Maunaloa.Charts.Main.init({
             node: node,
@@ -160,20 +180,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const mappings = toChartMappings(myCanvases);
             PS.Main.paint(mappings)(cfg)();
         });
-        /*
-        const drawRiscLines = function (riscLines) {
-            levelLines.addRiscLines(riscLines);
-        };
-        app.ports.drawRiscLines.subscribe(drawRiscLines);
-        const drawSpot = function (spot) {
-            levelLines.spot = spot;
-        };
-        app.ports.drawSpot.subscribe(drawSpot);
-
         */
+        fetchTickers(nodeId, eventHandler);
         const btnClear = document.getElementById(config.BTN_CLEAR);
         btnClear.onclick = () => {
-            //levelLines.clearCanvas();
             scrap.clear();
             PS.Main.clearLevelLines();
         };
@@ -189,9 +199,9 @@ document.addEventListener("DOMContentLoaded", function () {
             saveCanvases(blobCanvases, canvasVolume, canvasCyberCycle);
         };
     };
-    elmApp("my-app", 1, canvases.DAY, scrapbooks.DAY);
-    elmApp("my-app2", 2, canvases.WEEK, scrapbooks.WEEK);
-    elmApp("my-app3", 3, canvases.MONTH, scrapbooks.MONTH);
+    elmApp("tickers-1", fetchDays(toChartMappings(canvases.DAY)), canvases.DAY, scrapbooks.DAY);
+    //elmApp("my-app2", 2, canvases.WEEK, scrapbooks.WEEK);
+    //elmApp("my-app3", 3, canvases.MONTH, scrapbooks.MONTH);
     //---------------------- Scrapbooks ---------------------------
     //const scrap1 = new Scrapbook(scrapbooks.DAY);
 });

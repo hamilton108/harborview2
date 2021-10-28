@@ -2,11 +2,15 @@ module Maunaloa.ChartCollection where
 
 import Prelude
 
-import Data.Maybe (Maybe(..),fromJust)
+import Data.Maybe 
+    ( Maybe(..)
+    , fromJust
+    )
 import Data.String (length)
 import Data.Traversable (traverse_)
 import Partial.Unsafe (unsafePartial)
 import Effect (Effect)
+import Effect.Console (logShow)
 import Data.Array as Array
 
 
@@ -14,35 +18,17 @@ import Maunaloa.Chart as C
 import Maunaloa.HRuler as H
 import Maunaloa.Common 
     ( HtmlId(..)
-    , Ticker
     , ChartWidth(..)
-    , ChartHeight
+    , ChartMapping(..)
     )
 import Maunaloa.LevelLine as LevelLine
 
-
-import Effect.Console (logShow)
 
 newtype ChartCollection = ChartCollection 
     { ticker :: String
     , charts :: Array C.Chart -- List C.Chart
     , hruler :: H.HRuler
     }
-
-newtype ChartMapping = ChartMapping 
-    { ticker ::Ticker 
-    , chartId :: C.ChartId
-    , canvasId :: HtmlId
-    , chartHeight :: ChartHeight 
-    , levelCanvasId :: HtmlId
-    , addLevelId :: HtmlId
-    , fetchLevelId :: HtmlId
-    }
-
-instance showChartMapping :: Show ChartMapping where
-    show (ChartMapping x) = "(ChartMapping " <> show x <> ")"
-
-type ChartMappings = Array ChartMapping
 
 instance showChartCollection :: Show ChartCollection where
     show (ChartCollection coll) = "(ChartCollection " <> show coll <> ")"

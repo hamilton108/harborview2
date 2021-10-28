@@ -7,6 +7,18 @@ import Prelude
 -- import Data.Tuple (Tuple(..),fst,snd)
 import Data.Int (toNumber)
 
+import Effect (Effect)
+
+import Data.Argonaut.Core (Json)
+
+foreign import showJson :: Json -> Effect Unit
+foreign import alert :: String -> Effect Unit
+
+mainURL :: String
+mainURL = 
+    --"http://localhost:8082/maunaloa"
+    "/maunaloa"
+
 ------------------------- Graph ------------------------- 
 --class Graph a where
 --    draw :: a -> Context2D -> Effect Unit
@@ -19,6 +31,10 @@ instance showChartWidth :: Show ChartWidth where
     -}
 
 type Xaxis = Array Number
+
+
+dayInMillis :: Number
+dayInMillis = 86400000.0
 
 ------------------------- Pix ------------------------- 
 newtype Pix = Pix Number
@@ -90,6 +106,10 @@ derive instance eqValueRange :: Eq ValueRange
 instance showValueRange :: Show ValueRange where
   show (ValueRange v) = "(ValueRange " <> show v <> ")"
 
+valueRange :: Number -> Number -> ValueRange
+valueRange minv maxv = 
+  ValueRange { minVal: minv, maxVal: maxv }
+
 ------------------------- Padding ------------------------- 
 newtype Padding = Padding 
   { left :: Number
@@ -120,6 +140,12 @@ newtype OffsetBoundary = OffsetBoundary
   { oHead :: Int
   , oLast :: Int 
   }
+
+instance showOffsetBoundary :: Show OffsetBoundary where
+  show (OffsetBoundary v) = "(OffsetBoundary " <> show v <> ")"
+    
+------------------------- Scaling ------------------------- 
+newtype Scaling = Scaling Number
 
 ------------------------- Util ------------------------- 
 
@@ -152,3 +178,44 @@ calcPpy (ChartHeight dim) (ValueRange {minVal,maxVal}) (Padding p) =
     padding_justified_h = dim - p.top - p.bottom
   in
   padding_justified_h / (maxVal - minVal)
+
+---------------------------- Env ------------------------------
+
+newtype ChartId = ChartId String
+
+instance showChartId :: Show ChartId where
+  show (ChartId c) = "(ChartId " <> c <> ")"
+
+
+newtype ChartMapping = ChartMapping 
+    { ticker ::Ticker 
+    , chartId :: ChartId
+    , canvasId :: HtmlId
+    , chartHeight :: ChartHeight 
+    , levelCanvasId :: HtmlId
+    , addLevelId :: HtmlId
+    , fetchLevelId :: HtmlId
+    }
+
+instance showChartMapping :: Show ChartMapping where
+    show (ChartMapping x) = "(ChartMapping " <> show x <> ")"
+
+type ChartMappings = Array ChartMapping
+
+data ChartType
+    = DayChart
+    | WeekChart
+    | MonthChart
+
+newtype Drop = Drop Int
+
+newtype Take = Take Int
+
+newtype Env = 
+    Env
+    { ticker :: Ticker
+    , dropAmt :: Drop
+    , takeAmt :: Take
+    , chartType :: ChartType
+    , mappings :: ChartMappings 
+    }

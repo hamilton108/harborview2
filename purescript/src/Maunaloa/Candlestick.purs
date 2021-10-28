@@ -9,18 +9,18 @@ import Maunaloa.Common (Xaxis)
 
 import Maunaloa.VRuler as V
 import Maunaloa.HRuler as H
-import Maunaloa.ElmTypes 
-  ( ElmCandlestick 
+import Maunaloa.Json.JsonCharts
+  ( JsonCandlestick 
   )
 
 foreign import fi_paint :: Xaxis -> Candlesticks -> Context2D -> Effect Unit 
 
-newtype Candlestick = Candlestick {
-      o :: Number
-    , h :: Number
-    , l :: Number
-    , c :: Number
-}
+newtype Candlestick = Candlestick 
+  { o :: Number
+  , h :: Number
+  , l :: Number
+  , c :: Number
+  }
 
 instance showCandlestick :: Show Candlestick where
   show (Candlestick v) = "(Candlestick " <> show v <> ")"
@@ -29,7 +29,7 @@ derive instance eqCandlestick :: Eq Candlestick
 
 type Candlesticks = Array Candlestick
 
-candleToPix :: V.VRuler -> ElmCandlestick -> Candlestick 
+candleToPix :: V.VRuler -> JsonCandlestick -> Candlestick 
 candleToPix vr {o,h,l,c} =  
     let 
         po = V.valueToPix vr o

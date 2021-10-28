@@ -9,6 +9,7 @@
 (defn init-thymeleaf []
   (let [te (TemplateEngine.)
         resolver (ClassLoaderTemplateResolver.)]
+    (.setCacheable resolver false)
     (.setPrefix resolver "/templates/")
     (.setSuffix resolver ".html")
     (.setCharacterEncoding resolver "UTF-8")

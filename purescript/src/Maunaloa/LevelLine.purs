@@ -31,7 +31,7 @@ import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
 
 
-import Maunaloa.Common (Pix(..),HtmlId(..))
+import Maunaloa.Common (Pix(..),HtmlId(..),mainURL,showJson,alert)
 import Maunaloa.VRuler (VRuler,valueToPix,pixToValue)
 import Maunaloa.Chart (ChartLevel)
 
@@ -84,9 +84,9 @@ foreign import redraw :: Context2D -> VRuler -> Effect Unit
 
 foreign import clearCanvas :: Effect Unit
 
-foreign import showJson :: Json -> Effect Unit
+--foreign import showJson :: Json -> Effect Unit
 
-foreign import alert :: String -> Effect Unit
+--foreign import alert :: String -> Effect Unit
 
 data Line = 
     StdLine 
@@ -214,11 +214,6 @@ addLevelLineButtonClick evt =
     in
     addLine line
 
-mainURL :: String
-mainURL = 
-    --"http://localhost:8082/maunaloa"
-    "/maunaloa"
-
 fetchLevelLinesURL :: String -> String
 fetchLevelLinesURL ticker =
     -- "http://localhost:6346/maunaloa/risclines/" <> ticker
@@ -255,8 +250,22 @@ addRiscLines vr lines =
     in
     Traversable.traverse_ addRiscLine1 lines
 
-fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
-fetchLevelLineButtonClick ticker ce vruler evt = 
+fetchLevelLineButtonClick :: String -> CanvasElement -> Event.Event -> Effect Unit
+fetchLevelLineButtonClick ticker ce evt = 
+    launchAff_ $
+    Affjax.get ResponseFormat.json (mainURL <> "/days/1") >>= \res ->
+        case res of  
+            Left err -> 
+                liftEffect (
+                    defaultEventHandling evt *>
+                    alert ("Affjax Error: " <> Affjax.printError err)
+                )
+            Right _ -> 
+                liftEffect (alert "OK!") 
+    
+
+xfetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
+xfetchLevelLineButtonClick ticker ce vruler evt = 
     Canvas.getContext2D ce >>= \ctx ->
     launchAff_ $
     Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
@@ -288,8 +297,8 @@ mouseEventDown evt =
     defaultEventHandling evt *>
     onMouseDown evt 
 
-mouseEventDrag :: CanvasElement -> VRuler -> Event.Event -> Effect Unit
-mouseEventDrag ce vruler evt = 
+mouseEventDrag :: Event.Event -> Effect Unit
+mouseEventDrag evt = 
     defaultEventHandling evt *>
     onMouseDrag evt
 
@@ -417,9 +426,9 @@ initEvents ticker vruler chartLevel =
                 Canvas.getContext2D ce >>= \ctx ->
                     redraw ctx vruler *>
                     initEvent addLevelLineButtonClick context1.addLevelLineBtn (EventType "click") *>
-                    initEvent (fetchLevelLineButtonClick ticker ce vruler) context1.fetchLevelLinesBtn (EventType "click") *>
+                    initEvent (fetchLevelLineButtonClick ticker ce) context1.fetchLevelLinesBtn (EventType "click") *>
                     initEvent mouseEventDown context1.canvasElement (EventType "mousedown") *>
-                    initEvent (mouseEventDrag ce vruler) context1.canvasElement (EventType "mousemove") *>
+                    initEvent mouseEventDrag context1.canvasElement (EventType "mousemove") *>
                     initEvent (mouseEventUp vruler) context1.canvasElement (EventType "mouseup") 
 
 clear :: Effect Unit

@@ -3,11 +3,13 @@ module Main where
 import Prelude
 import Effect (Effect)
 
-import Maunaloa.ChartCollection as Collection
+import Maunaloa.Common 
+    ( ChartMappings
+    )
 import Maunaloa.LevelLine as LevelLine
 
-import Maunaloa.ElmTypes (ChartInfoWindow)
-import Maunaloa.Elm as Elm
+--import Maunaloa.ElmTypes (ChartInfoWindow)
+--import Maunaloa.Elm as Elm
 import Effect.Console (logShow)
 --import Effect.Console (logShow)
 import Maunaloa.LevelLine (Line(..))
@@ -34,14 +36,19 @@ tryMes v axs =
   logShow tt
  -}
 
-paint :: Collection.ChartMappings -> ChartInfoWindow -> Effect Unit
-paint mappings ciwin = 
-    --logShow ciwin *> 
+{-
+paint_ :: Collection.ChartMappings -> ChartInfoWindow -> Effect Unit
+paint_ mappings ciwin = 
     let 
         coll = Elm.transform mappings ciwin
     in 
     Collection.paint coll
+-}
 
+paint :: ChartMappings -> String -> Effect Unit
+paint mappings ticker = 
+  pure unit
+ 
 clearLevelLines :: Effect Unit
 clearLevelLines =
   logShow "clearLevelLines" *>

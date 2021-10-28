@@ -2,11 +2,18 @@
 
 const x1 = 45.0;
 
+//* This is needed during testing and spago repl
+const PS = {
+    "Maunaloa.LevelLine": "",
+    "Data.Maybe": { "Nothing": { "value": "" } }
+};
+//*/
+
+const Maunaloa_LevelLine = PS["Maunaloa.LevelLine"];
+
 const Data_Maybe = PS["Data.Maybe"];
 
 const nothing = Data_Maybe.Nothing.value;
-
-const Maunaloa_LevelLine = PS["Maunaloa.LevelLine"];
 
 const just = function (obj) {
     return Data_Maybe.Just.create(obj);
@@ -87,16 +94,7 @@ exports.getListeners = function () {
     return _eventListeners;
 }
 
-exports.showJson = function (json) {
-    return function () {
-        console.log(json);
-    }
-}
-exports.alert = function (msg) {
-    return function () {
-        alert(msg);
-    }
-}
+
 exports.onMouseDown = function (evt) {
     return function () {
         const items = _lines.items;
