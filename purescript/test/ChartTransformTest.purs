@@ -64,6 +64,7 @@ import Maunaloa.Common
 import Maunaloa.Chart
     ( Chart(..)
     , ChartLevel
+    , ChartContent
     , emptyChart
     )
 import Maunaloa.ChartTransform
@@ -363,6 +364,18 @@ testEnv = Env
     , mappings: defaultChartMappings 
     }
 
+getFirstChartFromColl :: Array Chart -> ChartContent
+getFirstChartFromColl charts =
+    case take 1 charts of
+        [c] -> 
+            case c of 
+                EmptyChart ->
+                    emptyChart
+                (Chart cx) -> 
+                    cx
+        _ -> emptyChart
+
+
 testChartTransformSuite :: TestSuite
 testChartTransformSuite = 
     suite "TestChartsSuite" do
@@ -385,7 +398,7 @@ testChartTransformSuite =
             Assert.equal (Pix 9.029850746268657) hruler.ppx
             let actualXaxis10 = take 10 hruler.xaxis
             Assert.equal expectedXaxis10 actualXaxis10
-            let (Chart chart1) = fromMaybe emptyChart (head collection.charts) 
+            let chart1 = getFirstChartFromColl collection.charts -- fromMaybe emptyChart (head collection.charts) 
             Assert.equal expectedVruler chart1.vruler
             let line1_1 = fromMaybe [] (head chart1.lines)
             let actualChartLines10 = take 10 line1_1 

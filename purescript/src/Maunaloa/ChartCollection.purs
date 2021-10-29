@@ -15,6 +15,9 @@ import Data.Array as Array
 
 
 import Maunaloa.Chart as C
+import Maunaloa.Chart 
+    ( Chart(..)
+    )
 import Maunaloa.HRuler as H
 import Maunaloa.Common 
     ( HtmlId(..)
@@ -53,14 +56,16 @@ mappingToChartLevel (ChartMapping {levelCanvasId, addLevelId, fetchLevelId}) =
 
 
 findChartPredicate :: C.Chart -> Boolean
-findChartPredicate (C.Chart chart) =
+findChartPredicate EmptyChart =
+    false
+findChartPredicate (Chart chart) =
     chart.chartLevel /= Nothing
 
-findLevelLineChart :: Array C.Chart -> Maybe C.Chart
+findLevelLineChart :: Array Chart -> Maybe Chart
 findLevelLineChart charts = 
     Array.find findChartPredicate charts
 
-levelLines :: String -> Array C.Chart -> Effect Unit
+levelLines :: String -> Array Chart -> Effect Unit
 levelLines ticker charts = 
     let
         levelLine = Array.find findChartPredicate charts
@@ -69,7 +74,9 @@ levelLines ticker charts =
         Nothing ->
             logShow "ERROR! (levelLines) No levelLine!" *>
             pure unit
-        Just (C.Chart levelLine1) ->
+        Just EmptyChart ->
+            pure unit
+        Just (Chart levelLine1) ->
             let 
                 caid = unsafePartial $ fromJust levelLine1.chartLevel
             in

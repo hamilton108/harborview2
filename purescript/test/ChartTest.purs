@@ -17,7 +17,11 @@ import Maunaloa.Common
   , ChartId(..)
   )
 --import Util.Value (foreignValue)
-import Maunaloa.Chart as C
+import Maunaloa.Chart 
+    ( Chart(..)
+    , ChartLevel
+    , valueRangeFor 
+    )
 
 import Maunaloa.Line as L
 import Test.VRulerTest as VT -- (moreOrLessEq,chartDim,pad0,pad1)
@@ -34,8 +38,8 @@ chartW = ChartWidth 200.0
 chartH :: ChartHeight
 chartH = ChartHeight 600.0
 
-echart :: C.Chart
-echart = C.Chart {
+echart :: Chart
+echart = Chart {
     lines: [[360.0,600.0,330.0,0.0,210.0]]
   , candlesticks: []
   , canvasId: canvId
@@ -45,17 +49,18 @@ echart = C.Chart {
   , chartLevel: Nothing 
 }
 
-getLines :: C.Chart -> L.Lines
-getLines (C.Chart {lines}) = lines
+getLines :: Chart -> L.Lines
+getLines EmptyChart = []
+getLines (Chart {lines}) = lines
 
-getLine :: C.Chart -> L.Line
+getLine :: Chart -> L.Line
 getLine c =  
   let
     lx = getLines c
   in
   unsafePartial $ fromJust $ Array.head lx
 
-chartLevel :: C.ChartLevel
+chartLevel :: ChartLevel
 chartLevel = 
     { levelCanvasId: HtmlId "canvasId"
     , addLevelId: HtmlId "levelId"
@@ -63,8 +68,10 @@ chartLevel =
     }
 
   
-getChartLevel :: C.Chart -> C.ChartLevel
-getChartLevel (C.Chart c) = 
+getChartLevel :: Chart -> ChartLevel
+getChartLevel EmptyChart = 
+    chartLevel
+getChartLevel (Chart c) = 
     unsafePartial $ fromJust $ c.chartLevel
     
 
@@ -73,7 +80,7 @@ testChartSuite :: TestSuite
 testChartSuite = 
     suite "TestChartSuite" do
         test "valueRangeFor" do
-            let vr = C.valueRangeFor [10.0,35.0]
+            let vr = valueRangeFor [10.0,35.0]
             let expVr = ValueRange { minVal: 10.0, maxVal: 35.0 }
             Assert.equal expVr vr
         {--

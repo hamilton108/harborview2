@@ -217,23 +217,23 @@ transformMapping1 cm@(ChartMapping mapping) ec =
         }
 
 
-transformMapping :: Drop -> Take -> JsonChartResponse -> ChartMapping -> Maybe Chart 
+transformMapping :: Drop -> Take -> JsonChartResponse -> ChartMapping -> Chart 
 transformMapping dropAmt takeAmt response cm@(ChartMapping mapping) =
     case mapping.chartId of
         ChartId "chart" -> 
             let 
                 cw = chartWindow dropAmt takeAmt response.chart (Scaling 1.05) false 10
             in
-            Just $ transformMapping1 cm cw
+            transformMapping1 cm cw
             --transformMapping1 mapping1 (Just ciwin.chart)
         ChartId "chart2" -> 
             --transformMapping1 mapping1 (toMaybe ciwin.chart2)
-            Nothing
+            EmptyChart
         ChartId "chart3" -> 
             --transformMapping1 mapping1 (toMaybe ciwin.chart3)
-            Nothing
+            EmptyChart
         _ -> 
-            Nothing
+            EmptyChart
 
 
 transform :: JsonChartResponse -> Reader Env ChartCollection
@@ -244,8 +244,7 @@ transform response =
         tm = UnixTime response.minDx 
         ruler = H.create globalChartWidth tm xaxis padding
         ruler1 = unsafePartial (fromJust ruler)
-        maybeCharts = filter (\c -> c /= Nothing) (map (transformMapping env.dropAmt env.takeAmt response) env.mappings) 
-        charts1 = map (unsafePartial $ fromJust) maybeCharts
+        charts1 = map (transformMapping env.dropAmt env.takeAmt response) env.mappings
     in
     pure $ 
     ChartCollection 

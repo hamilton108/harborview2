@@ -27,21 +27,22 @@ type ChartLevel =
     , fetchLevelId :: HtmlId
     }
 
-newtype Chart = 
-    Chart 
-        { lines :: L.Lines
-        , candlesticks :: CNDL.Candlesticks
-        , canvasId :: HtmlId 
-        , vruler :: V.VRuler
-        , w :: ChartWidth
-        , h :: ChartHeight
-        -- , levelCanvasId :: Maybe HtmlId 
-        , chartLevel :: Maybe ChartLevel
-        }
+type ChartContent = 
+    { lines :: L.Lines
+    , candlesticks :: CNDL.Candlesticks
+    , canvasId :: HtmlId 
+    , vruler :: V.VRuler
+    , w :: ChartWidth
+    , h :: ChartHeight
+    , chartLevel :: Maybe ChartLevel
+    }
 
-emptyChart :: Chart
+data Chart 
+    = Chart ChartContent
+    | EmptyChart
+
+emptyChart :: ChartContent
 emptyChart = 
-    Chart 
     { lines: []
     , candlesticks: []
     , canvasId: HtmlId ""
@@ -75,6 +76,8 @@ newtype ChartConfig =
 derive instance eqChart :: Eq Chart
 
 instance showChart :: Show Chart where
+    show (EmptyChart) = 
+        "(EmptyChart)" 
     show (Chart cx) = 
         "(Chart lines: " <> show cx.lines <> 
         ", candlesticks: " <> show cx.candlesticks <> 
@@ -102,10 +105,14 @@ valueRangeFor [mi,ma] = ValueRange { minVal: mi, maxVal: ma }
 valueRangeFor _ = ValueRange { minVal: 0.0, maxVal: 0.0 }
 
 toRectangle :: Chart -> Canvas.Rectangle
+toRectangle EmptyChart = 
+    { x: 0.0, y: 0.0, width: 0.0, height: 0.0 } 
 toRectangle (Chart {w: (ChartWidth w), h: (ChartHeight h)} ) =  
-    {x: 0.0, y: 0.0, width: w, height: h} 
+    { x: 0.0, y: 0.0, width: w, height: h } 
 
 paint :: H.HRuler -> Chart -> Effect Unit
+paint _ EmptyChart = 
+    pure unit
 paint hruler chart@(Chart {vruler: vrobj@(V.VRuler vr), canvasId: (HtmlId curId), lines: lines, candlesticks: candlesticks}) =
     Canvas.getCanvasElementById curId >>= \canvas ->
         case canvas of
