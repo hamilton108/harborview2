@@ -207,6 +207,16 @@ data ChartType
     | WeekChart
     | MonthChart
 
+asChartType :: Int -> ChartType
+asChartType 1 = 
+    DayChart
+asChartType 2 = 
+    WeekChart
+asChartType 3 = 
+    MonthChart
+asChartType _ = 
+    DayChart
+
 newtype Drop = Drop Int
 
 newtype Take = Take Int
@@ -219,3 +229,9 @@ newtype Env =
     , chartType :: ChartType
     , mappings :: ChartMappings 
     }
+
+----------------------------- Errors --------------------------------
+
+data MaunaloaError = 
+    AffjaxError String
+    | JsonError String

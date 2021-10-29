@@ -3,19 +3,40 @@ module Maunaloa.Json.JsonCharts where
 import Prelude
 
 import Data.Either 
-    ( Either
+    ( Either(..)
     )
-import Data.Argonaut.Core (Json)
+import Data.Argonaut.Core 
+    ( Json
+    )
 import Data.Argonaut.Decode as Decode
-import Data.Argonaut.Decode.Error (JsonDecodeError)
-
-import Effect (Effect)
-
+import Data.Argonaut.Decode.Error 
+    ( JsonDecodeError
+    )
+import Effect 
+    ( Effect
+    )
+import Effect.Console 
+    ( logShow
+    )
+import Effect.Class
+    ( liftEffect
+    )
+import Effect.Aff
+    ( Aff
+    )
+import Affjax as Affjax
+import Affjax
+    ( URL
+    )
+import Affjax.ResponseFormat as ResponseFormat
 import Data.Maybe 
     ( Maybe(..)
     )
 import Maunaloa.Common
     ( ValueRange
+    , Ticker(..)
+    , ChartType(..)
+    , MaunaloaError(..)
     )
 
 foreign import addCharts :: String -> JsonChartResponse -> Effect Unit
@@ -59,6 +80,30 @@ emptyJsonChart =
 
 chartsFromJson :: Json -> Either JsonDecodeError JsonChartResponse 
 chartsFromJson = Decode.decodeJson
+
+chartUrl :: ChartType -> Ticker -> URL
+chartUrl DayChart (Ticker ticker) = 
+    "-"
+chartUrl WeekChart (Ticker ticker) = 
+    "-"
+chartUrl MonthChart (Ticker ticker) = 
+    "-"
+
+fetchCharts :: Ticker -> ChartType -> Aff (Either MaunaloaError JsonChartResponse)
+fetchCharts ticker chartType =  
+    Affjax.get ResponseFormat.json (chartUrl chartType ticker) >>= \res ->
+        case res of  
+            Left err -> 
+                pure $ Left $ AffjaxError (Affjax.printError err)
+            Right response -> 
+                let 
+                    charts = chartsFromJson response.body
+                in 
+                case charts of
+                    Left err ->
+                        pure $ Left $ JsonError (show err)
+                    Right charts1 ->
+                        pure $ Right charts1
 
  {-
 demo :: Effect Unit

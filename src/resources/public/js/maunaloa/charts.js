@@ -143,11 +143,11 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
-    const fetchDays = (chartMappings) => {
+    const fetchPrices = (chartType, chartMappings) => {
         const _chartMappings = chartMappings;
+        const _chartType = chartType;
         return function (event) {
-            //console.log(event.target.value + " " + _chartMappings[0].levelCanvasId);
-            PS.Main.paint(_chartMappings)(event.target.value)();
+            PS.Main.paint(_chartType)(_chartMappings)(event.target.value)();
         };
     };
 
@@ -167,7 +167,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    const elmApp = (nodeId, eventHandler, myCanvases, config) => {
+    const DAY = 1;
+    const WEEK = 2;
+    const Month = 3;
+
+    const app = (nodeId, eventHandler, myCanvases, config) => {
         const scrap = new Scrapbook(config);
         /*
         const node = document.getElementById(appId);
@@ -199,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
             saveCanvases(blobCanvases, canvasVolume, canvasCyberCycle);
         };
     };
-    elmApp("tickers-1", fetchDays(toChartMappings(canvases.DAY)), canvases.DAY, scrapbooks.DAY);
+    app("tickers-1", fetchPrices(DAY, toChartMappings(canvases.DAY)), canvases.DAY, scrapbooks.DAY);
     //elmApp("my-app2", 2, canvases.WEEK, scrapbooks.WEEK);
     //elmApp("my-app3", 3, canvases.MONTH, scrapbooks.MONTH);
     //---------------------- Scrapbooks ---------------------------

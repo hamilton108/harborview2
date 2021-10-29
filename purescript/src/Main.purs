@@ -3,16 +3,38 @@ module Main where
 import Prelude
 import Effect (Effect)
 
+import Data.Either 
+    ( Either(..)
+    )
 import Maunaloa.Common 
     ( ChartMappings
+    , Drop(..)
+    , Take(..)
+    , Env(..)
+    , Ticker(..)
+    , ChartType(..)
+    , asChartType
     )
-import Maunaloa.LevelLine as LevelLine
+import Maunaloa.ChartCollection
+    ( paint
+    )
+import Effect.Aff
+    ( launchAff_
+    )
+import Effect.Console 
+    ( logShow
+    )
+import Maunaloa.LevelLine 
+    ( Line(..)
+    , clear
+    )
+import Maunaloa.ChartTransform
+    ( transform 
+    )
+import Maunaloa.Json.JsonCharts
+    ( fetchCharts 
+    )
 
---import Maunaloa.ElmTypes (ChartInfoWindow)
---import Maunaloa.Elm as Elm
-import Effect.Console (logShow)
---import Effect.Console (logShow)
-import Maunaloa.LevelLine (Line(..))
 
 {-
 newtype Ax = Ax
@@ -45,14 +67,41 @@ paint_ mappings ciwin =
     Collection.paint coll
 -}
 
-paint :: ChartMappings -> String -> Effect Unit
-paint mappings ticker = 
-  pure unit
+curEnv :: String -> Drop -> Take -> ChartMappings -> Env
+curEnv stik curDrop curTake mappings = 
+    Env
+    { ticker: Ticker stik 
+    , dropAmt: curDrop
+    , takeAmt: curTake
+    , chartType: DayChart
+    , mappings: mappings
+    }
+
+
+paint :: Int -> ChartMappings -> String -> Effect Unit
+paint chartTypeId mappings ticker = 
+    launchAff_ $
+        fetchCharts (Ticker ticker) (asChartType chartTypeId) >>= \charts ->
+            case charts of 
+                Left err ->
+                    pure unit
+                Right charts1 ->
+                    pure unit
+
+
+{-
+    let 
+        env = ticker (Drop 0) (Take 90) mappings
+        coll = runReader (transform "") env
+    in
+    paint coll
+-}
+
  
 clearLevelLines :: Effect Unit
 clearLevelLines =
-  logShow "clearLevelLines" *>
-  LevelLine.clear
+    logShow "clearLevelLines" *>
+    clear
 
 
 tmp :: Line -> Int
