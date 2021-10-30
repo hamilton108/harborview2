@@ -3,9 +3,19 @@ module Main where
 import Prelude
 import Effect (Effect)
 
+import Control.Monad.Reader 
+    ( runReader 
+    )
+import Effect.Aff
+    ( launchAff_
+    )
+import Effect.Console 
+    ( logShow
+    )
 import Data.Either 
     ( Either(..)
     )
+
 import Maunaloa.Common 
     ( ChartMappings
     , Drop(..)
@@ -16,13 +26,8 @@ import Maunaloa.Common
     , asChartType
     )
 import Maunaloa.ChartCollection
-    ( paint
-    )
-import Effect.Aff
-    ( launchAff_
-    )
-import Effect.Console 
-    ( logShow
+    ( ChartCollection(..)
+    , paintAff
     )
 import Maunaloa.LevelLine 
     ( Line(..)
@@ -33,6 +38,10 @@ import Maunaloa.ChartTransform
     )
 import Maunaloa.Json.JsonCharts
     ( fetchCharts 
+    )
+import Maunaloa.MaunaloaError 
+    ( MaunaloaError(..)
+    , handleErrorAff
     )
 
 
@@ -67,26 +76,36 @@ paint_ mappings ciwin =
     Collection.paint coll
 -}
 
-curEnv :: String -> Drop -> Take -> ChartMappings -> Env
-curEnv stik curDrop curTake mappings = 
+createEnv :: ChartType -> Ticker -> Drop -> Take -> ChartMappings -> Env
+createEnv ctype tik curDrop curTake mappings = 
     Env
-    { ticker: Ticker stik 
+    { ticker: tik 
     , dropAmt: curDrop
     , takeAmt: curTake
-    , chartType: DayChart
+    , chartType: ctype 
     , mappings: mappings
     }
 
 
-paint :: Int -> ChartMappings -> String -> Effect Unit
-paint chartTypeId mappings ticker = 
+paint :: Int -> ChartMappings -> String -> Int -> Int -> Effect Unit
+paint chartTypeId mappings ticker dropAmt takeAmt = 
+    let
+        curTicker = Ticker ticker 
+        curChartType = asChartType chartTypeId
+        curDrop = Drop dropAmt
+        curTake = Take takeAmt
+    in 
     launchAff_ $
-        fetchCharts (Ticker ticker) (asChartType chartTypeId) >>= \charts ->
+        fetchCharts curTicker curChartType >>= \charts ->
             case charts of 
                 Left err ->
-                    pure unit
-                Right charts1 ->
-                    pure unit
+                    handleErrorAff err 
+                Right jsonChartResponse ->
+                    let 
+                        curEnv = createEnv curChartType curTicker curDrop curTake mappings
+                        collection = runReader (transform jsonChartResponse) curEnv
+                    in
+                    paintAff collection
 
 
 {-

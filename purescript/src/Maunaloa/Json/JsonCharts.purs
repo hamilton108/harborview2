@@ -36,7 +36,9 @@ import Maunaloa.Common
     ( ValueRange
     , Ticker(..)
     , ChartType(..)
-    , MaunaloaError(..)
+    )
+import Maunaloa.MaunaloaError
+    ( MaunaloaError(..)
     )
 
 foreign import addCharts :: String -> JsonChartResponse -> Effect Unit

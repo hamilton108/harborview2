@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const _chartMappings = chartMappings;
         const _chartType = chartType;
         return function (event) {
-            PS.Main.paint(_chartType)(_chartMappings)(event.target.value)();
+            PS.Main.paint(_chartType)(_chartMappings)(event.target.value)(0)(90)();
         };
     };
 

@@ -230,8 +230,3 @@ newtype Env =
     , mappings :: ChartMappings 
     }
 
------------------------------ Errors --------------------------------
-
-data MaunaloaError = 
-    AffjaxError String
-    | JsonError String

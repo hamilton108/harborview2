@@ -2,15 +2,31 @@ module Maunaloa.ChartCollection where
 
 import Prelude
 
+import Effect.Aff
+    ( Aff
+    )
+import Effect 
+    ( Effect
+    )
+import Effect.Class
+    ( liftEffect
+    )
+import Effect.Console 
+    ( logShow
+    )
 import Data.Maybe 
     ( Maybe(..)
     , fromJust
     )
-import Data.String (length)
-import Data.Traversable (traverse_)
-import Partial.Unsafe (unsafePartial)
-import Effect (Effect)
-import Effect.Console (logShow)
+import Data.String 
+    ( length
+    )
+import Data.Traversable 
+    ( traverse_
+    )
+import Partial.Unsafe 
+    ( unsafePartial
+    )
 import Data.Array as Array
 
 
@@ -89,3 +105,8 @@ paint (ChartCollection coll) =
     in
     traverse_ paint_ coll.charts *>
     levelLines coll.ticker coll.charts
+
+paintAff :: ChartCollection -> Aff Unit
+paintAff coll = 
+    liftEffect $ paint coll
+    
