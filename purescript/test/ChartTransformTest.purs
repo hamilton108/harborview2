@@ -71,6 +71,7 @@ import Maunaloa.ChartTransform
     ( minMaxRanges 
     , normalizeLine 
     , transform
+    , chartWindow
     )
 import Maunaloa.HRuler
     ( HRuler(..)
@@ -389,7 +390,11 @@ testChartTransformSuite =
             let actual = normalizeLine testLine
             Assert.equal expectedLine actual
         test "transform" do
-            let (ChartCollection collection) = runReader (transform testJsonChartResponse) testEnv 
+            let testJsonChartResponse1 = testJsonChartResponse
+            let cw = chartWindow (Drop 0) (Take 90) testJsonChartResponse1.chart (Scaling 1.0) false 10
+            Assert.equal 90 (length cw.candlesticks)
+            Assert.equal 90 (length $ fromMaybe [] $ head cw.lines)
+            let (ChartCollection collection) = runReader (transform testJsonChartResponse1) testEnv 
             let (HRuler hruler) = collection.hruler
             Assert.equal 1 (length collection.charts)
             Assert.equal (UnixTime 1615939200000.0) hruler.startTime
@@ -401,6 +406,8 @@ testChartTransformSuite =
             let chart1 = getFirstChartFromColl collection.charts -- fromMaybe emptyChart (head collection.charts) 
             Assert.equal expectedVruler chart1.vruler
             let line1_1 = fromMaybe [] (head chart1.lines)
+            Assert.equal 90 (length line1_1)
+            Assert.equal 90 (length chart1.candlesticks)
             let actualChartLines10 = take 10 line1_1 
             Assert.equal expectedChartLines10 actualChartLines10
             let actualCandlesticks10 = take 10 chart1.candlesticks 

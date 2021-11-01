@@ -15,10 +15,10 @@ public class ElmChartsMonthFactory extends ElmChartsFactory {
         return 0;
     }
     @Override
-    public ElmCharts elmCharts(Collection<StockPrice> prices) {
+    public ElmCharts elmCharts(String ticker, Collection<StockPrice> prices) {
         Map<Integer, Map<Integer, List<StockPrice>>> tmx = treeMap(prices);
         List<StockPrice> byMonths = pricesByMonth(tmx);
-        return super.elmCharts(byMonths);
+        return super.elmCharts(ticker, byMonths);
     }
 
     List<StockPrice> pricesByMonth(Map<Integer, Map<Integer, List<StockPrice>>> treeMap) {

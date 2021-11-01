@@ -15,12 +15,6 @@ import Data.Argonaut.Decode.Error
 import Effect 
     ( Effect
     )
-import Effect.Console 
-    ( logShow
-    )
-import Effect.Class
-    ( liftEffect
-    )
 import Effect.Aff
     ( Aff
     )
@@ -85,11 +79,11 @@ chartsFromJson = Decode.decodeJson
 
 chartUrl :: ChartType -> Ticker -> URL
 chartUrl DayChart (Ticker ticker) = 
-    "-"
+    "/maunaloa/days/" <> ticker
 chartUrl WeekChart (Ticker ticker) = 
-    "-"
+    "/maunaloa/weeks/" <> ticker
 chartUrl MonthChart (Ticker ticker) = 
-    "-"
+    "/maunaloa/months/" <> ticker
 
 fetchCharts :: Ticker -> ChartType -> Aff (Either MaunaloaError JsonChartResponse)
 fetchCharts ticker chartType =  

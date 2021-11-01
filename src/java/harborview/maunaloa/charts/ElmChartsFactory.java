@@ -111,10 +111,13 @@ public class ElmChartsFactory {
         });
         return chart;
     }
-    public ElmCharts elmCharts(Collection<StockPrice> prices) {
+    public ElmCharts elmCharts(String ticker, Collection<StockPrice> prices) {
         ElmCharts result = new ElmCharts();
+
+        result.setTicker(ticker);
+
         int totalNum = prices.size();
-        //int skipNum = totalNum - 400;
+        //int 
         List<StockPrice> winSpots = prices.stream().skip(skipNum(totalNum)).collect(Collectors.toList());
         List<Double> spots = winSpots.stream().map(x -> x.getCls()).collect(Collectors.toList());
 

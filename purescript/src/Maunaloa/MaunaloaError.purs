@@ -1,9 +1,7 @@
 module Maunaloa.MaunaloaError where
 
 import Prelude
-import Effect 
-    ( Effect
-    )
+
 import Effect.Class
     ( liftEffect
     )

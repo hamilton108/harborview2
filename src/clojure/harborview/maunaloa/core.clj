@@ -55,7 +55,7 @@
 (defn charts [request ^ElmChartsFactory factory]
   (let [oid (req-oid request)
         prices (.prices db oid)
-        charts (.elmCharts factory prices)]
+        charts (.elmCharts factory (str oid) prices)]
     (hu/om->json charts)))
 
 (defn days [request]

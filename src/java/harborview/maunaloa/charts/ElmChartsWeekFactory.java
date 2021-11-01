@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 
 public class ElmChartsWeekFactory extends ElmChartsFactory {
     @Override
-    public ElmCharts elmCharts(Collection<StockPrice> prices) {
+    public ElmCharts elmCharts(String ticker, Collection<StockPrice> prices) {
         Map<Integer, Map<Integer, List<StockPrice>>> mx =
                 prices.stream()
                         .collect(Collectors.groupingBy(s -> s.getLocalDx().getYear(),
@@ -34,7 +34,7 @@ public class ElmChartsWeekFactory extends ElmChartsFactory {
             });
         }
 
-        return super.elmCharts(pricesByWeek);
+        return super.elmCharts(ticker, pricesByWeek);
     }
 
     private StockPrice weekToStockPrice(List<StockPrice> weeklyPrices) {

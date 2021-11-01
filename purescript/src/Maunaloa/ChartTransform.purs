@@ -172,7 +172,7 @@ chartWindow dropAmt takeAmt c scaling doNormalizeLines numVlines =
     let
         lines_ = 
             let 
-                tmp = slice dropAmt takeAmt $ fromMaybe [] c.lines
+                tmp = map (slice dropAmt takeAmt) $ fromMaybe [] c.lines
             in
             if doNormalizeLines == true then
                 map normalizeLine tmp
@@ -180,7 +180,7 @@ chartWindow dropAmt takeAmt c scaling doNormalizeLines numVlines =
                 tmp
 
         bars_ =
-            slice dropAmt takeAmt $ fromMaybe [] c.bars
+            map (slice dropAmt takeAmt) $ fromMaybe [] c.bars
 
         cndl_ =
             slice dropAmt takeAmt $ fromMaybe [] c.candlesticks
@@ -225,13 +225,16 @@ transformMapping dropAmt takeAmt response cm@(ChartMapping mapping) =
                 cw = chartWindow dropAmt takeAmt response.chart (Scaling 1.05) false 10
             in
             transformMapping1 cm cw
-            --transformMapping1 mapping1 (Just ciwin.chart)
         ChartId "chart2" -> 
-            --transformMapping1 mapping1 (toMaybe ciwin.chart2)
-            EmptyChart
+            let 
+                cw = chartWindow dropAmt takeAmt response.chart2 (Scaling 1.00) true 10
+            in
+            transformMapping1 cm cw
         ChartId "chart3" -> 
-            --transformMapping1 mapping1 (toMaybe ciwin.chart3)
-            EmptyChart
+            let 
+                cw = chartWindow dropAmt takeAmt response.chart3 (Scaling 1.00) false 10
+            in
+            transformMapping1 cm cw
         _ -> 
             EmptyChart
 

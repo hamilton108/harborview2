@@ -12,6 +12,15 @@ public class ElmCharts {
     // private String minDx;
     private long minDx;
     private List<Long> xAxis;
+    private String ticker;
+
+    @JsonGetter("ticker")
+    public String getTicker() {
+        return ticker;
+    }
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
+    }
 
     @JsonGetter("chart")
     public Chart getChart() {
