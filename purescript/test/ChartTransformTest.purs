@@ -34,7 +34,7 @@ import Data.Argonaut.Core
 --import Data.Argonaut.Decode as Decode
 --import Data.Argonaut.Decode.Error (JsonDecodeError)
 
-import Maunaloa.Json.JsonCharts 
+import Maunaloa.JsonCharts 
     ( JsonChartResponse
     , chartsFromJson
     , emptyJsonChart

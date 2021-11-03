@@ -38,7 +38,7 @@ import Maunaloa.LevelLine
 import Maunaloa.ChartTransform
     ( transform 
     )
-import Maunaloa.Json.JsonCharts
+import Maunaloa.JsonCharts
     ( fetchCharts 
     )
 import Maunaloa.MaunaloaError 

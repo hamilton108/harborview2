@@ -65,7 +65,7 @@ import Maunaloa.Common
     , ChartMapping(..)
     , valueRange
     )
-import Maunaloa.Json.JsonCharts 
+import Maunaloa.JsonCharts 
     ( JsonChartResponse 
     , JsonChart
     , JsonChartWindow

@@ -9,7 +9,7 @@ import Maunaloa.Common (Xaxis)
 
 import Maunaloa.VRuler as V
 import Maunaloa.HRuler as H
-import Maunaloa.Json.JsonCharts
+import Maunaloa.JsonCharts
   ( JsonCandlestick 
   )
 

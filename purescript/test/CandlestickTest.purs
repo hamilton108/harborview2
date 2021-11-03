@@ -7,7 +7,7 @@ import Maunaloa.Candlestick as CA
 import Maunaloa.Candlestick
     ( Candlestick(..)
     )
-import Maunaloa.Json.JsonCharts
+import Maunaloa.JsonCharts
     ( JsonCandlestick
     )
 import Test.VRulerTest as VT

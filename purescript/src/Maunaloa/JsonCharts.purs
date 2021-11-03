@@ -1,7 +1,11 @@
-module Maunaloa.Json.JsonCharts where
+module Maunaloa.JsonCharts where
 
 import Prelude
 
+import Effect.Class 
+    ( liftEffect
+    )
+import Effect.Console (logShow)
 import Data.Either 
     ( Either(..)
     )
@@ -35,7 +39,11 @@ import Maunaloa.MaunaloaError
     ( MaunaloaError(..)
     )
 
-foreign import addCharts :: String -> JsonChartResponse -> Effect Unit
+--foreign import addCharts :: String -> JsonChartResponse -> Effect Unit
+--foreign import getChartsImpl :: (JsonChartResponse -> Maybe JsonChartResponse) -> Maybe JsonChartResponse -> String -> Maybe JsonChartResponse
+
+--getCharts :: String -> Maybe JsonChartResponse 
+--getCharts key = getChartsImpl Just Nothing key
 
 type JsonCandlestick =
     { o :: Number 
@@ -88,18 +96,23 @@ chartUrl MonthChart (Ticker ticker) =
 fetchCharts :: Ticker -> ChartType -> Aff (Either MaunaloaError JsonChartResponse)
 fetchCharts ticker chartType =  
     Affjax.get ResponseFormat.json (chartUrl chartType ticker) >>= \res ->
-        case res of  
-            Left err -> 
-                pure $ Left $ AffjaxError (Affjax.printError err)
-            Right response -> 
-                let 
-                    charts = chartsFromJson response.body
-                in 
-                case charts of
-                    Left err ->
-                        pure $ Left $ JsonError (show err)
-                    Right charts1 ->
-                        pure $ Right charts1
+        let 
+            result :: Either MaunaloaError JsonChartResponse
+            result = 
+                case res of  
+                    Left err -> 
+                        Left $ AffjaxError (Affjax.printError err)
+                    Right response -> 
+                        let 
+                            charts = chartsFromJson response.body
+                        in 
+                        case charts of
+                            Left err ->
+                                Left $ JsonError (show err)
+                            Right charts1 ->
+                                Right charts1
+        in
+        pure result
 
  {-
 demo :: Effect Unit
