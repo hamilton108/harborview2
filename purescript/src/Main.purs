@@ -18,7 +18,9 @@ import Effect.Console
 import Data.Either 
     ( Either(..)
     )
-
+import Data.Maybe
+    ( Maybe(..)
+    )
 import Maunaloa.Common 
     ( ChartMappings
     , Drop(..)
@@ -28,9 +30,8 @@ import Maunaloa.Common
     , ChartType
     , asChartType
     )
-import Maunaloa.ChartCollection
-    ( paintAff
-    )
+import Maunaloa.ChartCollection 
+    as ChartCollection 
 import Maunaloa.LevelLine 
     ( Line(..)
     , clear
@@ -39,11 +40,13 @@ import Maunaloa.ChartTransform
     ( transform 
     )
 import Maunaloa.JsonCharts
-    ( fetchCharts 
+    ( JsonChartResponse 
+    , fetchCharts 
     )
 import Maunaloa.MaunaloaError 
     ( handleErrorAff
     )
+import Maunaloa.Repository as Repository 
 
 createEnv :: ChartType -> Ticker -> Drop -> Take -> ChartMappings -> Env
 createEnv ctype tik curDrop curTake mappings = 
@@ -60,21 +63,29 @@ paint chartTypeId mappings ticker dropAmt takeAmt =
     let
         curTicker = Ticker ticker 
         curChartType = asChartType chartTypeId
-        curDrop = Drop dropAmt
-        curTake = Take takeAmt
+        curEnv = createEnv curChartType curTicker (Drop dropAmt) (Take takeAmt) mappings
+        cachedResponse =  Repository.getJsonResponse curTicker
     in 
-    launchAff_ $
-        fetchCharts curTicker curChartType >>= \charts ->
-            case charts of 
-                Left err ->
-                    handleErrorAff err 
-                Right jsonChartResponse ->
-                    let 
-                        curEnv = createEnv curChartType curTicker curDrop curTake mappings
-                        collection = runReader (transform jsonChartResponse) curEnv
-                    in
-                    (liftEffect $ logShow collection) *>
-                    paintAff collection
+    case cachedResponse of 
+        Just cachedResponse1 ->
+            let 
+                collection = runReader (transform cachedResponse1) curEnv
+            in
+            logShow "Fetched response from repository" *>
+            ChartCollection.paint collection
+        Nothing ->
+            launchAff_ $
+                fetchCharts curTicker curChartType >>= \charts ->
+                    case charts of 
+                        Left err ->
+                            handleErrorAff err 
+                        Right jsonChartResponse ->
+                            let 
+                                collection = runReader (transform jsonChartResponse) curEnv
+                            in
+                            (liftEffect $ Repository.setJsonResponse curTicker jsonChartResponse) *>
+                            ChartCollection.paintAff collection
+        
 
 clearLevelLines :: Effect Unit
 clearLevelLines =

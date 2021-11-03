@@ -1,12 +1,16 @@
+"use strict";
+
 var _charts = {};
 
-
-exports.addCharts = key => charts => {
-    _charts[key] = charts;
-    console.log(_charts);
+exports.setJsonResponse = key => charts => {
+    return function () {
+        _charts[key] = charts;
+        console.log(_charts);
+    }
 };
 
-exports.getChartsImpl = just => nothing => key => {
+exports.getJsonResponseImpl = just => nothing => key => {
+    console.log(key);
     if (key in _charts) {
         return just(_charts[key]);
     }
@@ -18,3 +22,22 @@ exports.getChartsImpl = just => nothing => key => {
 exports.resetCharts = function () {
     _charts = {};
 }
+
+/*
+exports.setDemo = key => charts => {
+    return function () {
+        _charts[key] = charts;
+        console.log(_charts);
+    }
+}
+
+exports.getDemoImpl = just => nothing => key => {
+    console.log(key);
+    if (key in _charts) {
+        return just(_charts[key]);
+    }
+    else {
+        return nothing;
+    }
+}
+//*/
