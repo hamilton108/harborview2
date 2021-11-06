@@ -2,15 +2,11 @@
 
 var _charts = {};
 
-exports.setJsonResponse = key => charts => {
-    return function () {
-        _charts[key] = charts;
-        console.log(_charts);
-    }
+exports.setJsonResponse = key => charts => () => {
+    _charts[key] = charts;
 };
 
 exports.getJsonResponseImpl = just => nothing => key => {
-    console.log(key);
     if (key in _charts) {
         return just(_charts[key]);
     }
@@ -19,7 +15,7 @@ exports.getJsonResponseImpl = just => nothing => key => {
     }
 };
 
-exports.resetCharts = function () {
+exports.resetCharts = () => {
     _charts = {};
 }
 

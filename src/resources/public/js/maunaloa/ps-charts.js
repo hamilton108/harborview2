@@ -6648,27 +6648,29 @@ var PS = {};
 
   const x1 = 45.0;
 
-  //* This is needed during testing and spago repl
-  const PS = {
-      "Maunaloa.LevelLine": "",
-      "Data.Maybe": { "Nothing": { "value": "" } }
-  };
-  //*/
-
-  const Maunaloa_LevelLine = PS["Maunaloa.LevelLine"];
-
-  const Data_Maybe = PS["Data.Maybe"];
-
-  const nothing = Data_Maybe.Nothing.value;
-
-  const just = function (obj) {
-      return Data_Maybe.Just.create(obj);
-  }
-
   const initLines = function () {
       return {
           items: [],
-          pilotLine: nothing
+          pilotLine: null
+      }
+  }
+
+  const STD_LINE = 1;
+  const RISC_LINE = 2;
+  const BREAK_EVEN_LINE = 3;
+  const NO_SUCH_LINE = 99;
+
+  const lineShapeOf = (line) => {
+      const cn = line.constructor.name;
+      switch (cn) {
+          case "StdLine":
+              return STD_LINE;
+          case "RiscLine":
+              return RISC_LINE;
+          case "BreakEvenLine":
+              return BREAK_EVEN_LINE;
+          default:
+              return NO_SUCH_LINE;
       }
   }
 
@@ -6677,7 +6679,7 @@ var PS = {};
   var _eventListeners = [];
 
   const createPilotLine = function (y, strokeStyle) {
-      return just({ y: y, strokeStyle: strokeStyle });
+      return { y: y, strokeStyle: strokeStyle };
   }
 
   const closestLine = function (y) {
@@ -6685,7 +6687,7 @@ var PS = {};
       var index = null;
       const items = _lines.items;
       for (var i = 0; i < items.length; ++i) {
-          if (items[i] instanceof Maunaloa_LevelLine.BreakEvenLine) {
+          if (lineShapeOf(items[i]) === BREAK_EVEN_LINE) {
               continue;
           }
           const curRec = items[i].value0;
@@ -6713,127 +6715,114 @@ var PS = {};
       const items = _lines.items;
       for (var i = 0; i < items.length; ++i) {
           const curLine = items[i];
-
-          if (curLine instanceof Maunaloa_LevelLine.StdLine) {
-              paintStdLine(curLine);
-          }
-          else if (curLine instanceof Maunaloa_LevelLine.RiscLine) {
-              paintRiscLine(curLine);
-          }
-          else {
-              paintBreakEvenLine(curLine);
+          const adtShape = lineShapeOf(curLine);
+          switch (adtShape) {
+              case STD_LINE:
+                  paintStdLine(curLine);
+                  break;
+              case RISC_LINE:
+                  paintRiscLine(curLine);
+                  break;
+              case BREAK_EVEN_LINE:
+                  paintBreakEvenLine(curLine);
+                  break;
+              case NO_SUCH_LINE:
+                  break;
           }
       }
       paintPilotLine();
   };
 
-  exports.addListener = function (listener) {
-      return function () {
-          _eventListeners.push(listener);
-      }
+  exports.addListener = listener => () => {
+      _eventListeners.push(listener);
   };
-  exports.resetListeners = function () {
+  exports.resetListeners = () => {
       _eventListeners = [];
       _lines = initLines();
   }
-  exports.getListeners = function () {
+  exports.getListeners = () => {
       return _eventListeners;
   }
 
 
-  exports.onMouseDown = function (evt) {
-      return function () {
-          const items = _lines.items;
-          if (items.length === 0) {
-              return;
-          }
-          if (items.length === 1) {
-              // This case will never contain a BreakEvenLine
-              const curLine = items[0].value0;
-              curLine.selected = true;
-              _lines.pilotLine = createPilotLine(curLine.y, "black");
-          }
-          else {
-              const cl = closestLine(evt.offsetY);
-              if (cl !== null) {
-                  cl.value0.selected = true;
-                  _lines.pilotLine = createPilotLine(cl.y, "black"); //cl[1];
-              }
+  exports.onMouseDown = evt => () => {
+      const items = _lines.items;
+      if (items.length === 0) {
+          return;
+      }
+      if (items.length === 1) {
+          // This case will never contain a BreakEvenLine
+          const curLine = items[0].value0;
+          curLine.selected = true;
+          _lines.pilotLine = createPilotLine(curLine.y, "black");
+      }
+      else {
+          const cl = closestLine(evt.offsetY);
+          if (cl !== null) {
+              cl.value0.selected = true;
+              _lines.pilotLine = createPilotLine(cl.y, "black"); //cl[1];
           }
       }
   };
 
-  exports.onMouseDrag = function (evt) {
-      return function () {
-          if (_lines.pilotLine === nothing) {
-              return;
+  exports.onMouseDrag = evt => () => {
+      if (_lines.pilotLine === null) {
+          return;
+      }
+      _lines.pilotLine.y = evt.offsetY;
+      draw();
+  };
+
+  exports.onMouseUpImpl = just => nothing => evt => () => {
+      var result = nothing;
+      const items = _lines.items;
+      for (var i = 0; i < items.length; ++i) {
+          const curLine = items[i];
+          const adtShape = lineShapeOf(curLine);
+          if (adtShape === BREAK_EVEN_LINE) {
+              continue;
           }
-          _lines.pilotLine.value0.y = evt.offsetY;
+          const curRec = curLine.value0;
+          if (curRec.selected == true) {
+              curRec.y = _lines.pilotLine.y;
+              curRec.selected = false;
+              if (adtShape === RISC_LINE) {
+                  result = just(curLine);
+              }
+          }
+      }
+      _lines.pilotLine = null;
+      if (result === nothing) {
+          // If result is RiscLine, draw() will be called later
+          // in updateRiscLine
           draw();
-      };
+      }
+      return result;
   };
 
-  exports.onMouseUp = function (evt) {
-      return function () {
-          var result = nothing;
-          const items = _lines.items;
-          for (var i = 0; i < items.length; ++i) {
-              const curLine = items[i];
-              if (curLine instanceof Maunaloa_LevelLine.BreakEvenLine) {
-                  continue;
-              }
-              const curRec = curLine.value0;
-              if (curRec.selected == true) {
-                  curRec.y = _lines.pilotLine.value0.y;
-                  curRec.selected = false;
-
-                  if (curLine instanceof Maunaloa_LevelLine.RiscLine) {
-                      result = just(curLine);
-                  }
-              }
-          }
-          _lines.pilotLine = nothing;
-          if (result === nothing) {
-              // If result is RiscLine, draw() will be called later
-              // in updateRiscLine
-              draw();
-          }
-          return result;
-      }
-  };
-
-  exports.updateRiscLine = function (riscLine) {
-      return function (newValue) {
-          return function () {
-              console.log(riscLine);
-
-              const items = _lines.items;
-              for (var i = 0; i < items.length; ++i) {
-                  const item = items[i];
-                  if (item === riscLine) {
-                      item.value0.bid = newValue;
-                      break;
-                  }
-              }
-              draw();
+  exports.updateRiscLine = riscLine => newValue => () => {
+      console.log(riscLine);
+      const items = _lines.items;
+      for (var i = 0; i < items.length; ++i) {
+          const item = items[i];
+          if (item === riscLine) {
+              item.value0.bid = newValue;
+              break;
           }
       }
+      draw();
   }
 
   var _ctx = null;
   var _v = null;
 
-  exports.redraw = function (ctx) {
-      return function (vruler) {
-          return function () {
-              ctx.clearRect(0, 0, vruler.w, vruler.h);
-              _ctx = ctx;
-              _v = vruler;
-          }
-      };
+  exports.redraw = ctx => vruler => () => {
+      ctx.clearRect(0, 0, vruler.w, vruler.h);
+      _ctx = ctx;
+      _v = vruler;
   };
 
-  exports.clearCanvas = function () {
+  exports.clearCanvas = () => {
       if (_ctx === null) {
           return;
       }
@@ -6844,55 +6833,56 @@ var PS = {};
       _lines = initLines();
   };
 
-  exports.addLine = function (line) {
-      return function () {
-          _lines.items.push(line);
-          if (line instanceof Maunaloa_LevelLine.StdLine) {
+  exports.addLine = line => () => {
+      _lines.items.push(line);
+      const adtShape = lineShapeOf(line);
+      switch (adtShape) {
+          case STD_LINE:
               paintStdLine(line);
-          }
-          else if (line instanceof Maunaloa_LevelLine.RiscLine) {
+              break;
+          case RISC_LINE:
               paintRiscLine(line);
-          }
-          else {
+          case BREAK_EVEN_LINE:
               paintBreakEvenLine(line);
-          }
-
-      };
+          default:
+              console.log("No such class: " + clazz);
+      }
   };
 
   const paintStdLine = function (line) {
-      if (line.value0.selected === true) {
+      const rec = line.value0;
+      if (rec.selected === true) {
           return;
       }
-      const y = line.value0.y;
+      const y = rec.y;
       const displayValue = pixToValue(y).toFixed(2);
       const x2 = _v.w - x1;
       paint(x2, y, displayValue, "black");
   };
   const paintRiscLine = function (line) {
-      if (line.value0.selected === true) {
+      const rec = line.value0;
+      if (rec.selected === true) {
           return;
       }
-      const rec = line.value0;
       const displayValue = pixToValue(rec.y).toFixed(2) + " - " + rec.ticker + ", op: " + rec.bid.toFixed(2);
       const x2 = _v.w - x1;
       paint(x2, rec.y, displayValue, "red");
   };
   const paintBreakEvenLine = function (line) {
-      if (line.value0.selected === true) {
+      const rec = line.value0;
+      if (rec.selected === true) {
           return;
       }
-      const bel = line.value0;
-      const y = bel.y;
-      const displayValue = bel.breakEven.toFixed(2) + " - " + bel.ticker + ", ask: " + bel.ask.toFixed(2); // + ", be: " + bel.be.toFixed(2);
+      const y = rec.y;
+      const displayValue = rec.breakEven.toFixed(2) + " - " + rec.ticker + ", ask: " + rec.ask.toFixed(2); // + ", be: " + bel.be.toFixed(2);
       const x2 = _v.w - x1;
       paint(x2, y, displayValue, "green");
   };
   const paintPilotLine = function () {
-      if (_lines.pilotLine === nothing) {
+      if (_lines.pilotLine === null) {
           return;
       }
-      const y = _lines.pilotLine.value0.y;
+      const y = _lines.pilotLine.y;
       const displayValue = pixToValue(y).toFixed(2);
       const x2 = _v.w - x1;
       paint(x2, y, displayValue, "black");
@@ -7133,7 +7123,7 @@ var PS = {};
           if (el instanceof Data_Maybe.Just) {
               return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
           };
-          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 383, column 5 - line 385, column 28): " + [ el.constructor.name ]);
+          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 393, column 5 - line 395, column 28): " + [ el.constructor.name ]);
       };
   };
   var updOptionPriceFromJson = Data_Argonaut_Decode_Class.decodeJson(Data_Argonaut_Decode_Class.decodeRecord(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeFieldId(Data_Argonaut_Decode_Class.decodeJsonNumber))(Data_Argonaut_Decode_Class.gDecodeJsonNil)({
@@ -7199,13 +7189,16 @@ var PS = {};
                   }
               })(Data_Show.showRecordFieldsNil)(Data_Show.showNumber))(Data_Show.showString))(Data_Show.showNumber))(Data_Show.showNumber)))(v.value0);
           };
-          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 109, column 1 - line 112, column 57): " + [ v.constructor.name ]);
+          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 110, column 1 - line 113, column 57): " + [ v.constructor.name ]);
       }
   };          
   var optionPriceURL = function (ticker) {
       return function (curStockPrice) {
           return Maunaloa_Common.mainURL + ("/optionprice/" + (ticker + ("/" + Data_Number_Format.toStringWith(Data_Number_Format.fixed(2))(curStockPrice))));
       };
+  };
+  var onMouseUp = function (evt) {
+      return $foreign.onMouseUpImpl(Data_Maybe.Just.create)(Data_Maybe.Nothing.value)(evt);
   };
   var initEvent = function (toListener) {
       return function (element) {
@@ -7272,9 +7265,9 @@ var PS = {};
                   if (result instanceof Data_Either.Right) {
                       return Control_Applicative.pure(Effect_Aff.applicativeAff)(result.value0.value);
                   };
-                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 316, column 17 - line 321, column 43): " + [ result.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 326, column 17 - line 331, column 43): " + [ result.constructor.name ]);
               };
-              throw new Error("Failed pattern match at Maunaloa.LevelLine (line 308, column 9 - line 321, column 43): " + [ res.constructor.name ]);
+              throw new Error("Failed pattern match at Maunaloa.LevelLine (line 318, column 9 - line 331, column 43): " + [ res.constructor.name ]);
           });
       };
   };
@@ -7299,7 +7292,7 @@ var PS = {};
           if (line instanceof Data_Maybe.Just) {
               return handleUpdateOptionPrice(vr)(line.value0);
           };
-          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 339, column 5 - line 343, column 45): " + [ line.constructor.name ]);
+          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 349, column 5 - line 353, column 45): " + [ line.constructor.name ]);
       };
   };
   var defaultEventHandling = function (event) {
@@ -7315,7 +7308,7 @@ var PS = {};
                   if (res instanceof Data_Either.Right) {
                       return Effect_Class.liftEffect(Effect_Aff.monadEffectAff)(Maunaloa_Common.alert("OK!"));
                   };
-                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 257, column 9 - line 264, column 41): " + [ res.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 267, column 9 - line 274, column 41): " + [ res.constructor.name ]);
               }));
           };
       };
@@ -7329,7 +7322,7 @@ var PS = {};
   var mouseEventUp = function (vruler) {
       return function (evt) {
           return function __do() {
-              var line = Control_Apply.applySecond(Effect.applyEffect)(defaultEventHandling(evt))($foreign.onMouseUp(evt))();
+              var line = Control_Apply.applySecond(Effect.applyEffect)(defaultEventHandling(evt))(onMouseUp(evt))();
               return handleMouseEventUpLine(vruler)(line)();
           };
       };
@@ -7354,7 +7347,7 @@ var PS = {};
                       var ctx = Graphics_Canvas.getContext2D(context.value0.canvasContext)();
                       return Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)($foreign.redraw(ctx)(vruler))(initEvent(addLevelLineButtonClick)(context.value0.addLevelLineBtn)("click")))(initEvent(fetchLevelLineButtonClick(ticker)(context.value0.canvasContext))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(mouseEventDown)(context.value0.canvasElement)("mousedown")))(initEvent(mouseEventDrag)(context.value0.canvasElement)("mousemove")))(initEvent(mouseEventUp(vruler))(context.value0.canvasElement)("mouseup"))();
                   };
-                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 418, column 9 - line 432, column 97): " + [ context.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 428, column 9 - line 442, column 97): " + [ context.constructor.name ]);
               };
           };
       };
@@ -7869,11 +7862,9 @@ var PS = {};
 
   var _charts = {};
 
-  exports.setJsonResponse = key => charts => {
-      return function () {
-          _charts[key] = charts;
-          console.log(_charts);
-      }
+  exports.setJsonResponse = key => charts => () => {
+      _charts[key] = charts;
+      console.log(_charts);
   };
 
   exports.getJsonResponseImpl = just => nothing => key => {

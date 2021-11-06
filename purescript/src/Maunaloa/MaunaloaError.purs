@@ -11,6 +11,9 @@ import Effect.Aff
 import Effect.Console 
     ( logShow
     )
+import Maunaloa.Common
+    ( alert
+    )
 
 data MaunaloaError = 
     AffjaxError String
@@ -19,6 +22,6 @@ data MaunaloaError =
 
 handleErrorAff :: MaunaloaError -> Aff Unit
 handleErrorAff (AffjaxError err) = 
-    liftEffect $ logShow $ "AffjaxError: " <> err 
+    liftEffect $ alert $ "AffjaxError: " <> err 
 handleErrorAff (JsonError err) = 
-    liftEffect $ logShow $ "JsonError: " <> err 
+    liftEffect $ alert $ "JsonError: " <> err 

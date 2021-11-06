@@ -5,7 +5,7 @@ import Prelude
 import Effect.Class 
     ( liftEffect
     )
-import Effect.Console (logShow)
+--import Effect.Console (logShow)
 import Data.Either 
     ( Either(..)
     )

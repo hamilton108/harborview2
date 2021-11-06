@@ -31,7 +31,12 @@ import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
 
 
-import Maunaloa.Common (Pix(..),HtmlId(..),mainURL,showJson,alert)
+import Maunaloa.Common 
+    ( Pix(..)
+    , HtmlId(..)
+    , mainURL
+    , showJson
+    , alert)
 import Maunaloa.VRuler (VRuler,valueToPix,pixToValue)
 import Maunaloa.Chart (ChartLevel)
 
@@ -76,7 +81,7 @@ foreign import onMouseDown :: Event.Event -> Effect Unit
 
 foreign import onMouseDrag :: Event.Event -> Effect Unit
 
-foreign import onMouseUp :: Event.Event -> Effect (Maybe Line)
+foreign import onMouseUpImpl :: (Line -> Maybe Line) -> (Maybe Line) -> Effect (Maybe Line)
 
 foreign import updateRiscLine :: Line -> Number -> Effect Unit
 
@@ -87,6 +92,7 @@ foreign import clearCanvas :: Effect Unit
 --foreign import showJson :: Json -> Effect Unit
 
 --foreign import alert :: String -> Effect Unit
+
 
 data Line = 
     StdLine 
@@ -110,6 +116,15 @@ instance showLine :: Show Line where
     show (StdLine v) = "StdLine: " <> show v 
     show (RiscLine v) = "RiscLine: " <> show v 
     show (BreakEvenLine v) = "BreakEvenLine: " <> show v 
+
+onMouseUp :: Event.Event -> Effect (Maybe Line)
+onMouseUp evt = onMouseUpImpl Just Nothing 
+
+{-
+const STD_LINE = 1;
+const RISC_LINE = 2;
+const BREAK_EVEN_LINE = 3;
+-}
 
 {-}
 newtype PilotLine = 
@@ -250,22 +265,9 @@ addRiscLines vr lines =
     in
     Traversable.traverse_ addRiscLine1 lines
 
-fetchLevelLineButtonClick :: String -> CanvasElement -> Event.Event -> Effect Unit
-fetchLevelLineButtonClick ticker ce evt = 
-    launchAff_ $
-    Affjax.get ResponseFormat.json (mainURL <> "/days/1") >>= \res ->
-        case res of  
-            Left err -> 
-                liftEffect (
-                    defaultEventHandling evt *>
-                    alert ("Affjax Error: " <> Affjax.printError err)
-                )
-            Right _ -> 
-                liftEffect (alert "OK!") 
-    
 
-xfetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
-xfetchLevelLineButtonClick ticker ce vruler evt = 
+fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
+fetchLevelLineButtonClick ticker ce vruler evt = 
     Canvas.getContext2D ce >>= \ctx ->
     launchAff_ $
     Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
@@ -322,15 +324,14 @@ fetchUpdatedOptionPrice ticker curStockPrice =
 
 handleUpdateOptionPrice :: VRuler -> Line -> Effect Unit
 handleUpdateOptionPrice vr lref@(RiscLine line) = 
-    launchAff_ (
+    launchAff_ $
         let 
             sp = pixToValue vr (Pix line.y)
         in
         (liftEffect $ logShow lref) *>
         fetchUpdatedOptionPrice line.ticker sp >>= \n ->
         (liftEffect $ updateRiscLine lref n)
-        --pure unit
-    )
+
 handleUpdateOptionPrice _ _ = 
     pure unit
 
@@ -426,7 +427,7 @@ initEvents ticker vruler chartLevel =
                 Canvas.getContext2D ce >>= \ctx ->
                     redraw ctx vruler *>
                     initEvent addLevelLineButtonClick context1.addLevelLineBtn (EventType "click") *>
-                    initEvent (fetchLevelLineButtonClick ticker ce) context1.fetchLevelLinesBtn (EventType "click") *>
+                    initEvent (fetchLevelLineButtonClick ticker ce vruler) context1.fetchLevelLinesBtn (EventType "click") *>
                     initEvent mouseEventDown context1.canvasElement (EventType "mousedown") *>
                     initEvent mouseEventDrag context1.canvasElement (EventType "mousemove") *>
                     initEvent (mouseEventUp vruler) context1.canvasElement (EventType "mouseup") 
