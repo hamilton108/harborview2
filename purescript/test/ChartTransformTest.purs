@@ -399,7 +399,8 @@ testChartTransformSuite =
             Assert.equal 1 (length collection.charts)
             Assert.equal (UnixTime 1615939200000.0) hruler.startTime
             Assert.equal (UnixTime 1627430400000.0) hruler.endTime
-            Assert.equal "NHY" collection.ticker
+            let (Ticker tkr) = collection.ticker
+            Assert.equal "NHY" tkr 
             Assert.equal (Pix 9.029850746268657) hruler.ppx
             let actualXaxis10 = take 10 hruler.xaxis
             Assert.equal expectedXaxis10 actualXaxis10

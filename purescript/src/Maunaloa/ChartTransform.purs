@@ -63,6 +63,7 @@ import Maunaloa.Common
     , ChartType(..)
     , ChartId(..)
     , ChartMapping(..)
+    , Ticker(..)
     , valueRange
     )
 import Maunaloa.JsonCharts 
@@ -251,7 +252,7 @@ transform response =
     in
     pure $ 
     ChartCollection 
-        { ticker: response.ticker
+        { ticker: (Ticker response.ticker)
         , charts: charts1
         , hruler: ruler1 
         }

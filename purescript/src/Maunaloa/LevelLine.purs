@@ -34,6 +34,7 @@ import Data.Argonaut.Decode.Error (JsonDecodeError)
 import Maunaloa.Common 
     ( Pix(..)
     , HtmlId(..)
+    , Ticker(..)
     , mainURL
     , showJson
     , alert)
@@ -102,12 +103,12 @@ data Line =
     | RiscLine
     { y :: Number
     , selected :: Boolean
-    , ticker :: String
+    , ticker :: Ticker 
     , bid :: Number
     }
     | BreakEvenLine
     { y :: Number
-    , ticker :: String
+    , ticker :: Ticker
     , ask :: Number
     , breakEven :: Number
     }
@@ -229,28 +230,29 @@ addLevelLineButtonClick evt =
     in
     addLine line
 
-fetchLevelLinesURL :: String -> String
-fetchLevelLinesURL ticker =
+fetchLevelLinesURL :: Ticker -> String
+fetchLevelLinesURL (Ticker ticker) =
     -- "http://localhost:6346/maunaloa/risclines/" <> ticker
     mainURL <>  "/risclines/" <> ticker
 
-optionPriceURL :: String -> Number -> String
-optionPriceURL ticker curStockPrice =
+optionPriceURL :: Ticker -> Number -> String
+optionPriceURL (Ticker ticker) curStockPrice =
     mainURL <> "/optionprice/" <> ticker <> "/" <> toStringWith (fixed 2) curStockPrice
 
 
 addRiscLine :: VRuler -> RiscLineJson -> Effect Unit
 addRiscLine vr line = 
     let 
+        ticker = Ticker line.ticker
         rl = RiscLine
                 { y: valueToPix vr line.riscStockPrice
                 , selected: false
-                , ticker: line.ticker
+                , ticker: ticker
                 , bid: line.bid
                 }
         bl = BreakEvenLine
                 { y: valueToPix vr line.be
-                , ticker: line.ticker
+                , ticker: ticker
                 , ask: line.ask 
                 , breakEven: line.be
                 }
@@ -266,7 +268,7 @@ addRiscLines vr lines =
     Traversable.traverse_ addRiscLine1 lines
 
 
-fetchLevelLineButtonClick :: String -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
+fetchLevelLineButtonClick :: Ticker -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ticker ce vruler evt = 
     Canvas.getContext2D ce >>= \ctx ->
     launchAff_ $
@@ -304,7 +306,7 @@ mouseEventDrag evt =
     defaultEventHandling evt *>
     onMouseDrag evt
 
-fetchUpdatedOptionPrice :: String -> Number -> Aff Number
+fetchUpdatedOptionPrice :: Ticker -> Number -> Aff Number
 fetchUpdatedOptionPrice ticker curStockPrice = 
     Affjax.get ResponseFormat.json (optionPriceURL ticker curStockPrice) >>= \res ->
         case res of  
@@ -412,7 +414,7 @@ initEvent toListener element eventType =
     addListener info *>
     EventTarget.addEventListener eventType e1 false (toEventTarget element) 
 
-initEvents :: String -> VRuler -> ChartLevel -> Effect Unit
+initEvents :: Ticker -> VRuler -> ChartLevel -> Effect Unit
 initEvents ticker vruler chartLevel =
     unlistenEvents *>
     getHtmlContext chartLevel >>= \context ->

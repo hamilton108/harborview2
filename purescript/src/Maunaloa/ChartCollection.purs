@@ -39,12 +39,13 @@ import Maunaloa.Common
     ( HtmlId(..)
     , ChartWidth(..)
     , ChartMapping(..)
+    , Ticker(..)
     )
 import Maunaloa.LevelLine as LevelLine
 
 
 newtype ChartCollection = ChartCollection 
-    { ticker :: String
+    { ticker :: Ticker 
     , charts :: Array C.Chart -- List C.Chart
     , hruler :: H.HRuler
     }
@@ -81,7 +82,7 @@ findLevelLineChart :: Array Chart -> Maybe Chart
 findLevelLineChart charts = 
     Array.find findChartPredicate charts
 
-levelLines :: String -> Array Chart -> Effect Unit
+levelLines :: Ticker -> Array Chart -> Effect Unit
 levelLines ticker charts = 
     let
         levelLine = Array.find findChartPredicate charts
