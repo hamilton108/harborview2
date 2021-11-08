@@ -29,6 +29,10 @@ import Web.HTML.HTMLDocument as HTMLDocument
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
+import Maunaloa.MaunaloaError
+    ( MaunaloaError(..)
+    , handleErrorAff
+    )
 
 
 import Maunaloa.Common 
@@ -267,10 +271,13 @@ addRiscLines vr lines =
     in
     Traversable.traverse_ addRiscLine1 lines
 
+fetchLevelLineButtonClick' :: Ticker -> Aff (Either MaunaloaError Number)
+fetchLevelLineButtonClick' tkr = 
+    pure $ Right 3.4 
 
-fetchLevelLineButtonClick :: Ticker -> CanvasElement -> VRuler -> Event.Event -> Effect Unit
-fetchLevelLineButtonClick ticker ce vruler evt = 
-    Canvas.getContext2D ce >>= \ctx ->
+fetchLevelLineButtonClick :: Ticker -> VRuler -> Event.Event -> Effect Unit
+fetchLevelLineButtonClick ticker vruler evt = 
+    --Canvas.getContext2D ce >>= \ctx ->
     launchAff_ $
     Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
         case res of  
@@ -306,23 +313,26 @@ mouseEventDrag evt =
     defaultEventHandling evt *>
     onMouseDrag evt
 
-fetchUpdatedOptionPrice :: Ticker -> Number -> Aff Number
+fetchUpdatedOptionPrice :: Ticker -> Number -> Aff (Either MaunaloaError Number)
 fetchUpdatedOptionPrice ticker curStockPrice = 
     Affjax.get ResponseFormat.json (optionPriceURL ticker curStockPrice) >>= \res ->
-        case res of  
-            Left err -> 
-                (liftEffect (alert ("Affjax Error: " <> Affjax.printError err))) *>
-                pure (-1.0)
-            Right response -> 
-                let 
-                    result = updOptionPriceFromJson response.body 
-                in
-                case result of
-                    Left err  ->
-                        (liftEffect (alert (show err))) *>
-                        pure (-1.0)
-                    Right result1 ->
-                        pure result1.value
+        let 
+            result :: Either MaunaloaError Number 
+            result = 
+                case res of  
+                    Left err -> 
+                        Left $ AffjaxError (Affjax.printError err)
+                    Right response -> 
+                        let 
+                            result = updOptionPriceFromJson response.body 
+                        in
+                        case result of
+                            Left err ->
+                                Left $ JsonError (show err)
+                            Right result1 ->
+                                Right result1.value
+        in 
+        pure result
 
 handleUpdateOptionPrice :: VRuler -> Line -> Effect Unit
 handleUpdateOptionPrice vr lref@(RiscLine line) = 
@@ -332,7 +342,11 @@ handleUpdateOptionPrice vr lref@(RiscLine line) =
         in
         (liftEffect $ logShow lref) *>
         fetchUpdatedOptionPrice line.ticker sp >>= \n ->
-        (liftEffect $ updateRiscLine lref n)
+            case n of 
+                Left err ->
+                    handleErrorAff err
+                Right value ->
+                    (liftEffect $ updateRiscLine lref value)
 
 handleUpdateOptionPrice _ _ = 
     pure unit
@@ -388,7 +402,11 @@ validateMaybe desc el =
         Just _ -> pure unit -- logShow ("OK: " <> desc)
 
 getHtmlContext :: ChartLevel -> Effect (Maybe HtmlContext)
-getHtmlContext {levelCanvasId: (HtmlId levelCanvasId1), addLevelId: (HtmlId addLevelId1), fetchLevelId: (HtmlId fetchLevelId1)} =
+getHtmlContext 
+    { levelCanvasId: ( HtmlId levelCanvasId1)
+    , addLevelId: (HtmlId addLevelId1)
+    , fetchLevelId: (HtmlId fetchLevelId1)
+    } =
     getDoc >>= \doc ->
         getElementById levelCanvasId1 doc >>= \canvasElement ->
         getElementById addLevelId1 doc >>= \addLevelId2 ->
@@ -429,7 +447,7 @@ initEvents ticker vruler chartLevel =
                 Canvas.getContext2D ce >>= \ctx ->
                     redraw ctx vruler *>
                     initEvent addLevelLineButtonClick context1.addLevelLineBtn (EventType "click") *>
-                    initEvent (fetchLevelLineButtonClick ticker ce vruler) context1.fetchLevelLinesBtn (EventType "click") *>
+                    initEvent (fetchLevelLineButtonClick ticker vruler) context1.fetchLevelLinesBtn (EventType "click") *>
                     initEvent mouseEventDown context1.canvasElement (EventType "mousedown") *>
                     initEvent mouseEventDrag context1.canvasElement (EventType "mousemove") *>
                     initEvent (mouseEventUp vruler) context1.canvasElement (EventType "mouseup") 
