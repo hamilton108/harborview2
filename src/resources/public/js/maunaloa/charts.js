@@ -166,6 +166,30 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     };
+    var shiftIndex = 0;
+    const shiftWindow = 90;
+    const shiftPricesLast = (event) => {
+        shiftIndex = 0;
+        PS.Main.paint(DAY)(toChartMappings(canvases.DAY))("1")(0)(90)();
+    };
+    const shiftPricesPrev = (event) => {
+        shiftIndex += shiftWindow;
+        PS.Main.paint(DAY)(toChartMappings(canvases.DAY))("1")(shiftIndex)(90)();
+    };
+    const shiftPricesNext = (event) => {
+        shiftIndex -= shiftWindow;
+        if (shiftIndex < 0) {
+            shiftIndex = 0;
+        }
+        PS.Main.paint(DAY)(toChartMappings(canvases.DAY))("1")(shiftIndex)(90)();
+    }
+    const prevBtn = document.querySelector(".shift-prev");
+    prevBtn.addEventListener("click", shiftPricesPrev);
+    const nextBtn = document.querySelector(".shift-next");
+    nextBtn.addEventListener("click", shiftPricesNext);
+    const lastBtn = document.querySelector(".shift-last");
+    lastBtn.addEventListener("click", shiftPricesLast);
+
 
     const DAY = 1;
     const WEEK = 2;

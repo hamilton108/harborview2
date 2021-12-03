@@ -271,14 +271,45 @@ addRiscLines vr lines =
     in
     Traversable.traverse_ addRiscLine1 lines
 
-fetchLevelLineButtonClick' :: Ticker -> Aff (Either MaunaloaError Number)
-fetchLevelLineButtonClick' tkr = 
-    pure $ Right 3.4 
+fetchLevelLines :: Ticker -> Aff (Either MaunaloaError RiscLinesJson)
+fetchLevelLines ticker = 
+    Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
+        let 
+            result :: Either MaunaloaError RiscLinesJson 
+            result = 
+                case res of  
+                    Left err -> 
+                        Left $ AffjaxError (Affjax.printError err)
+                    Right response ->
+                        let 
+                            lines = riscLinesFromJson response.body
+                        in
+                        case lines of
+                            Left err ->
+                                Left $ JsonError (show err)
+                            Right lines1 ->
+                                Right lines1 
+        in
+        pure result
 
 fetchLevelLineButtonClick :: Ticker -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ticker vruler evt = 
-    --Canvas.getContext2D ce >>= \ctx ->
-    launchAff_ $
+    defaultEventHandling evt *>
+    launchAff_ 
+    (
+        fetchLevelLines ticker >>= \lines ->
+            case lines of
+                Left err ->
+                    handleErrorAff err
+                Right lines1 ->
+                    liftEffect 
+                    (
+                        clearLines *>
+                        addRiscLines vruler lines1
+                    )
+    )
+
+{-
     Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
         case res of  
             Left err -> 
@@ -301,6 +332,7 @@ fetchLevelLineButtonClick ticker vruler evt =
                                clearLines *>
                                addRiscLines vruler lines1
                 )
+-}
     
 
 mouseEventDown :: Event.Event -> Effect Unit
@@ -324,13 +356,13 @@ fetchUpdatedOptionPrice ticker curStockPrice =
                         Left $ AffjaxError (Affjax.printError err)
                     Right response -> 
                         let 
-                            result = updOptionPriceFromJson response.body 
+                            json = updOptionPriceFromJson response.body 
                         in
-                        case result of
+                        case json of
                             Left err ->
                                 Left $ JsonError (show err)
-                            Right result1 ->
-                                Right result1.value
+                            Right json1 ->
+                                Right json1.value
         in 
         pure result
 
