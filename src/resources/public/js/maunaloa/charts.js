@@ -143,18 +143,20 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
+    var currentTicker = null;
     const fetchPrices = (chartType, chartMappings) => {
         const _chartMappings = chartMappings;
         const _chartType = chartType;
         return function (event) {
+            currentTicker = event.target.value;
             PS.Main.paint(_chartType)(_chartMappings)(event.target.value)(0)(90)();
         };
     };
 
-    const fetchTickers = (selectId, eventHandler) => {
+    const fetchTickers = (nodeId, eventHandler) => {
         fetch("/maunaloa/tickers").then(result => {
             result.json().then(data => {
-                const node = document.getElementById(selectId);
+                const node = document.getElementById(nodeId);
                 node.addEventListener("change", eventHandler);
 
                 data.forEach(x => {
@@ -166,34 +168,91 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     };
-    var shiftIndex = 0;
-    const shiftWindow = 90;
-    const shiftPricesLast = (event) => {
-        shiftIndex = 0;
-        PS.Main.paint(DAY)(toChartMappings(canvases.DAY))("1")(0)(90)();
-    };
-    const shiftPricesPrev = (event) => {
-        shiftIndex += shiftWindow;
-        PS.Main.paint(DAY)(toChartMappings(canvases.DAY))("1")(shiftIndex)(90)();
-    };
-    const shiftPricesNext = (event) => {
-        shiftIndex -= shiftWindow;
-        if (shiftIndex < 0) {
-            shiftIndex = 0;
-        }
-        PS.Main.paint(DAY)(toChartMappings(canvases.DAY))("1")(shiftIndex)(90)();
-    }
-    const prevBtn = document.querySelector(".shift-prev");
-    prevBtn.addEventListener("click", shiftPricesPrev);
-    const nextBtn = document.querySelector(".shift-next");
-    nextBtn.addEventListener("click", shiftPricesNext);
-    const lastBtn = document.querySelector(".shift-last");
-    lastBtn.addEventListener("click", shiftPricesLast);
-
 
     const DAY = 1;
     const WEEK = 2;
     const Month = 3;
+    const SHIFT_WINDOW = 90;
+
+    const initShiftPrices = (chartType) => {
+        var canvasesType = null;
+        switch (chartType) {
+            case DAY:
+                canvasesType = canvases.DAY;
+                break;
+            case WEEK:
+                canvasesType = canvases.WEEK;
+                break;
+            case MONTH:
+                canvasesType = canvases.MONTH;
+                break;
+            default:
+                canvasesType = canvases.DAY;
+                break;
+        }
+        const CHART_MAPPINGS = toChartMappings(canvasesType);
+        var shiftIndex = 0;
+        const shiftPricesLast = (event) => {
+            if (currentTicker == null) {
+                return;
+            }
+            shiftIndex = 0;
+            PS.Main.paint(DAY)(CHART_MAPPINGS)(currentTicker)(0)(SHIFT_WINDOW)();
+        };
+        const shiftPricesPrev = (event) => {
+            if (currentTicker == null) {
+                return;
+            }
+            shiftIndex += SHIFT_WINDOW;
+            PS.Main.paint(DAY)(CHART_MAPPINGS)(currentTicker)(shiftIndex)(SHIFT_WINDOW)();
+        };
+        const shiftPricesNext = (event) => {
+            if (currentTicker == null) {
+                return;
+            }
+            shiftIndex -= SHIFT_WINDOW;
+            if (shiftIndex < 0) {
+                shiftIndex = 0;
+            }
+            PS.Main.paint(DAY)(CHART_MAPPINGS)(currentTicker)(shiftIndex)(SHIFT_WINDOW)();
+        }
+
+        var prevBtnClass = null;
+        var nextBtnClass = null;
+        var lastBtnClass = null;
+        switch (chartType) {
+            case DAY:
+                prevBtnClass = ".shift-prev-1";
+                nextBtnClass = ".shift-next-1";
+                lastBtnClass = ".shift-last-1";
+                break;
+            case WEEK:
+                prevBtnClass = ".shift-prev-2";
+                nextBtnClass = ".shift-next-2";
+                lastBtnClass = ".shift-last-2";
+                break;
+            case MONTH:
+                prevBtnClass = ".shift-prev-3";
+                nextBtnClass = ".shift-next-3";
+                lastBtnClass = ".shift-last-3";
+                break;
+            default:
+                prevBtnClass = ".shift-prev-1";
+                nextBtnClass = ".shift-next-1";
+                lastBtnClass = ".shift-last-1";
+                break;
+        }
+        const prevBtn = document.querySelector(prevBtnClass);
+        prevBtn.addEventListener("click", shiftPricesPrev);
+        const nextBtn = document.querySelector(nextBtnClass);
+        nextBtn.addEventListener("click", shiftPricesNext);
+        const lastBtn = document.querySelector(lastBtnClass);
+        lastBtn.addEventListener("click", shiftPricesLast);
+    }
+
+
+    initShiftPrices(DAY);
+
 
     const app = (nodeId, eventHandler, myCanvases, config) => {
         const scrap = new Scrapbook(config);
