@@ -36,11 +36,11 @@
                             <option>-</option>
                         </select>
                     </div>
-                    <div class="form-group form-group--elm shift-prev-1">
-                        <button class="btn btn-outline-success">Previous</button>
+                    <div class="form-group form-group--elm">
+                        <button class="btn btn-outline-success shift-prev-1">Previous</button>
                     </div>
-                    <div class="form-group form-group--elm shift-next-1">
-                        <button class="btn btn-outline-success">Next</button>
+                    <div class="form-group form-group--elm">
+                        <button class="btn btn-outline-success shift-next-1">Next</button>
                     </div>
                     <div class="form-group form-group--elm">
                         <button class="btn btn-outline-success shift-last-1">Last</button>
@@ -49,6 +49,20 @@
                 <div th:replace="maunaloa/chart.html :: chart(1)"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="chart2" aria-labelledby="chart2-tab" aria-expanded="false">
+                <div class="form-group">
+                    <select class="form-control" id="tickers-2">
+                        <option>-</option>
+                    </select>
+                </div>
+                <div class="form-group form-group--elm">
+                    <button class="btn btn-outline-success shift-prev-2">Previous</button>
+                </div>
+                <div class="form-group form-group--elm">
+                    <button class="btn btn-outline-success shift-next-2">Next</button>
+                </div>
+                <div class="form-group form-group--elm">
+                    <button class="btn btn-outline-success shift-last-2">Last</button>
+                </div>
                 <!-- 
                 <div id="my-app2"></div>
                 -->

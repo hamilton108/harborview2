@@ -15,8 +15,14 @@ import Effect.Class
 import Effect.Console 
     ( logShow
     )
+import Data.Number.Format 
+    ( toString
+    )
 import Data.Either 
     ( Either(..)
+    )
+import Data.Int
+    ( toNumber 
     )
 import Data.Maybe
     ( Maybe(..)
@@ -58,13 +64,18 @@ createEnv ctype tik curDrop curTake mappings =
     , mappings: mappings
     }
 
+reposIdFor :: Int -> String -> String 
+reposIdFor chartTypeId ticker = 
+    ticker <> ":" <> (toString $ toNumber chartTypeId)
+
 paint :: Int -> ChartMappings -> String -> Int -> Int -> Effect Unit
 paint chartTypeId mappings ticker dropAmt takeAmt = 
     let
         curTicker = Ticker ticker 
         curChartType = asChartType chartTypeId
         curEnv = createEnv curChartType curTicker (Drop dropAmt) (Take takeAmt) mappings
-        cachedResponse =  Repository.getJsonResponse curTicker
+        reposId = reposIdFor chartTypeId ticker 
+        cachedResponse =  Repository.getJsonResponse reposId
     in 
     case cachedResponse of 
         Just cachedResponse1 ->
@@ -83,7 +94,7 @@ paint chartTypeId mappings ticker dropAmt takeAmt =
                             let 
                                 collection = runReader (transform jsonChartResponse) curEnv
                             in
-                            (liftEffect $ Repository.setJsonResponse curTicker jsonChartResponse) *>
+                            (liftEffect $ Repository.setJsonResponse reposId jsonChartResponse) *>
                             ChartCollection.paintAff collection
         
 

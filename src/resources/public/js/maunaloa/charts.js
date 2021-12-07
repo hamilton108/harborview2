@@ -1,6 +1,7 @@
-import { Chart } from "./canvas/chart.js";
-import { Scrapbook } from "./canvas/scrapbook.js";
+//import { Chart } from "./canvas/chart.js";
 //import { LevelLines } from "./canvas/levelline.js";
+
+import { Scrapbook } from "./canvas/scrapbook.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     const canvases = {
@@ -17,14 +18,16 @@ document.addEventListener("DOMContentLoaded", function () {
             VOLUME: 'vol-2',
             OSC: 'osc-2',
             LEVEL_LINES: 'levellines-2',
-            BTN_LEVELLINE: "btn-levelline-2"
+            BTN_LEVELLINE: "btn-levelline-2",
+            BTN_RISCLINES: "btn-persistent-levelline-2"
         },
         MONTH: {
             MAIN_CHART: 'chart-3',
             VOLUME: 'vol-3',
             OSC: 'osc-3',
             LEVEL_LINES: 'levellines-3',
-            BTN_LEVELLINE: "btn-levelline-3"
+            BTN_LEVELLINE: "btn-levelline-3",
+            BTN_RISCLINES: "btn-persistent-levelline-3"
         }
     };
     const scrapbooks = {
@@ -143,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
+    /*
     var currentTicker = null;
     const fetchPrices = (chartType, chartMappings) => {
         const _chartMappings = chartMappings;
@@ -152,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
             PS.Main.paint(_chartType)(_chartMappings)(event.target.value)(0)(90)();
         };
     };
+    */
 
     const fetchTickers = (nodeId, eventHandler) => {
         fetch("/maunaloa/tickers").then(result => {
@@ -171,122 +176,93 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const DAY = 1;
     const WEEK = 2;
-    const Month = 3;
+    const MONTH = 3;
     const SHIFT_WINDOW = 90;
 
-    const initShiftPrices = (chartType) => {
-        var canvasesType = null;
+    const chartTypeParams = (chartType) => {
+        var result = {};
         switch (chartType) {
             case DAY:
-                canvasesType = canvases.DAY;
+                result.canvasesType = canvases.DAY;
+                result.fetchTickersNode = "tickers-1";
+                result.prevBtnClass = ".shift-prev-1";
+                result.nextBtnClass = ".shift-next-1";
+                result.lastBtnClass = ".shift-last-1";
                 break;
             case WEEK:
-                canvasesType = canvases.WEEK;
+                result.canvasesType = canvases.WEEK;
+                result.fetchTickersNode = "tickers-2";
+                result.prevBtnClass = ".shift-prev-2";
+                result.nextBtnClass = ".shift-next-2";
+                result.lastBtnClass = ".shift-last-2";
                 break;
             case MONTH:
-                canvasesType = canvases.MONTH;
+                result.canvasesType = canvases.MONTH;
+                result.fetchTickersNode = "tickers-3";
+                result.prevBtnClass = ".shift-prev-3";
+                result.nextBtnClass = ".shift-next-3";
+                result.lastBtnClass = ".shift-last-3";
                 break;
             default:
-                canvasesType = canvases.DAY;
+                result.canvasesType = canvases.DAY;
+                result.fetchTickersNode = "tickers-1";
+                result.prevBtnClass = ".shift-prev-1";
+                result.nextBtnClass = ".shift-next-1";
+                result.lastBtnClass = ".shift-last-1";
                 break;
         }
-        const CHART_MAPPINGS = toChartMappings(canvasesType);
-        var shiftIndex = 0;
-        const shiftPricesLast = (event) => {
-            if (currentTicker == null) {
-                return;
-            }
-            shiftIndex = 0;
-            PS.Main.paint(DAY)(CHART_MAPPINGS)(currentTicker)(0)(SHIFT_WINDOW)();
-        };
-        const shiftPricesPrev = (event) => {
-            if (currentTicker == null) {
-                return;
-            }
-            shiftIndex += SHIFT_WINDOW;
-            PS.Main.paint(DAY)(CHART_MAPPINGS)(currentTicker)(shiftIndex)(SHIFT_WINDOW)();
-        };
-        const shiftPricesNext = (event) => {
-            if (currentTicker == null) {
-                return;
-            }
-            shiftIndex -= SHIFT_WINDOW;
-            if (shiftIndex < 0) {
-                shiftIndex = 0;
-            }
-            PS.Main.paint(DAY)(CHART_MAPPINGS)(currentTicker)(shiftIndex)(SHIFT_WINDOW)();
-        }
-
-        var prevBtnClass = null;
-        var nextBtnClass = null;
-        var lastBtnClass = null;
-        switch (chartType) {
-            case DAY:
-                prevBtnClass = ".shift-prev-1";
-                nextBtnClass = ".shift-next-1";
-                lastBtnClass = ".shift-last-1";
-                break;
-            case WEEK:
-                prevBtnClass = ".shift-prev-2";
-                nextBtnClass = ".shift-next-2";
-                lastBtnClass = ".shift-last-2";
-                break;
-            case MONTH:
-                prevBtnClass = ".shift-prev-3";
-                nextBtnClass = ".shift-next-3";
-                lastBtnClass = ".shift-last-3";
-                break;
-            default:
-                prevBtnClass = ".shift-prev-1";
-                nextBtnClass = ".shift-next-1";
-                lastBtnClass = ".shift-last-1";
-                break;
-        }
-        const prevBtn = document.querySelector(prevBtnClass);
-        prevBtn.addEventListener("click", shiftPricesPrev);
-        const nextBtn = document.querySelector(nextBtnClass);
-        nextBtn.addEventListener("click", shiftPricesNext);
-        const lastBtn = document.querySelector(lastBtnClass);
-        lastBtn.addEventListener("click", shiftPricesLast);
+        return result;
     }
 
-
-    initShiftPrices(DAY);
-
-
-    const app = (nodeId, eventHandler, myCanvases, config) => {
-        const scrap = new Scrapbook(config);
-        /*
-        const node = document.getElementById(appId);
-        const app = Elm.Maunaloa.Charts.Main.init({
-            node: node,
-            flags: chartRes
-        });
-        app.ports.drawCanvas.subscribe(cfg => {
-            scrap.clear();
-            const mappings = toChartMappings(myCanvases);
-            PS.Main.paint(mappings)(cfg)();
-        });
-        */
-        fetchTickers(nodeId, eventHandler);
-        const btnClear = document.getElementById(config.BTN_CLEAR);
-        btnClear.onclick = () => {
-            scrap.clear();
-            PS.Main.clearLevelLines();
+    const init = (chartType) => {
+        const _params = chartTypeParams(chartType);
+        const _chartMappings = toChartMappings(_params.canvasesType);
+        var _currentTicker = null;
+        var _shiftIndex = 0;
+        const fetchPrices = (event) => {
+            _currentTicker = event.target.value;
+            _shiftIndex = 0;
+            PS.Main.paint(chartType)(_chartMappings)(event.target.value)(0)(90)();
         };
-        scrap.clear();
-        const btnSave = document.getElementById(config.BTN_SAVE);
-        btnSave.onclick = () => {
-            const blobCanvases = [];
-            blobCanvases.push(document.getElementById(myCanvases.MAIN_CHART));
-            blobCanvases.push(document.getElementById(config.DOODLE));
-            blobCanvases.push(document.getElementById(config.LEVEL_LINES));
-            const canvasVolume = document.getElementById(myCanvases.VOLUME);
-            const canvasCyberCycle = document.getElementById(myCanvases.OSC);
-            saveCanvases(blobCanvases, canvasVolume, canvasCyberCycle);
+
+        fetchTickers(_params.fetchTickersNode, fetchPrices);
+
+        const shiftPricesPrev = (event) => {
+            if (_currentTicker == null) {
+                return;
+            }
+            _shiftIndex += SHIFT_WINDOW;
+            PS.Main.paint(chartType)(_chartMappings)(_currentTicker)(_shiftIndex)(SHIFT_WINDOW)();
         };
+        const shiftPricesNext = (event) => {
+            if (_currentTicker == null) {
+                return;
+            }
+            _shiftIndex -= SHIFT_WINDOW;
+            if (_shiftIndex < 0) {
+                _shiftIndex = 0;
+            }
+            PS.Main.paint(chartType)(_chartMappings)(_currentTicker)(_shiftIndex)(SHIFT_WINDOW)();
+        }
+        const shiftPricesLast = (event) => {
+            if (_currentTicker == null) {
+                return;
+            }
+            _shiftIndex = 0;
+            PS.Main.paint(chartType)(_chartMappings)(_currentTicker)(0)(SHIFT_WINDOW)();
+        };
+        const prevBtn = document.querySelector(_params.prevBtnClass);
+        prevBtn.addEventListener("click", shiftPricesPrev);
+        const nextBtn = document.querySelector(_params.nextBtnClass);
+        nextBtn.addEventListener("click", shiftPricesNext);
+        const lastBtn = document.querySelector(_params.lastBtnClass);
+        lastBtn.addEventListener("click", shiftPricesLast);
     };
-    app("tickers-1", fetchPrices(DAY, toChartMappings(canvases.DAY)), canvases.DAY, scrapbooks.DAY);
+
+    init(DAY);
+    init(WEEK);
+
+
     //elmApp("my-app2", 2, canvases.WEEK, scrapbooks.WEEK);
     //elmApp("my-app3", 3, canvases.MONTH, scrapbooks.MONTH);
     //---------------------- Scrapbooks ---------------------------

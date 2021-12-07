@@ -16,15 +16,15 @@ import Maunaloa.Common
     ( Ticker(..)
     )
 
-foreign import setJsonResponse :: Ticker -> JsonChartResponse -> Effect Unit
+foreign import setJsonResponse :: String -> JsonChartResponse -> Effect Unit
 
 foreign import getJsonResponseImpl :: 
     (JsonChartResponse -> Maybe JsonChartResponse) 
     -> Maybe JsonChartResponse 
-    -> Ticker 
+    -> String 
     -> Maybe JsonChartResponse
 
-getJsonResponse :: Ticker -> Maybe JsonChartResponse 
+getJsonResponse :: String -> Maybe JsonChartResponse 
 getJsonResponse key = getJsonResponseImpl Just Nothing key
 
 
