@@ -49,7 +49,7 @@
 (def ^:dynamic is-test true)
 
 ;(def dl-stub-path "/home/rcs/opt/java/harborview2/feed/2020/10/13")
-(def dl-stub-path "/home/rcs/opt/java/harborview2/feed/2021/6/21")
+(def dl-stub-path "/home/rcs/opt/java/harborview2/feed/demo")
 
 (defn downloader [^Consumer page-consumer]
   (let [dl (if (= is-test true)

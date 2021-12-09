@@ -145,19 +145,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return [mainChart, osc];
     };
 
-
-    /*
-    var currentTicker = null;
-    const fetchPrices = (chartType, chartMappings) => {
-        const _chartMappings = chartMappings;
-        const _chartType = chartType;
-        return function (event) {
-            currentTicker = event.target.value;
-            PS.Main.paint(_chartType)(_chartMappings)(event.target.value)(0)(90)();
-        };
-    };
-    */
-
     const fetchTickers = (nodeId, eventHandler) => {
         fetch("/maunaloa/tickers").then(result => {
             result.json().then(data => {
@@ -184,6 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
         switch (chartType) {
             case DAY:
                 result.canvasesType = canvases.DAY;
+                result.scrapBookConfig = scrapbooks.DAY;
                 result.fetchTickersNode = "tickers-1";
                 result.prevBtnClass = ".shift-prev-1";
                 result.nextBtnClass = ".shift-next-1";
@@ -191,6 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             case WEEK:
                 result.canvasesType = canvases.WEEK;
+                result.scrapBookConfig = scrapbooks.WEEK;
                 result.fetchTickersNode = "tickers-2";
                 result.prevBtnClass = ".shift-prev-2";
                 result.nextBtnClass = ".shift-next-2";
@@ -198,6 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             case MONTH:
                 result.canvasesType = canvases.MONTH;
+                result.scrapBookConfig = scrapbooks.MONTH;
                 result.fetchTickersNode = "tickers-3";
                 result.prevBtnClass = ".shift-prev-3";
                 result.nextBtnClass = ".shift-next-3";
@@ -205,6 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             default:
                 result.canvasesType = canvases.DAY;
+                result.scrapBookConfig = scrapbooks.DAY;
                 result.fetchTickersNode = "tickers-1";
                 result.prevBtnClass = ".shift-prev-1";
                 result.nextBtnClass = ".shift-next-1";
@@ -226,6 +217,8 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         fetchTickers(_params.fetchTickersNode, fetchPrices);
+
+        //---------------------- Shift events ----------------------
 
         const shiftPricesPrev = (event) => {
             if (_currentTicker == null) {
@@ -257,6 +250,28 @@ document.addEventListener("DOMContentLoaded", function () {
         nextBtn.addEventListener("click", shiftPricesNext);
         const lastBtn = document.querySelector(_params.lastBtnClass);
         lastBtn.addEventListener("click", shiftPricesLast);
+
+        //---------------------- Scrapbooks ----------------------
+        const scrapConfig = _params.scrapBookConfig;
+        const scrap = new Scrapbook(scrapConfig);
+        const btnClear = document.getElementById(scrapConfig.BTN_CLEAR);
+        btnClear.onclick = () => {
+            scrap.clear();
+            PS.Main.clearLevelLines();
+        };
+        scrap.clear();
+        const btnSave = document.getElementById(scrapConfig.BTN_SAVE);
+        btnSave.onclick = () => {
+            const canvasConfig = _params.canvasesType;
+            const blobCanvases = [];
+            blobCanvases.push(document.getElementById(canvasConfig.MAIN_CHART));
+            blobCanvases.push(document.getElementById(scrapConfig.DOODLE));
+            blobCanvases.push(document.getElementById(canvasConfig.LEVEL_LINES));
+            const canvasVolume = document.getElementById(canvasConfig.VOLUME);
+            const canvasCyberCycle = document.getElementById(canvasConfig.OSC);
+            saveCanvases(blobCanvases, canvasVolume, canvasCyberCycle);
+        };
+
     };
 
     init(DAY);
