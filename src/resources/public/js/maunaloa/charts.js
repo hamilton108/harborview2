@@ -276,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     init(DAY);
     init(WEEK);
+    init(MONTH);
 
 
     //elmApp("my-app2", 2, canvases.WEEK, scrapbooks.WEEK);
