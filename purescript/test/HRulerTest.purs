@@ -46,7 +46,7 @@ april_1_19 = UnixTime 1554076800000.0
 testHRuler_ :: UnixTime -> Array Int -> Padding -> H.HRuler 
 testHRuler_ tm myOffsets myPadding =
     let 
-        hr = H.create chartWidth tm myOffsets myPadding 
+        hr = H.create chartWidth tm myOffsets myPadding 1
         hrx = unsafePartial $ fromJust hr
     in 
     hrx
@@ -135,8 +135,8 @@ testHRulerSuite =
             let tm = H.incDays jan_2_19 40
             Assert.equal feb_11_19 tm
         test "monthly lines" do
-            let hr = testHRuler_ april_1_19 [100,0] pad0
-            let result = H.lines hr 3
+            let hr = testHRuler_ april_1_19 [100,0] pad0 
+            let result = H.lines hr 
             let exTx (RulerLineInfo {tx}) = tx
             let resultTx = map exTx result
             Assert.equal ["07.2019","06.2019","05.2019"] resultTx 

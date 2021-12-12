@@ -62,7 +62,7 @@ derive instance eqHRuler :: Eq HRuler
 
 paint :: HRuler -> ChartHeight -> Context2D -> Effect Unit
 paint hruler (ChartHeight cd) ctx = do
-    let curLines = lines hruler 4 
+    let curLines = lines hruler  
     let linesX = { p1: 0.0, p2: cd }
     fi_lines ctx linesX curLines 
   
@@ -88,8 +88,8 @@ lines_ timestampFn endTime numMonths curLines curTime
         in 
         lines_ timestampFn endTime numMonths newCurLines nextTime
 
-lines :: HRuler -> Int -> Array RulerLineInfo 
-lines hr@(HRuler {startTime, endTime, myIncMonths}) num = 
+lines :: HRuler -> Array RulerLineInfo 
+lines hr@(HRuler {startTime, endTime, myIncMonths}) = 
     let 
         snm = startOfNextMonth startTime
         timestampFn = timeStampToPix hr
@@ -100,8 +100,8 @@ lines hr@(HRuler {startTime, endTime, myIncMonths}) num =
 --  draw = draw_
 
 
-create :: ChartWidth -> UnixTime -> Array Int -> Padding -> Maybe HRuler 
-create w minDx offsets p@(Padding pad) = 
+create :: ChartWidth -> UnixTime -> Array Int -> Padding -> Int -> Maybe HRuler 
+create w minDx offsets p@(Padding pad) myIncMonths = 
     head offsets >>= \offset0 ->
     last offsets >>= \offsetN ->
     let 
@@ -116,7 +116,7 @@ create w minDx offsets p@(Padding pad) =
             , xaxis: offsetsToPix offsetN offsets curPix pad.left
             , ppx: curPix 
             , padding: p
-            , myIncMonths: 1 
+            , myIncMonths: myIncMonths 
             }
 
 timeStampToPix :: HRuler -> UnixTime -> Number

@@ -104,10 +104,6 @@ slice (Drop dropAmount) (Take takeAmount) vals =
     else
         take takeAmount $ drop dropAmount vals
 
-incMonths :: ChartType -> Int
-incMonths DayChart = 1
-incMonths WeekChart = 3
-incMonths MonthChart = 6
 
 minMaxCndl :: Array JsonCandlestick -> Maybe ValueRange
 minMaxCndl cndl = 
@@ -240,13 +236,25 @@ transformMapping dropAmt takeAmt response cm@(ChartMapping mapping) =
             EmptyChart
 
 
+{-
+incMonths :: ChartType -> Int
+incMonths DayChart = 1
+incMonths WeekChart = 1
+incMonths MonthChart = 3
+-}
+
+incMonths :: ChartType -> Int
+incMonths DayChart = 1
+incMonths WeekChart = 3
+incMonths MonthChart = 6
+
 transform :: JsonChartResponse -> Reader Env ChartCollection
 transform response = 
     ask >>= \(Env env) ->
     let 
         xaxis = slice env.dropAmt env.takeAmt response.xAxis
         tm = UnixTime response.minDx 
-        ruler = H.create globalChartWidth tm xaxis padding
+        ruler = H.create globalChartWidth tm xaxis padding (incMonths env.chartType)
         ruler1 = unsafePartial (fromJust ruler)
         charts1 = map (transformMapping env.dropAmt env.takeAmt response) env.mappings
     in
