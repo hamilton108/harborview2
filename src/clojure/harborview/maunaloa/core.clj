@@ -9,17 +9,20 @@
    [cheshire.core :as json]
    [harborview.thyme :as thyme])
   (:import
-   [harborview.maunaloa.adapters Postgres NordnetEtrade]
+   [harborview.dto.html.critters OptionPurchaseDTO]
+   [harborview.maunaloa.adapters Postgres NordnetEtrade DemoEtrade]
    [harborview.maunaloa.charts
     ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory]
    [critterrepos.models.impl StockMarketReposImpl]
    [critterrepos.beans StockPriceBean]
+   [java.util ArrayList]
    [java.time.temporal IsoFields]
    [java.time LocalDate]))
 
 (def db (Postgres.))
 
-(def nordnet (NordnetEtrade.))
+;(def nordnet (NordnetEtrade.))
+(def nordnet (DemoEtrade.))
 
 (def factory (ElmChartsFactory.))
 
@@ -30,7 +33,7 @@
 (def tix-m
   (memoize
    (fn []
-     (let [t (map hu/bean->json (.tickers ^Postgres db))]
+     (let [t (map hu/bean->json (.stockTickers ^Postgres db))]
        (hu/json-response t)))))
 
 (comment ok [body]
@@ -47,6 +50,14 @@
 (defn stockoptions
   [request]
   (ring-resp/response (thyme/stockoptions)))
+
+(defn optionpurchases
+  [request]
+  (ring-resp/response (thyme/optionpurchases)))
+
+(defn critters
+  [request]
+  (ring-resp/response (thyme/critters)))
 
 (defn req-oid [request]
   (let [oid (get-in request [:path-params :oid])]
@@ -92,12 +103,27 @@
         items (.calls nordnet oid)]
     (hu/om->json items)))
 
+(defn critter-purchases [request]
+  (let [ptypes (get-in request [:path-params :ptype])
+        ptype (hu/rs ptypes)
+        items (.activePurchasesWithCritters db ptype)
+        result (map #(OptionPurchaseDTO. %) items)]
+    (hu/om->json result)))
+
+(def demo-req
+  {:path-params {:ptype 11}})
+
 (def echo
   {:name ::echo
-   :enter (fn [context]
-            (let [request (:request context)
-                  response (hu/json-response request)]
-              (assoc context :response response)))})
+   :enter
+   (fn [context]
+     (let [request (:request context)
+           response (hu/json-response request)]
+       (assoc context :response response)))
+   :error
+   (fn [context ex-info]
+     (prn ex-info)
+     (assoc context :response {:status 400 :body "invalid"}))})
 
 (def calcriscstockprices
   {:name ::calcriscstockprices
@@ -110,7 +136,10 @@
            response (hu/json-response result)]
        (prn body)
        (prn response)
-       (assoc context :response response)))})
+       (assoc context :response response)))
+   :error
+   (fn [context ex-info]
+     (prn ex-info))})
 
 (comment demo []
          (.calcRiscStockprices nordnet
@@ -127,11 +156,43 @@
         price (.calcRiscOptionPrice nordnet ticker sp)]
     (hu/json-response {:value price})))
 
+(def purchaseoption
+  {:name ::purchaseoption
+   :enter
+   (fn [context]
+     (let [req (:request context)
+           body (hu/json-req-parse req)
+           result (.purchaseOption db body)
+           response (hu/json-response result 201)]
+       (prn body)
+       (prn response)
+       (assoc context :response response)))
+   :error
+   (fn [context ex-info]
+     (prn ex-info))})
+
+(def regpuroption
+  {:name ::regpuroption
+   :enter
+   (fn [context]
+     (let [req (:request context)
+           body (hu/json-req-parse req)
+           result (.registerAndPurchaseOption db body)
+           response (hu/json-response result 201)]
+       (prn body)
+       (prn response)
+       (assoc context :response response)))
+   :error
+   (fn [context ex-info]
+     (prn ex-info))})
+
 (def routes
   (route/expand-routes
    #{["/" :get (conj hu/common-interceptors `home) :route-name :home]
      ["/maunaloa/charts" :get (conj hu/common-interceptors `home) :route-name :charts]
      ["/maunaloa/optiontickers" :get (conj hu/common-interceptors `stockoptions) :route-name :stockoptions]
+     ["/maunaloa/optionpurchases" :get (conj hu/common-interceptors `optionpurchases) :route-name :optionpurchases]
+     ["/critters/overlook" :get (conj hu/common-interceptors `critters) :route-name :critters]
      ["/maunaloa/tickers" :get tix :route-name :tix]
      ["/maunaloa/days/:oid" :get days :route-name :days]
      ["/maunaloa/weeks/:oid" :get weeks :route-name :weeks]
@@ -139,7 +200,10 @@
      ["/maunaloa/risclines/:oid" :get risclines :route-name :risclines]
      ["/maunaloa/calls/:oid" :get calls :route-name :calls]
      ["/maunaloa/puts/:oid" :get puts :route-name :puts]
+     ["/critters/purchases/:ptype" :get critter-purchases :route-name :critter-purchases]
      ["/maunaloa/calcriscstockprices/:oid" :post [calcriscstockprices]]
+     ["/maunaloa/purchaseoption" :post [purchaseoption]]
+     ["/maunaloa/regpuroption" :post [regpuroption]]
      ["/maunaloa/optionprice/:ticker/:stockprice" :get calcoptionprice :route-name :optionprice]
      ["/echo"  :get echo :route-name :echo]}))
 
@@ -190,6 +254,10 @@
     (let [prices (.prices db oid)
           charts (.elmCharts factory prices)]
       (hu/om->json charts)))
+
+  (defn home-page
+    [request]
+    (ring-resp/response (thyme/charts)))
 
   (defn home-page
     [request]

@@ -3,7 +3,7 @@
   (:import
    ;[com.github.benmanes.caffeine.cache Caffeine]
    [org.jsoup Jsoup]
-   [java.time Instant]
+   [java.time Instant LocalDate]
    ;[java.util UUID]
    ;[redis.clients.jedis Jedis]
    [java.util ArrayList]
@@ -11,8 +11,10 @@
    [java.time LocalDate]
 
    [oahu.dto Tuple2]
+   [oahu.exceptions FinancialException]
    [oahu.financial StockOption$OptionType]
    [vega.financial.calculator BlackScholes]
+   [critterrepos.beans.options StockOptionBean]
    [critterrepos.models.impl StockMarketReposImpl]
    [critterrepos.utils StockOptionUtils]
    [nordnet.downloader DefaultDownloader TickerInfo]
@@ -20,6 +22,7 @@
    [nordnet.html StockOptionParser2]
    [harborview.dto.html.options StockPriceAndOptions OptionDTO]
    [harborview.dto.html StockPriceDTO RiscLineDTO]
+   [harborview.factory StockMarketFactory]
    [harborview.downloader DownloaderStub])
   (:require
    [clojure.core.cache :as cache]
@@ -45,6 +48,11 @@
 (def start-date (LocalDate/of 2010 3 1))
 
 (def repos (StockMarketReposImpl.))
+
+(def stocks-m
+  (memoize
+   (fn []
+     (.getStocks repos))))
 
 (def ^:dynamic is-test true)
 
@@ -103,15 +111,88 @@
     ;else ---------------------------
     (fetch-prices-init oid)))
 
+(defn str->optiontype [s]
+  (if (= s "c")
+    StockOption$OptionType/CALL
+    StockOption$OptionType/PUT))
+
+(defn json->stockoption [j stock]
+  (StockOptionBean.
+   (:ticker j)
+   (str->optiontype (:opType j))
+   (:x j)
+   stock
+   stock-option-utils))
+
+(comment error-handler (reify java.util.function.Consumer
+                         (accept [this ex]
+                           (prn ex)
+                           {:ok false :msg (.getMessage ex) :statusCode 0})))
+
+(defn purchase-option_ [purchase-type ticker ask bid vol spot]
+  (try
+    (let [purchase (.registerOptionPurchase repos
+                                            purchase-type
+                                            ticker
+                                            ask
+                                            vol
+                                            spot
+                                            bid)]
+      {:ok true  :msg (str "Option purchase oid: " (.getOid purchase)) :statusCode 0})
+    (catch FinancialException ex
+      {:ok false :msg (.getMessage ex) :statusCode 1})
+    (catch Exception ex
+      {:ok false :msg (.getMessage ex) :statusCode 2})))
+
+(defn purchase-option [j]
+  (let [purchase-type (if (= (:rt j) true) 3 11)
+        ticker (:ticker j)
+        ask (:ask j)
+        bid (:bid j)
+        vol (:volume j)
+        spot (:spot j)]
+    (prn purchase-type ticker ask bid vol spot)
+    (purchase-option_ purchase-type ticker ask bid vol spot)))
+
+(def demo-json
+  {:expiry "2022-12-16"
+   :ticker "NHY2L58"
+   :volume 10
+   :opType "c"
+   :rt false
+   :x 58
+   :spot 70.98
+   :ask 18
+   :stockId 1
+   :bid 16})
+
+(defn find-stock [oid]
+  (first (filter #(= oid (.getOid %)) (stocks-m))))
+
+(defn register-and-purchase-option [j]
+  (let [soid (:stockId j)]
+    (prn j)
+    (if-let [stock (find-stock soid)]
+      (do
+        (.insertDerivative repos (json->stockoption j stock))
+        (purchase-option j))
+      {:ok false :msg (str "Could not find stock with oid: " soid) :statusCode 0})))
+
 (defrecord Postgres []
   ports/MaunaloaDB
   (invalidateDB [this]
     (reset! prices-cache {}))
   (invalidateDB [this oid]
     (swap! prices-cache dissoc oid))
-  (tickers [this] (.getStocks repos))
+  (stockTickers [this] (stocks-m))
   (prices [this oid]
-    (fetch-prices-cache oid)))
+    (fetch-prices-cache oid))
+  (registerAndPurchaseOption [this json]
+    (register-and-purchase-option json))
+  (activePurchasesWithCritters [this ptype]
+    (.activePurchasesWithCritters repos ptype))
+  (purchaseOption [this json]
+    (purchase-option json)))
 
 (defn ticker-info [oid]
   (let [ticker (.getTickerFor repos (hu/rs oid))]
@@ -125,12 +206,19 @@
     (prn "CACHE MISS OPTIONS")
     (map #(OptionDTO. %) (.options my-etrade page (.get sp)))))
 
+(defn fetch-options-demo [oid]
+  (let [factory (StockMarketFactory. (StockOptionUtils.))
+        opx (.nhy factory)]
+    [(OptionDTO. opx)]))
+
+(def ^:dynamic *fetch-options* fetch-options)
+
 (def options-cache (atom {}))
 
 (defn fetch-options-cache [oid]
   (let [cached (get @options-cache oid)]
     (if (nil? cached)
-      (let [data (fetch-options oid)]
+      (let [data (*fetch-options* oid)]
         (swap! options-cache assoc oid data)
         data)
       cached)))
@@ -160,7 +248,7 @@
     (if-let [o (find-option risc-ticker opx)] ;[o (cu/find-first #(= (.getTicker %) risc-ticker) opx)]
       ;then
       (let [sp (.getStockOptionPrice o)
-            cur-option-price (- (.getSell o) (risc-json "risc"))
+            cur-option-price (- (.getSell o) risc-value)
             adjusted-stockprice (.stockPriceFor sp cur-option-price)]
         (if (= (.isPresent adjusted-stockprice) true)
           {:ticker risc-ticker :stockprice (.get adjusted-stockprice) :status 1}
@@ -199,7 +287,21 @@
   (riscLines [this oid]
     (risc-lines oid)))
 
-(def n (NordnetEtrade.))
+(defrecord DemoEtrade []
+  ports/Etrade
+  (invalidateEtrade [this])
+  (invalidateEtrade [this oid])
+  (calls [this oid]
+    (binding [*fetch-options* fetch-options-demo]
+      (stock-and-options this oid true)))
+  (puts [this oid])
+  (stockPrice [this oid]
+    (let [data (fetch-options-cache oid)]
+      (if (> (.size data) 0)
+        (.getStockPrice (first data)))))
+  (calcRiscStockprices [this oid riscs])
+  (calcRiscOptionPrice [this ticker stockPrice])
+  (riscLines [this oid]))
 
 (comment
   (def soup

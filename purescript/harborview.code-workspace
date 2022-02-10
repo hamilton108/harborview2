@@ -4,7 +4,13 @@
 			"path": ".."
 		},
 		{
-			"path": "../../tmp/harborview2/purescript/src"
+			"path": "../../nordnet-repos/src/main"
+		},
+		{
+			"path": "../../../haskell/etradejanitor/tmp/etradejanitor_vscode"
+		},
+		{
+			"path": "../../../mydocker/tmp/mydocker_vscode"
 		}
 	],
 	"settings": {}

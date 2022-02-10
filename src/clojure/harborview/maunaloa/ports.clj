@@ -5,8 +5,11 @@
   (invalidateDB
     [this]
     [this oid])
-  (tickers [this])
-  (prices [this oid]))
+  (stockTickers [this])
+  (prices [this oid])
+  (registerAndPurchaseOption [this json])
+  (activePurchasesWithCritters [this json])
+  (purchaseOption [this json]))
 
 (defprotocol Etrade
   ;(calcStockPrices [this riscs])

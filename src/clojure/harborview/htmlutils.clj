@@ -27,7 +27,7 @@
 (defn json-req-parse [req]
   (let
    [r (slurp (:body req))]
-    (json/parse-string r)))
+    (json/parse-string r true)))
 
 (defn bean->json [b]
   {"v" (str (.getOid b)) "t" (.toHtml b)})

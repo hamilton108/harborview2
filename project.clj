@@ -18,14 +18,14 @@
                  [com.fasterxml.jackson.core/jackson-annotations "2.10.2"]
                  [com.fasterxml.jackson.core/jackson-databind "2.10.2"]
                 ;------------------ Database ------------------ 
-                 [org.mybatis/mybatis "3.5.4"]
+                 [org.mybatis/mybatis "3.5.9"]
                  [org.postgresql/postgresql "42.2.10"]
                  [org.jsoup/jsoup "1.11.3"]
                 ;------------------ Local libs ------------------ 
-                 [rcstadheim/critter-repos "1.7-20210708.150551-8"]
-                 [rcstadheim/nordnet-repos "1.5-20210621.114106-7"]
-                 [rcstadheim/oahu "2.0.0"]
-                 [rcstadheim/vega "2.0.0"]
+                 [rcstadheim/critter-repos "1.7-20220206.173054-13"]
+                 [rcstadheim/nordnet-repos "1.5-20211218.131054-10"]
+                 [rcstadheim/oahu "2.2.0-20220206.172956-2"]
+                 [rcstadheim/vega "2.0.1"]
                 ;------------------ Diverse ------------------ 
                  [net.sourceforge.htmlunit/htmlunit "2.44.0"
                   :exclusions [org.eclipse.jetty/jetty-http org.eclipse.jetty/jetty-io]]
@@ -44,6 +44,8 @@
                  ;[metosin/jsonista "0.2.5"]
                  ]
   ;:plugins [[lein-cljfmt "0.7.0"] [lein-virgil "0.1.9"]]
+  :global-vars {*warn-on-reflection* false
+                *assert* false}
   :plugins [[lein-cljfmt "0.7.0"]]
   :repositories {"project" "file:/home/rcs/opt/java/mavenlocalrepo"}
   :resource-paths ["src/resources"]
