@@ -1,0 +1,1 @@
+(ns harborview.critters.adapters)

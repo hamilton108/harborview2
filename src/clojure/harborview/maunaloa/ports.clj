@@ -24,3 +24,4 @@
   (riscLines [this oid]))
 
 
+; see -> https://puredanger.github.io/tech.puredanger.com/2014/01/03/clojure-dependency-injection/

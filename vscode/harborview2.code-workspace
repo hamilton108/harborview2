@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "../../rapanui"
+		},
+		{
+			"path": "../../harborview-clojure/tmp/harborview_clojure"
+		},
+		{
+			"path": "../../netfondsjanitor/tmp/netfondsjanitor"
 		}
 	],
 	"settings": {}

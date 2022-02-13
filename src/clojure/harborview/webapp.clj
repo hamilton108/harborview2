@@ -1,13 +1,39 @@
 (ns harborview.webapp
   (:gen-class)
-  (:require 
-    [io.pedestal.http :as http]
-    [io.pedestal.http.route :as route]
-    [io.pedestal.http.body-params :as body-params]
-    [ring.util.response :as ring-resp]
-    [harborview.htmlutils :as hu]
-    [harborview.maunaloa.core :as maunaloa]
-    [harborview.thyme :as thyme]))
+  (:require
+   [io.pedestal.http :as http]
+   [io.pedestal.http.route :as route]
+   [io.pedestal.http.body-params :as body-params]
+   [ring.util.response :as ring-resp]
+   [harborview.htmlutils :as hu]
+   [harborview.maunaloa.adapters.dbadapters]
+   [harborview.maunaloa.adapters.nordnetadapters] ; :refer (->Postgres)]
+   [harborview.maunaloa.core :as maunaloa]
+   [harborview.thyme :as thyme])
+  (:import
+   [critterrepos.models.impl StockMarketReposImpl]
+   [harborview.maunaloa.adapters.dbadapters
+    PostgresAdapter]
+   [harborview.maunaloa.adapters.nordnetadapters
+    NordnetEtradeAdapter DemoEtradeAdapter]))
+
+;(require '[clojure.core.match :refer [match]])
+
+;(doseq [n (range 1 101)]
+;  (println
+;    (match [(mod n 3) (mod n 5)]
+;      [0 0] "FizzBuzz"
+;      [0 _] "Fizz"
+;      [_ 0] "Buzz"
+;      :else n)))
+
+(def stockmarket-repos (StockMarketReposImpl.))
+
+(reset! maunaloa/db-adapter (PostgresAdapter. stockmarket-repos))
+(reset! maunaloa/nordnet-adapter (DemoEtradeAdapter. stockmarket-repos))
+;(reset! maunaloa/nordnet-adapter (NordnetEtradeAdapter. stockmarket-repos))
+
+(defn demo [] (.calls @maunaloa/nordnet-adapter 1))
 
 (defn home
   [request]
