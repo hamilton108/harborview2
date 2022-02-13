@@ -2,6 +2,14 @@
 
 (def ^:dynamic *reset-cache* false)
 
+(defn rs [v]
+  (if (string? v)
+    (let [vs (if-let [v (re-seq #"(\d+),(\d+)" v)]
+               (let [[a b c] (first v)] (str b "." c))
+               v)]
+      (read-string vs))
+    v))
+
 (defn mem-binding [f]
   (let [mem (atom {})]
     (fn [& args]

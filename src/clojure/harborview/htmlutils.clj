@@ -42,14 +42,6 @@
                  (assoc-in [:headers "Access-Control-Allow-Methods"] "GET,PUT,POST,DELETE,OPTIONS")
                  (assoc-in [:headers "Access-Control-Allow-Headers"] "X-Requested-With,Content-Type,Cache-Control")))))
 
-(defn rs [v]
-  (if (string? v)
-    (let [vs (if-let [v (re-seq #"(\d+),(\d+)" v)]
-               (let [[a b c] (first v)] (str b "." c))
-               v)]
-      (read-string vs))
-    v))
-
 (comment in?
          "true if seq contains elm"
          [seq elm]

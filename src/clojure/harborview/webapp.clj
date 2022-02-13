@@ -1,14 +1,51 @@
 (ns harborview.webapp
   (:gen-class)
-  (:require [io.pedestal.http :as http]
-            [io.pedestal.http.route :as route]
-            [io.pedestal.http.body-params :as body-params]
-            [ring.util.response :as ring-resp]
-            ;[harborview.maunaloa.html :as maunaloa]
-            [harborview.maunaloa.core :as maunaloa]
-            [harborview.thyme :as thyme]))
+  (:require 
+    [io.pedestal.http :as http]
+    [io.pedestal.http.route :as route]
+    [io.pedestal.http.body-params :as body-params]
+    [ring.util.response :as ring-resp]
+    [harborview.htmlutils :as hu]
+    [harborview.maunaloa.core :as maunaloa]
+    [harborview.thyme :as thyme]))
 
-(def routes maunaloa/routes)
+(defn home
+  [request]
+  (ring-resp/response (thyme/charts)))
+
+(defn stockoptions
+  [request]
+  (ring-resp/response (thyme/stockoptions)))
+
+(defn optionpurchases
+  [request]
+  (ring-resp/response (thyme/optionpurchases)))
+
+(defn critters
+  [request]
+  (ring-resp/response (thyme/critters)))
+
+(def routes
+  (route/expand-routes
+   #{["/" :get (conj hu/common-interceptors `home) :route-name :home]
+     ;-------------------- maunaloa -------------------- 
+     ["/maunaloa/calcriscstockprices/:oid" :post [maunaloa/calcriscstockprices]]
+     ["/maunaloa/calls/:oid" :get maunaloa/calls :route-name :calls]
+     ["/maunaloa/charts" :get (conj hu/common-interceptors `home) :route-name :charts]
+     ["/maunaloa/days/:oid" :get maunaloa/days :route-name :days]
+     ["/maunaloa/months/:oid" :get maunaloa/months :route-name :months]
+     ["/maunaloa/optionprice/:ticker/:stockprice" :get maunaloa/calcoptionprice :route-name :optionprice]
+     ["/maunaloa/optionpurchases" :get (conj hu/common-interceptors `optionpurchases) :route-name :optionpurchases]
+     ["/maunaloa/optiontickers" :get (conj hu/common-interceptors `stockoptions) :route-name :stockoptions]
+     ["/maunaloa/purchaseoption" :post [maunaloa/purchaseoption]]
+     ["/maunaloa/puts/:oid" :get maunaloa/puts :route-name :puts]
+     ["/maunaloa/regpuroption" :post [maunaloa/regpuroption]]
+     ["/maunaloa/risclines/:oid" :get maunaloa/risclines :route-name :risclines]
+     ["/maunaloa/tickers" :get maunaloa/tix :route-name :tix]
+     ["/maunaloa/weeks/:oid" :get maunaloa/weeks :route-name :weeks]
+     ;-------------------- critters -------------------- 
+     ["/critters/purchases/:ptype" :get maunaloa/critter-purchases :route-name :critter-purchases]
+     ["/critters/overlook" :get (conj hu/common-interceptors `critters) :route-name :critters]}))
 
 (def service {:env :prod
               ;::http/allowed-origins {:creds true, :allowed-origins (constantly true)}
@@ -47,20 +84,3 @@
                        :ssl? true
                        :keystore "../local/harborview.ssl"
                        :key-password "VhCHeUJ4"})))
-
-(comment wrap-context [handler]
-         (fn [request]
-           (when-let [context (:context request)]
-             (prn (str "Request with context " context)))
-           (when-let [pathdebug (:path-debug request)]
-             (prn (str "Request with path-debug " pathdebug)))
-           (when-let [servlet-context (:servlet-context request)]
-             (prn (str "Request with servlet-context " servlet-context)))
-           (when-let [servlet-context-path (:servlet-context-path request)]
-             (prn (str "Request with servlet-context-path " servlet-context-path)))
-           (binding [*app-context* (str (:context request) "/")]
-             (prn (str "Using appcontext " *app-context*))
-             (-> request
-                 handler))))
-
-

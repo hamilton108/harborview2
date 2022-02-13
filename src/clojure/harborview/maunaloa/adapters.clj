@@ -26,7 +26,6 @@
    [harborview.downloader DownloaderStub])
   (:require
    [clojure.core.cache :as cache]
-   [harborview.htmlutils :as hu]
    [harborview.commonutils :as cu]
    [harborview.maunaloa.ports :as ports]))
 
@@ -89,7 +88,7 @@
 (def prices-cache (atom {}))
 
 (defn fetch-prices [oid]
-  (let [ticker (.getTickerFor repos (hu/rs oid))]
+  (let [ticker (.getTickerFor repos (cu/rs oid))]
     (prn "CACHE MISS PRICES")
     (.findStockPrices repos ticker start-date)))
 
@@ -103,7 +102,7 @@
 (defn fetch-prices-cache [oid]
   (if-let [[my-tm my-prices] (get @prices-cache oid)]
     ;then ---------------------------
-    (let [ticker (.getTickerFor repos (hu/rs oid))
+    (let [ticker (.getTickerFor repos (cu/rs oid))
           tm (.getLastUpdateTimeStockPrices redis ticker)]
       (if (> tm my-tm)
         (fetch-prices-init oid)
@@ -195,7 +194,7 @@
     (purchase-option json)))
 
 (defn ticker-info [oid]
-  (let [ticker (.getTickerFor repos (hu/rs oid))]
+  (let [ticker (.getTickerFor repos (cu/rs oid))]
     (TickerInfo. ticker)))
 
 (defn fetch-options [oid]
