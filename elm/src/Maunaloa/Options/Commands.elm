@@ -48,7 +48,7 @@ purchaseOption : Ticker -> Ask -> Bid -> Volume -> Spot -> Bool -> Cmd Msg
 purchaseOption (Ticker ticker) (Ask ask) (Bid bid) (Volume volume) (Spot spot) isRealTime =
     let
         url =
-            mainUrl ++ "/purchaseoption"
+            mainUrl ++ "/stockoption/purchase"
 
         params =
             [ ( "ticker", JE.string ticker )
@@ -72,7 +72,7 @@ registerAndPurchaseOption_ : Model -> Option -> Cmd Msg
 registerAndPurchaseOption_ model opx =
     let
         url =
-            mainUrl ++ "/regpuroption"
+            mainUrl ++ "/stockoption/regpur"
 
         soids =
             Maybe.withDefault "-1" model.selectedTicker
@@ -171,7 +171,7 @@ calcRisc stockTicker riscStr options =
                     Maybe.withDefault 0 (String.toFloat riscStr)
 
                 url =
-                    mainUrl ++ "/calcriscstockprices/" ++ st
+                    mainUrl ++ "/stockprice/calculate/" ++ st
 
                 checked =
                     List.filter (\x -> x.selected == True) options
@@ -215,10 +215,10 @@ fetchOptions model s =
             let
                 url =
                     if model.flags.isCalls == True then
-                        mainUrl ++ "/calls/" ++ sx
+                        mainUrl ++ "/stockoption/calls/" ++ sx
 
                     else
-                        mainUrl ++ "/puts/" ++ sx
+                        mainUrl ++ "/stockoption/puts/" ++ sx
             in
             Http.send (OptionMsgFor << OptionsFetched) <|
                 Http.get url D.stockAndOptionsDecoder
@@ -228,7 +228,7 @@ fetchTickers : Cmd Msg
 fetchTickers =
     let
         url =
-            mainUrl ++ "/tickers"
+            mainUrl ++ "/stockprice/tickers"
     in
     Http.send TickersFetched <|
         Http.get url DEC.selectItemListDecoder

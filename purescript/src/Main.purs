@@ -46,8 +46,7 @@ import Maunaloa.ChartTransform
     ( transform 
     )
 import Maunaloa.JsonCharts
-    ( JsonChartResponse 
-    , fetchCharts 
+    ( fetchCharts 
     )
 import Maunaloa.MaunaloaError 
     ( handleErrorAff

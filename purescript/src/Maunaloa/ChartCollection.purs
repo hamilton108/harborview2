@@ -39,7 +39,7 @@ import Maunaloa.Common
     ( HtmlId(..)
     , ChartWidth(..)
     , ChartMapping(..)
-    , Ticker(..)
+    , Ticker
     )
 import Maunaloa.LevelLine as LevelLine
 

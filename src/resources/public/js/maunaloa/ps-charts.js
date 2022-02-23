@@ -7177,7 +7177,7 @@ var PS = {};
           if (el instanceof Data_Maybe.Just) {
               return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
           };
-          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 432, column 5 - line 434, column 28): " + [ el.constructor.name ]);
+          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 431, column 5 - line 433, column 28): " + [ el.constructor.name ]);
       };
   };
   var updOptionPriceFromJson = Data_Argonaut_Decode_Class.decodeJson(Data_Argonaut_Decode_Class.decodeRecord(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeFieldId(Data_Argonaut_Decode_Class.decodeJsonNumber))(Data_Argonaut_Decode_Class.gDecodeJsonNil)({
@@ -7243,7 +7243,7 @@ var PS = {};
                   }
               })(Data_Show.showRecordFieldsNil)(Data_Show.showNumber))(Maunaloa_Common.showTicker))(Data_Show.showNumber))(Data_Show.showNumber)))(v.value0);
           };
-          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 120, column 1 - line 123, column 57): " + [ v.constructor.name ]);
+          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 119, column 1 - line 122, column 57): " + [ v.constructor.name ]);
       }
   };
   var riscLinesFromJson = Data_Argonaut_Decode_Class.decodeJson(Data_Argonaut_Decode_Class.decodeArray(Data_Argonaut_Decode_Class.decodeRecord(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeFieldId(Data_Argonaut_Decode_Class.decodeJsonNumber))(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeFieldId(Data_Argonaut_Decode_Class.decodeJsonNumber))(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeFieldId(Data_Argonaut_Decode_Class.decodeJsonNumber))(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeFieldId(Data_Argonaut_Decode_Class.decodeJsonNumber))(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeFieldId(Data_Argonaut_Decode_Class.decodeJsonNumber))(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeFieldId(Data_Argonaut_Decode_Class.decodeJsonNumber))(Data_Argonaut_Decode_Class.gDecodeJsonCons(Data_Argonaut_Decode_Class.decodeFieldId(Data_Argonaut_Decode_Class.decodeJsonString))(Data_Argonaut_Decode_Class.gDecodeJsonNil)({
@@ -7277,10 +7277,10 @@ var PS = {};
   })()())()));
   var optionPriceURL = function (v) {
       return function (curStockPrice) {
-          return Maunaloa_Common.mainURL + ("/optionprice/" + (v + ("/" + Data_Number_Format.toStringWith(Data_Number_Format.fixed(2))(curStockPrice))));
+          return Maunaloa_Common.mainURL + ("/stockoption/price/" + (v + ("/" + Data_Number_Format.toStringWith(Data_Number_Format.fixed(2))(curStockPrice))));
       };
   };
-  var onMouseUp = function (evt) {
+  var onMouseUp = function (v) {
       return $foreign.onMouseUpImpl(Data_Maybe.Just.create)(Data_Maybe.Nothing.value);
   };
   var initEvent = function (toListener) {
@@ -7349,9 +7349,9 @@ var PS = {};
                       if (json instanceof Data_Either.Right) {
                           return new Data_Either.Right(json.value0.value);
                       };
-                      throw new Error("Failed pattern match at Maunaloa.LevelLine (line 361, column 25 - line 365, column 50): " + [ json.constructor.name ]);
+                      throw new Error("Failed pattern match at Maunaloa.LevelLine (line 360, column 25 - line 364, column 50): " + [ json.constructor.name ]);
                   };
-                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 354, column 17 - line 365, column 50): " + [ res.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 353, column 17 - line 364, column 50): " + [ res.constructor.name ]);
               })();
               return Control_Applicative.pure(Effect_Aff.applicativeAff)(result);
           });
@@ -7369,7 +7369,7 @@ var PS = {};
                       if (n instanceof Data_Either.Right) {
                           return Effect_Class.liftEffect(Effect_Aff.monadEffectAff)($foreign.updateRiscLine(v1)(n.value0));
                       };
-                      throw new Error("Failed pattern match at Maunaloa.LevelLine (line 377, column 13 - line 381, column 61): " + [ n.constructor.name ]);
+                      throw new Error("Failed pattern match at Maunaloa.LevelLine (line 376, column 13 - line 380, column 61): " + [ n.constructor.name ]);
                   });
               })());
           };
@@ -7384,7 +7384,7 @@ var PS = {};
           if (line instanceof Data_Maybe.Just) {
               return handleUpdateOptionPrice(vr)(line.value0);
           };
-          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 388, column 5 - line 392, column 45): " + [ line.constructor.name ]);
+          throw new Error("Failed pattern match at Maunaloa.LevelLine (line 387, column 5 - line 391, column 45): " + [ line.constructor.name ]);
       };
   };
   var fetchLevelLinesURL = function (v) {
@@ -7404,9 +7404,9 @@ var PS = {};
                   if (lines instanceof Data_Either.Right) {
                       return new Data_Either.Right(lines.value0);
                   };
-                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 287, column 25 - line 291, column 45): " + [ lines.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 286, column 25 - line 290, column 45): " + [ lines.constructor.name ]);
               };
-              throw new Error("Failed pattern match at Maunaloa.LevelLine (line 280, column 17 - line 291, column 45): " + [ res.constructor.name ]);
+              throw new Error("Failed pattern match at Maunaloa.LevelLine (line 279, column 17 - line 290, column 45): " + [ res.constructor.name ]);
           })();
           return Control_Applicative.pure(Effect_Aff.applicativeAff)(result);
       });
@@ -7462,12 +7462,12 @@ var PS = {};
                   if (lines instanceof Data_Either.Right) {
                       return Effect_Class.liftEffect(Effect_Aff.monadEffectAff)(Control_Apply.applySecond(Effect.applyEffect)($foreign.clearLines)(addRiscLines(vruler)(lines.value0)));
                   };
-                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 301, column 13 - line 309, column 22): " + [ lines.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 300, column 13 - line 308, column 22): " + [ lines.constructor.name ]);
               })));
           };
       };
   };
-  var addLevelLineButtonClick = function (evt) {
+  var addLevelLineButtonClick = function (v) {
       var line = new StdLine({
           y: 200.0,
           selected: false
@@ -7486,7 +7486,7 @@ var PS = {};
                       var ctx = Graphics_Canvas.getContext2D(context.value0.canvasContext)();
                       return Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)(Control_Apply.applySecond(Effect.applyEffect)($foreign.redraw(ctx)(vruler))(initEvent(addLevelLineButtonClick)(context.value0.addLevelLineBtn)("click")))(initEvent(fetchLevelLineButtonClick(ticker)(vruler))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(mouseEventDown)(context.value0.canvasElement)("mousedown")))(initEvent(mouseEventDrag)(context.value0.canvasElement)("mousemove")))(initEvent(mouseEventUp(vruler))(context.value0.canvasElement)("mouseup"))();
                   };
-                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 471, column 9 - line 485, column 97): " + [ context.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.LevelLine (line 470, column 9 - line 484, column 97): " + [ context.constructor.name ]);
               };
           };
       };
@@ -7932,15 +7932,15 @@ var PS = {};
   var chartUrl = function (v) {
       return function (v1) {
           if (v instanceof Maunaloa_Common.DayChart) {
-              return "/maunaloa/days/" + v1;
+              return "/maunaloa/stockprice/days/" + v1;
           };
           if (v instanceof Maunaloa_Common.WeekChart) {
-              return "/maunaloa/weeks/" + v1;
+              return "/maunaloa/stockprice/weeks/" + v1;
           };
           if (v instanceof Maunaloa_Common.MonthChart) {
-              return "/maunaloa/months/" + v1;
+              return "/maunaloa/stockprice/months/" + v1;
           };
-          throw new Error("Failed pattern match at Maunaloa.JsonCharts (line 88, column 1 - line 88, column 39): " + [ v.constructor.name, v1.constructor.name ]);
+          throw new Error("Failed pattern match at Maunaloa.JsonCharts (line 82, column 1 - line 82, column 39): " + [ v.constructor.name, v1.constructor.name ]);
       };
   };
   var fetchCharts = function (ticker) {
@@ -7958,9 +7958,9 @@ var PS = {};
                       if (charts instanceof Data_Either.Right) {
                           return new Data_Either.Right(charts.value0);
                       };
-                      throw new Error("Failed pattern match at Maunaloa.JsonCharts (line 109, column 25 - line 113, column 46): " + [ charts.constructor.name ]);
+                      throw new Error("Failed pattern match at Maunaloa.JsonCharts (line 103, column 25 - line 107, column 46): " + [ charts.constructor.name ]);
                   };
-                  throw new Error("Failed pattern match at Maunaloa.JsonCharts (line 102, column 17 - line 113, column 46): " + [ res.constructor.name ]);
+                  throw new Error("Failed pattern match at Maunaloa.JsonCharts (line 96, column 17 - line 107, column 46): " + [ res.constructor.name ]);
               })();
               return Control_Applicative.pure(Effect_Aff.applicativeAff)(result);
           });
@@ -8033,7 +8033,7 @@ var PS = {};
       if (v instanceof Maunaloa_LevelLine.BreakEvenLine) {
           return 3;
       };
-      throw new Error("Failed pattern match at Main (line 106, column 1 - line 106, column 19): " + [ v.constructor.name ]);
+      throw new Error("Failed pattern match at Main (line 105, column 1 - line 105, column 19): " + [ v.constructor.name ]);
   };
   var reposIdFor = function (chartTypeId) {
       return function (ticker) {
@@ -8079,10 +8079,10 @@ var PS = {};
                                   var collection = Control_Monad_Reader.runReader(Maunaloa_ChartTransform.transform(charts.value0))(curEnv);
                                   return Control_Apply.applySecond(Effect_Aff.applyAff)(Effect_Class.liftEffect(Effect_Aff.monadEffectAff)(Maunaloa_Repository.setJsonResponse(reposId)(charts.value0)))(Maunaloa_ChartCollection.paintAff(collection));
                               };
-                              throw new Error("Failed pattern match at Main (line 90, column 21 - line 98, column 64): " + [ charts.constructor.name ]);
+                              throw new Error("Failed pattern match at Main (line 89, column 21 - line 97, column 64): " + [ charts.constructor.name ]);
                           }));
                       };
-                      throw new Error("Failed pattern match at Main (line 80, column 5 - line 98, column 64): " + [ cachedResponse.constructor.name ]);
+                      throw new Error("Failed pattern match at Main (line 79, column 5 - line 97, column 64): " + [ cachedResponse.constructor.name ]);
                   };
               };
           };

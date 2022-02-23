@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const fetchTickers = (nodeId, eventHandler) => {
-        fetch("/maunaloa/tickers").then(result => {
+        fetch("/maunaloa/stockprice/tickers").then(result => {
             result.json().then(data => {
                 const node = document.getElementById(nodeId);
                 node.addEventListener("change", eventHandler);

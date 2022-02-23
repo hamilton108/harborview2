@@ -2,9 +2,6 @@ module Maunaloa.JsonCharts where
 
 import Prelude
 
-import Effect.Class 
-    ( liftEffect
-    )
 --import Effect.Console (logShow)
 import Data.Either 
     ( Either(..)
@@ -15,9 +12,6 @@ import Data.Argonaut.Core
 import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error 
     ( JsonDecodeError
-    )
-import Effect 
-    ( Effect
     )
 import Effect.Aff
     ( Aff
@@ -87,11 +81,11 @@ chartsFromJson = Decode.decodeJson
 
 chartUrl :: ChartType -> Ticker -> URL
 chartUrl DayChart (Ticker ticker) = 
-    "/maunaloa/days/" <> ticker
+    "/maunaloa/stockprice/days/" <> ticker
 chartUrl WeekChart (Ticker ticker) = 
-    "/maunaloa/weeks/" <> ticker
+    "/maunaloa/stockprice/weeks/" <> ticker
 chartUrl MonthChart (Ticker ticker) = 
-    "/maunaloa/months/" <> ticker
+    "/maunaloa/stockprice/months/" <> ticker
 
 fetchCharts :: Ticker -> ChartType -> Aff (Either MaunaloaError JsonChartResponse)
 fetchCharts ticker chartType =  

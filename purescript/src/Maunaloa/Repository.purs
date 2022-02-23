@@ -12,9 +12,6 @@ import Data.Maybe
 import Maunaloa.JsonCharts
     ( JsonChartResponse 
     )
-import Maunaloa.Common
-    ( Ticker(..)
-    )
 
 foreign import setJsonResponse :: String -> JsonChartResponse -> Effect Unit
 

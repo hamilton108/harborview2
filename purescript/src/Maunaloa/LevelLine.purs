@@ -40,7 +40,6 @@ import Maunaloa.Common
     , HtmlId(..)
     , Ticker(..)
     , mainURL
-    , showJson
     , alert)
 import Maunaloa.VRuler (VRuler,valueToPix,pixToValue)
 import Maunaloa.Chart (ChartLevel)
@@ -123,7 +122,7 @@ instance showLine :: Show Line where
     show (BreakEvenLine v) = "BreakEvenLine: " <> show v 
 
 onMouseUp :: Event.Event -> Effect (Maybe Line)
-onMouseUp evt = onMouseUpImpl Just Nothing 
+onMouseUp _ = onMouseUpImpl Just Nothing 
 
 {-
 const STD_LINE = 1;
@@ -228,7 +227,7 @@ remButtonClick evt =
 -}
 
 addLevelLineButtonClick :: Event.Event -> Effect Unit
-addLevelLineButtonClick evt =
+addLevelLineButtonClick _ =
     let
         line = StdLine { y: 200.0, selected: false }
     in
@@ -241,7 +240,7 @@ fetchLevelLinesURL (Ticker ticker) =
 
 optionPriceURL :: Ticker -> Number -> String
 optionPriceURL (Ticker ticker) curStockPrice =
-    mainURL <> "/optionprice/" <> ticker <> "/" <> toStringWith (fixed 2) curStockPrice
+    mainURL <> "/stockoption/price/" <> ticker <> "/" <> toStringWith (fixed 2) curStockPrice
 
 
 addRiscLine :: VRuler -> RiscLineJson -> Effect Unit

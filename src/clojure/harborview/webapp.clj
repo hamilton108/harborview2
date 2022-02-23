@@ -37,41 +37,44 @@
 
 (defn home
   [request]
-  (ring-resp/response (thyme/charts)))
+  (ring-resp/response (thyme/render "maunaloa/charts")))
 
 (defn stockoptions
   [request]
-  (ring-resp/response (thyme/stockoptions)))
+  (ring-resp/response (thyme/render "maunaloa/options")))
 
 (defn optionpurchases
   [request]
-  (ring-resp/response (thyme/optionpurchases)))
+  (ring-resp/response (thyme/render "maunaloa/optionpurchases")))
 
 (defn critters
   [request]
-  (ring-resp/response (thyme/critters)))
+  (ring-resp/response (thyme/render "critter/overlook")))
 
 (def routes
   (route/expand-routes
    #{["/" :get (conj hu/common-interceptors `home) :route-name :home]
      ;-------------------- maunaloa -------------------- 
-     ["/maunaloa/calcriscstockprices/:oid" :post [maunaloa/calcriscstockprices]]
-     ["/maunaloa/calls/:oid" :get maunaloa/calls :route-name :calls]
      ["/maunaloa/charts" :get (conj hu/common-interceptors `home) :route-name :charts]
-     ["/maunaloa/days/:oid" :get maunaloa/days :route-name :days]
-     ["/maunaloa/months/:oid" :get maunaloa/months :route-name :months]
-     ["/maunaloa/optionprice/:ticker/:stockprice" :get maunaloa/calcoptionprice :route-name :optionprice]
-     ["/maunaloa/optionpurchases" :get (conj hu/common-interceptors `optionpurchases) :route-name :optionpurchases]
-     ["/maunaloa/optiontickers" :get (conj hu/common-interceptors `stockoptions) :route-name :stockoptions]
-     ["/maunaloa/purchaseoption" :post [maunaloa/purchaseoption]]
-     ["/maunaloa/puts/:oid" :get maunaloa/puts :route-name :puts]
-     ["/maunaloa/regpuroption" :post [maunaloa/regpuroption]]
+     ;["/maunaloa/optiontickers" :get (conj hu/common-interceptors `stockoptions) :route-name :stockoptions]
      ["/maunaloa/risclines/:oid" :get maunaloa/risclines :route-name :risclines]
-     ["/maunaloa/tickers" :get maunaloa/tix :route-name :tix]
-     ["/maunaloa/weeks/:oid" :get maunaloa/weeks :route-name :weeks]
+     ;-------------------- stock option -------------------- 
+     ["/maunaloa/stockoption" :get (conj hu/common-interceptors `stockoptions) :route-name :stockoptions]
+     ["/maunaloa/stockoption/purchases" :get (conj hu/common-interceptors `optionpurchases) :route-name :optionpurchases]
+     ["/maunaloa/stockoption/price/:ticker/:stockprice" :get maunaloa/calcoptionprice :route-name :optionprice]
+     ["/maunaloa/stockoption/calls/:oid" :get maunaloa/calls :route-name :calls]
+     ["/maunaloa/stockoption/puts/:oid" :get maunaloa/puts :route-name :puts]
+     ["/maunaloa/stockoption/purchase" :post [maunaloa/purchaseoption]]
+     ["/maunaloa/stockoption/regpur" :post [maunaloa/regpuroption]]
+     ;-------------------- stock -------------------- 
+     ["/maunaloa/stockprice/calculate/:oid" :post [maunaloa/calcriscstockprices]]
+     ["/maunaloa/stockprice/tickers" :get maunaloa/tix :route-name :tix]
+     ["/maunaloa/stockprice/days/:oid" :get maunaloa/days :route-name :days]
+     ["/maunaloa/stockprice/weeks/:oid" :get maunaloa/weeks :route-name :weeks]
+     ["/maunaloa/stockprice/months/:oid" :get maunaloa/months :route-name :months]
      ;-------------------- critters -------------------- 
-     ["/critters/purchases/:ptype" :get maunaloa/critter-purchases :route-name :critter-purchases]
-     ["/critters/overlook" :get (conj hu/common-interceptors `critters) :route-name :critters]}))
+     ["/critter/purchases/:ptype" :get maunaloa/critter-purchases :route-name :critter-purchases]
+     ["/critter/overlook" :get (conj hu/common-interceptors `critters) :route-name :critters]}))
 
 (def service {:env :prod
               ;::http/allowed-origins {:creds true, :allowed-origins (constantly true)}

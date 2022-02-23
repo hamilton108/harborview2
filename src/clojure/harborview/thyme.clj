@@ -19,21 +19,9 @@
 
 (def templateEngine (init-thymeleaf))
 
-(defn charts []
+(defn render [url]
   (let [ctx (Context.)]
-    (.process ^TemplateEngine templateEngine "maunaloa/charts" ctx)))
-
-(defn stockoptions []
-  (let [ctx (Context.)]
-    (.process ^TemplateEngine templateEngine "maunaloa/options" ctx)))
-
-(defn optionpurchases []
-  (let [ctx (Context.)]
-    (.process ^TemplateEngine templateEngine "maunaloa/optionpurchases" ctx)))
-
-(defn critters []
-  (let [ctx (Context.)]
-    (.process ^TemplateEngine templateEngine "critters/overlook" ctx)))
+    (.process ^TemplateEngine templateEngine url ctx)))
 
 
 ;  import org.thymeleaf.TemplateEngine;
