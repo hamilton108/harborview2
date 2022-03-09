@@ -20,7 +20,7 @@
                  [com.fasterxml.jackson.core/jackson-databind "2.10.2"]
                 ;------------------ Database ------------------ 
                  [org.mybatis/mybatis "3.5.9"]
-                 [org.postgresql/postgresql "42.2.10"]
+                 [org.postgresql/postgresql "42.3.3"]
                  [org.jsoup/jsoup "1.11.3"]
                 ;------------------ Local libs ------------------ 
                  [rcstadheim/critter-repos "1.7-20220206.173054-13"]

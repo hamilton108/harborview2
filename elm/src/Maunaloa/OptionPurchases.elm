@@ -417,7 +417,7 @@ fetchPurchases isRealTime resetCache =
                     "false"
 
         url =
-            mainUrl ++ "/fetchpurchases?ptype=" ++ purchaseType ++ "&resetcache=" ++ resetCacheJson
+            mainUrl ++ "/stockoption/purchases/" ++ purchaseType
 
         purchaseDecoder =
             Json.succeed PurchaseWithSales

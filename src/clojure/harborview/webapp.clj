@@ -33,7 +33,9 @@
 (reset! maunaloa/nordnet-adapter (DemoEtradeAdapter. stockmarket-repos))
 ;(reset! maunaloa/nordnet-adapter (NordnetEtradeAdapter. stockmarket-repos))
 
-(defn demo [] (.calls @maunaloa/nordnet-adapter 1))
+(defn demo []
+  (let [req {:path-params {:ptype 11 :oid 1}}]
+    (maunaloa/fetch-optionpurchases req)))
 
 (defn home
   [request]
@@ -61,6 +63,7 @@
      ;-------------------- stock option -------------------- 
      ["/maunaloa/stockoption" :get (conj hu/common-interceptors `stockoptions) :route-name :stockoptions]
      ["/maunaloa/stockoption/purchases" :get (conj hu/common-interceptors `optionpurchases) :route-name :optionpurchases]
+     ["/maunaloa/stockoption/purchases/:ptype" :get maunaloa/fetch-optionpurchases :route-name :optionpurchases-2]
      ["/maunaloa/stockoption/price/:ticker/:stockprice" :get maunaloa/calcoptionprice :route-name :optionprice]
      ["/maunaloa/stockoption/calls/:oid" :get maunaloa/calls :route-name :calls]
      ["/maunaloa/stockoption/puts/:oid" :get maunaloa/puts :route-name :puts]

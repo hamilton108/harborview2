@@ -9,6 +9,7 @@
   (prices [this oid])
   (registerAndPurchaseOption [this json])
   (activePurchasesWithCritters [this json])
+  (stockOptionPurchases [this ptype status])
   (purchaseOption [this json]))
 
 (defprotocol Etrade

@@ -9,7 +9,9 @@
    [cheshire.core :as json]
    [harborview.thyme :as thyme])
   (:import
+   [vega.financial.calculator BlackScholes]
    [harborview.dto.html.critters OptionPurchaseDTO]
+   [harborview.dto.html.options OptionPurchaseWithSalesDTO]
    [harborview.maunaloa.charts
     ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory]
    [critterrepos.models.impl StockMarketReposImpl]
@@ -17,6 +19,8 @@
    [java.util ArrayList]
    [java.time.temporal IsoFields]
    [java.time LocalDate]))
+
+(def calculator (BlackScholes.))
 
 (def db-adapter (atom nil))
 
@@ -120,6 +124,12 @@
 (defn risclines [request]
   (let [oid (req-oid request)]
     (hu/om->json (.riscLines @nordnet-adapter oid))))
+
+(defn fetch-optionpurchases [request]
+  (let [ptype (cu/rs (get-in request [:path-params :ptype]))
+        purchases (.stockOptionPurchases @db-adapter ptype 1)
+        purchases-json (map #(OptionPurchaseWithSalesDTO. % calculator) purchases)]
+    (hu/om->json purchases-json)))
 
 (defn calcoptionprice [request]
   (let [ticker (get-in request [:path-params :ticker])

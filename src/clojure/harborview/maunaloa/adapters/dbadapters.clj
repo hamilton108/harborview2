@@ -160,5 +160,7 @@
     (register-and-purchase-option repos json))
   (activePurchasesWithCritters [this ptype]
     (.activePurchasesWithCritters repos ptype))
+  (stockOptionPurchases [this ptype status]
+    (.purchasesWithSalesAll repos ptype status nil))
   (purchaseOption [this json]
     (purchase-option repos json)))

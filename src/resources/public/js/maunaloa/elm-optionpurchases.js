@@ -5969,7 +5969,7 @@ var $author$project$Maunaloa$OptionPurchases$fetchPurchases = F2(
 				return '11';
 			}
 		}();
-		var url = $author$project$Maunaloa$OptionPurchases$mainUrl + ('/fetchpurchases?ptype=' + (purchaseType + ('&resetcache=' + resetCacheJson)));
+		var url = $author$project$Maunaloa$OptionPurchases$mainUrl + ('/stockoption/purchases/' + purchaseType);
 		var purchaseDecoder = A3(
 			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
 			'cur-iv',
@@ -6533,7 +6533,7 @@ var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('
 var $author$project$Common$Html$makeInput = F3(
 	function (caption, msg, initVal) {
 		return A2(
-			$elm$html$Html$span,
+			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('form-group')
