@@ -1,4 +1,4 @@
-module Maunaloa.Common where
+module HarborView.Maunaloa.Common where
   
 import Prelude
 

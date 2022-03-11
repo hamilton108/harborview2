@@ -4,8 +4,8 @@ import Foreign (F, Foreign, unsafeToForeign)
 import Control.Monad.Except (runExcept)
 import Data.Number.Approximate as Approximate
 import Data.Either (Either(..))
-import Util.Value (foreignValue)
-import Maunaloa.Common (
+import HarborView.Util.Value (foreignValue)
+import HarborView.Maunaloa.Common (
       Padding(..)
     , ChartWidth(..)
     , ChartHeight(..))

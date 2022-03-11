@@ -1,4 +1,4 @@
-module Maunaloa.Repository where
+module HarborView.Maunaloa.Repository where
 
 import Prelude 
     ( Unit 
@@ -9,7 +9,7 @@ import Effect
 import Data.Maybe
     ( Maybe(..)
     )
-import Maunaloa.JsonCharts
+import HarborView.Maunaloa.JsonCharts
     ( JsonChartResponse 
     )
 

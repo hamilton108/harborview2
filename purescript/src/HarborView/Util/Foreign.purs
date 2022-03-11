@@ -1,4 +1,4 @@
-module Util.Foreign where
+module HarborView.Util.Foreign where
 
 import Prelude
 

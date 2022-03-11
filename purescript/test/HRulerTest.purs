@@ -8,8 +8,8 @@ import Test.Unit.Assert as Assert
 import Test.Unit (suite, test, TestSuite)
 import Data.Array as Array
 
-import Maunaloa.HRuler as H
-import Maunaloa.Common 
+import HarborView.Maunaloa.HRuler as H
+import HarborView.Maunaloa.Common 
     ( Pix(..)
     , UnixTime(..)
     , RulerLineInfo(..) 

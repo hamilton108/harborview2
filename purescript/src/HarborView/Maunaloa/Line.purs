@@ -1,4 +1,4 @@
-module Maunaloa.Line where
+module HarborView.Maunaloa.Line where
 
 import Prelude 
 import Data.Array (zipWith)
@@ -6,9 +6,9 @@ import Graphics.Canvas (Context2D)
 import Effect (Effect)
 --import Control.Monad.State (State,get,put,runState)
 
-import Maunaloa.VRuler as V
-import Maunaloa.HRuler as H
-import Maunaloa.Common (Xaxis)
+import HarborView.Maunaloa.VRuler as V
+import HarborView.Maunaloa.HRuler as H
+import HarborView.Maunaloa.Common (Xaxis)
 
 
 type Line = Array Number

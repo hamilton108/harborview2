@@ -1,4 +1,4 @@
-module Maunaloa.MaunaloaError where
+module HarborView.Maunaloa.MaunaloaError where
 
 import Prelude
 
@@ -11,7 +11,7 @@ import Effect.Aff
 import Effect.Console 
     ( logShow
     )
-import Maunaloa.Common
+import HarborView.Maunaloa.Common
     ( alert
     )
 

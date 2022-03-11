@@ -1,9 +1,9 @@
 module Test.ChartCollectionTest where
 
 --import Util.Value (foreignValue)
-import Maunaloa.Chart as Chart 
+import HarborView.Maunaloa.Chart as Chart 
 --import Maunaloa.ChartCollection as ChartCollection
-import Maunaloa.Common 
+import HarborView.Maunaloa.Common 
     ( HtmlId(..)
     , Ticker(..)
     , ChartHeight(..)

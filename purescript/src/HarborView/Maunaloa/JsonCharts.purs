@@ -1,4 +1,4 @@
-module Maunaloa.JsonCharts where
+module HarborView.Maunaloa.JsonCharts where
 
 import Prelude
 
@@ -24,12 +24,12 @@ import Affjax.ResponseFormat as ResponseFormat
 import Data.Maybe 
     ( Maybe(..)
     )
-import Maunaloa.Common
+import HarborView.Maunaloa.Common
     ( ValueRange
     , Ticker(..)
     , ChartType(..)
     )
-import Maunaloa.MaunaloaError
+import HarborView.Maunaloa.MaunaloaError
     ( MaunaloaError(..)
     )
 

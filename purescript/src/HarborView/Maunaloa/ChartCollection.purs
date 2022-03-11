@@ -1,4 +1,4 @@
-module Maunaloa.ChartCollection where
+module HarborView.Maunaloa.ChartCollection where
 
 import Prelude
 
@@ -30,18 +30,18 @@ import Partial.Unsafe
 import Data.Array as Array
 
 
-import Maunaloa.Chart as C
-import Maunaloa.Chart 
+import HarborView.Maunaloa.Chart as C
+import HarborView.Maunaloa.Chart 
     ( Chart(..)
     )
-import Maunaloa.HRuler as H
-import Maunaloa.Common 
+import HarborView.Maunaloa.HRuler as H
+import HarborView.Maunaloa.Common 
     ( HtmlId(..)
     , ChartWidth(..)
     , ChartMapping(..)
     , Ticker
     )
-import Maunaloa.LevelLine as LevelLine
+import HarborView.Maunaloa.LevelLine as LevelLine
 
 
 newtype ChartCollection = ChartCollection 

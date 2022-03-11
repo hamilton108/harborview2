@@ -1,4 +1,4 @@
-module Maunaloa.VRuler where
+module HarborView.Maunaloa.VRuler where
 
 import Prelude 
 
@@ -8,7 +8,7 @@ import Data.Number.Format (toStringWith,fixed)
 import Graphics.Canvas (Context2D)
 import Effect (Effect)
 
-import Maunaloa.Common (
+import HarborView.Maunaloa.Common (
       ValueRange(..)
     , Pix(..)
     , ChartWidth(..)

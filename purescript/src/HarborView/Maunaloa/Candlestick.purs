@@ -1,15 +1,15 @@
-module Maunaloa.Candlestick where
+module HarborView.Maunaloa.Candlestick where
 
 import Prelude
 
 import Effect (Effect)
 import Graphics.Canvas (Context2D)
 
-import Maunaloa.Common (Xaxis)
+import HarborView.Maunaloa.Common (Xaxis)
 
-import Maunaloa.VRuler as V
-import Maunaloa.HRuler as H
-import Maunaloa.JsonCharts
+import HarborView.Maunaloa.VRuler as V
+import HarborView.Maunaloa.HRuler as H
+import HarborView.Maunaloa.JsonCharts
   ( JsonCandlestick 
   )
 

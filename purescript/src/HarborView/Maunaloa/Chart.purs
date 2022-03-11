@@ -1,4 +1,4 @@
-module Maunaloa.Chart where
+module HarborView.Maunaloa.Chart where
   
 import Prelude
 
@@ -7,7 +7,7 @@ import Graphics.Canvas as Canvas -- (Context2D,Canvas)
 import Effect (Effect)
 import Effect.Console (logShow)
 
-import Maunaloa.Common 
+import HarborView.Maunaloa.Common 
     ( ValueRange(..)
     , Padding(..)
     , ChartWidth(..)
@@ -16,10 +16,10 @@ import Maunaloa.Common
     , Pix(..)
     , ChartId
     )
-import Maunaloa.HRuler as H
-import Maunaloa.VRuler as V
-import Maunaloa.Line as L
-import Maunaloa.Candlestick as CNDL
+import HarborView.Maunaloa.HRuler as H
+import HarborView.Maunaloa.VRuler as V
+import HarborView.Maunaloa.Line as L
+import HarborView.Maunaloa.Candlestick as CNDL
 
 type ChartLevel = 
     { levelCanvasId :: HtmlId

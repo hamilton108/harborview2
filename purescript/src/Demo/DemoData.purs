@@ -1,7 +1,7 @@
 module Demo.DemoData where
 
 import Foreign (F, Foreign, unsafeToForeign)
-import Util.Value (foreignValue)
+import HarborView.Util.Value (foreignValue)
 
 import Control.Monad.Except (runExcept)
 import Data.Either (Either(..))

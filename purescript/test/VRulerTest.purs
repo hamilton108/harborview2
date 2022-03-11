@@ -5,8 +5,8 @@ import Prelude
 import Test.Unit.Assert as Assert
 import Test.Unit (suite, test, TestSuite)
 
-import Maunaloa.VRuler as V
-import Maunaloa.Common (
+import HarborView.Maunaloa.VRuler as V
+import HarborView.Maunaloa.Common (
      Pix(..)
     , RulerLineInfo(..) 
     , ValueRange(..)

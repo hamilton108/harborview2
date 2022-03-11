@@ -3,31 +3,15 @@ module Main where
 import Prelude
 import Effect (Effect)
 
-import Control.Monad.Reader 
-    ( runReader 
-    )
-import Effect.Aff
-    ( launchAff_
-    )
-import Effect.Class
-    ( liftEffect
-    )
-import Effect.Console 
-    ( logShow
-    )
-import Data.Number.Format 
-    ( toString
-    )
-import Data.Either 
-    ( Either(..)
-    )
-import Data.Int
-    ( toNumber 
-    )
-import Data.Maybe
-    ( Maybe(..)
-    )
-import Maunaloa.Common 
+import Control.Monad.Reader (runReader)
+import Effect.Aff  (launchAff_)
+import Effect.Class (liftEffect)
+import Effect.Console (logShow)
+import Data.Number.Format (toString)
+import Data.Either (Either(..))
+import Data.Int (toNumber)
+import Data.Maybe (Maybe(..))
+import HarborView.Maunaloa.Common 
     ( ChartMappings
     , Drop(..)
     , Take(..)
@@ -36,22 +20,16 @@ import Maunaloa.Common
     , ChartType
     , asChartType
     )
-import Maunaloa.ChartCollection 
+import HarborView.Maunaloa.ChartCollection 
     as ChartCollection 
-import Maunaloa.LevelLine 
+import HarborView.Maunaloa.LevelLine 
     ( Line(..)
     , clear
     )
-import Maunaloa.ChartTransform
-    ( transform 
-    )
-import Maunaloa.JsonCharts
-    ( fetchCharts 
-    )
-import Maunaloa.MaunaloaError 
-    ( handleErrorAff
-    )
-import Maunaloa.Repository as Repository 
+import HarborView.Maunaloa.ChartTransform (transform)
+import HarborView.Maunaloa.JsonCharts (fetchCharts)
+import HarborView.Maunaloa.MaunaloaError (handleErrorAff)
+import HarborView.Maunaloa.Repository as Repository 
 
 createEnv :: ChartType -> Ticker -> Drop -> Take -> ChartMappings -> Env
 createEnv ctype tik curDrop curTake mappings = 

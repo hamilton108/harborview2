@@ -1,4 +1,4 @@
-module Maunaloa.HRuler where
+module HarborView.Maunaloa.HRuler where
 
 import Prelude 
 
@@ -19,7 +19,7 @@ import Data.Array
 import Effect (Effect)
 import Graphics.Canvas (Context2D)
 
-import Maunaloa.Common 
+import HarborView.Maunaloa.Common 
     ( Pix(..)
     , UnixTime(..)
     , Padding(..)
@@ -31,7 +31,7 @@ import Maunaloa.Common
     , calcPpx
     , dayInMillis 
     )
-import Util.DateUtil 
+import HarborView.Util.DateUtil 
     ( dateRangeOf
     )
 

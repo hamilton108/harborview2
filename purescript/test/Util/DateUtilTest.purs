@@ -11,10 +11,10 @@ import Test.Unit
 import Data.Tuple 
     ( Tuple(..)
     )
-import Maunaloa.Common
+import HarborView.Maunaloa.Common
     ( UnixTime(..) 
     )
-import Util.DateUtil
+import HarborView.Util.DateUtil
     ( dateRangeOf 
     )
 

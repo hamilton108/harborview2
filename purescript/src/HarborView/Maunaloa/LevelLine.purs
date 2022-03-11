@@ -1,4 +1,4 @@
-module Maunaloa.LevelLine (initEvents,clear,Line(..)) where
+module HarborView.Maunaloa.LevelLine (initEvents,clear,Line(..)) where
 
 import Prelude
 import Data.Maybe (Maybe(..))
@@ -29,20 +29,20 @@ import Web.HTML.HTMLDocument as HTMLDocument
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
-import Maunaloa.MaunaloaError
+import HarborView.Maunaloa.MaunaloaError
     ( MaunaloaError(..)
     , handleErrorAff
     )
 
 
-import Maunaloa.Common 
+import HarborView.Maunaloa.Common 
     ( Pix(..)
     , HtmlId(..)
     , Ticker(..)
     , mainURL
     , alert)
-import Maunaloa.VRuler (VRuler,valueToPix,pixToValue)
-import Maunaloa.Chart (ChartLevel)
+import HarborView.Maunaloa.VRuler (VRuler,valueToPix,pixToValue)
+import HarborView.Maunaloa.Chart (ChartLevel)
 
 {-
 import Data.IORef (newIORef,modifyIORef,readIORef)

@@ -19,11 +19,14 @@ to generate this file without the comments in this block.
   , "arrays"
   , "canvas"
   , "console"
+  , "dom-indexed"
   , "effect"
   , "either"
   , "foldable-traversable"
   , "foreign"
+  , "foreign-object"
   , "functions"
+  , "halogen"
   , "integers"
   , "lists"
   , "maybe"
@@ -38,6 +41,7 @@ to generate this file without the comments in this block.
   , "web-dom"
   , "web-events"
   , "web-html"
+  , "web-uievents"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

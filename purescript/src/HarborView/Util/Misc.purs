@@ -1,4 +1,4 @@
-module Maunaloa.Util.Misc 
+module HarborView.Maunaloa.Util.Misc 
     ( plusArray
     ) where
 

@@ -3,11 +3,11 @@ module Test.CandlestickTest where
 import Test.Unit (TestSuite,suite,test)
 import Test.Unit.Assert as Assert
 
-import Maunaloa.Candlestick as CA
-import Maunaloa.Candlestick
+import HarborView.Maunaloa.Candlestick as CA
+import HarborView.Maunaloa.Candlestick
     ( Candlestick(..)
     )
-import Maunaloa.JsonCharts
+import HarborView.Maunaloa.JsonCharts
     ( JsonCandlestick
     )
 import Test.VRulerTest as VT

@@ -1,4 +1,4 @@
-module Util.DateUtil where
+module HarborView.Util.DateUtil where
   
 import Prelude
 import Data.Maybe 
@@ -14,7 +14,7 @@ import Data.Tuple
 import Data.Int
     ( toNumber
     )
-import Maunaloa.Common
+import HarborView.Maunaloa.Common
     ( UnixTime(..) 
     , dayInMillis
     )

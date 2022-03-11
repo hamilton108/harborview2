@@ -34,15 +34,15 @@ import Data.Argonaut.Core
 --import Data.Argonaut.Decode as Decode
 --import Data.Argonaut.Decode.Error (JsonDecodeError)
 
-import Maunaloa.JsonCharts 
+import HarborView.Maunaloa.JsonCharts 
     ( JsonChartResponse
     , chartsFromJson
     , emptyJsonChart
     )
-import Maunaloa.ChartCollection
+import HarborView.Maunaloa.ChartCollection
     ( ChartCollection(..)
     )
-import Maunaloa.Common 
+import HarborView.Maunaloa.Common 
     ( HtmlId(..)
     , Ticker(..)
     , ChartHeight(..)
@@ -61,25 +61,25 @@ import Maunaloa.Common
     , ChartType(..)
     , valueRange
     )
-import Maunaloa.Chart
+import HarborView.Maunaloa.Chart
     ( Chart(..)
     , ChartLevel
     , ChartContent
     , emptyChart
     )
-import Maunaloa.ChartTransform
+import HarborView.Maunaloa.ChartTransform
     ( minMaxRanges 
     , normalizeLine 
     , transform
     , chartWindow
     )
-import Maunaloa.HRuler
+import HarborView.Maunaloa.HRuler
     ( HRuler(..)
     )
-import Maunaloa.VRuler
+import HarborView.Maunaloa.VRuler
     ( VRuler(..)
     )
-import Maunaloa.Candlestick
+import HarborView.Maunaloa.Candlestick
     ( Candlestick(..)
     )
 

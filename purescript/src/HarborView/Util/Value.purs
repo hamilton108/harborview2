@@ -1,5 +1,5 @@
 
-module Util.Value where
+module HarborView.Util.Value where
 
 import Prelude
 

@@ -9,7 +9,7 @@ import Data.Array as Array
 
 import Partial.Unsafe (unsafePartial)
 
-import Maunaloa.Common 
+import HarborView.Maunaloa.Common 
   ( ValueRange(..)
   , HtmlId(..)
   , ChartWidth(..)
@@ -17,13 +17,13 @@ import Maunaloa.Common
   , ChartId(..)
   )
 --import Util.Value (foreignValue)
-import Maunaloa.Chart 
+import HarborView.Maunaloa.Chart 
     ( Chart(..)
     , ChartLevel
     , valueRangeFor 
     )
 
-import Maunaloa.Line as L
+import HarborView.Maunaloa.Line as L
 import Test.VRulerTest as VT -- (moreOrLessEq,chartDim,pad0,pad1)
 
 cid :: ChartId

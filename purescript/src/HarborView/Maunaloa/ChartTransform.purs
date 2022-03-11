@@ -1,4 +1,4 @@
-module Maunaloa.ChartTransform where
+module HarborView.Maunaloa.ChartTransform where
   
 import Prelude
 
@@ -52,7 +52,7 @@ import Data.Maybe
     , fromMaybe
     )
 
-import Maunaloa.Common 
+import HarborView.Maunaloa.Common 
     ( mainURL
     , Scaling(..)
     , UnixTime(..)
@@ -66,29 +66,29 @@ import Maunaloa.Common
     , Ticker(..)
     , valueRange
     )
-import Maunaloa.JsonCharts 
+import HarborView.Maunaloa.JsonCharts 
     ( JsonChartResponse 
     , JsonChart
     , JsonChartWindow
     , JsonCandlestick
     )
-import Maunaloa.Chart
+import HarborView.Maunaloa.Chart
     ( padding
     , vruler
     , Chart(..)
     )
-import Maunaloa.ChartCollection
+import HarborView.Maunaloa.ChartCollection
     ( ChartCollection(..)
     , globalChartWidth
     , mappingToChartLevel
     )
-import Maunaloa.Line
+import HarborView.Maunaloa.Line
     ( lineToPix
     )
-import Maunaloa.Candlestick
+import HarborView.Maunaloa.Candlestick
     ( candleToPix
     )
-import Maunaloa.HRuler as H
+import HarborView.Maunaloa.HRuler as H
 
 nullValueRange :: ValueRange
 nullValueRange = ValueRange { minVal: 0.0, maxVal: 0.0 }
