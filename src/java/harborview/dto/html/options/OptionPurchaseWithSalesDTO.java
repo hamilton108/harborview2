@@ -32,7 +32,9 @@ public class OptionPurchaseWithSalesDTO {
     public String getTicker() {
         return purchase.getOptionName();
     }
-    public String getDx() {
+
+    @JsonGetter("pdate")
+    public String getPurchaseDate() {
         return toString(purchase.getLocalDx());
     }
     public String getExp() {
@@ -50,21 +52,19 @@ public class OptionPurchaseWithSalesDTO {
     public double getSpot() {
         return purchase.getSpotAtPurchase();
     }
-    public long getPvol() {
+
+    @JsonGetter("pvol")
+    public long getPurchaseVolume() {
         return purchase.getVolume();
     }
-    public long getSvol() {
+
+    @JsonGetter("svol")
+    public long getVolumeSold() {
         return purchase.volumeSold();
     }
+    /*
     public double getIv() {
         try {
-            /*
-            var spot = getSpot();
-            var x = purchase.getX();
-            var days = getDaysCached();
-            var bid = getBid();
-            System.out.println(String.format("spot: %.2f, x: %.2f, days: %d, bid: %.2f", spot, x, days, bid));
-             */
             var t = getDaysCached() / 365.0;
             var iv = purchase.getOptionType().equals("c") ?
                     calculator.ivCall(getSpot(), purchase.getX(), t, getBid()) :
@@ -75,28 +75,19 @@ public class OptionPurchaseWithSalesDTO {
             return -1.0;
         }
     }
-
-    @JsonGetter("cur-ask")
-    public double getCurAsk() {
-        return -1.0;
-    }
-    @JsonGetter("cur-bid")
-    public double getCurBid() {
-        return -1.0;
-    }
-    @JsonGetter("cur-iv")
-    public double getCurIv() {
-        return -1.0;
-    }
+     */
 
     @JsonIgnore
     private String toString(LocalDate ld) {
         return String.format("%d-%d-%d", ld.getYear(), ld.getMonthValue(), ld.getDayOfMonth());
     }
+
+    /*
     @JsonIgnore
     private double doubleToDecimal(double v) {
         return (Math.round(v * 1000.0)) / 1000.0;
     }
+     */
     private long days = -1;
     @JsonIgnore
     private long getDaysCached() {

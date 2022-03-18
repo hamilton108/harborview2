@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# spago bundle-app --main Main --to dist/ps-charts.js
+TARGET=dist/ps-optionpurchase.js
+#TARGET=dist/ps-maunaloa.js
 
-spago bundle-app --to dist/ps-charts.js
+#spago bundle-app --main HarborView/OptionPurchase/Main --to $TARGET
+spago bundle-app --main OptionPurchaseMain --to $TARGET
 
-sed -i '$ d' dist/ps-charts.js
+# sed -i '$ d' $TARGET 
 
 exit 0

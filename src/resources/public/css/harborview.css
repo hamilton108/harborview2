@@ -29,6 +29,79 @@ body {
 .form-check {
   padding-bottom: 1rem; }
 
+.radio-inline {
+  margin-right: 1rem; }
+
+canvas.c1, canvas.c2, canvas.c3 {
+  border: 1px solid #000000; }
+
+a.href-td {
+  padding: 5px 5px 5px 5px;
+  background: #942d16;
+  color: #fff; }
+
+.fake-input {
+  float: left;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #9f9f9f;
+  background: #fff;
+  vertical-align: middle;
+  position: relative;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 4px; }
+
+/*input[type="checkbox"] {*/
+.fake-cb {
+  position: fixed;
+  top: -9999px;
+  left: -9999px; }
+
+/*input[type="checkbox"]:checked + .fake-input:before {*/
+.fake-cb:checked + .fake-input:before {
+  content: "\2713";
+  position: absolute;
+  color: #000;
+  text-align: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+.modalDialog {
+  position: fixed;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(100, 0, 0, 0.2);
+  z-index: 99999; }
+
+.modalDialog:target {
+  opacity: 1;
+  pointer-events: auto; }
+
+.modalDialog > div {
+  width: 30rem;
+  position: relative;
+  margin: 10% auto;
+  padding: 3rem;
+  border-radius: 10px;
+  background: #fff;
+  background: -moz-linear-gradient(#fff, #ddd);
+  background: -webkit-linear-gradient(#fff, #ddd);
+  background: -o-linear-gradient(#fff, #ddd); }
+
+.dlg-hide {
+  opacity: 0.0;
+  pointer-events: none; }
+
+.dlg-show {
+  opacity: 1.0;
+  pointer-events: auto; }
+
 .grid-main {
   display: grid;
   grid-gap: 20px;
@@ -46,39 +119,6 @@ body {
 .sub-chart-2 {
   grid-row: 3;
   grid-column: 2; }
-
-.radio-inline {
-  margin-right: 1rem; }
-
-canvas.c1, canvas.c2, canvas.c3 {
-  border: 1px solid #000000; }
-
-.modalDialog {
-  position: fixed;
-  font-family: Arial, Helvetica, sans-serif;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(100, 0, 0, 0.2);
-  z-index: 99999;
-  opacity: 0;
-  pointer-events: none; }
-
-.modalDialog:target {
-  opacity: 1;
-  pointer-events: auto; }
-
-.modalDialog > div {
-  width: 30rem;
-  position: relative;
-  margin: 10% auto;
-  padding: 3rem;
-  border-radius: 10px;
-  background: #fff;
-  background: -moz-linear-gradient(#fff, #999);
-  background: -webkit-linear-gradient(#fff, #999);
-  background: -o-linear-gradient(#fff, #999); }
 
 .grid-scrapbook {
   grid-column: 3;
@@ -129,39 +169,5 @@ canvas.c1, canvas.c2, canvas.c3 {
 .scrap-cb {
   float: left;
   margin-right: 1rem; }
-
-a.href-td {
-  padding: 5px 5px 5px 5px;
-  background: #942d16;
-  color: #fff; }
-
-.fake-input {
-  float: left;
-  width: 20px;
-  height: 20px;
-  border: 1px solid #9f9f9f;
-  background: #fff;
-  vertical-align: middle;
-  position: relative;
-  margin-right: 10px;
-  margin-left: 10px;
-  border-radius: 4px; }
-
-/*input[type="checkbox"] {*/
-.fake-cb {
-  position: fixed;
-  top: -9999px;
-  left: -9999px; }
-
-/*input[type="checkbox"]:checked + .fake-input:before {*/
-.fake-cb:checked + .fake-input:before {
-  content: "\2713";
-  position: absolute;
-  color: #000;
-  text-align: center;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0; }
 
 /*# sourceMappingURL=harborview.css.map */

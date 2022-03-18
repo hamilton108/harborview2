@@ -11,6 +11,12 @@
 		},
 		{
 			"path": "../../netfondsjanitor/tmp/netfondsjanitor"
+		},
+		{
+			"path": "../../accounting-clj"
+		},
+		{
+			"path": "../../../purescript/halogen-demo-2"
 		}
 	],
 	"settings": {}

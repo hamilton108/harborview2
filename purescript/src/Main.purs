@@ -1,16 +1,24 @@
 module Main where
 
 import Prelude
-import Effect (Effect)
 
+import Effect (Effect)
 import Control.Monad.Reader (runReader)
-import Effect.Aff  (launchAff_)
+import Effect.Aff  ( Aff
+                   , launchAff_
+                   )
 import Effect.Class (liftEffect)
 import Effect.Console (logShow)
+
 import Data.Number.Format (toString)
 import Data.Either (Either(..))
 import Data.Int (toNumber)
 import Data.Maybe (Maybe(..))
+
+import Web.DOM.ParentNode (QuerySelector(..))
+import Web.HTML (HTMLElement)
+import Halogen.Aff as HA
+
 import HarborView.Maunaloa.Common 
     ( ChartMappings
     , Drop(..)
@@ -86,6 +94,27 @@ tmp (RiscLine v) = 2
 tmp (BreakEvenLine v) = 3
 
 {-
+run :: Maybe HTMLElement -> QuerySelector -> Aff Unit
+run node qs = 
+  case node of 
+      Nothing ->
+          let 
+            QuerySelector qs1 = qs
+          in
+          liftEffect (logShow $ "No such element: " <> qs1) 
+      Just nodex ->
+          -- runUI Button.component unit nodex *>
+          pure unit
+
+main :: Effect Unit
+main = HA.runHalogenAff $
+    HA.awaitLoad *> 
+    let 
+      qs1 = QuerySelector "#ps-main"
+    in
+    HA.selectElement qs1 >>= \node ->
+      run node qs1
+
 newtype Ax = Ax
   { a :: ChartHeight}
 

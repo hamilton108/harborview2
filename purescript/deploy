@@ -1,5 +1,9 @@
 #!/bin/bash
 
-cp dist/ps-charts.js ../src/resources/public/js/maunaloa/
+#JS=dist/ps-harborview.js
+
+JS=dist/ps-optionpurchase.js
+
+cp $JS ../src/resources/public/js/maunaloa/
 
 exit 0
