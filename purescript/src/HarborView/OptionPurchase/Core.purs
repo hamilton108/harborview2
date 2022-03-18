@@ -18,6 +18,7 @@ import Halogen.HTML ( HTML
 import Web.UIEvent.MouseEvent (MouseEvent)
 import Web.UIEvent.MouseEvent as ME
 import Web.Event.Event as E
+import DOM.HTML.Indexed.InputType (InputType(..))
 
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Core as AC
@@ -29,11 +30,14 @@ import Data.Number.Format ( toString
                           , fixed
                           )
 import Data.Int (toNumber)
+import Data.Maybe (Maybe(..))
 
 import HarborView.UI as UI
 import HarborView.UI (Title(..))
 import HarborView.Common (HarborViewError(..)) 
 import HarborView.Common as Common
+import HarborView.ModalDialog as DLG 
+import HarborView.ModalDialog (DialogState(..)) 
 
 
 type Purchase =
@@ -94,15 +98,23 @@ tableHeader =
         ]
     ]
  
-data Action =
-  Sell Purchase MouseEvent
-  | FetchPaper MouseEvent
+data Field = 
+  NewGroup
+
+data Action 
+  = FetchPaper MouseEvent
   | FetchReal MouseEvent
+  | SellDlgShow Purchase MouseEvent
+  | SellDlgOk MouseEvent
+  | SellDlgCancel MouseEvent
+  | ValueChanged Field String
 
 type State = 
   { purchases :: Purchases 
   , msg :: String
-  , header :: String
+  , isPaper :: Boolean
+  , dlgSell :: DLG.DialogState
+  , sp :: Maybe Purchase
   }
 
 
@@ -143,7 +155,9 @@ component =
   H.mkComponent
     { initialState: \_ -> { purchases: [ ]
                           , msg: "" 
-                          , header: "" 
+                          , isPaper: true 
+                          , dlgSell: DialogHidden
+                          , sp: Nothing
                           }
     , render
     , eval: H.mkEval H.defaultEval { handleAction = handleAction }
@@ -161,7 +175,7 @@ toRow p =
     svol = toString $ toNumber p.svol
   in
   HH.tr_
-    [ UI.mkButton (Title "Sell") (Sell p)
+    [ UI.mkButton (Title "Sell") (SellDlgShow p)
     , HH.td_ [ HH.text oid ] 
     , HH.td_ [ HH.text p.stock] 
     , HH.td_ [ HH.text p.ot ] 
@@ -195,27 +209,51 @@ render state =
     [ HH.div [ HP.classes [ ClassName "grid-elm" ]]
         [ UI.mkButton (Title "Fetch paper purchases") FetchPaper
         , UI.mkButton (Title "Fetch real purchases") FetchReal
+        , HH.p_ [ HH.text state.msg ]
         ]
     , HH.div [ HP.classes [ ClassName "grid-elm" ]]
         [ purchaseTable ]
     ]
 
+mkSellDialog :: forall w. DialogState -> HTML w Action
+mkSellDialog dlgState = 
+  let 
+    field = 
+      UI.mkInput (Title "Ny timelistegruppe") InputText (ValueChanged NewGroup) Nothing
+    content = 
+      HH.div_ 
+      [ field 
+      ]
+  in
+  DLG.modalDialog dlgState SellDlgOk SellDlgCancel content
+
+mkHeader :: Boolean -> String -> String
+mkHeader isPaper msg = 
+  if  isPaper == true then
+        "Paper purchases. " <> msg
+      else  
+        "Real purchases. " <> msg
+
 handleAction :: forall cs o m. MonadAff m => Action -> H.HalogenM State Action cs o m Unit       
 handleAction = case _ of
-  (Sell purchase _) -> pure unit
   (FetchReal event) ->
     (H.liftEffect $ E.preventDefault (ME.toEvent event)) *>
       H.modify_ \st -> st { purchases = [] 
-                          , header = "Real purchases"
+                          , msg = mkHeader false "Purchases fetched."
                           }
   (FetchPaper event) -> 
     (H.liftEffect $ E.preventDefault (ME.toEvent event)) *>
     fetchPurchases true >>= \result ->
       case result of 
         Left err -> 
-          H.modify_ \st -> st { msg = "Fetch purchases FAIL: " <> Common.errToString err }
+          H.modify_ \st -> st { msg = mkHeader true ("Fetch purchases FAIL: " <> Common.errToString err) }
         Right result1 -> 
-          H.modify_ \st -> st { msg = "Fetch purchases"
-                              , header = "Paper purchases"
+          H.modify_ \st -> st { msg = mkHeader true "Purchases fetched."
                               , purchases = result1
                               }
+  (SellDlgShow purchase _) -> 
+    H.modify_ \st -> st { sp = Just purchase }
+  (SellDlgOk _) -> pure unit 
+  (SellDlgCancel _) -> pure unit 
+  (ValueChanged NewGroup s) -> pure unit
+
