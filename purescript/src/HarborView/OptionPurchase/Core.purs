@@ -26,14 +26,14 @@ import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
 
 import Data.Number.Format ( toString
-                          , toStringWith 
-                          , fixed
                           )
 import Data.Int (toNumber)
 import Data.Maybe (Maybe(..))
 
 import HarborView.UI as UI
-import HarborView.UI (Title(..))
+import HarborView.UI  ( Title(..)
+                      , InputVal(..)
+                      )
 import HarborView.Common (HarborViewError(..)) 
 import HarborView.Common as Common
 import HarborView.ModalDialog as DLG 
@@ -99,7 +99,7 @@ tableHeader =
     ]
  
 data Field = 
-  NewGroup
+  SellField
 
 data Action 
   = FetchPaper MouseEvent
@@ -109,12 +109,20 @@ data Action
   | SellDlgCancel MouseEvent
   | ValueChanged Field String
 
+
+{- type SellPrm = 
+  { price :: String
+  }
+-}
+
+
 type State = 
   { purchases :: Purchases 
   , msg :: String
   , isPaper :: Boolean
   , dlgSell :: DLG.DialogState
   , sp :: Maybe Purchase
+  , sellPrice :: String
   }
 
 
@@ -158,6 +166,7 @@ component =
                           , isPaper: true 
                           , dlgSell: DialogHidden
                           , sp: Nothing
+                          , sellPrice: "0.0"
                           }
     , render
     , eval: H.mkEval H.defaultEval { handleAction = handleAction }
@@ -168,9 +177,9 @@ toRow p =
   let 
     oid = toString $ toNumber p.oid
     days = toString $ toNumber p.days
-    price = toStringWith (fixed 2) p.price
-    bid = toStringWith (fixed 2) p.bid
-    spot = toStringWith (fixed 2) p.spot
+    price = Common.toString p.price
+    bid = Common.toString p.bid
+    spot = Common.toString p.spot
     pvol = toString $ toNumber p.pvol
     svol = toString $ toNumber p.svol
   in
@@ -191,11 +200,11 @@ toRow p =
     ]
 
 render :: forall cs m. State -> H.ComponentHTML Action cs m
-render state =
+render st =
   let 
     purchaseTable = 
       let 
-        rows = map toRow state.purchases
+        rows = map toRow st.purchases
       in 
       HH.div [ HP.classes [ ClassName "row" ]]
         [ HH.table [ HP.classes [ ClassName "table", ClassName "table-hoover" ]]
@@ -209,23 +218,42 @@ render state =
     [ HH.div [ HP.classes [ ClassName "grid-elm" ]]
         [ UI.mkButton (Title "Fetch paper purchases") FetchPaper
         , UI.mkButton (Title "Fetch real purchases") FetchReal
-        , HH.p_ [ HH.text state.msg ]
+        , HH.p_ [ HH.text st.msg ]
         ]
     , HH.div [ HP.classes [ ClassName "grid-elm" ]]
-        [ purchaseTable ]
+        [ purchaseTable 
+        , mkSellDialog st.dlgSell st.sp
+        ]
     ]
 
-mkSellDialog :: forall w. DialogState -> HTML w Action
-mkSellDialog dlgState = 
+type SellDlgParam r = 
+  { ticker :: String
+  , bid :: Number 
+  | r
+  }
+
+mkSellDialog :: forall w r. DialogState -> Maybe (SellDlgParam r) -> HTML w Action
+mkSellDialog dlgState prm = 
   let 
+    
+    prmx = 
+      case prm of 
+        Nothing ->  { h: Title ""
+                    , inp: InputVal "0.0"
+                    } 
+        Just p ->   { h: Title ("Option purchase for " <> p.ticker )
+                    , inp: InputVal $ Common.toString p.bid
+                    } 
+
     field = 
-      UI.mkInput (Title "Ny timelistegruppe") InputText (ValueChanged NewGroup) Nothing
+      UI.mkInput (Title "Price") InputNumber (ValueChanged SellField) (Just prmx.inp)
+
     content = 
       HH.div_ 
       [ field 
       ]
   in
-  DLG.modalDialog dlgState SellDlgOk SellDlgCancel content
+  DLG.modalDialog prmx.h dlgState SellDlgOk SellDlgCancel content
 
 mkHeader :: Boolean -> String -> String
 mkHeader isPaper msg = 
@@ -234,26 +262,47 @@ mkHeader isPaper msg =
       else  
         "Real purchases. " <> msg
 
+fetchPurchases_ :: forall cs o m. MonadAff m => Boolean -> H.HalogenM State Action cs o m Unit       
+fetchPurchases_ isPaper = 
+  fetchPurchases isPaper >>= \result ->
+    case result of 
+      Left err -> 
+        H.modify_ \st -> st { msg = mkHeader isPaper (" Fetch purchases FAIL: " <> Common.errToString err) }
+      Right result1 -> 
+        H.modify_ \st -> st { msg = mkHeader isPaper " Purchases fetched."
+                            , purchases = result1
+                            }
+
 handleAction :: forall cs o m. MonadAff m => Action -> H.HalogenM State Action cs o m Unit       
 handleAction = case _ of
   (FetchReal event) ->
     (H.liftEffect $ E.preventDefault (ME.toEvent event)) *>
-      H.modify_ \st -> st { purchases = [] 
-                          , msg = mkHeader false "Purchases fetched."
-                          }
-  (FetchPaper event) -> 
-    (H.liftEffect $ E.preventDefault (ME.toEvent event)) *>
-    fetchPurchases true >>= \result ->
-      case result of 
-        Left err -> 
-          H.modify_ \st -> st { msg = mkHeader true ("Fetch purchases FAIL: " <> Common.errToString err) }
-        Right result1 -> 
-          H.modify_ \st -> st { msg = mkHeader true "Purchases fetched."
-                              , purchases = result1
-                              }
-  (SellDlgShow purchase _) -> 
-    H.modify_ \st -> st { sp = Just purchase }
-  (SellDlgOk _) -> pure unit 
-  (SellDlgCancel _) -> pure unit 
-  (ValueChanged NewGroup s) -> pure unit
+    fetchPurchases_ false 
+  (FetchPaper e) -> 
+    (H.liftEffect $ E.preventDefault (ME.toEvent e)) *>
+    fetchPurchases_ true
+  (SellDlgShow purchase e) -> 
+    (H.liftEffect $ E.preventDefault (ME.toEvent e)) *>
+    H.modify_ \st -> 
+      st  { sp = Just purchase 
+          , dlgSell = DialogVisible 
+          , sellPrice = Common.toString purchase.bid
+          }
+  (SellDlgOk e) -> 
+    (H.liftEffect $ E.preventDefault (ME.toEvent e)) *>
+    H.modify_ \st -> 
+      st  { sp = Nothing 
+          , dlgSell = DialogHidden 
+          , msg = st.sellPrice
+          }
+  (SellDlgCancel e) -> 
+    (H.liftEffect $ E.preventDefault (ME.toEvent e)) *>
+    H.modify_ \st -> 
+      st  { sp = Nothing 
+          , dlgSell = DialogHidden 
+          , msg = "0.0" 
+          }
+  (ValueChanged SellField s) -> 
+    H.modify_ \st -> 
+      st { sellPrice = s }
 

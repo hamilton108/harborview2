@@ -9,6 +9,7 @@ import Halogen.HTML ( HTML
                     , ClassName(..)
                     )
 import Halogen.HTML.Properties as HP
+import Data.Array ((:))
 
 import HarborView.UI as UI
 import HarborView.UI (Title(..))
@@ -30,12 +31,17 @@ dlgStateToClass DialogVisible = ClassName "dlg-show"
 
 
 modalDialog :: forall w i. 
-  DialogState 
+  Title 
+  -> DialogState 
   -> (MouseEvent -> i) 
   -> (MouseEvent -> i) 
   -> HTML w i
   -> HTML w i
-modalDialog dlgState ok cancel content = 
+modalDialog (Title header) dlgState ok cancel content = 
+  let 
+    headerDiv =
+      HH.h4_ [ HH.text header ]
+  in
   HH.div 
     [ HP.classes 
       [ ClassName "modalDialog"
@@ -43,7 +49,8 @@ modalDialog dlgState ok cancel content =
       ]
     ]
     [ HH.div_
-      [ content 
+      [ headerDiv 
+      , content 
       , UI.mkButton (Title "OK") ok
       , UI.mkButton (Title "Cancel") cancel
       ]

@@ -4,8 +4,8 @@ import Prelude
 
 import Data.Array ((:))
 import Data.Maybe (Maybe(..))
-import DOM.HTML.Indexed.InputType ( InputType(..) )
-import Web.UIEvent.MouseEvent ( MouseEvent )
+import DOM.HTML.Indexed.InputType (InputType(..))
+import Web.UIEvent.MouseEvent (MouseEvent)
 --import Web.Event.Event (Event)
 
 import Halogen.HTML.Properties as HP
