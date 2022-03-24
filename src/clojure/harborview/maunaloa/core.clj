@@ -152,3 +152,8 @@
   (pu/default-json-response ::regpuroption 201
                             (fn [body _]
                               (.registerAndPurchaseOption @db-adapter body))))
+
+(def selloption
+  (pu/default-json-response ::selloption 201
+                            (fn [body _]
+                              (.sellOption @db-adapter body))))

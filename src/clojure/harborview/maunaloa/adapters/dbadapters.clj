@@ -6,7 +6,9 @@
    [oahu.exceptions FinancialException]
    [oahu.financial StockOption$OptionType]
    [vega.financial.calculator BlackScholes]
-   [critterrepos.beans.options StockOptionBean]
+   [critterrepos.beans.options
+    OptionSaleBean
+    StockOptionBean]
    [critterrepos.models.impl StockMarketReposImpl]
    [critterrepos.utils StockOptionUtils]
    [nordnet.downloader DefaultDownloader TickerInfo]
@@ -113,7 +115,7 @@
     (catch Exception ex
       {:ok false :msg (.getMessage ex) :statusCode 2})))
 
-(defn purchase-option [repos j] ;<--
+(defn purchase-option [repos j]
   (let [purchase-type (if (= (:rt j) true) 3 11)
         ticker (:ticker j)
         ask (:ask j)
@@ -138,7 +140,7 @@
 (defn find-stock [repos oid]
   (first (filter #(= oid (.getOid %)) (stox-m repos))))
 
-(defn register-and-purchase-option [repos j] ;<--
+(defn register-and-purchase-option [repos j]
   (let [soid (:stockId j)]
     (prn j)
     (if-let [stock (find-stock repos soid)]
@@ -146,6 +148,16 @@
         (.insertDerivative repos (json->stockoption j stock))
         (purchase-option j))
       {:ok false :msg (str "Could not find stock with oid: " soid) :statusCode 0})))
+
+(defn sell-option [repos j]
+  (let [oid (:iv j)
+        price (:dv j)
+        volume (:sv j)]
+    (try
+      (if-let [sale-oid (.registerOptionSale repos oid price volume)]
+        {:ok true :msg (str "Option ale oid: " sale-oid) :statusCode 0})
+      (catch Exception ex
+        {:ok false :msg (.getMessage ex) :statusCode 1}))))
 
 (defrecord PostgresAdapter [repos]
   ports/MaunaloaDB
@@ -163,4 +175,6 @@
   (stockOptionPurchases [this ptype status]
     (.purchasesWithSalesAll repos ptype status nil))
   (purchaseOption [this json]
-    (purchase-option repos json)))
+    (purchase-option repos json))
+  (sellOption [this json]
+    (sell-option repos json)))

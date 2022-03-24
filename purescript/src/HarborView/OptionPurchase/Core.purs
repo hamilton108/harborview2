@@ -3,6 +3,7 @@ module HarborView.OptionPurchase.Core where
 import Prelude
 
 import Data.Either (Either(..))
+import Effect.Class (class MonadEffect)
 import Effect.Aff.Class (class MonadAff)
 import Affjax as Affjax
 import Affjax.ResponseFormat as ResponseFormat
@@ -34,7 +35,13 @@ import HarborView.UI as UI
 import HarborView.UI  ( Title(..)
                       , InputVal(..)
                       )
-import HarborView.Common (HarborViewError(..)) 
+import HarborView.Common  ( HarborViewError(..)
+                          , Oid(..)
+                          , Amount(..)
+                          , Price(..)
+                          , Url(..)
+                          ) 
+import HarborView.Util.HttpUtil as HttpUtil
 import HarborView.Common as Common
 import HarborView.ModalDialog as DLG 
 import HarborView.ModalDialog (DialogState(..)) 
@@ -57,6 +64,11 @@ type Purchase =
     
 type Purchases = Array Purchase
 
+type JsonResult = 
+  { oid :: Int
+  , msg :: String
+  , statusCode :: Int
+  }
 
 demoPurchase :: Purchase
 demoPurchase = 
@@ -99,7 +111,8 @@ tableHeader =
     ]
  
 data Field = 
-  SellField
+  SellAmount
+  | SellPrice
 
 data Action 
   = FetchPaper MouseEvent
@@ -123,41 +136,45 @@ type State =
   , dlgSell :: DLG.DialogState
   , sp :: Maybe Purchase
   , sellPrice :: String
+  , sellAmount :: String
   }
 
 
 purchasesFromJson :: Json -> Either JsonDecodeError Purchases
 purchasesFromJson = Decode.decodeJson
 
+resultFromJson :: Json -> Either JsonDecodeError JsonResult
+resultFromJson = Decode.decodeJson
+
 fetchPurchases :: forall m. MonadAff m => Boolean -> m (Either HarborViewError Purchases)
 fetchPurchases isPaper = 
   let 
     url = if isPaper == false then 
-            "/maunaloa/stockoption/purchases/3" 
+            "/maunaloa/stoc|koption/purchases/3" 
           else
             "/maunaloa/stockoption/purchases/11" 
   in
-  H.liftAff $
-    Affjax.get ResponseFormat.json url >>= \res ->
-      let 
-        result :: Either HarborViewError Purchases
-        result = 
-          case res of  
-            Left err -> 
-              Left $ AffjaxError (Affjax.printError err)
-            Right response ->
-              let 
-                initData = purchasesFromJson response.body
-              in
-              case initData of
-                Left err ->
-                  Left $ JsonError (show err)
-                Right initData1 ->
-                  Right initData1 
-      in
-      pure result
+  HttpUtil.getAff (Url url) purchasesFromJson 
 
- 
+sell :: forall m. MonadAff m => Oid -> Price -> Amount -> m (Either HarborViewError JsonResult)
+sell (Oid oid) (Price price) (Amount amt) = 
+  let
+    url = 
+      "/maunaloa/stockoption/sell" 
+
+    payload :: RequestBody
+    payload = 
+      REQB.json (
+        AC.fromArray 
+        [
+          AC.jsonSingletonObject "oid" (AC.fromNumber oid)
+        , AC.jsonSingletonObject "price" (AC.fromNumber price)
+        , AC.jsonSingletonObject "amt" (AC.fromNumber amt)
+        ]
+      )
+  in
+  HttpUtil.postAff (Url url) payload resultFromJson 
+
 component :: forall q i o m. MonadAff m => H.Component q i o m
 component =
   H.mkComponent
@@ -167,6 +184,7 @@ component =
                           , dlgSell: DialogHidden
                           , sp: Nothing
                           , sellPrice: "0.0"
+                          , sellAmount: "0.0"
                           }
     , render
     , eval: H.mkEval H.defaultEval { handleAction = handleAction }
@@ -177,9 +195,9 @@ toRow p =
   let 
     oid = toString $ toNumber p.oid
     days = toString $ toNumber p.days
-    price = Common.toString p.price
-    bid = Common.toString p.bid
-    spot = Common.toString p.spot
+    price = Common.numToString p.price
+    bid = Common.numToString p.bid
+    spot = Common.numToString p.spot
     pvol = toString $ toNumber p.pvol
     svol = toString $ toNumber p.svol
   in
@@ -242,15 +260,19 @@ mkSellDialog dlgState prm =
                     , inp: InputVal "0.0"
                     } 
         Just p ->   { h: Title ("Option purchase for " <> p.ticker )
-                    , inp: InputVal $ Common.toString p.bid
+                    , inp: InputVal $ Common.numToString p.bid
                     } 
 
-    field = 
-      UI.mkInput (Title "Price") InputNumber (ValueChanged SellField) (Just prmx.inp)
+    amt = 
+      UI.mkInput (Title "Amount") InputNumber (ValueChanged SellAmount) Nothing
+
+    price = 
+      UI.mkInput (Title "Price") InputNumber (ValueChanged SellPrice) (Just prmx.inp)
 
     content = 
       HH.div_ 
-      [ field 
+      [ amt
+      , price 
       ]
   in
   DLG.modalDialog prmx.h dlgState SellDlgOk SellDlgCancel content
@@ -273,36 +295,41 @@ fetchPurchases_ isPaper =
                             , purchases = result1
                             }
 
+prevDefault :: forall m. MonadEffect m => MouseEvent -> m Unit
+prevDefault evt =
+  (H.liftEffect $ E.preventDefault (ME.toEvent evt)) 
+
 handleAction :: forall cs o m. MonadAff m => Action -> H.HalogenM State Action cs o m Unit       
 handleAction = case _ of
-  (FetchReal event) ->
-    (H.liftEffect $ E.preventDefault (ME.toEvent event)) *>
-    fetchPurchases_ false 
+  (FetchReal e) ->
+    prevDefault e *> fetchPurchases_ false 
   (FetchPaper e) -> 
-    (H.liftEffect $ E.preventDefault (ME.toEvent e)) *>
-    fetchPurchases_ true
+    prevDefault e *> fetchPurchases_ true
   (SellDlgShow purchase e) -> 
-    (H.liftEffect $ E.preventDefault (ME.toEvent e)) *>
+    prevDefault e *>
     H.modify_ \st -> 
       st  { sp = Just purchase 
           , dlgSell = DialogVisible 
-          , sellPrice = Common.toString purchase.bid
+          , sellPrice = Common.numToString purchase.bid
           }
   (SellDlgOk e) -> 
-    (H.liftEffect $ E.preventDefault (ME.toEvent e)) *>
+    prevDefault e *>
     H.modify_ \st -> 
       st  { sp = Nothing 
           , dlgSell = DialogHidden 
           , msg = st.sellPrice
           }
   (SellDlgCancel e) -> 
-    (H.liftEffect $ E.preventDefault (ME.toEvent e)) *>
+    prevDefault e *>
     H.modify_ \st -> 
       st  { sp = Nothing 
           , dlgSell = DialogHidden 
           , msg = "0.0" 
           }
-  (ValueChanged SellField s) -> 
+  (ValueChanged SellPrice s) -> 
     H.modify_ \st -> 
       st { sellPrice = s }
+  (ValueChanged SellAmount s) -> 
+    H.modify_ \st -> 
+      st { sellAmount = s }
 

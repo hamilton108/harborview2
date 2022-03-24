@@ -32,6 +32,7 @@ to generate this file without the comments in this block.
   , "numbers"
   , "prelude"
   , "partial"
+  , "psci-support"
   , "strings"
   , "test-unit"
   , "transformers"

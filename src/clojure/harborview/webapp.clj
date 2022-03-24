@@ -69,6 +69,7 @@
      ["/maunaloa/stockoption/puts/:oid" :get maunaloa/puts :route-name :puts]
      ["/maunaloa/stockoption/purchase" :post [maunaloa/purchaseoption]]
      ["/maunaloa/stockoption/regpur" :post [maunaloa/regpuroption]]
+     ["/maunaloa/stockoption/sell" :post [maunaloa/selloption]]
      ;-------------------- stock -------------------- 
      ["/maunaloa/stockprice/calculate/:oid" :post [maunaloa/calcriscstockprices]]
      ["/maunaloa/stockprice/tickers" :get maunaloa/tix :route-name :tix]

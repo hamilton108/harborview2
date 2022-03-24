@@ -10,7 +10,8 @@
   (registerAndPurchaseOption [this json])
   (activePurchasesWithCritters [this json])
   (stockOptionPurchases [this ptype status])
-  (purchaseOption [this json]))
+  (purchaseOption [this json])
+  (sellOption [this json]))
 
 (defprotocol Etrade
   ;(calcStockPrices [this riscs])

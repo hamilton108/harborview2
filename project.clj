@@ -23,9 +23,9 @@
                  [org.postgresql/postgresql "42.3.3"]
                  [org.jsoup/jsoup "1.11.3"]
                 ;------------------ Local libs ------------------ 
-                 [rcstadheim/critter-repos "1.7-20220206.173054-13"]
+                 [rcstadheim/critter-repos "1.7-20220322.105825-14"]
                  [rcstadheim/nordnet-repos "1.5-20211218.131054-10"]
-                 [rcstadheim/oahu "2.2.0-20220206.172956-2"]
+                 [rcstadheim/oahu "2.2.0-20220322.105735-3"]
                  [rcstadheim/vega "2.0.1"]
                 ;------------------ Diverse ------------------ 
                  [net.sourceforge.htmlunit/htmlunit "2.44.0"

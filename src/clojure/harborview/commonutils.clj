@@ -1,10 +1,7 @@
-(ns harborview.commonutils
-  (:require
-   [harborview.htmlutils :as hu]))
+(ns harborview.commonutils)
 
 (def ^:dynamic *reset-cache* false)
 
-  
 (defn rs [v]
   (if (string? v)
     (let [vs (if-let [v (re-seq #"(\d+),(\d+)" v)]
@@ -12,7 +9,6 @@
                v)]
       (read-string vs))
     v))
-
 
 (defn mem-binding [f]
   (let [mem (atom {})]
