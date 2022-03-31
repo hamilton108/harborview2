@@ -5,10 +5,8 @@ import Prelude
 import Data.Either (Either(..))
 import Effect.Class (class MonadEffect)
 import Effect.Aff.Class (class MonadAff)
-import Affjax as Affjax
-import Affjax.ResponseFormat as ResponseFormat
-import Affjax.RequestBody (RequestBody)
 import Affjax.RequestBody as REQB
+import Affjax.RequestBody (RequestBody)
 
 import Halogen as H
 import Halogen.HTML.Properties as HP
@@ -26,20 +24,21 @@ import Data.Argonaut.Core as AC
 import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
 
-import Data.Number.Format ( toString
-                          )
-import Data.Int (toNumber)
+import Data.Number as NUM 
+import Data.Number.Format as Format 
+import Data.Int as DI
 import Data.Maybe (Maybe(..))
 
 import HarborView.UI as UI
 import HarborView.UI  ( Title(..)
                       , InputVal(..)
                       )
-import HarborView.Common  ( HarborViewError(..)
+import HarborView.Common  ( HarborViewError
                           , Oid(..)
                           , Amount(..)
                           , Price(..)
                           , Url(..)
+                          , JsonResult
                           ) 
 import HarborView.Util.HttpUtil as HttpUtil
 import HarborView.Common as Common
@@ -63,12 +62,6 @@ type Purchase =
     }
     
 type Purchases = Array Purchase
-
-type JsonResult = 
-  { oid :: Int
-  , msg :: String
-  , statusCode :: Int
-  }
 
 demoPurchase :: Purchase
 demoPurchase = 
@@ -132,6 +125,7 @@ data Action
 type State = 
   { purchases :: Purchases 
   , msg :: String
+  , header :: String
   , isPaper :: Boolean
   , dlgSell :: DLG.DialogState
   , sp :: Maybe Purchase
@@ -167,9 +161,9 @@ sell (Oid oid) (Price price) (Amount amt) =
       REQB.json (
         AC.fromArray 
         [
-          AC.jsonSingletonObject "oid" (AC.fromNumber oid)
+          AC.jsonSingletonObject "oid" (AC.fromNumber $ DI.toNumber oid)
         , AC.jsonSingletonObject "price" (AC.fromNumber price)
-        , AC.jsonSingletonObject "amt" (AC.fromNumber amt)
+        , AC.jsonSingletonObject "amt" (AC.fromNumber $ DI.toNumber amt)
         ]
       )
   in
@@ -178,8 +172,9 @@ sell (Oid oid) (Price price) (Amount amt) =
 component :: forall q i o m. MonadAff m => H.Component q i o m
 component =
   H.mkComponent
-    { initialState: \_ -> { purchases: [ ]
+    { initialState: \_ -> { purchases: []
                           , msg: "" 
+                          , header: "-" 
                           , isPaper: true 
                           , dlgSell: DialogHidden
                           , sp: Nothing
@@ -193,13 +188,13 @@ component =
 toRow :: forall w. Purchase -> HTML w Action
 toRow p = 
   let 
-    oid = toString $ toNumber p.oid
-    days = toString $ toNumber p.days
+    oid = Format.toString $ DI.toNumber p.oid
+    days = Format.toString $ DI.toNumber p.days
     price = Common.numToString p.price
     bid = Common.numToString p.bid
     spot = Common.numToString p.spot
-    pvol = toString $ toNumber p.pvol
-    svol = toString $ toNumber p.svol
+    pvol = Format.toString $ DI.toNumber p.pvol
+    svol = Format.toString $ DI.toNumber p.svol
   in
   HH.tr_
     [ UI.mkButton (Title "Sell") (SellDlgShow p)
@@ -236,7 +231,9 @@ render st =
     [ HH.div [ HP.classes [ ClassName "grid-elm" ]]
         [ UI.mkButton (Title "Fetch paper purchases") FetchPaper
         , UI.mkButton (Title "Fetch real purchases") FetchReal
-        , HH.p_ [ HH.text st.msg ]
+        , HH.p_ [ HH.h5_ [ HH.text st.header ]
+                , HH.text st.msg 
+                ]
         ]
     , HH.div [ HP.classes [ ClassName "grid-elm" ]]
         [ purchaseTable 
@@ -277,23 +274,66 @@ mkSellDialog dlgState prm =
   in
   DLG.modalDialog prmx.h dlgState SellDlgOk SellDlgCancel content
 
-mkHeader :: Boolean -> String -> String
-mkHeader isPaper msg = 
+mkHeader :: Boolean -> String
+mkHeader isPaper = 
   if  isPaper == true then
-        "Paper purchases. " <> msg
+        "Paper purchases." 
       else  
-        "Real purchases. " <> msg
+        "Real purchases." 
 
 fetchPurchases_ :: forall cs o m. MonadAff m => Boolean -> H.HalogenM State Action cs o m Unit       
 fetchPurchases_ isPaper = 
   fetchPurchases isPaper >>= \result ->
     case result of 
       Left err -> 
-        H.modify_ \st -> st { msg = mkHeader isPaper (" Fetch purchases FAIL: " <> Common.errToString err) }
-      Right result1 -> 
-        H.modify_ \st -> st { msg = mkHeader isPaper " Purchases fetched."
-                            , purchases = result1
+        H.modify_ \st -> st { header = mkHeader isPaper
+                            , purchases = []
+                            , msg = " Fetch purchases FAIL: " <> Common.errToString err
                             }
+      Right result1 -> 
+        H.modify_ \st -> st { header = mkHeader isPaper
+                            , purchases = result1
+                            , msg = " Fetch purchases Ok" 
+                            }
+
+-- sell :: forall m. MonadAff m => Oid -> Price -> Amount -> m (Either HarborViewError JsonResult)
+
+
+sellParams :: String -> String -> Maybe { price :: Price, amt :: Amount }
+sellParams price amount = 
+  DI.fromString amount >>= \a ->
+  NUM.fromString price >>= \p ->
+    Just { price: Price p, amt: Amount a }
+
+
+
+sell_ :: forall cs o m. MonadAff m => H.HalogenM State Action cs o m Unit       
+sell_ = 
+  H.gets _.sp >>= \sp1 ->
+  H.gets _.sellPrice >>= \sellPrice1 -> 
+  H.gets _.sellAmount >>= \sellAmount1 ->
+  case sp1 of 
+    Nothing -> 
+      H.modify_ \st -> 
+        st  { dlgSell = DialogHidden 
+            , msg = "No purchase selected"
+            }
+    Just sp2 ->
+      case sellParams sellPrice1 sellAmount1 of
+        Nothing ->
+          H.modify_ \st -> 
+            st  { sp = Nothing
+                , dlgSell = DialogHidden 
+                , msg = "Wrong format sell price/amount"
+                }
+        Just prms ->
+          sell (Oid sp2.oid) prms.price prms.amt >>= \result ->
+            H.modify_ \st -> 
+              st  { sp = Nothing 
+                  , dlgSell = DialogHidden 
+                  , msg = Common.jsonResultToString result  
+                  }
+
 
 prevDefault :: forall m. MonadEffect m => MouseEvent -> m Unit
 prevDefault evt =
@@ -313,12 +353,7 @@ handleAction = case _ of
           , sellPrice = Common.numToString purchase.bid
           }
   (SellDlgOk e) -> 
-    prevDefault e *>
-    H.modify_ \st -> 
-      st  { sp = Nothing 
-          , dlgSell = DialogHidden 
-          , msg = st.sellPrice
-          }
+    prevDefault e *> sell_
   (SellDlgCancel e) -> 
     prevDefault e *>
     H.modify_ \st -> 

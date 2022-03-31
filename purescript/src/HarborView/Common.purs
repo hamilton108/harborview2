@@ -2,6 +2,7 @@ module HarborView.Common where
 
 import Prelude 
 
+import Data.Either (Either(..))
 import Effect (Effect)
 import Effect.Class (liftEffect)
 import Effect.Aff (Aff)
@@ -12,17 +13,17 @@ import Data.Number.Format as Format
 foreign import alert :: String -> Effect Unit
 
 newtype Amount = 
-  Amount Number
+  Amount Int 
 
 newtype Price = 
   Price Number
 
 newtype Oid = 
-  Oid Number
+  Oid Int 
 
 newtype Url = 
   Url String 
-  
+
 data HarborViewError = 
     AffjaxError String
     | JsonError String
@@ -43,4 +44,17 @@ numToString :: Number -> String
 numToString num = 
   Format.toStringWith (Format.fixed 2) num
 
+type JsonResult = 
+  { oid :: Int
+  , msg :: String
+  , statusCode :: Int
+  }
+
+jsonResultToString :: Either HarborViewError JsonResult -> String
+jsonResultToString result = 
+  case result of 
+    Left err -> 
+      errToString err
+    Right result1 -> 
+      result1.msg
 

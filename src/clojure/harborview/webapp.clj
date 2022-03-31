@@ -34,8 +34,10 @@
 ;(reset! maunaloa/nordnet-adapter (NordnetEtradeAdapter. stockmarket-repos))
 
 (defn demo []
-  (let [req {:path-params {:ptype 11 :oid 1}}]
-    (maunaloa/fetch-optionpurchases req)))
+  (PostgresAdapter. stockmarket-repos))
+
+  ;(let [req {:path-params {:ptype 11 :oid 1}}]
+  ;  (maunaloa/fetch-optionpurchases req)))
 
 (defn home
   [request]
