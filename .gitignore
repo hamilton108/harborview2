@@ -30,4 +30,5 @@ elm/package-lock.json
 elm/*.js
 elm/selected
 *.swp
+*.pyc
 

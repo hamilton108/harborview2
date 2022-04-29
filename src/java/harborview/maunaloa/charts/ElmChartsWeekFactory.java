@@ -1,9 +1,8 @@
 package harborview.maunaloa.charts;
 
-import critterrepos.beans.StockPriceBean;
+import critter.stock.StockPrice;
 import harborview.dto.html.ElmCharts;
 import harborview.maunaloa.charts.ElmChartsFactory;
-import oahu.financial.StockPrice;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -55,7 +54,7 @@ public class ElmChartsWeekFactory extends ElmChartsFactory {
         double lo = spLo.map(StockPrice::getCls).orElseGet(() -> Double.min(open, close));
 
         long sumTotal = weeklyPrices.stream().mapToLong(StockPrice::getVolume).sum();
-        return new StockPriceBean(monday,open,hi,lo,close,sumTotal);
+        return new StockPrice(monday,open,hi,lo,close,sumTotal);
     }
     private int extractWeek(StockPrice price) {
         LocalDate dx = price.getLocalDx();

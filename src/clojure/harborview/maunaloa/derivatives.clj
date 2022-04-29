@@ -1,9 +1,9 @@
 (ns harborview.maunaloa.derivatives
   (:gen-class)
   (:import
-   [java.io IOException File FileOutputStream FileNotFoundException]
-   [java.time LocalDate LocalTime]
-   [nordnet.downloader PageInfo])
+   (java.io IOException File FileOutputStream FileNotFoundException)
+   (java.time LocalDate LocalTime)
+   (nordnet.downloader PageInfo))
   (:require
    [harborview.maunaloa.config :as C]
    [harborview.htmlutils :as U]))

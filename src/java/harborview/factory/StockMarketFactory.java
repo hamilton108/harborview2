@@ -1,21 +1,21 @@
 package harborview.factory;
 
-import critterrepos.beans.StockBean;
-import critterrepos.beans.StockPriceBean;
-import critterrepos.beans.options.StockOptionBean;
-import critterrepos.beans.options.StockOptionPriceBean;
-import critterrepos.utils.StockOptionUtils;
-import oahu.financial.*;
+import critter.stock.Stock;
+import critter.stock.StockPrice;
+import critter.stockoption.StockOption;
+import critter.stockoption.StockOptionPrice;
+import critter.util.StockOptionUtil;
 import vega.financial.calculator.BlackScholes;
+import vega.financial.calculator.OptionCalculator;
 
 public class StockMarketFactory {
-    private final StockOptionUtils utils;
+    private final StockOptionUtil util;
     private final OptionCalculator optionCalculator = new BlackScholes();
-    public StockMarketFactory(StockOptionUtils stockOptionUtils) {
-        utils = stockOptionUtils;
+    public StockMarketFactory(StockOptionUtil stockOptionUtil) {
+        util = stockOptionUtil;
     }
     public Stock createStock(int oid) {
-        var result = new StockBean();
+        var result = new Stock();
         result.setOid(oid);
         switch (oid) {
             case 1:
@@ -38,7 +38,7 @@ public class StockMarketFactory {
                                           double hi,
                                           double lo,
                                           double cls) {
-        var result = new StockPriceBean();
+        var result = new StockPrice();
 
         var stock = createStock(oid);
 
@@ -48,22 +48,22 @@ public class StockMarketFactory {
         result.setCls(cls);
         result.setStock(stock);
         result.setVolume(1000);
-        result.setLocalDx(utils.getCurrentDate());
+        result.setLocalDx(util.getCurrentDate());
 
         return result;
     }
 
     public StockOption createStockOption(String ticker,
-                                                 double x,
-                                                 StockOption.OptionType optionType,
-                                                 StockPrice stockPrice) {
+                                         double x,
+                                         StockOption.OptionType optionType,
+                                         StockPrice stockPrice) {
 
-        StockOptionBean so = new StockOptionBean();
+        StockOption so = new StockOption();
         so.setTicker(ticker);
         so.setLifeCycle(StockOption.LifeCycle.FROM_HTML);
         so.setOpType(optionType);
         so.setX(x);
-        so.setStockOptionUtils(utils);
+        so.setStockOptionUtil(util);
         so.setStock(stockPrice.getStock());
         return so;
     }
@@ -74,8 +74,8 @@ public class StockMarketFactory {
                                                    double ask,
                                                    OptionCalculator optionCalculator) {
 
-        StockOptionPriceBean price = new StockOptionPriceBean();
-        price.setDerivative(stockOption);
+        StockOptionPrice price = new StockOptionPrice();
+        price.setStockOption(stockOption);
         price.setStockPrice(stockPrice);
         price.setBuy(bid);
         price.setSell(ask);

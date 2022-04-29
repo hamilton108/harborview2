@@ -1,17 +1,16 @@
 package harborview.dto.html.critters;
 
-import critterrepos.beans.critters.CritterBean;
-import critterrepos.beans.options.OptionPurchaseBean;
-import oahu.financial.OptionPurchase;
-import oahu.financial.critters.Critter;
+
+import critter.critterrule.Critter;
+import critter.stockoption.StockOptionPurchase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OptionPurchaseDTO {
-    private final OptionPurchase purchase;
+    private final StockOptionPurchase purchase;
 
-    public OptionPurchaseDTO(OptionPurchase purchase) {
+    public OptionPurchaseDTO(StockOptionPurchase purchase) {
         this.purchase = purchase;
     }
 
@@ -25,8 +24,7 @@ public class OptionPurchaseDTO {
 
     public List<CritterDTO> getCritters()  {
         List<CritterDTO> result = new ArrayList<>();
-        OptionPurchaseBean bean = (OptionPurchaseBean)purchase;
-        for (Critter critter : bean.getCritters()) {
+        for (Critter critter : purchase.getCritters()) {
             result.add(new CritterDTO(getOid(), critter));
         }
         return result;

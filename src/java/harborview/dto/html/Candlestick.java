@@ -1,8 +1,7 @@
 package harborview.dto.html;
 
-import oahu.financial.StockPrice;
-
 import com.fasterxml.jackson.annotation.JsonGetter;
+import critter.stock.StockPrice;
 
 public class Candlestick {
     private final double o;

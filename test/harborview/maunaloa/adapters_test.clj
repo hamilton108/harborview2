@@ -1,7 +1,7 @@
 (ns harborview.maunaloa.adapters-test
   (:require
    [clojure.test :refer :all]
-   [harborview.maunaloa.adapters :as a]))
+   [harborview.maunaloa.adapters.nordnetadapters :as a]))
 
 (comment
   (defn sp [y m d cls]

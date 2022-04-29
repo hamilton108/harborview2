@@ -1,8 +1,7 @@
 package harborview.maunaloa.charts;
 
-import critterrepos.beans.StockPriceBean;
+import critter.stock.StockPrice;
 import harborview.dto.html.ElmCharts;
-import oahu.financial.StockPrice;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -44,7 +43,7 @@ public class ElmChartsMonthFactory extends ElmChartsFactory {
     }
     StockPrice monthToStockPrice(List<StockPrice> monthlyPrices) {
         if (monthlyPrices == null || monthlyPrices.size() == 0) {
-            return new StockPriceBean(LocalDate.of(2019,1,1), 100,120,90, 110,1000000);
+            return new StockPrice(LocalDate.of(2019,1,1), 100,120,90, 110,1000000);
         }
         int sz = monthlyPrices.size();
         StockPrice firstPrice = monthlyPrices.get(0);
@@ -64,6 +63,6 @@ public class ElmChartsMonthFactory extends ElmChartsFactory {
         double lo = spLo.map(StockPrice::getCls).orElseGet(() -> Double.min(open, close));
 
         long sumTotal = monthlyPrices.stream().mapToLong(StockPrice::getVolume).sum();
-        return new StockPriceBean(startDate,open,hi,lo,close,sumTotal);
+        return new StockPrice(startDate,open,hi,lo,close,sumTotal);
     }
 }

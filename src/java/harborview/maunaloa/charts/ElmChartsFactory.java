@@ -1,10 +1,10 @@
 package harborview.maunaloa.charts;
 
 import com.google.common.collect.Lists;
+import critter.stock.StockPrice;
 import harborview.dto.html.Candlestick;
 import harborview.dto.html.Chart;
 import harborview.dto.html.ElmCharts;
-import oahu.financial.StockPrice;
 import vega.filters.Filter;
 import vega.filters.ehlers.CyberCycle;
 import vega.filters.ehlers.Itrend;

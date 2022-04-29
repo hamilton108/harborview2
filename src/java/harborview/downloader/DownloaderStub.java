@@ -52,7 +52,8 @@ public class DownloaderStub implements EtradeDownloader<List<PageInfo>, TickerIn
             return String.format("file:///%s/%s/%d.html", storePath, ticker, getCounter(ticker));
         }
         else {
-            return String.format("file:///%s/%s/1.html", storePath, ticker);
+            //return String.format("file:///%s/%s/1.html", storePath, ticker);
+            return String.format("file:///%s/%s-3.html", storePath, ticker);
         }
     }
     //endregion Private Methods

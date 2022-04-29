@@ -1,18 +1,17 @@
 package harborview.dto.html.critters;
 
-import critterrepos.beans.critters.AcceptRuleBean;
-import critterrepos.beans.critters.CritterBean;
-import oahu.financial.critters.Critter;
+import critter.critterrule.AcceptRule;
+import critter.critterrule.Critter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CritterDTO {
-    private final CritterBean critter;
+    private final Critter critter;
     private final int purchaseId;
     public CritterDTO(int purchaseId, Critter critter) {
         this.purchaseId = purchaseId;
-        this.critter = (CritterBean)critter;
+        this.critter = critter;
     }
     public int getOid() {
         return critter.getOid();
@@ -25,7 +24,7 @@ public class CritterDTO {
     }
     public List<AccRuleDTO> getAccRules() {
         List<AccRuleDTO> result = new ArrayList<>();
-        for (AcceptRuleBean accRule :  critter.getAcceptRules()) {
+        for (AcceptRule accRule :  critter.getAcceptRules()) {
             result.add(new AccRuleDTO(purchaseId,getOid(),accRule));
         }
         return result;

@@ -1,6 +1,7 @@
 package harborview.dto.html;
 
-import oahu.financial.StockOptionPrice;
+
+import critter.stockoption.StockOptionPrice;
 
 import java.util.Optional;
 

@@ -1,14 +1,14 @@
 package harborview.dto.html.critters;
 
-import critterrepos.beans.critters.AcceptRuleBean;
+import critter.critterrule.AcceptRule;
 
 import java.util.List;
 
 public class AccRuleDTO {
     private final int purchaseId;
     private final int critId;
-    private final AcceptRuleBean accRule;
-    public AccRuleDTO(int purchaseId, int critId, AcceptRuleBean accRule) {
+    private final AcceptRule accRule;
+    public AccRuleDTO(int purchaseId, int critId, AcceptRule accRule) {
         this.accRule = accRule;
         this.purchaseId = purchaseId;
         this.critId = critId;

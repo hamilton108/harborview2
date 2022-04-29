@@ -1,10 +1,10 @@
 (ns harborview.thyme
   (:gen-class)
   (:import
-   [org.thymeleaf TemplateEngine]
-   [org.thymeleaf.context Context WebContext]
-   [org.thymeleaf.templatemode TemplateMode]
-   [org.thymeleaf.templateresolver ClassLoaderTemplateResolver]))
+   (org.thymeleaf TemplateEngine)
+   (org.thymeleaf.context Context WebContext)
+   (org.thymeleaf.templatemode TemplateMode)
+   (org.thymeleaf.templateresolver ClassLoaderTemplateResolver)))
 
 (defn init-thymeleaf []
   (let [te (TemplateEngine.)

@@ -23,10 +23,10 @@
                  [org.postgresql/postgresql "42.3.3"]
                  [org.jsoup/jsoup "1.11.3"]
                 ;------------------ Local libs ------------------ 
-                 [rcstadheim/critter-repos "3.0.0-20220828.202101-7"]
-                 [rcstadheim/nordnet-repos "3.0.0-20220810.141856-7"]
-                 [rcstadheim/oahu "3.0.0-20220413.092122-1"]
-                 [rcstadheim/vega "3.0.0-20220413.092302-1"]
+                 [rcstadheim/critter-repos "${critters}"]
+                 [rcstadheim/nordnet-repos "${nordnet}"]
+                 [rcstadheim/oahu "${oahu}"]
+                 [rcstadheim/vega "${vega}"]
                 ;------------------ Diverse ------------------ 
                  [net.sourceforge.htmlunit/htmlunit "2.44.0"
                   :exclusions [org.eclipse.jetty/jetty-http org.eclipse.jetty/jetty-io]]
@@ -50,7 +50,7 @@
   :plugins [[lein-cljfmt "0.7.0"]]
   :repositories {"project" "file:/home/rcs/opt/java/mavenlocalrepo"}
   :resource-paths ["src/resources"]
-  :source-paths ["src/clojure" "test"]
+  :source-paths ["src/clojure"]
   :java-source-paths ["src/java"]
   :main ^:skip-aot harborview.webapp
   :target-path "target/%s"

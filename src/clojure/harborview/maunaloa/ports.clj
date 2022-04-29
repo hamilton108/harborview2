@@ -15,7 +15,7 @@
 
 (defprotocol Etrade
   ;(calcStockPrices [this riscs])
-  (invalidateEtrade
+  (invalidate
     [this]
     [this oid])
   (calls [this oid])

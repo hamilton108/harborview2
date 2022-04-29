@@ -1,8 +1,8 @@
 package harborview.dto.html;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import critterrepos.utils.DateUtils;
-import oahu.financial.StockPrice;
+import critter.stock.StockPrice;
+import critter.util.DateUtil;
 
 public class StockPriceDTO {
     private final double o;
@@ -15,7 +15,7 @@ public class StockPriceDTO {
 
     public StockPriceDTO(StockPrice stockPrice) {
         this.stockPrice = stockPrice;
-        unixTime = DateUtils.unixTime(stockPrice.getLocalDx(), stockPrice.getTm());
+        unixTime = DateUtil.unixTime(stockPrice.getLocalDx(), stockPrice.getTm());
         this.o = stockPrice.getOpn();
         this.h = stockPrice.getHi();
         this.l = stockPrice.getLo();

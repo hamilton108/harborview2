@@ -144,7 +144,7 @@ fetchPurchases :: forall m. MonadAff m => Boolean -> m (Either HarborViewError P
 fetchPurchases isPaper = 
   let 
     url = if isPaper == false then 
-            "/maunaloa/stoc|koption/purchases/3" 
+            "/maunaloa/stockoption/purchases/3" 
           else
             "/maunaloa/stockoption/purchases/11" 
   in

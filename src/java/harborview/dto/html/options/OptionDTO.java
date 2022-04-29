@@ -1,10 +1,10 @@
 package harborview.dto.html.options;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import critterrepos.utils.DateUtils;
-import oahu.financial.StockOption;
-import oahu.financial.StockOptionPrice;
-import oahu.financial.StockPrice;
+import critter.stock.StockPrice;
+import critter.stockoption.StockOption;
+import critter.stockoption.StockOptionPrice;
+import critter.util.DateUtil;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class OptionDTO {
 
     @JsonIgnore
     public boolean isCall() {
-        return price.getDerivative().getOpType() == StockOption.OptionType.CALL;
+        return price.getStockOption().getOpType() == StockOption.OptionType.CALL;
     }
 
     @JsonIgnore
@@ -41,7 +41,7 @@ public class OptionDTO {
     }
 
     public double getX() {
-        return price.getDerivative().getX();
+        return price.getStockOption().getX();
     }
 
     public double getDays() {
@@ -57,8 +57,8 @@ public class OptionDTO {
     }
 
     public String getExpiry() {
-        LocalDate ld = price.getDerivative().getExpiry();
-        return DateUtils.localDateToStr(ld);
+        LocalDate ld = ((StockOption)price.getStockOption()).getExpiry();
+        return DateUtil.localDateToStr(ld);
     }
 
 

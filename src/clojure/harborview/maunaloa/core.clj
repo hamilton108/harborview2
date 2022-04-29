@@ -9,16 +9,14 @@
    [cheshire.core :as json]
    [harborview.thyme :as thyme])
   (:import
-   [vega.financial.calculator BlackScholes]
-   [harborview.dto.html.critters OptionPurchaseDTO]
-   [harborview.dto.html.options OptionPurchaseWithSalesDTO]
-   [harborview.maunaloa.charts
-    ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory]
-   [critterrepos.models.impl StockMarketReposImpl]
-   [critterrepos.beans StockPriceBean]
-   [java.util ArrayList]
-   [java.time.temporal IsoFields]
-   [java.time LocalDate]))
+   (vega.financial.calculator BlackScholes)
+   (harborview.dto.html.critters OptionPurchaseDTO)
+   (harborview.dto.html.options OptionPurchaseWithSalesDTO)
+   (harborview.maunaloa.charts
+    ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory)
+   (java.util ArrayList)
+   (java.time.temporal IsoFields)
+   (java.time LocalDate)))
 
 (def calculator (BlackScholes.))
 
@@ -57,7 +55,7 @@
 (defn charts [request ^ElmChartsFactory factory]
   (let [oid (req-oid request)
         prices (.prices @db-adapter oid)
-        charts (.elmCharts factory (str oid) prices)]
+        charts ^harborview.dto.html.ElmCharts (.elmCharts factory (str oid) prices)]
     (hu/om->json charts)))
 
 (defn days [request]

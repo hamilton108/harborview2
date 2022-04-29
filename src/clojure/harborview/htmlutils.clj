@@ -1,6 +1,6 @@
 (ns harborview.htmlutils
   (:import
-   [com.fasterxml.jackson.databind ObjectMapper])
+   (com.fasterxml.jackson.databind ObjectMapper))
   (:require
    [io.pedestal.http :as http]
    [io.pedestal.http.body-params :as body-params]
@@ -29,7 +29,7 @@
    [r (slurp (:body req))]
     (json/parse-string r true)))
 
-(defn bean->json [b]
+(defn bean->json [^critter.stock.Stock b]
   {"v" (str (.getOid b)) "t" (.toHtml b)})
 
 (comment allow-cross-origin

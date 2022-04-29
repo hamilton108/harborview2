@@ -6,16 +6,18 @@
    [io.pedestal.http.body-params :as body-params]
    [ring.util.response :as ring-resp]
    [harborview.htmlutils :as hu]
-   [harborview.maunaloa.adapters.dbadapters]
-   [harborview.maunaloa.adapters.nordnetadapters] ; :refer (->Postgres)]
+   [harborview.commonutils :refer [with-session rs]]
+   ;[harborview.maunaloa.adapters.dbadapters]
+   [harborview.maunaloa.adapters.nordnetadapters :as nordnet] ; :refer (->Postgres)]
    [harborview.maunaloa.core :as maunaloa]
    [harborview.thyme :as thyme])
   (:import
-   [critterrepos.models.impl StockMarketReposImpl]
-   [harborview.maunaloa.adapters.dbadapters
-    PostgresAdapter]
-   [harborview.maunaloa.adapters.nordnetadapters
-    NordnetEtradeAdapter DemoEtradeAdapter]))
+   (critter.mybatis StockMapper)
+   (harborview.maunaloa.adapters.dbadapters
+    PostgresAdapter
+    StockMarketAdapter)
+   (harborview.maunaloa.adapters.nordnetadapters
+    NordnetEtradeAdapter)))
 
 ;(require '[clojure.core.match :refer [match]])
 
@@ -27,17 +29,83 @@
 ;      [_ 0] "Buzz"
 ;      :else n)))
 
-(def stockmarket-repos (StockMarketReposImpl.))
+;(reset! maunaloa/db-adapter (PostgresAdapter.))
+;(reset! maunaloa/nordnet-adapter (DemoEtradeAdapter. (StockMarketAdapter.)))
+;(reset! maunaloa/nordnet-adapter (NordnetEtradeAdapter. (StockMarketAdapter.)))
 
-(reset! maunaloa/db-adapter (PostgresAdapter. stockmarket-repos))
-(reset! maunaloa/nordnet-adapter (DemoEtradeAdapter. stockmarket-repos))
 ;(reset! maunaloa/nordnet-adapter (NordnetEtradeAdapter. stockmarket-repos))
 
-(defn demo []
-  (PostgresAdapter. stockmarket-repos))
+(def repos (StockMarketAdapter.))
 
+;(.calls @maunaloa/nordnet-adapter oid))
+
+(comment demo
+         (memoize
+          (fn []
+            (with-session StockMapper
+              (.selectStocks it)))))
+
+(comment
+  (def rows
+    (memoize
+     (fn []
+       (let [tif (nordnet.downloader.TickerInfo. "YAR")
+             dl (nordnet/downloader nil)
+             page (first (.downloadDerivatives dl tif))
+             content (-> page .getPage .getWebResponse .getContentAsString)
+             doc (org.jsoup.Jsoup/parse content)]
+         (prn "Fetching...")
+         (vec (.select doc ".bRPJha"))))))
+
+  (defn el->num [x]
+    (-> (.children x)
+        first
+        .text
+        rs))
+
+  (defn el->str [x]
+    (-> (.children x)
+        first
+        .text))
+
+  (defn sp []
+    (let [row (.children (first (rows)))
+          cls (el->num (nth row 4))
+          hi (el->num (nth row 7))
+          lo (el->num (nth row 8))
+          opn 450.0]
+      [opn hi lo cls]))
+
+  (defn opx []
+    (let [orows (filter #(= (-> % .children .size) 16) (rows))]
+      orows))
+
+  (defn os []
+    (let [row (.children (first (drop 12 (opx))))
+          result [(str "1 c ticker: " (el->str (nth row 1)))
+        ;(str "2: " (el->str (nth row 2)))
+                  (str "3 c bid: " (el->str (nth row 3)))
+                  (str "4 c ask: " (el->str (nth row 4)))
+        ;(str "5: " (el->str (nth row 5)))
+        ;(str "6: " (el->str (nth row 6)))
+                  (str "7 x: " (el->str (nth row 7)))
+        ;(str "8: " (el->str (nth row 8)))
+                  (str "9 p bid: " (el->str (nth row 9)))
+                  (str "10 p ask: " (el->str (nth row 10)))
+        ;(str "11: " (el->str (nth row 11)))
+        ;(str "12: " (el->str (nth row 12)))
+                  (str "13 p ticker: " (el->str (nth row 13)))
+        ;(str "14: " (el->str (nth row 14)))
+        ;(str "15: " (el->str (nth row 15)))
+                  ]]
+      result)))
+
+
+  ;(.calls @maunaloa/nordnet-adapter 3))
+         ;(nordnet/etrade (StockMarketAdapter.)))
   ;(let [req {:path-params {:ptype 11 :oid 1}}]
   ;  (maunaloa/fetch-optionpurchases req)))
+
 
 (defn home
   [request]

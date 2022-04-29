@@ -1,17 +1,17 @@
 (ns harborview.maunaloa.config
   (:gen-class)
   (:import
-   [java.util.function
-    Consumer]
-   [nordnet.downloader
+   (java.util.function
+    Consumer)
+   (nordnet.downloader
     DefaultDownloader
-    TickerInfo]
-   [nordnet.repos
-    EtradeRepositoryImpl]
-   [critterrepos.models.impl
-    StockMarketReposImpl]
-   [harborview.downloader
-    DownloaderStub]))
+    TickerInfo)
+   (nordnet.repos
+    EtradeRepositoryImpl)
+   (critterrepos.models.impl
+    StockMarketReposImpl)
+   (harborview.downloader
+    DownloaderStub)))
 
 (def ^:dynamic is-test false)
 ;(def ^:dynamic consumer nil)

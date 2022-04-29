@@ -7,16 +7,16 @@
 			"path": "../../rapanui"
 		},
 		{
-			"path": "../../harborview-clojure/tmp/harborview_clojure"
+			"path": "../../../klaxton/FmToSql"
 		},
 		{
-			"path": "../../netfondsjanitor/tmp/netfondsjanitor"
+			"path": "../../nordnet-repos"
 		},
 		{
-			"path": "../../accounting-clj"
+			"path": "../../critter-repos"
 		},
 		{
-			"path": "../../../purescript/halogen-demo-2"
+			"path": "../../oahu"
 		}
 	],
 	"settings": {}

@@ -2,19 +2,18 @@ package harborview.dto.html.options;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import critterrepos.beans.options.OptionPurchaseBean;
-import oahu.exceptions.BinarySearchException;
-import oahu.financial.OptionCalculator;
+import critter.stockoption.StockOptionPurchase;
+import vega.financial.calculator.OptionCalculator;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class OptionPurchaseWithSalesDTO {
 
-    private final OptionPurchaseBean purchase;
+    private final StockOptionPurchase purchase;
     private final OptionCalculator calculator;
 
-    public OptionPurchaseWithSalesDTO(OptionPurchaseBean purchase,
+    public OptionPurchaseWithSalesDTO(StockOptionPurchase purchase,
                                       OptionCalculator calculator) {
         this.purchase = purchase;
         this.calculator = calculator;

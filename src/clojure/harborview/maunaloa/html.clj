@@ -1,8 +1,8 @@
 (ns harborview.maunaloa.html
   (:gen-class)
   (:import
-   [critterrepos.models.impl StockMarketReposImpl]
-   [java.time LocalDate])
+   (critterrepos.models.impl StockMarketReposImpl)
+   (java.time LocalDate))
   (:require
    [ring.util.response :as ring-resp]
    [harborview.htmlutils :as HU]

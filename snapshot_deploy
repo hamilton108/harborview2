@@ -1,0 +1,19 @@
+#!/bin/bash
+
+HOME="/home/rcs/opt/java"
+
+NORDNET="$HOME/nordnet-repos"
+
+HARBORVIEW="$HOME/harborview2"
+
+gradle nordnet-repos:build
+
+cd $NORDNET
+
+./deploy_to_local_repo 
+
+cd $HARBORVIEW
+
+python3 python/deploy.py
+
+exit 0
