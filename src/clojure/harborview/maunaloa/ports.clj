@@ -14,16 +14,16 @@
   (sellOption [this json]))
 
 (defprotocol Etrade
-  ;(calcStockPrices [this riscs])
   (invalidate
     [this]
-    [this oid])
-  (calls [this oid])
-  (puts [this oid])
-  (stockPrice [this oid])
-  (calcRiscStockprices [this oid riscs])
-  (calcRiscOptionPrice [this ticker stockPrice])
-  (riscLines [this oid]))
+    [this s])
+  (calls [this s])
+  (puts [this s])
+  (stockPrice [this s])
+  (stockOptionPrice [this s])
+  (calcRiscStockprices [this s riscs])
+  (calcRiscOptionPrice [this s price])
+  (riscLines [this s]))
 
 
 ; see -> https://puredanger.github.io/tech.puredanger.com/2014/01/03/clojure-dependency-injection/

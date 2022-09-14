@@ -1,13 +1,14 @@
 (ns harborview.maunaloa.adapters.nordnetadapters-test
   (:require
    [clojure.test :refer :all]
-   [harborview.commonutils :refer [not-nil? find-first]]
+   [harborview.commonutils :refer [not-nil? find-first close-to]]
    [harborview.maunaloa.adapters.nordnetadapters])
   (:import
    ;(critter.util StockOptionUtil)
    (critter.repos StockMarketRepository)
    (critter.util StockOptionUtil)
    (harborview.downloader DownloaderStub)
+   (harborview.dto.html StockPriceDTO)
    (harborview.factory StockMarketFactory)
    (harborview.maunaloa.adapters.nordnetadapters NordnetEtradeAdapter)
    (java.time Instant LocalDate)
@@ -47,10 +48,12 @@
 (deftest yar-calls-should-be-8
   (let [calls (.calls sut "YAR")
         iscalls (map #(.isCall %) calls)]
-    (prn (map #(str (.getTicker %)
-                    ", days: " (.getDays %)
-                    ", iv buy: " (.getIvBuy %)
-                    ", iv sell: " (.getIvSell %)) calls))
+    (comment #(str (.getTicker %)
+                   ", days: " (.getDays %)
+                   ", buy: " (.getBuy %)
+                   ", sell: " (.getSell %)
+                   ", iv buy: " (.getIvBuy %)
+                   ", iv sell: " (.getIvSell %)) calls)
     (comment (map #(str (.getTicker %)
                         ", Stockprice: " (-> % .getStockPrice .getCls)
                         ", buy: " (.getBuy %)
@@ -64,24 +67,36 @@
     (is (= '(true true true true true true true true) iscalls))))
 
 (deftest yar-stock-price-should-not-be-nil
-  (let [sp (.stockPrice sut "YAR")]
-    (is (not-nil? sp))))
+  (let [^StockPriceDTO sp (.stockPrice sut "YAR")]
+    (is (not-nil? sp))
+    (is (= (.getC sp) 487.4))))
 
 (defn find-ticker [s coll]
   (let [ticker (str "YAR2F" s)]
     (find-first #(= (:ticker %) ticker) coll)))
 
 (deftest yar-calc-risc-stockprices
-  (let [riscs [{:ticker "YAR2F470" :risc 2.3}
-               {:ticker "YAR2F410" :risc 2.3}
-               {:ticker "YAR2F375" :risc 2.3}]
+  (let [riscs [{:ticker "YAR2F550" :risc 1.05}
+               {:ticker "YAR2F510" :risc 2.0}
+               {:ticker "YAR2F470" :risc 6.25}]
         calculated (.calcRiscStockprices sut "YAR" riscs)]
     (prn calculated)
     (is (= (count calculated) 3))
-    (prn "HERE WE GO")
-    (let [yar_375 (find-ticker 375 calculated)
-          yar_410 (find-ticker 410 calculated)
-          yar_470 (find-ticker 470 calculated)]
-      (prn yar_375 yar_410 yar_470))))
+    (let [yar_550 (find-ticker 550 calculated)    ; 487.4 ->  473.5   (0.85 (0.806) / 1.25 (1.295) ->  0.2 (0.289) )     - iv buy: 0.2875, iv sell: 0.31875
+          yar_510 (find-ticker 510 calculated)    ; 487.4 ->    (6.0/6.9 -> )       - iv buy: 0.28125, iv sell: 0.30312
+          yar_470 (find-ticker 470 calculated)]   ; 487.4 ->    (24.25/26.25 -> )   - iv buy: 0.2640625, iv sell: 0.3125
+      (prn yar_550 yar_510 yar_470)
+      (is (close-to (:stockprice yar_550) 468.5 0.5))
+      (is (close-to (:stockprice yar_510) 483.6 0.5))
+      (is (close-to (:stockprice yar_470) 481.5 0.5)))))
 
+(deftest yar-calc-risc-optionprice
+  (let [o (.stockOptionPrice sut "YAR2F470")]
+    (is (not-nil? o))
+    (comment "Buy: " (.getBuy o) ", sell: " (.getSell o) ", stock price: " (-> o .getStockPrice .getCls))
+    (is (close-to (.optionPriceFor o 480.0) 19.1 0.2))))
 
+(comment demo-risc [{:ticker "YAR2F550" :risc 1.05}])
+
+(comment demo-run []
+         (.calcRiscStockprices sut "YAR" demo-risc))

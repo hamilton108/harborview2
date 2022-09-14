@@ -101,6 +101,10 @@
          (prn i)
          (prn k))
 
+(defn close-to
+  [x y epsilon]
+  (<= (Math/abs (- x y)) epsilon))
+
 (defmacro map-1 [method items]
   `(map #(~method %) ~items))
 

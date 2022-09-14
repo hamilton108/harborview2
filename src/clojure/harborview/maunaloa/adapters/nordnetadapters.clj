@@ -8,6 +8,7 @@
    (critter.util StockOptionUtil)
    (critter.stockoption StockOptionPrice)
    (nordnet.downloader TickerInfo)
+   (oahu.dto Tuple2)
    (vega.financial StockOption$OptionType))
   (:require
    [harborview.commonutils :as cu]
@@ -90,11 +91,29 @@
       (let [^StockOptionPrice sp (.getStockOptionPrice o)
             cur-option-price (- (.getSell o) risc-value)
             adjusted-stockprice (.stockPriceFor sp cur-option-price)]
+        (comment
+          (prn "option ticker " (.getTicker o))
+          (prn "cur-option-price " cur-option-price)
+          (prn "x " (.getX o))
+          (prn "iv buy" (.getIvBuy o))
+          (prn "iv sell" (.getIvSell o))
+          (prn "buy " (.getBuy o))
+          (prn "sell " (.getSell o))
+          (prn "days" (.getDays o))
+          (prn "adjusted-stockprice " adjusted-stockprice)
+          (prn "---------------------------------------"))
         (if (= (.isPresent adjusted-stockprice) true)
           {:ticker risc-ticker :stockprice (.get adjusted-stockprice) :status 1}
           {:ticker risc-ticker :stockprice -1.0 :status 2}))
       ;else
       {:ticker risc-ticker :stockprice -1.0 :status 3})))
+
+(defn find-option-from-ticker [ctx ticker]
+  "String -> OptionDTO"
+  (if-let [^Tuple2 info (StockOptionUtil/stockOptionInfoFromTicker ticker)]
+    (let [is-calls (= (.second info) StockOption$OptionType/CALL)
+          opx (calls-or-puts ctx (.first info) is-calls)]
+      (find-option ticker opx))))
 
 (defrecord NordnetEtradeAdapter [ctx]
   ports/Etrade
@@ -102,31 +121,40 @@
     [this]
     (reset! options-cache {}))
   (invalidate
+    ;String -> ()
     [this s]
-    "String -> ()"
     (let [oid (StockOptionUtil/stockTickerToOid s)]
       (swap! options-cache dissoc oid)))
   (calls
+    ;String -> [OptionDTO]
     [this s]
-    "String -> [OptionDTO]"
     (let [oid (StockOptionUtil/stockTickerToOid s)]
       (calls_ ctx oid)))
   (puts
+    ;String -> [OptionDTO]
     [this s]
-    "String -> [OptionDTO]"
     (let [oid (StockOptionUtil/stockTickerToOid s)]
       (puts_ ctx oid)))
   (stockPrice
+    ;String -> StockPriceDTO
     [this s]
-    "String -> StockPriceDTO"
     (let [oid (StockOptionUtil/stockTickerToOid s)]
       (stockprice_ ctx oid)))
+  (stockOptionPrice
+    ;String -> StockOptionPrice
+    [this ticker]
+    (if-let [^OptionDTO o (find-option-from-ticker ctx ticker)]
+      (.getStockOptionPrice o)))
   (calcRiscStockprices
-    [this s riscs]
-    "String -> {:ticker :risc} -> {:ticker :stockprice :status}"
-    (let [oid (StockOptionUtil/stockTickerToOid s)]
+    ;String -> {:ticker :risc} -> {:ticker :stockprice :status}
+    [this ticker riscs]
+    (let [oid (StockOptionUtil/stockTickerToOid ticker)]
       (map (partial calc-risc-stockprice ctx oid) riscs)))
-  (calcRiscOptionPrice [this ticker stockPrice])
+  (calcRiscOptionPrice
+    ;String -> Double
+    [this ticker stockPrice]
+    (if-let [^OptionDTO o (find-option-from-ticker ticker)]
+      (.optionPriceFor (.getStockOptionPrice o) stockPrice)))
   (riscLines [this oid]))
 
 (comment
