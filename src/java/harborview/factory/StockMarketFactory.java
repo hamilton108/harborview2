@@ -87,7 +87,16 @@ public class StockMarketFactory {
         StockPrice sp = createStockPrice(1, 69.52, 71.9, 68.94, 70.98);
         StockOption opt = createStockOption("NHY2L58", 58.0,
                                                 StockOption.OptionType.CALL, sp);
-        StockOptionPrice price = createStockOptionPrice(opt, sp, 16.00, 18.00, optionCalculator);
-        return price;
+        return createStockOptionPrice(opt, sp, 16.00, 18.00, optionCalculator);
+    }
+    public StockOptionPrice yar(String optionTicker,
+                                double x,
+                                double bid,
+                                double ask,
+                                double stockPrice) {
+        StockPrice sp = createStockPrice(3, 0.9*stockPrice, 1.1*stockPrice, 0.8*stockPrice, stockPrice);
+        StockOption opt = createStockOption(optionTicker, x,
+                StockOption.OptionType.CALL, sp);
+        return createStockOptionPrice(opt, sp, bid, ask, optionCalculator);
     }
 }

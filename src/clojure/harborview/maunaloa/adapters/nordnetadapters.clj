@@ -6,12 +6,12 @@
    (harborview.dto.html StockPriceDTO RiscLineDTO)
    (harborview.dto.html.options StockPriceAndOptions OptionDTO)
    (critter.util StockOptionUtil)
-   (critter.stockoption StockOptionPrice)
+   (critter.stockoption StockOptionPrice StockOptionRisc)
    (nordnet.downloader TickerInfo)
-   (oahu.dto Tuple2)
+   (oahu.dto Tuple3)
    (vega.financial StockOption$OptionType))
   (:require
-   [harborview.commonutils :as cu]
+   [harborview.commonutils :refer [find-first not-nil?]]
    [harborview.maunaloa.ports :as ports]))
 
 (defn ticker-info
@@ -47,7 +47,7 @@
   [ticker
    opx]
   "String -> [OptionDTO] -> OptionDTO"
-  (cu/find-first #(= (.getTicker %) ticker) opx))
+  (find-first #(= (.getTicker %) ticker) opx))
 
 (defn calls-or-puts
   [ctx
@@ -78,6 +78,35 @@
     (if (> (.size data) 0)
       (StockPriceDTO. (.getStockPrice (first data))))))
 
+(def risc-repos
+  "{Int : {String : [StockOptionRisc]}}"
+  (atom {}))
+
+(defn get-riscs [stock-oid]
+  "Int -> [Map String StockOptionRisc]"
+  (if-let [riscs-ticker (get @risc-repos stock-oid)]
+    riscs-ticker
+    (clojure.lang.PersistentHashMap/EMPTY)))
+
+(defn get-risc [option-ticker]
+  "String -> StockOptionRisc"
+  (let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker option-ticker)
+        oid (.first info)]
+    ((get-riscs oid) option-ticker)))
+
+(defn update-risc
+  "StockOptionRisc -> ()"
+  [^StockOptionRisc risc-obj]
+  (let [opt-tik (.getOptionTicker risc-obj)
+        ^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker opt-tik)
+        oid (.first info)]
+    (reset! risc-repos
+            (update @risc-repos oid (fn [s] (assoc-in s [opt-tik] risc-obj))))))
+
+(defn make-risc-json [risc-ticker risc]
+  "StockOptionRisc -> String"
+  {:ticker risc-ticker :stockprice (.getStockPrice risc) :status 1})
+
 (defn calc-risc-stockprice
   [ctx
    oid
@@ -85,38 +114,59 @@
   "Map -> Int -> Map -> Map"
   (let [opx (stock-options-cache ctx oid)
         risc-ticker (:ticker risc-json)
-        risc-value (:risc risc-json)]
-    (if-let [^OptionDTO o (find-option risc-ticker opx)] ;[o (cu/find-first #(= (.getTicker %) risc-ticker) opx)]
+        risc-value (:risc risc-json)
+        cached (get-risc risc-ticker)]
+    (if (not-nil? cached)
+      (make-risc-json risc-ticker cached)
+      (if-let [^OptionDTO o (find-option risc-ticker opx)] ;[o (cu/find-first #(= (.getTicker %) risc-ticker) opx)]
       ;then
-      (let [^StockOptionPrice sp (.getStockOptionPrice o)
-            cur-option-price (- (.getSell o) risc-value)
-            adjusted-stockprice (.stockPriceFor sp cur-option-price)]
-        (comment
-          (prn "option ticker " (.getTicker o))
-          (prn "cur-option-price " cur-option-price)
-          (prn "x " (.getX o))
-          (prn "iv buy" (.getIvBuy o))
-          (prn "iv sell" (.getIvSell o))
-          (prn "buy " (.getBuy o))
-          (prn "sell " (.getSell o))
-          (prn "days" (.getDays o))
-          (prn "adjusted-stockprice " adjusted-stockprice)
-          (prn "---------------------------------------"))
-        (if (= (.isPresent adjusted-stockprice) true)
-          {:ticker risc-ticker :stockprice (.get adjusted-stockprice) :status 1}
-          {:ticker risc-ticker :stockprice -1.0 :status 2}))
+        (let [^StockOptionPrice sp (.getStockOptionPrice o)
+              cur-option-price (- (.getSell o) risc-value)
+              ^StockOptionRisc risc (.riscOptionPrice sp cur-option-price)] ;adjusted-stockprice (.stockPriceFor sp cur-option-price)]
+          (comment
+            (prn "option ticker " (.getTicker o))
+            (prn "cur-option-price " cur-option-price)
+            (prn "x " (.getX o))
+            (prn "iv buy" (.getIvBuy o))
+            (prn "iv sell" (.getIvSell o))
+            (prn "buy " (.getBuy o))
+            (prn "sell " (.getSell o))
+            (prn "days" (.getDays o))
+            (prn "adjusted-stockprice " adjusted-stockprice)
+            (prn "---------------------------------------"))
+          (if (= (.isPresent risc) true)
+            (let [risc1 (.get risc)]
+              (update-risc risc1)
+              (make-risc-json risc-ticker risc1))
+            {:ticker risc-ticker :stockprice -1.0 :status 2}))
       ;else
-      {:ticker risc-ticker :stockprice -1.0 :status 3})))
+        {:ticker risc-ticker :stockprice -1.0 :status 3}))))
 
 (defn find-option-from-ticker [ctx ticker]
   "String -> OptionDTO"
-  (if-let [^Tuple2 info (StockOptionUtil/stockOptionInfoFromTicker ticker)]
-    (let [is-calls (= (.second info) StockOption$OptionType/CALL)
+  (if-let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker ticker)]
+    (let [is-calls (= (.third info) StockOption$OptionType/CALL)
           opx (calls-or-puts ctx (.first info) is-calls)]
       (find-option ticker opx))))
 
+(comment risc-lines [ctx oid]
+         (let [opx (stock-options-cache ctx oid)
+               calculated (map #(.getStockOptionPrice %) (filter #(= (.isCalculated %) true) opx))]
+           (map #(RiscLineDTO. %) calculated)))
+
+(defn make-risc-line [])
+
+(defn risc-lines [oid]
+  (let [riscs-oid (get-riscs oid)]
+    (if (= (.size riscs-oid) 0)
+      clojure.lang.PersistentVector/EMPTY
+      (map #(RiscLineDTO. (.getValue %)) riscs-oid))))
+
 (defrecord NordnetEtradeAdapter [ctx]
   ports/Etrade
+  (invalidateRiscs
+    [this]
+    (reset! risc-repos {}))
   (invalidate
     [this]
     (reset! options-cache {}))
@@ -155,7 +205,11 @@
     [this ticker stockPrice]
     (if-let [^OptionDTO o (find-option-from-ticker ticker)]
       (.optionPriceFor (.getStockOptionPrice o) stockPrice)))
-  (riscLines [this oid]))
+  (riscLines
+    ;String -> [RiscLineDTO]
+    [this s]
+    (let [oid (StockOptionUtil/stockTickerToOid s)]
+      (risc-lines oid))))
 
 (comment
 
@@ -235,7 +289,7 @@
       (StockPriceAndOptions. (StockPriceDTO. s) opx)))
 
   (defn find-option [ticker opx]
-    (cu/find-first #(= (.getTicker %) ticker) opx))
+    (find-first #(= (.getTicker %) ticker) opx))
 
   (defn find-option-from-ticker [ticker]
     (if-let [info (.stockOptionInfoFromTicker stock-option-utils ticker)]

@@ -1,7 +1,7 @@
 (ns harborview.maunaloa.html
   (:gen-class)
   (:import
-   (critterrepos.models.impl StockMarketReposImpl)
+   (critter.models.impl StockMarketReposImpl)
    (java.time LocalDate))
   (:require
    [ring.util.response :as ring-resp]
@@ -20,7 +20,7 @@
           [java.time LocalDate]
           [harborview.maunaloa.charts
            ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory]
-          [critterrepos.models.impl StockMarketReposImpl])
+          [critter.models.impl StockMarketReposImpl])
          (:require
     ;[jsonista.core :as j]
           [harborview.htmlutils :as U]

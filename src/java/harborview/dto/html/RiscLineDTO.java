@@ -1,45 +1,44 @@
 package harborview.dto.html;
 
 
-import critter.stockoption.StockOptionPrice;
+import critter.stockoption.StockOptionRisc;
 
 import java.util.Optional;
 
 public class RiscLineDTO {
-    private final StockOptionPrice price;
+    private final StockOptionRisc risc;
 
-    public RiscLineDTO(StockOptionPrice price) {
-        this.price = price;
+    public RiscLineDTO(StockOptionRisc risc) {
+        this.risc = risc;
     }
 
     public String getTicker() {
-        return price.getTicker();
+        return risc.getOptionTicker();
     }
 
     public double getBe() {
-        Optional<Double> be = price.getBreakEven();
+        Optional<Double> be = risc.getBreakEven();
         return be.isPresent() ? be.get() : 0;
     }
 
     public double getRiscStockPrice() {
-        Optional<Double> p = price.getCurrentRiscStockPrice();
-        return p.isPresent() ? p.get(): 0;
+        return risc.getStockPrice();
     }
 
     public double getRiscOptionPrice() {
-        return price.getCurrentRiscOptionValue();
+        return risc.getOptionPrice();
     }
 
     public double getBid() {
-        return price.getBuy();
+        return risc.getBuy();
     }
 
     public double getAsk() {
-        return price.getSell();
+        return risc.getSell();
     }
 
     public double getRisc() {
-        return price.getCurrentRisc();
+        return 0; //price.getCurrentRisc();
     }
 
 }

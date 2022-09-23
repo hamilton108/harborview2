@@ -8,7 +8,7 @@
     TickerInfo)
    (nordnet.repos
     EtradeRepositoryImpl)
-   (critterrepos.models.impl
+   (critter.models.impl
     StockMarketReposImpl)
    (harborview.downloader
     DownloaderStub)))

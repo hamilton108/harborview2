@@ -14,6 +14,7 @@
   (sellOption [this json]))
 
 (defprotocol Etrade
+  (invalidateRiscs [this])
   (invalidate
     [this]
     [this s])

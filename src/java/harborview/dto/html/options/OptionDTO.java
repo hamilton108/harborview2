@@ -36,6 +36,11 @@ public class OptionDTO {
         return price.getCurrentRiscStockPrice().isPresent();
     }
 
+    public void resetRiscCalc() {
+        System.out.println("resetRiscCalc " + getTicker());
+        price.resetRiscCalc();
+    }
+
     public String getTicker() {
         return price.getTicker();
     }
