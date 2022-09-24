@@ -1,6 +1,6 @@
 "use strict";
 
-exports.fi_paint = function (xaxis) {
+export const fi_paint = function (xaxis) {
   return function (candlestix) {
     return function (ctx) {
       return function () {

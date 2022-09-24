@@ -1,20 +1,20 @@
 "use strict";
 
-exports.fi_incMonths = function (startTime) {
+export const fi_incMonths = function (startTime) {
 	return function (numMonths) {
 		var stm = new Date(startTime);
 		return Date.UTC(stm.getFullYear(), stm.getMonth() + numMonths, 1);
 	}
 }
 
-exports.fi_incDays = function (startTime) {
+export const fi_incDays = function (startTime) {
 	return function (offset) {
 		var stm = new Date(startTime);
 		return Date.UTC(stm.getFullYear(), stm.getMonth(), stm.getDate() + offset);
 	}
 }
 
-exports.fi_dateToString = function (tm) {
+export const fi_dateToString = function (tm) {
 	var d = new Date(tm);
 	var m = d.getMonth() + 1;
 	if (m < 10) {
@@ -25,7 +25,7 @@ exports.fi_dateToString = function (tm) {
 	}
 }
 
-exports.fi_lines = function (ctx) {
+export const fi_lines = function (ctx) {
 	return function (boundary) {
 		return function (lines) {
 			return function () {
@@ -47,7 +47,7 @@ exports.fi_lines = function (ctx) {
 	}
 }
 
-exports.fi_startOfNextMonth = function (tm) {
+export const fi_startOfNextMonth = function (tm) {
 	const curDate = new Date(tm);
 	return Date.UTC(curDate.getFullYear(), curDate.getMonth() + 1, 1);
 }

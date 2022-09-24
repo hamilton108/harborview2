@@ -1,11 +1,45 @@
 #!/bin/bash
 
-TARGET=dist/ps-optionpurchase.js
-#TARGET=dist/ps-maunaloa.js
+usage()
+{
+cat << EOF
+usage: $0 options
 
-#spago bundle-app --main HarborView/OptionPurchase/Main --to $TARGET
-spago bundle-app --main OptionPurchaseMain --to $TARGET
+OPTIONS:
+   -h      Show this message
+   -m      Module (1: Maunaloa, 2: OptionPurchase)
+EOF
+}
 
-# sed -i '$ d' $TARGET 
+MODULE=
+
+while getopts “hm:” OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         m)
+             MODULE=$OPTARG
+             ;;
+         ?)
+             usage
+             exit
+             ;;
+     esac
+done
+
+case $MODULE in
+
+    1)  TARGET="dist/ps-maunaloa.js"
+        spago bundle-app --to $TARGET
+        # sed -i '$ d' $TARGET 
+        ;;
+
+    2) spago bundle-app --main OptionPurchaseMain --to dist/ps-optionpurchase.js
+        ;;
+
+esac
 
 exit 0

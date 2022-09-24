@@ -10,7 +10,7 @@ import Effect.Class (liftEffect)
 import Effect.Console (logShow)
 import Effect.Aff (Aff, launchAff_)
 
-import Affjax as Affjax
+import Affjax.Web as Affjax
 import Affjax.ResponseFormat as ResponseFormat
 import Data.Traversable as Traversable
 

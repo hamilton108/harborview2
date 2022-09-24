@@ -6,7 +6,7 @@ import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
 
 import Effect.Aff.Class (class MonadAff)
-import Affjax as Affjax
+import Affjax.Web as Affjax
 import Affjax.ResponseFormat as ResponseFormat
 import Affjax.RequestBody (RequestBody)
 

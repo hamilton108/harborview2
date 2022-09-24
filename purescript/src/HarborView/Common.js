@@ -1,5 +1,5 @@
 
-exports.alert = function (msg) {
+export const alert = function (msg) {
   return function () {
     alert(msg);
   }

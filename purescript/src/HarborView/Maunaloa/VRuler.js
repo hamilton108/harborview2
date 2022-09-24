@@ -1,6 +1,6 @@
 "use strict";
 
-exports.fi_lines = function (ctx) {
+export const fi_lines = function (ctx) {
 	return function (boundary) {
 		return function (lines) {
 			return function () {

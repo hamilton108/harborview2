@@ -16,7 +16,7 @@ import Data.Argonaut.Decode.Error
 import Effect.Aff
     ( Aff
     )
-import Affjax as Affjax
+import Affjax.Web as Affjax
 import Affjax
     ( URL
     )

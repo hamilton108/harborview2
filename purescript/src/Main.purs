@@ -4,9 +4,7 @@ import Prelude
 
 import Effect (Effect)
 import Control.Monad.Reader (runReader)
-import Effect.Aff  ( Aff
-                   , launchAff_
-                   )
+import Effect.Aff  (launchAff_)
 import Effect.Class (liftEffect)
 import Effect.Console (logShow)
 
@@ -15,9 +13,9 @@ import Data.Either (Either(..))
 import Data.Int (toNumber)
 import Data.Maybe (Maybe(..))
 
-import Web.DOM.ParentNode (QuerySelector(..))
-import Web.HTML (HTMLElement)
-import Halogen.Aff as HA
+--import Web.DOM.ParentNode (QuerySelector(..))
+--import Web.HTML (HTMLElement)
+--import Halogen.Aff as HA
 
 import HarborView.Maunaloa.Common 
     ( ChartMappings
@@ -92,6 +90,9 @@ tmp :: Line -> Int
 tmp (StdLine v) = 1
 tmp (RiscLine v) = 2
 tmp (BreakEvenLine v) = 3
+
+main :: Effect Unit
+main = pure unit
 
 {-
 run :: Maybe HTMLElement -> QuerySelector -> Aff Unit

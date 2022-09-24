@@ -1,8 +1,46 @@
 #!/bin/bash
 
-#JS=dist/ps-harborview.js
+#!/bin/bash
 
-JS=dist/ps-optionpurchase.js
+usage()
+{
+cat << EOF
+usage: $0 options
+
+OPTIONS:
+   -h      Show this message
+   -m      Module (1: Maunaloa, 2: OptionPurchase)
+EOF
+}
+
+MODULE=
+
+while getopts “hm:” OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         m)
+             MODULE=$OPTARG
+             ;;
+         ?)
+             usage
+             exit
+             ;;
+     esac
+done
+
+case $MODULE in
+
+    1)  JS=dist/ps-harborview.js
+        ;;
+
+    2)  JS=dist/ps-optionpurchase.js
+        ;;
+
+esac
 
 cp $JS ../src/resources/public/js/maunaloa/
 

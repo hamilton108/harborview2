@@ -87,19 +87,19 @@ const draw = function () {
     paintPilotLine();
 };
 
-exports.addListener = listener => () => {
+export const addListener = listener => () => {
     _eventListeners.push(listener);
 };
-exports.resetListeners = () => {
+export const resetListeners = () => {
     _eventListeners = [];
     _lines = initLines();
 }
-exports.getListeners = () => {
+export const getListeners = () => {
     return _eventListeners;
 }
 
 
-exports.onMouseDown = evt => () => {
+export const onMouseDown = evt => () => {
     const items = _lines.items;
     if (items.length === 0) {
         return;
@@ -119,7 +119,7 @@ exports.onMouseDown = evt => () => {
     }
 };
 
-exports.onMouseDrag = evt => () => {
+export const onMouseDrag = evt => () => {
     if (_lines.pilotLine === null) {
         return;
     }
@@ -127,7 +127,7 @@ exports.onMouseDrag = evt => () => {
     draw();
 };
 
-exports.onMouseUpImpl = just => nothing => () => {
+export const onMouseUpImpl = just => nothing => () => {
     var result = nothing;
     const items = _lines.items;
     for (var i = 0; i < items.length; ++i) {
@@ -154,7 +154,7 @@ exports.onMouseUpImpl = just => nothing => () => {
     return result;
 };
 
-exports.updateRiscLine = riscLine => newValue => () => {
+export const updateRiscLine = riscLine => newValue => () => {
     console.log(riscLine);
     const items = _lines.items;
     for (var i = 0; i < items.length; ++i) {
@@ -170,13 +170,13 @@ exports.updateRiscLine = riscLine => newValue => () => {
 var _ctx = null;
 var _v = null;
 
-exports.redraw = ctx => vruler => () => {
+export const redraw = ctx => vruler => () => {
     ctx.clearRect(0, 0, vruler.w, vruler.h);
     _ctx = ctx;
     _v = vruler;
 };
 
-exports.clearCanvas = () => {
+export const clearCanvas = () => {
     if (_ctx === null) {
         return;
     }
@@ -187,12 +187,12 @@ exports.clearCanvas = () => {
     _lines = initLines();
 };
 
-exports.clearLines = () => {
+export const clearLines = () => {
     _lines = initLines();
     clearRect();
 };
 
-exports.addLine = line => () => {
+export const addLine = line => () => {
     _lines.items.push(line);
     const adtShape = lineShapeOf(line);
     switch (adtShape) {

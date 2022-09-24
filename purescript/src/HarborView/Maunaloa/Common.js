@@ -1,11 +1,11 @@
 
-exports.alert = function (msg) {
+export const alert = function (msg) {
     return function () {
         alert(msg);
     }
 }
 
-exports.showJson = function (json) {
+export const showJson = function (json) {
     return function () {
         console.log(json);
     }

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+PURE_VER="rcs/purescript:0.15.4"
+
+docker run --rm -it -u root -v $PWD:/home/pureuser $PURE_VER /bin/bash
+
+exit 0
+

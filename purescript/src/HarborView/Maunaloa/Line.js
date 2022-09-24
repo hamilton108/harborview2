@@ -1,6 +1,6 @@
 "use strict";
 
-exports.fi_paint = function (lines) {
+export const fi_paint = function (lines) {
 	return function (ctx) {
 		return function () {
 			for (var i = 0; i < lines.length; ++i) {
