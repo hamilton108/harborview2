@@ -32,8 +32,8 @@ done
 
 case $MODULE in
 
-    1)  TARGET="dist/ps-maunaloa.js"
-        spago bundle-app --to $TARGET
+    1)  TARGET="dist/ps-charts.js"
+        spago bundle-app --main Main --to $TARGET
         # sed -i '$ d' $TARGET 
         ;;
 

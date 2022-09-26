@@ -34,7 +34,7 @@ done
 
 case $MODULE in
 
-    1)  JS=dist/ps-harborview.js
+    1)  JS=dist/ps-charts.js
         ;;
 
     2)  JS=dist/ps-optionpurchase.js
