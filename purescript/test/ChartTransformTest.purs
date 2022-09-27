@@ -3,6 +3,7 @@ module Test.ChartTransformTest where
 import Prelude
 
 import Test.Unit.Assert as Assert
+import Test.Unit.Console (log)
 import Test.Unit 
     ( suite
     , test
@@ -41,6 +42,7 @@ import HarborView.Maunaloa.JsonCharts
     )
 import HarborView.Maunaloa.ChartCollection
     ( ChartCollection(..)
+    , EmptyChartCollection(..)
     )
 import HarborView.Maunaloa.Common 
     ( HtmlId(..)
@@ -65,12 +67,14 @@ import HarborView.Maunaloa.Chart
     ( Chart(..)
     , ChartLevel
     , ChartContent
+    , ChartContent2
     , emptyChart
     )
 import HarborView.Maunaloa.ChartTransform
     ( minMaxRanges 
     , normalizeLine 
     , transform
+    , transformEmpty
     , chartWindow
     )
 import HarborView.Maunaloa.HRuler
@@ -83,6 +87,7 @@ import HarborView.Maunaloa.Candlestick
     ( Candlestick(..)
     )
 
+import Effect.Console (logShow)
 --import Maunaloa.HRuler as H
 
 testJsonStr :: String
@@ -370,15 +375,36 @@ getFirstChartFromColl charts =
     case take 1 charts of
         [c] -> 
             case c of 
-                EmptyChart ->
-                    emptyChart
                 (Chart cx) -> 
                     cx
+                _ ->
+                    emptyChart
         _ -> emptyChart
+
+emptyChart2 :: ChartContent2 
+emptyChart2 = 
+    { canvasId: HtmlId "empty chart"
+    , w: ChartWidth 0.0
+    , h: ChartHeight 0.0
+    }
+
+getFirstChartFromColl2 :: Array Chart -> ChartContent2
+getFirstChartFromColl2 charts =
+    case take 1 charts of
+        [c] -> 
+            case c of 
+                (ChartWithoutTicker cx) -> 
+                    cx
+                _ ->
+                    emptyChart2
+        _ -> emptyChart2
 
 
 testChartTransformSuite :: TestSuite
 testChartTransformSuite = 
+    let 
+        testJsonChartResponse1 = testJsonChartResponse
+    in
     suite "TestChartsSuite" do
         test "minMaxRanges no scaling" do
             let actual = minMaxRanges (Scaling 1.0) testValueRanges
@@ -390,21 +416,20 @@ testChartTransformSuite =
             let actual = normalizeLine testLine
             Assert.equal expectedLine actual
         test "transform" do
-            let testJsonChartResponse1 = testJsonChartResponse
             let cw = chartWindow (Drop 0) (Take 90) testJsonChartResponse1.chart (Scaling 1.0) false 10
             Assert.equal 90 (length cw.candlesticks)
             Assert.equal 90 (length $ fromMaybe [] $ head cw.lines)
-            let (ChartCollection collection) = runReader (transform testJsonChartResponse1) testEnv 
-            let (HRuler hruler) = collection.hruler
-            Assert.equal 1 (length collection.charts)
+            let (ChartCollection coll) = runReader (transform testJsonChartResponse1) testEnv 
+            let (HRuler hruler) = coll.hruler
+            Assert.equal 1 (length coll.charts)
             Assert.equal (UnixTime 1615939200000.0) hruler.startTime
             Assert.equal (UnixTime 1627430400000.0) hruler.endTime
-            let (Ticker tkr) = collection.ticker
+            let (Ticker tkr) = coll.ticker
             Assert.equal "NHY" tkr 
             Assert.equal (Pix 9.029850746268657) hruler.ppx
             let actualXaxis10 = take 10 hruler.xaxis
             Assert.equal expectedXaxis10 actualXaxis10
-            let chart1 = getFirstChartFromColl collection.charts -- fromMaybe emptyChart (head collection.charts) 
+            let chart1 = getFirstChartFromColl coll.charts -- fromMaybe emptyChart (head collection.charts) 
             Assert.equal expectedVruler chart1.vruler
             let line1_1 = fromMaybe [] (head chart1.lines)
             Assert.equal 90 (length line1_1)
@@ -417,7 +442,13 @@ testChartTransformSuite =
             Assert.equal expectedChartLevel chart1.chartLevel
             Assert.equal (ChartWidth 1310.0) chart1.w
             Assert.equal (ChartHeight 500.0) chart1.h
-
-
+        test "transformEmpty" do
+            let (EmptyChartCollection coll) = runReader transformEmpty testEnv 
+            Assert.equal 1 (length coll)
+            let chart1 = getFirstChartFromColl2 coll
+            --log (show chart1)
+            Assert.equal (HtmlId "test-canvasId") chart1.canvasId
+            Assert.equal (ChartWidth 1310.0) chart1.w
+            Assert.equal (ChartHeight 500.0) chart1.h
 
 

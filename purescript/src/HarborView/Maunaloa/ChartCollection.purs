@@ -33,6 +33,7 @@ import Data.Array as Array
 import HarborView.Maunaloa.Chart as C
 import HarborView.Maunaloa.Chart 
     ( Chart(..)
+    , ChartLevel 
     )
 import HarborView.Maunaloa.HRuler as H
 import HarborView.Maunaloa.Common 
@@ -46,18 +47,19 @@ import HarborView.Maunaloa.LevelLine as LevelLine
 
 newtype ChartCollection = ChartCollection 
     { ticker :: Ticker 
-    , charts :: Array C.Chart -- List C.Chart
+    , charts :: Array Chart -- List C.Chart
     , hruler :: H.HRuler
     }
 
 instance showChartCollection :: Show ChartCollection where
     show (ChartCollection coll) = "(ChartCollection " <> show coll <> ")"
 
+newtype EmptyChartCollection = EmptyChartCollection (Array Chart)
 
 globalChartWidth :: ChartWidth
 globalChartWidth = ChartWidth 1310.0
 
-mappingToChartLevel :: ChartMapping -> Maybe C.ChartLevel 
+mappingToChartLevel :: ChartMapping -> Maybe ChartLevel 
 mappingToChartLevel (ChartMapping {levelCanvasId, addLevelId, fetchLevelId}) = 
     let 
         (HtmlId lcaid) = levelCanvasId
@@ -72,11 +74,13 @@ mappingToChartLevel (ChartMapping {levelCanvasId, addLevelId, fetchLevelId}) =
         }
 
 
-findChartPredicate :: C.Chart -> Boolean
-findChartPredicate EmptyChart =
-    false
+findChartPredicate :: Chart -> Boolean
 findChartPredicate (Chart chart) =
     chart.chartLevel /= Nothing
+findChartPredicate (ChartWithoutTicker _) =
+    true
+findChartPredicate EmptyChart =
+    false
 
 findLevelLineChart :: Array Chart -> Maybe Chart
 findLevelLineChart charts = 
@@ -91,13 +95,13 @@ levelLines ticker charts =
         Nothing ->
             logShow "ERROR! (levelLines) No levelLine!" *>
             pure unit
-        Just EmptyChart ->
-            pure unit
         Just (Chart levelLine1) ->
             let 
                 caid = unsafePartial $ fromJust levelLine1.chartLevel
             in
             LevelLine.initEvents ticker levelLine1.vruler caid
+        _ ->
+            pure unit
 
 paint :: ChartCollection -> Effect Unit
 paint (ChartCollection coll) = 
@@ -111,3 +115,6 @@ paintAff :: ChartCollection -> Aff Unit
 paintAff coll = 
     liftEffect $ paint coll
     
+paintEmpty :: EmptyChartCollection -> Effect Unit
+paintEmpty (EmptyChartCollection coll) = 
+    pure unit

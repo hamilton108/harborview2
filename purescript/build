@@ -30,11 +30,11 @@ do
      esac
 done
 
+# sed -i '$ d' $TARGET 
+
 case $MODULE in
 
-    1)  TARGET="dist/ps-charts.js"
-        spago bundle-app --main Main --to $TARGET
-        # sed -i '$ d' $TARGET 
+    1)  spago bundle-app --main Main --to  dist/ps-charts.js
         ;;
 
     2) spago bundle-app --main OptionPurchaseMain --to dist/ps-optionpurchase.js

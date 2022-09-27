@@ -37,8 +37,15 @@ type ChartContent =
     , chartLevel :: Maybe ChartLevel
     }
 
+type ChartContent2 = 
+    { canvasId :: HtmlId 
+    , w :: ChartWidth
+    , h :: ChartHeight
+    }
+
 data Chart 
     = Chart ChartContent
+    | ChartWithoutTicker ChartContent2 
     | EmptyChart
 
 emptyChart :: ChartContent
@@ -76,8 +83,6 @@ newtype ChartConfig =
 derive instance eqChart :: Eq Chart
 
 instance showChart :: Show Chart where
-    show (EmptyChart) = 
-        "(EmptyChart)" 
     show (Chart cx) = 
         "(Chart lines: " <> show cx.lines <> 
         ", candlesticks: " <> show cx.candlesticks <> 
@@ -86,6 +91,13 @@ instance showChart :: Show Chart where
         ", w: " <> show cx.w <> 
         ", h: " <> show cx.h <> 
         ", chartLevel: " <> show cx.chartLevel <> ")"
+    show (ChartWithoutTicker cx) = 
+        "(ChartWithoutTicker : " <> 
+        ", canvasId: " <> show cx.canvasId <> 
+        ", w: " <> show cx.w <> 
+        ", h: " <> show cx.h <> ")"
+    show (EmptyChart) = 
+        "(EmptyChart)" 
 
 
 {-
@@ -105,22 +117,22 @@ valueRangeFor [mi,ma] = ValueRange { minVal: mi, maxVal: ma }
 valueRangeFor _ = ValueRange { minVal: 0.0, maxVal: 0.0 }
 
 toRectangle :: Chart -> Canvas.Rectangle
-toRectangle EmptyChart = 
-    { x: 0.0, y: 0.0, width: 0.0, height: 0.0 } 
 toRectangle (Chart {w: (ChartWidth w), h: (ChartHeight h)} ) =  
     { x: 0.0, y: 0.0, width: w, height: h } 
+toRectangle (ChartWithoutTicker {w: (ChartWidth w), h: (ChartHeight h)} ) =  
+    { x: 0.0, y: 0.0, width: w, height: h } 
+toRectangle EmptyChart = 
+    { x: 0.0, y: 0.0, width: 0.0, height: 0.0 } 
 
 paint :: H.HRuler -> Chart -> Effect Unit
-paint _ EmptyChart = 
-    pure unit
 paint hruler chart@(Chart {vruler: vrobj@(V.VRuler vr), canvasId: (HtmlId curId), lines: lines, candlesticks: candlesticks}) =
     Canvas.getCanvasElementById curId >>= \canvas ->
         case canvas of
             Nothing -> 
                 logShow $ "CanvasId " <> curId <> " does not exist!"
-            Just canvax ->
+            Just canvas1 ->
                 logShow ("Drawing canvas: " <> curId) *>
-                Canvas.getContext2D canvax >>= \ctx ->
+                Canvas.getContext2D canvas1 >>= \ctx ->
                     let 
                         r = toRectangle chart
                     in
@@ -129,5 +141,19 @@ paint hruler chart@(Chart {vruler: vrobj@(V.VRuler vr), canvasId: (HtmlId curId)
                     H.paint hruler vr.h ctx *>
                     L.paint hruler lines ctx *>
                     CNDL.paint hruler candlesticks ctx
+paint _ chart@(ChartWithoutTicker {canvasId: (HtmlId curId)}) = 
+    Canvas.getCanvasElementById curId >>= \canvas ->
+        case canvas of
+            Nothing -> 
+                logShow $ "CanvasId " <> curId <> " does not exist!"
+            Just canvas1 ->
+                logShow ("Drawing canvas: " <> curId) *>
+                Canvas.getContext2D canvas1 >>= \ctx ->
+                    let 
+                        r = toRectangle chart
+                    in
+                    Canvas.clearRect ctx r
+paint _ EmptyChart = 
+    pure unit
 
 

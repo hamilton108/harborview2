@@ -50,8 +50,9 @@ echart = Chart {
 }
 
 getLines :: Chart -> L.Lines
-getLines EmptyChart = []
 getLines (Chart {lines}) = lines
+getLines (ChartWithoutTicker _) = []
+getLines EmptyChart = []
 
 getLine :: Chart -> L.Line
 getLine c =  
@@ -69,10 +70,12 @@ chartLevel =
 
   
 getChartLevel :: Chart -> ChartLevel
-getChartLevel EmptyChart = 
-    chartLevel
 getChartLevel (Chart c) = 
     unsafePartial $ fromJust $ c.chartLevel
+getChartLevel (ChartWithoutTicker _) = 
+    chartLevel
+getChartLevel EmptyChart = 
+    chartLevel
     
 
 

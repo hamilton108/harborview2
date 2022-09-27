@@ -32,7 +32,7 @@ import HarborView.Maunaloa.LevelLine
     ( Line(..)
     , clear
     )
-import HarborView.Maunaloa.ChartTransform (transform)
+import HarborView.Maunaloa.ChartTransform as ChartTransform 
 import HarborView.Maunaloa.JsonCharts (fetchCharts)
 import HarborView.Maunaloa.MaunaloaError (handleErrorAff)
 import HarborView.Maunaloa.Repository as Repository 
@@ -63,7 +63,7 @@ paint chartTypeId mappings ticker dropAmt takeAmt =
     case cachedResponse of 
         Just cachedResponse1 ->
             let 
-                collection = runReader (transform cachedResponse1) curEnv
+                collection = runReader (ChartTransform.transform cachedResponse1) curEnv
             in
             logShow "Fetched response from repository" *>
             ChartCollection.paint collection
@@ -75,11 +75,15 @@ paint chartTypeId mappings ticker dropAmt takeAmt =
                             handleErrorAff err 
                         Right jsonChartResponse ->
                             let 
-                                collection = runReader (transform jsonChartResponse) curEnv
+                                collection = runReader (ChartTransform.transform jsonChartResponse) curEnv
                             in
                             (liftEffect $ Repository.setJsonResponse reposId jsonChartResponse) *>
                             ChartCollection.paintAff collection
         
+
+paintEmpty :: Int -> ChartMappings -> Effect Unit
+paintEmpty chartTypeId mappings = 
+    pure unit
 
 clearLevelLines :: Effect Unit
 clearLevelLines =
@@ -92,7 +96,9 @@ tmp (RiscLine v) = 2
 tmp (BreakEvenLine v) = 3
 
 main :: Effect Unit
-main = pure unit
+main = 
+    paint 4  [] "-" 0 0 *>
+    paintEmpty 4 []
 
 {-
 run :: Maybe HTMLElement -> QuerySelector -> Aff Unit

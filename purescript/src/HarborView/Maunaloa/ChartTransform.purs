@@ -79,6 +79,7 @@ import HarborView.Maunaloa.Chart
     )
 import HarborView.Maunaloa.ChartCollection
     ( ChartCollection(..)
+    , EmptyChartCollection(..)
     , globalChartWidth
     , mappingToChartLevel
     )
@@ -236,13 +237,6 @@ transformMapping dropAmt takeAmt response cm@(ChartMapping mapping) =
             EmptyChart
 
 
-{-
-incMonths :: ChartType -> Int
-incMonths DayChart = 1
-incMonths WeekChart = 1
-incMonths MonthChart = 3
--}
-
 incMonths :: ChartType -> Int
 incMonths DayChart = 1
 incMonths WeekChart = 3
@@ -264,6 +258,23 @@ transform response =
         , charts: charts1
         , hruler: ruler1 
         }
+
+transformMappingEmpty :: ChartMapping -> Chart 
+transformMappingEmpty (ChartMapping mapping) =
+    ChartWithoutTicker 
+        { canvasId: mapping.canvasId 
+        , w: globalChartWidth
+        , h: mapping.chartHeight 
+        }
+
+transformEmpty :: Reader Env EmptyChartCollection
+transformEmpty = 
+    ask >>= \(Env env) ->
+    let 
+        charts = map transformMappingEmpty  env.mappings
+    in
+    pure $
+    EmptyChartCollection charts
 
 
 {-

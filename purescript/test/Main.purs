@@ -7,20 +7,19 @@ import Test.Unit.Main (runTest)
 import Effect (Effect)
 
 import Test.CandlestickTest (testCandlestickSuite)
-import Test.HRulerTest (testHRulerSuite)
-import Test.VRulerTest (testVRulerSuite)
 import Test.ChartTest (testChartSuite)
 import Test.ChartTransformTest (testChartTransformSuite)
---import Test.ChartCollectionTest (testChartColletionSuite)
+import Test.HRulerTest (testHRulerSuite)
 import Test.Util.DateUtilTest (testDateUtilSuite)
+import Test.VRulerTest (testVRulerSuite)
 
+--import Test.ChartCollectionTest (testChartColletionSuite)
 
 main :: Effect Unit
 main = runTest do
-    testDateUtilSuite
+    testCandlestickSuite
     testChartSuite
     testChartTransformSuite
-    testCandlestickSuite
+    testDateUtilSuite
     testHRulerSuite
     testVRulerSuite
-    --testChartColletionSuite
