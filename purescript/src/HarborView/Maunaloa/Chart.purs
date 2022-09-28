@@ -141,7 +141,11 @@ paint hruler chart@(Chart {vruler: vrobj@(V.VRuler vr), canvasId: (HtmlId curId)
                     H.paint hruler vr.h ctx *>
                     L.paint hruler lines ctx *>
                     CNDL.paint hruler candlesticks ctx
-paint _ chart@(ChartWithoutTicker {canvasId: (HtmlId curId)}) = 
+paint _ _ = 
+    pure unit
+
+paintEmpty :: Chart -> Effect Unit  
+paintEmpty chart@(ChartWithoutTicker {canvasId: (HtmlId curId)}) = 
     Canvas.getCanvasElementById curId >>= \canvas ->
         case canvas of
             Nothing -> 
@@ -153,7 +157,6 @@ paint _ chart@(ChartWithoutTicker {canvasId: (HtmlId curId)}) =
                         r = toRectangle chart
                     in
                     Canvas.clearRect ctx r
-paint _ EmptyChart = 
+paintEmpty _ =
     pure unit
-
 

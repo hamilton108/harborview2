@@ -34,14 +34,13 @@ done
 
 case $MODULE in
 
-    1)  JS=dist/ps-charts.js
+    1)  python ../python/deploy-ps-chart.py
         ;;
 
     2)  JS=dist/ps-optionpurchase.js
+        cp $JS ../src/resources/public/js/maunaloa/
         ;;
 
 esac
-
-cp $JS ../src/resources/public/js/maunaloa/
 
 exit 0

@@ -47,6 +47,17 @@ createEnv ctype tik curDrop curTake mappings =
     , mappings: mappings
     }
 
+createEnvEmpty :: ChartMappings -> Env
+createEnvEmpty mappings = 
+    Env
+    { ticker: Ticker "-"
+    , dropAmt: Drop 0 
+    , takeAmt: Take 0
+    , chartType: asChartType 1 
+    , mappings: mappings
+    }
+
+
 reposIdFor :: Int -> String -> String 
 reposIdFor chartTypeId ticker = 
     ticker <> ":" <> (toString $ toNumber chartTypeId)
@@ -81,9 +92,18 @@ paint chartTypeId mappings ticker dropAmt takeAmt =
                             ChartCollection.paintAff collection
         
 
-paintEmpty :: Int -> ChartMappings -> Effect Unit
-paintEmpty chartTypeId mappings = 
-    pure unit
+paintEmpty :: ChartMappings -> Effect Unit
+paintEmpty mappings = 
+    let 
+        curEnv = createEnvEmpty mappings
+        collection = runReader (ChartTransform.transformEmpty) curEnv
+    in
+    let 
+        (ChartCollection.EmptyChartCollection coll) = collection
+    in
+    logShow "__paintEmpty__" *>
+    logShow coll *>
+    ChartCollection.paintEmpty collection
 
 clearLevelLines :: Effect Unit
 clearLevelLines =
@@ -98,7 +118,8 @@ tmp (BreakEvenLine v) = 3
 main :: Effect Unit
 main = 
     paint 4  [] "-" 0 0 *>
-    paintEmpty 4 []
+    paintEmpty [] *>
+    clearLevelLines 
 
 {-
 run :: Maybe HTMLElement -> QuerySelector -> Aff Unit

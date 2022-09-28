@@ -16,6 +16,19 @@ const NO_SUCH_LINE = 99;
 
 const lineShapeOf = (line) => {
     const cn = line.constructor.name;
+    if (cn.includes("Std")) {
+        return STD_LINE;
+    }
+    if (cn.includes("Risc")) {
+        return RISC_LINE;
+    }
+    if (cn.includes("BreakEven")) {
+        return BREAK_EVEN_LINE;
+    }
+    else {
+        return NO_SUCH_LINE;
+    }
+    /*
     switch (cn) {
         case "StdLine":
             return STD_LINE;
@@ -26,6 +39,7 @@ const lineShapeOf = (line) => {
         default:
             return NO_SUCH_LINE;
     }
+    */
 }
 
 var _lines = initLines();
@@ -204,7 +218,7 @@ export const addLine = line => () => {
         case BREAK_EVEN_LINE:
             paintBreakEvenLine(line);
         default:
-            console.log("No such class: " + clazz);
+            console.log("No such class: " + adtShape);
     }
 };
 

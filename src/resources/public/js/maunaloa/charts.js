@@ -205,15 +205,25 @@ document.addEventListener("DOMContentLoaded", function () {
         return result;
     }
 
+    const isPositiveInt = (val) => {
+        return /^\d+$/.test(val);
+    }
+
     const init = (chartType) => {
         const _params = chartTypeParams(chartType);
         const _chartMappings = toChartMappings(_params.canvasesType);
         var _currentTicker = null;
         var _shiftIndex = 0;
         const fetchPrices = (event) => {
-            _currentTicker = event.target.value;
-            _shiftIndex = 0;
-            PS.Main.paint(chartType)(_chartMappings)(event.target.value)(0)(90)();
+            if (isPositiveInt(event.target.value)) {
+                _currentTicker = event.target.value;
+                _shiftIndex = 0;
+                PS.paint(chartType)(_chartMappings)(event.target.value)(0)(90)();
+            }
+            else {
+                _currentTicker = null;
+                PS.paintEmpty(_chartMappings)();
+            }
         };
 
         fetchTickers(_params.fetchTickersNode, fetchPrices);
@@ -225,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
             _shiftIndex += SHIFT_WINDOW;
-            PS.Main.paint(chartType)(_chartMappings)(_currentTicker)(_shiftIndex)(SHIFT_WINDOW)();
+            PS.paint(chartType)(_chartMappings)(_currentTicker)(_shiftIndex)(SHIFT_WINDOW)();
         };
         const shiftPricesNext = (event) => {
             if (_currentTicker == null) {
@@ -235,14 +245,14 @@ document.addEventListener("DOMContentLoaded", function () {
             if (_shiftIndex < 0) {
                 _shiftIndex = 0;
             }
-            PS.Main.paint(chartType)(_chartMappings)(_currentTicker)(_shiftIndex)(SHIFT_WINDOW)();
+            PS.paint(chartType)(_chartMappings)(_currentTicker)(_shiftIndex)(SHIFT_WINDOW)();
         }
         const shiftPricesLast = (event) => {
             if (_currentTicker == null) {
                 return;
             }
             _shiftIndex = 0;
-            PS.Main.paint(chartType)(_chartMappings)(_currentTicker)(0)(SHIFT_WINDOW)();
+            PS.paint(chartType)(_chartMappings)(_currentTicker)(0)(SHIFT_WINDOW)();
         };
         const prevBtn = document.querySelector(_params.prevBtnClass);
         prevBtn.addEventListener("click", shiftPricesPrev);
@@ -257,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const btnClear = document.getElementById(scrapConfig.BTN_CLEAR);
         btnClear.onclick = () => {
             scrap.clear();
-            PS.Main.clearLevelLines();
+            PS.clearLevelLines();
         };
         scrap.clear();
         const btnSave = document.getElementById(scrapConfig.BTN_SAVE);

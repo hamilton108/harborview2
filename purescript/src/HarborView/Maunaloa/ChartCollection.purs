@@ -117,4 +117,5 @@ paintAff coll =
     
 paintEmpty :: EmptyChartCollection -> Effect Unit
 paintEmpty (EmptyChartCollection coll) = 
-    pure unit
+    logShow coll *>
+    traverse_ C.paintEmpty coll
