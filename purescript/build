@@ -37,7 +37,7 @@ case $MODULE in
     1)  spago bundle-app --main Main --to  dist/ps-charts.js
         ;;
 
-    2) spago bundle-app --main OptionPurchaseMain --to dist/ps-optionpurchase.js
+    2)  spago bundle-app --main OptionPurchaseMain --to dist/ps-optionpurchase.js
         ;;
 
 esac

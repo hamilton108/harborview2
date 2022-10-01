@@ -102,24 +102,36 @@ data Line =
     StdLine 
     { y :: Number
     , selected :: Boolean
+    , lt :: Int
     } 
     | RiscLine
     { y :: Number
     , selected :: Boolean
     , ticker :: Ticker 
     , bid :: Number
+    , lt :: Int
     }
     | BreakEvenLine
     { y :: Number
     , ticker :: Ticker
     , ask :: Number
     , breakEven :: Number
+    , lt :: Int
     }
 
 instance showLine :: Show Line where
     show (StdLine v) = "StdLine: " <> show v 
     show (RiscLine v) = "RiscLine: " <> show v 
     show (BreakEvenLine v) = "BreakEvenLine: " <> show v 
+
+ltSTD :: Int
+ltSTD= 1
+
+ltRISC :: Int
+ltRISC = 2
+
+ltBREAK_EVEN :: Int 
+ltBREAK_EVEN= 3
 
 onMouseUp :: Event.Event -> Effect (Maybe Line)
 onMouseUp _ = onMouseUpImpl Just Nothing 
@@ -229,7 +241,7 @@ remButtonClick evt =
 addLevelLineButtonClick :: Event.Event -> Effect Unit
 addLevelLineButtonClick _ =
     let
-        line = StdLine { y: 200.0, selected: false }
+        line = StdLine { y: 200.0, selected: false, lt: ltSTD }
     in
     addLine line
 
@@ -252,12 +264,14 @@ addRiscLine vr line =
                 , selected: false
                 , ticker: ticker
                 , bid: line.bid
+                , lt: ltRISC
                 }
         bl = BreakEvenLine
                 { y: valueToPix vr line.be
                 , ticker: ticker
                 , ask: line.ask 
                 , breakEven: line.be
+                , lt: ltBREAK_EVEN
                 }
     in
     addLine rl *>
@@ -308,31 +322,6 @@ fetchLevelLineButtonClick ticker vruler evt =
                     )
     )
 
-{-
-    Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
-        case res of  
-            Left err -> 
-                liftEffect (
-                    defaultEventHandling evt *>
-                    alert ("Affjax Error: " <> Affjax.printError err)
-                )
-            Right response -> 
-                liftEffect (
-                    defaultEventHandling evt *>
-                    showJson response.body *>
-                    let 
-                        lines = riscLinesFromJson response.body
-                    in 
-                    case lines of
-                        Left err 
-                            -> alert (show err)
-                        Right lines1 
-                            -> logShow lines *> 
-                               clearLines *>
-                               addRiscLines vruler lines1
-                )
--}
-    
 
 mouseEventDown :: Event.Event -> Effect Unit
 mouseEventDown evt = 

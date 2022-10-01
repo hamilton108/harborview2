@@ -15,31 +15,7 @@ const BREAK_EVEN_LINE = 3;
 const NO_SUCH_LINE = 99;
 
 const lineShapeOf = (line) => {
-    const cn = line.constructor.name;
-    if (cn.includes("Std")) {
-        return STD_LINE;
-    }
-    if (cn.includes("Risc")) {
-        return RISC_LINE;
-    }
-    if (cn.includes("BreakEven")) {
-        return BREAK_EVEN_LINE;
-    }
-    else {
-        return NO_SUCH_LINE;
-    }
-    /*
-    switch (cn) {
-        case "StdLine":
-            return STD_LINE;
-        case "RiscLine":
-            return RISC_LINE;
-        case "BreakEvenLine":
-            return BREAK_EVEN_LINE;
-        default:
-            return NO_SUCH_LINE;
-    }
-    */
+    return line.value0.lt;
 }
 
 var _lines = initLines();
