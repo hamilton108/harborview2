@@ -4,6 +4,7 @@ import critter.stock.Stock;
 import critter.stock.StockPrice;
 import critter.stockoption.StockOption;
 import critter.stockoption.StockOptionPrice;
+import critter.stockoption.StockOptionPurchase;
 import critter.util.StockOptionUtil;
 import vega.financial.calculator.BlackScholes;
 import vega.financial.calculator.OptionCalculator;
@@ -98,5 +99,18 @@ public class StockMarketFactory {
         StockOption opt = createStockOption(optionTicker, x,
                 StockOption.OptionType.CALL, sp);
         return createStockOptionPrice(opt, sp, bid, ask, optionCalculator);
+    }
+
+    public StockOptionPurchase createPurchase(StockOptionPrice price) {
+        var p = new StockOptionPurchase();
+        p.setOptionName(price.getTicker());
+        p.setCalculator(optionCalculator);
+        p.setStatus(11);
+        p.setBuyAtPurchase(price.getBuy());
+        p.setX(price.getX());
+        p.setLocalDx(price.getStockPrice().getLocalDx());
+        var expiry = ((StockOption)price.getStockOption()).getExpirySql();
+        p.setExpirySql(expiry);
+        return p;
     }
 }

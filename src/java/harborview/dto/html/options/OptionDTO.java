@@ -31,16 +31,6 @@ public class OptionDTO {
         return price.getStockOption().getOpType() == StockOption.OptionType.CALL;
     }
 
-    @JsonIgnore
-    public boolean isCalculated() {
-        return price.getCurrentRiscStockPrice().isPresent();
-    }
-
-    public void resetRiscCalc() {
-        System.out.println("resetRiscCalc " + getTicker());
-        price.resetRiscCalc();
-    }
-
     public String getTicker() {
         return price.getTicker();
     }

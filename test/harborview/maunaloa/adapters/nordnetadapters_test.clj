@@ -2,51 +2,19 @@
   (:require
    [clojure.test :refer :all]
    [harborview.commonutils :refer [map-1 not-nil? find-first close-to]]
+   [harborview.maunaloa.config :as config]
    [harborview.maunaloa.adapters.nordnetadapters :as n])
   (:import
    (critter.stockoption StockOptionPrice StockOptionRisc)
-   (critter.repos StockMarketRepository)
-   (critter.util StockOptionUtil)
-   (harborview.downloader DownloaderStub)
    (harborview.dto.html StockPriceDTO)
-   (harborview.factory StockMarketFactory)
-   (harborview.maunaloa.adapters.nordnetadapters NordnetEtradeAdapter)
-   (java.time Instant LocalDate)
-   (java.util Optional)
-   (nordnet.html StockOptionParser3)
-   (nordnet.redis NordnetRedis)
-   (vega.financial.calculator BlackScholes)))
+   (harborview.maunaloa.adapters.nordnetadapters NordnetEtradeAdapter)))
 
-(def dl-stub-path
-  "/home/rcs/opt/java/nordnet-repos/src/integrationTest/resources/html/derivatives")
-
-(def downloader
-  (DownloaderStub. dl-stub-path))
-
-(def redis (NordnetRedis. "172.20.1.2" 5))
-
-(def stock-option-utils (StockOptionUtil. (LocalDate/of 2022 5 25)))
-
-(def factory (StockMarketFactory. stock-option-utils))
-
-(def repos
-  (reify StockMarketRepository
-    (findStock [this stockInfo]
-      (.createStock factory 3))
-    (findStockOption [this stockOptInfo]
-      (Optional/empty))))
-
-(def etrade
-  (let [calc (BlackScholes.)]
-    (prn calc ", " redis ", " repos ", " stock-option-utils)
-    (StockOptionParser3. calc redis repos stock-option-utils)))
-
-(def ctx {:repos repos :etrade etrade, :dl downloader, :redis redis})
+(def ctx (config/get-context false))
 
 (def sut (NordnetEtradeAdapter. ctx))
 
 (deftest yar-calls-should-be-8
-  (let [calls (.calls sut "YAR")
+  (let [calls (.getOptions (.calls sut 3))
         iscalls (map #(.isCall %) calls)]
     (comment #(str (.getTicker %)
                    ", days: " (.getDays %)
@@ -67,7 +35,7 @@
     (is (= '(true true true true true true true true) iscalls))))
 
 (deftest yar-stock-price-should-not-be-nil
-  (let [^StockPriceDTO sp (.stockPrice sut "YAR")]
+  (let [^StockPriceDTO sp (.stockPrice sut 3)]
     (is (not-nil? sp))
     (is (= (.getC sp) 487.4))))
 
@@ -79,7 +47,7 @@
   (let [riscs [{:ticker "YAR2F550" :risc 1.05}
                {:ticker "YAR2F510" :risc 2.0}
                {:ticker "YAR2F470" :risc 6.25}]
-        calculated (.calcRiscStockprices sut "YAR" riscs)]
+        calculated (.calcRiscStockprices sut 3 riscs)]
     (is (= (count calculated) 3))
     (let [yar_550 (find-ticker 550 calculated)    ; 487.4 ->  473.5   (0.85 (0.806) / 1.25 (1.295) ->  0.2 (0.289) )     - iv buy: 0.2875, iv sell: 0.31875
           yar_510 (find-ticker 510 calculated)    ; 487.4 ->    (6.0/6.9 -> )       - iv buy: 0.28125, iv sell: 0.30312
@@ -89,7 +57,7 @@
       (is (close-to (:stockprice yar_550) 468.5 0.5))
       (is (close-to (:stockprice yar_510) 483.6 0.5))
       (is (close-to (:stockprice yar_470) 481.5 0.5)))
-    (let [risc-lines (.riscLines sut "YAR")]
+    (let [risc-lines (.riscLines sut 3)]
       (is (= (count risc-lines) 3)))
     (.invalidateRiscs sut)))
 
@@ -107,9 +75,9 @@
   (is (= (.size (n/get-riscs 1)) 0))
   (let [tik-yar "YAR2F470"
         tik-yar-2 "YAR2F510"
-        stock-opt-price (.yar factory tik-yar 470.0 26.25 24.25 487.4)
+        stock-opt-price (.yar (:factory ctx) tik-yar 470.0 26.25 24.25 487.4)
         demo-risc (StockOptionRisc. 487.4 24.25 stock-opt-price)
-        stock-opt-price-2 (.yar factory tik-yar-2 510.0 1.25 1.295 487.4)
+        stock-opt-price-2 (.yar (:factory ctx) tik-yar-2 510.0 1.25 1.295 487.4)
         demo-risc-2 (StockOptionRisc. 487.4 1.25 stock-opt-price-2)]
     (is (nil? (n/get-risc tik-yar)))
     (n/update-risc demo-risc)

@@ -205,9 +205,9 @@
   (registerAndPurchaseOption [this json]
     (register-and-purchase-option ctx json))
   (activePurchasesWithCritters [this ptype]
-    (.activePurchasesWithCritters ptype))
+    (.activePurchasesWithCritters (:repos ctx) ptype))
   (stockOptionPurchases [this ptype status]
-    (.purchasesWithSalesAll ptype status nil))
+    (.purchasesWithSalesAll (:repos ctx) ptype status nil))
   (purchaseOption [this json]
     (purchase-option json))
   (sellOption [this json]
@@ -221,7 +221,27 @@
     (with-session StockOptionMapper
       (if-let [result (.findStockOption it stockOptInfo)]
         (Optional/of result)
-        (Optional/empty)))))
+        (Optional/empty))))
+  (activePurchasesWithCritters [this purchaseType]
+      ;Int -> List<StockOptionPurchase>
+    [])
+  (purchasesWithSalesAll [this purchaseType status optionType]
+      ;Int -> Int -> StockOption.OptionType -> List<StockOptionPurchase> 
+    []))
+
+(defrecord StockMarketAdapterTest [factory]
+  StockMarketRepository
+  (findStock [this oid]
+    (.createStock factory oid))
+  (findStockOption [this stockOptInfo]
+    (Optional/empty))
+  (activePurchasesWithCritters [this purchaseType]
+      ;Int -> List<StockOptionPurchase>
+    [])
+  (purchasesWithSalesAll [this purchaseType status optionType]
+      ;Int -> Int -> StockOption.OptionType -> List<StockOptionPurchase> 
+    []))
+
 
 
 

@@ -24,11 +24,6 @@
 
 (def nordnet-adapter (atom nil))
 
-;(def db (PostgresAdapter.))
-
-;(def nordnet (NordnetEtradeAdapter.))
-;(def nordnet (DemoEtradeAdapter.))
-
 (def factory (ElmChartsFactory.))
 
 (def factory-weeks (ElmChartsWeekFactory.))
@@ -52,20 +47,87 @@
   (let [oid (get-in request [:path-params :oid])]
     (cu/rs oid)))
 
+(defn critter-purchases [request]
+  (let [ptypes (get-in request [:path-params :ptype])
+        ptype (cu/rs ptypes)
+        items (.activePurchasesWithCritters @db-adapter ptype)
+        result (map #(OptionPurchaseDTO. %) items)]
+    (hu/om->json result)))
+
+(defn risclines [request]
+  (let [oid (req-oid request)]
+    (hu/om->json (.riscLines @nordnet-adapter oid))))
+
+(defn fetch-optionpurchases [request]
+  (let [ptype (cu/rs (get-in request [:path-params :ptype]))
+        purchases (.stockOptionPurchases @db-adapter ptype 1)
+        purchases-json (map #(OptionPurchaseWithSalesDTO. % calculator) purchases)]
+    (hu/om->json purchases-json)))
+
 (defn charts [request ^ElmChartsFactory factory]
   (let [oid (req-oid request)
-        prices (.prices @db-adapter oid)
-        charts ^harborview.dto.html.ElmCharts (.elmCharts factory (str oid) prices)]
-    (hu/om->json charts)))
+        prices (.prices @db-adapter oid)]
+    (.elmCharts factory (str oid) prices)))
 
-(defn days [request]
-  (charts request factory))
+(def days
+  (pu/default-json-response ::days 200
+                            (fn [body req]
+                              (charts req factory))))
 
-(defn weeks [request]
-  (charts request factory-weeks))
+(def weeks
+  (pu/default-json-response ::weeks 200
+                            (fn [body req]
+                              (charts req factory-weeks))))
 
-(defn months [request]
-  (charts request factory-months))
+(def months
+  (pu/default-json-response ::months 200
+                            (fn [body req]
+                              (charts req factory-months))))
+
+(def calls
+  (pu/default-json-response ::calls 200
+                            (fn [body req]
+                              (let [oid (req-oid req)]
+                                (.calls @nordnet-adapter oid)))))
+
+(def puts
+  (pu/default-json-response ::puts 200
+                            (fn [body req]
+                              (let [oid (req-oid req)]
+                                (.puts @nordnet-adapter oid)))))
+
+(def calcoptionprice
+  (pu/default-json-response ::calcoptionprice 200
+                            (fn [body req]
+                              (let [ticker (get-in req [:path-params :ticker])
+                                    sp (cu/rs (get-in req [:path-params :stockprice]))
+                                    price (.calcRiscOptionPrice @nordnet-adapter ticker sp)]
+                                {:value price}))))
+
+(def calcriscstockprices
+  (pu/default-json-response ::calcriscstockprices 200
+                            (fn [body req]
+                              (let [oid (req-oid req)]
+                                (.calcRiscStockprices @nordnet-adapter oid body)))
+                            :om-json false))
+
+(def purchaseoption
+  (pu/default-json-response ::purchaseoption 201
+                            (fn [body _]
+                              (.purchaseOption @db-adapter body))
+                            :om-json false))
+
+(def regpuroption
+  (pu/default-json-response ::regpuroption 201
+                            (fn [body _]
+                              (.registerAndPurchaseOption @db-adapter body))
+                            :om-json false))
+
+(def selloption
+  (pu/default-json-response ::selloption 201
+                            (fn [body _]
+                              (.sellOption @db-adapter body))
+                            :om-json false))
 
 (comment check-implied-vol [ox]
          (if (= (.isPresent (.getIvBuy ox)) true)
@@ -81,26 +143,6 @@
                (.isPresent (.getBreakEven ox)))
              false)
            false))
-
-(defn puts [request]
-  (let [oid (req-oid request)
-        items (.puts @nordnet-adapter oid)]
-    (hu/om->json items)))
-
-(defn calls [request]
-  (let [oid (req-oid request)
-        items (.calls @nordnet-adapter oid)]
-    (hu/om->json items)))
-
-(defn critter-purchases [request]
-  (let [ptypes (get-in request [:path-params :ptype])
-        ptype (cu/rs ptypes)
-        items (.activePurchasesWithCritters @db-adapter ptype)
-        result (map #(OptionPurchaseDTO. %) items)]
-    (hu/om->json result)))
-
-(def demo-req
-  {:path-params {:ptype 11 :oid 1}})
 
 ;; (defn echo
 ;;   {:name ::echo
@@ -118,40 +160,3 @@
 ;;   (.calcRiscStockprices nordnet
 ;;                         "2"
 ;;                         ({"ticker" "EQNR1", "risc" 2.3} {"ticker" "EQNR2", "risc" 2.9} {"ticker" "EQNR3", "risc" 1.75})))
-
-(defn risclines [request]
-  (let [oid (req-oid request)]
-    (hu/om->json (.riscLines @nordnet-adapter oid))))
-
-(defn fetch-optionpurchases [request]
-  (let [ptype (cu/rs (get-in request [:path-params :ptype]))
-        purchases (.stockOptionPurchases @db-adapter ptype 1)
-        purchases-json (map #(OptionPurchaseWithSalesDTO. % calculator) purchases)]
-    (hu/om->json purchases-json)))
-
-(defn calcoptionprice [request]
-  (let [ticker (get-in request [:path-params :ticker])
-        sp (cu/rs (get-in request [:path-params :stockprice]))
-        price (.calcRiscOptionPrice @nordnet-adapter ticker sp)]
-    (hu/json-response {:value price})))
-
-(def calcriscstockprices
-  (pu/default-json-response ::calcriscstockprices 200
-                            (fn [body req]
-                              (let [oid (req-oid req)]
-                                (.calcRiscStockprices @nordnet-adapter oid body)))))
-
-(def purchaseoption
-  (pu/default-json-response ::purchaseoption 201
-                            (fn [body _]
-                              (.purchaseOption @db-adapter body))))
-
-(def regpuroption
-  (pu/default-json-response ::regpuroption 201
-                            (fn [body _]
-                              (.registerAndPurchaseOption @db-adapter body))))
-
-(def selloption
-  (pu/default-json-response ::selloption 201
-                            (fn [body _]
-                              (.sellOption @db-adapter body))))
