@@ -1,0 +1,46 @@
+body {
+  color: #014156;
+  background-color: #FFFAF0;
+  font-family: "Roboto","Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+  font-size: 1.0em; }
+
+.logo {
+  background: url("/img/02.png") center no-repeat;
+  position: absolute;
+  top: 10px;
+  left: 88%;
+  width: 163px;
+  height: 159px;
+  z-index: 9999; }
+
+.draggable {
+  cursor: move; }
+
+.grid-elm {
+  display: flex;
+  margin-top: 1rem;
+  margin-left: 3rem;
+  margin-right: 3rem; }
+
+.form-group--elm {
+  align-self: flex-end;
+  margin-left: 1rem; }
+
+.form-check {
+  padding-bottom: 1rem; }
+
+.radio-inline {
+  margin-right: 1rem; }
+
+canvas.c1, canvas.c2, canvas.c3 {
+  border: 1px solid #000000; }
+
+a.href-td {
+  padding: 5px 5px 5px 5px;
+  background: #942d16;
+  color: #fff; }
+
+@import "components/checkbox";
+@import "components/modal_dialog";
+@import "grid_main";
+@import "grid_scrapbook";

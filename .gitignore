@@ -32,3 +32,24 @@ elm/selected
 *.swp
 *.pyc
 
+ami
+feed/
+git_prune
+purescript/.bash_history
+purescript/.cache-0.13.8/
+purescript/.cache-0.14.4/
+purescript/.npm/
+purescript/.spago-0.13.8/
+purescript/.spago-0.14.4/
+purescript/package-lock.json
+purescript/package.json
+purescript/tmp/
+purescript/deploy_ps.py
+python/templates/ps-charts.js.tpl
+runrepl
+src/resources/public/js/maunaloa/ps-charts-0.14.4.js
+src/resources/public/js/maunaloa/ps-optionpurchase-min.js
+tmp/
+xsass
+
+
