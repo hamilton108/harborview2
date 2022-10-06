@@ -29,7 +29,7 @@ export class Doodle {
     get curContext() {
         return this.canvas.getContext("2d");
     }
-    guiEvent(domId,fn) {
+    guiEvent(domId, fn) {
         const obj = document.getElementById(domId);
         if (obj !== null) {
             obj.onclick = fn.bind(this);
@@ -40,9 +40,11 @@ export class Doodle {
         this.curContext.clearRect(0, 0, canvas.width, canvas.height)
     }
     getLineSizeFn(lineSizeId) {
-        return function() {
+        return function () {
+            /*const qry = `input[name="${lineSizeId}"]:checked`;
             const qry = `input[name="${lineSizeId}"]:checked`;
-            const rgLine = document.querySelector(qry).value;
+            const rgLine = document.querySelector(qry).value;*/
+            const rgLine = document.getElementById(lineSizeId).value;
             switch (rgLine) {
                 case "1":
                     return 1;
@@ -166,7 +168,7 @@ export class Doodle {
         let y4 = y + 15;
         let x5 = x - 160;
         let y5 = y + 40;
-        let ty,tx;
+        let ty, tx;
         switch (orientation) {
             case "NW":
                 ty = 2 * y;

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Menubar</title>
+</head>
+
+<body>
+  <div th:fragment="menubar(n)" class="grid-menu-bar">
+    <div class="form-group form-group--menu-bar">
+      <select class="form-control" th:id="|tickers-${n}|">
+        <option>-</option>
+      </select>
+    </div>
+
+    <!-- 
+    <div class="form-group form-group--menu-bar">
+      <p><i class="fa-solid fa-coffee fa-2xs"></i> When my six o’clock alarm buzzes, I require a pot of good java.</p>
+      <p><i class="fa-solid fa-coffee fa-xs"></i> When my six o’clock alarm buzzes, I require a pot of good java.</p>
+      <p><i class="fa-solid fa-coffee fa-sm"></i> When my six o’clock alarm buzzes, I require a pot of good java.</p>
+      <p><i class="fa-solid fa-coffee"></i> When my six o’clock alarm buzzes, I require a pot of good java.</p>
+      <p><i class="fa-solid fa-coffee fa-lg"></i> When my six o’clock alarm buzzes, I require a pot of good java.</p>
+      <p><i class="fa-solid fa-coffee fa-xl"></i> When my six o’clock alarm buzzes, I require a pot of good java.</p>
+      <p><i class="fa-solid fa-coffee fa-2xl"></i> When my six o’clock alarm buzzes, I require a pot of good java.</p>
+    </div>
+    -->
+
+
+    <div class="form-group form-group--menu-bar">
+      <span class="scrap-span">
+        <i th:class="|fa-solid fa-arrow-left shift-prev-${n} fa-fw|" title="Previous"></i>
+      </span>
+      <span class="scrap-span">
+        <i th:class="|fa-solid fa-arrow-right shift-next-${n} fa-fw|" title="Next"></i>
+      </span>
+      <span class="scrap-span">
+        <i th:class="|fa-solid fa-arrow-right-to-bracket shift-last-${n} fa-fw|" title="Last"></i>
+      </span>
+      <span class="scrap-span">
+        <i class="fa-solid fa-ruler-vertical fa-fw" th:id="|btn-levelline-${n}" title="Levelline"></i>
+      </span>
+      <span class="scrap-span">
+        <i class="fa-solid fa-pen-ruler fa-fw" th:id="|btn-persistent-levelline-${n}" title="Persistent levelline"></i>
+      </span>
+      <span class="scrap-span">
+        <i class="fa-solid fa-ruler fa-fw" th:id="|btn-draggable-${n}" title="Draggable"></i>
+      </span>
+      <span class="scrap-span">
+        <i th:id="|btn-scrapbook${n}-line|" class="fa-solid fa-slash fa-fw" title="Scrapbook line"></i>
+      </span>
+      <span class="scrap-span">
+        <i th:id="|btn-scrapbook${n}-horiz|" class="fa-solid fa-minus fa-fw" title="Scrapbook horiz. line"></i>
+      </span>
+      <span class="scrap-span">
+        <i th:id="|btn-scrapbook${n}-clear|" class="fa-solid fa-trash fa-fw" title="Clear"></i>
+      </span>
+      <span class="scrap-span">
+        <i th:id="|btn-scrapbook${n}-save|" class="fa-solid fa-download fa-fw" title="Save scrapbook to file"></i>
+      </span>
+      <span class="scrap-span">
+        <i th:id="|btn-scrapbook${n}-arrow|" class="fa-solid fa-seedling fa-fw" title="Scrapbook arrow+text"></i>
+      </span>
+      <span class="scrap-span">
+        <i th:id="|btn-scrapbook${n}-text|" class="fa-solid fa-pen fa-fw" title="Scrapbook text"></i>
+      </span>
+    </div>
+    <div class="form-group form-group--menu-bar">
+      <textarea rows="1" cols="25" th:id="|comment${n}|"></textarea>
+    </div>
+    <div class="form-group form-group--menu-bar">
+      <select class="form-control" th:id="|arrow${n}-orient|">
+        <option>NW</option>
+        <option>NE</option>
+        <option>SE</option>
+        <option selected="selected">SW</option>
+      </select>
+    </div>
+    <div class="form-group form-group--menu-bar">
+      <input type="color" value="#72a30f" th:id="|color${n}|"></input>
+    </div>
+    <div class="form-group form-group--menu-bar">
+      <select class="form-control" th:id="|rg-layer${n}|">
+        <option value="1" selected="selected">Scrap</option>
+        <option value="2">Levelline</option>
+        <option value="3">SVG</option>
+      </select>
+    </div>
+    <div class="form-group form-group--menu-bar">
+      <select class="form-control" th:id="|rg-line${n}|">
+        <option value="1" selected="selected">Small</option>
+        <option value="2">Normal</option>
+        <option value="3">Large</option>
+      </select>
+    </div>
+  </div>
+</body>

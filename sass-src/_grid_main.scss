@@ -1,18 +1,23 @@
+/* _grid_main.scss */
 
 .grid-main {
   display: grid;
   grid-gap: 20px;
   grid-template-columns: 1fr 1320px 4fr 1fr;
-  grid-template-rows: 500px 110px 200px; }
+  grid-template-rows: 500px 110px 200px;
+}
 
 .main-chart {
   grid-row: 1;
-  grid-column: 2; }
+  grid-column: 2;
+}
 
 .sub-chart-1 {
   grid-row: 2;
-  grid-column: 2; }
+  grid-column: 2;
+}
 
 .sub-chart-2 {
   grid-row: 3;
-  grid-column: 2; }
+  grid-column: 2;
+}

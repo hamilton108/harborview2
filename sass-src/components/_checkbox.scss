@@ -1,3 +1,5 @@
+/* _checkbox.scss */
+
 .fake-input {
     float: left;
     width: 20px;
@@ -10,15 +12,17 @@
     margin-left: 10px;
     border-radius: 4px;
 }
+
 /*input[type="checkbox"] {*/
 .fake-cb {
     position: fixed;
     top: -9999px;
     left: -9999px;
 }
+
 /*input[type="checkbox"]:checked + .fake-input:before {*/
-.fake-cb:checked + .fake-input:before {
-    content:"\2713";
+.fake-cb:checked+.fake-input:before {
+    content: "\2713";
     position: absolute;
     color: #000;
     text-align: center;

@@ -4096,18 +4096,7 @@ var PS =
   var BREAK_EVEN_LINE = 3;
   var NO_SUCH_LINE = 99;
   var lineShapeOf = (line) => {
-    const cn = line.constructor.name;
-    if (cn.includes("Std")) {
-      return STD_LINE;
-    }
-    if (cn.includes("Risc")) {
-      return RISC_LINE;
-    }
-    if (cn.includes("BreakEven")) {
-      return BREAK_EVEN_LINE;
-    } else {
-      return NO_SUCH_LINE;
-    }
+    return line.value0.lt;
   };
   var _lines = initLines();
   var _eventListeners = [];
@@ -6295,6 +6284,11 @@ var PS =
   var showRecord3 = /* @__PURE__ */ showRecord()();
   var showRecordFieldsCons2 = /* @__PURE__ */ showRecordFieldsCons({
     reflectSymbol: function() {
+      return "lt";
+    }
+  });
+  var showRecordFieldsCons1 = /* @__PURE__ */ showRecordFieldsCons({
+    reflectSymbol: function() {
       return "selected";
     }
   });
@@ -6303,7 +6297,7 @@ var PS =
       return "y";
     }
   })(showNumber);
-  var show9 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons2(showRecordFieldsConsNil2)(showBoolean)));
+  var show9 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons2(/* @__PURE__ */ showRecordFieldsCons1(showRecordFieldsConsNil2)(showBoolean))(showInt)));
   var bidIsSymbol = {
     reflectSymbol: function() {
       return "bid";
@@ -6314,8 +6308,8 @@ var PS =
       return "ticker";
     }
   };
-  var showRecordFieldsCons1 = /* @__PURE__ */ showRecordFieldsCons(tickerIsSymbol)(showRecordFieldsConsNil2)(showTicker);
-  var show15 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons(bidIsSymbol)(/* @__PURE__ */ showRecordFieldsCons2(showRecordFieldsCons1)(showBoolean))(showNumber)));
+  var showRecordFieldsCons22 = /* @__PURE__ */ showRecordFieldsCons(tickerIsSymbol)(showRecordFieldsConsNil2)(showTicker);
+  var show15 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons(bidIsSymbol)(/* @__PURE__ */ showRecordFieldsCons2(/* @__PURE__ */ showRecordFieldsCons1(showRecordFieldsCons22)(showBoolean))(showInt))(showNumber)));
   var askIsSymbol = {
     reflectSymbol: function() {
       return "ask";
@@ -6325,7 +6319,7 @@ var PS =
     reflectSymbol: function() {
       return "breakEven";
     }
-  })(showRecordFieldsCons1)(showNumber))(showNumber)));
+  })(/* @__PURE__ */ showRecordFieldsCons2(showRecordFieldsCons22)(showInt))(showNumber))(showNumber)));
   var bind1 = /* @__PURE__ */ bind(bindMaybe);
   var bind22 = /* @__PURE__ */ bind(bindAff);
   var show33 = /* @__PURE__ */ show(showJsonDecodeError);
@@ -6372,7 +6366,7 @@ var PS =
         return pure6(unit);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 431, column 5 - line 433, column 28): " + [el.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 440, column 5 - line 442, column 28): " + [el.constructor.name]);
     };
   };
   var updOptionPriceFromJson = /* @__PURE__ */ decodeJson(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons2(gDecodeJsonNil)({
@@ -6401,7 +6395,7 @@ var PS =
         return "BreakEvenLine: " + show23(v.value0);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 119, column 1 - line 122, column 57): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 122, column 1 - line 125, column 57): " + [v.constructor.name]);
     }
   };
   var logShow3 = /* @__PURE__ */ logShow(showLine);
@@ -6430,6 +6424,9 @@ var PS =
   var onMouseUp = function(v) {
     return onMouseUpImpl(Just.create)(Nothing.value);
   };
+  var ltStd = 1;
+  var ltRisc = 2;
+  var ltBreakEven = 3;
   var initEvent = function(toListener) {
     return function(element) {
       return function(eventType) {
@@ -6499,10 +6496,10 @@ var PS =
               return new Right(json2.value0.value);
             }
             ;
-            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 360, column 25 - line 364, column 50): " + [json2.constructor.name]);
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 369, column 25 - line 373, column 50): " + [json2.constructor.name]);
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 353, column 17 - line 364, column 50): " + [res.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 362, column 17 - line 373, column 50): " + [res.constructor.name]);
         }();
         return pure12(result);
       });
@@ -6522,7 +6519,7 @@ var PS =
               return liftEffect3(updateRiscLine(v1)(n.value0));
             }
             ;
-            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 376, column 13 - line 380, column 61): " + [n.constructor.name]);
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 385, column 13 - line 389, column 61): " + [n.constructor.name]);
           });
         }());
       }
@@ -6540,7 +6537,7 @@ var PS =
         return handleUpdateOptionPrice(vr)(line.value0);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 387, column 5 - line 391, column 45): " + [line.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 396, column 5 - line 400, column 45): " + [line.constructor.name]);
     };
   };
   var fetchLevelLinesURL = function(v) {
@@ -6563,10 +6560,10 @@ var PS =
             return new Right(lines3.value0);
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 286, column 25 - line 290, column 45): " + [lines3.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 295, column 25 - line 299, column 45): " + [lines3.constructor.name]);
         }
         ;
-        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 279, column 17 - line 290, column 45): " + [res.constructor.name]);
+        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 288, column 17 - line 299, column 45): " + [res.constructor.name]);
       }();
       return pure12(result);
     });
@@ -6595,13 +6592,15 @@ var PS =
         y: valueToPix(vr)(line.riscStockPrice),
         selected: false,
         ticker: line.ticker,
-        bid: line.bid
+        bid: line.bid,
+        lt: ltRisc
       });
       var bl = new BreakEvenLine({
         y: valueToPix(vr)(line.be),
         ticker: line.ticker,
         ask: line.ask,
-        breakEven: line.be
+        breakEven: line.be,
+        lt: ltBreakEven
       });
       return applySecond3(addLine(rl))(addLine(bl));
     };
@@ -6624,7 +6623,7 @@ var PS =
             return liftEffect3(applySecond3(clearLines)(addRiscLines(vruler2)(lines3.value0)));
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 300, column 13 - line 308, column 22): " + [lines3.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 309, column 13 - line 317, column 22): " + [lines3.constructor.name]);
         })));
       };
     };
@@ -6632,7 +6631,8 @@ var PS =
   var addLevelLineButtonClick = function(v) {
     var line = new StdLine({
       y: 200,
-      selected: false
+      selected: false,
+      lt: ltStd
     });
     return addLine(line);
   };
@@ -6650,7 +6650,7 @@ var PS =
             return applySecond3(applySecond3(applySecond3(applySecond3(applySecond3(redraw(ctx)(vruler2))(initEvent(addLevelLineButtonClick)(context.value0.addLevelLineBtn)("click")))(initEvent(fetchLevelLineButtonClick(ticker)(vruler2))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(mouseEventDown)(context.value0.canvasElement)("mousedown")))(initEvent(mouseEventDrag)(context.value0.canvasElement)("mousemove")))(initEvent(mouseEventUp(vruler2))(context.value0.canvasElement)("mouseup"))();
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 470, column 9 - line 484, column 97): " + [context.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 479, column 9 - line 493, column 97): " + [context.constructor.name]);
         };
       };
     };

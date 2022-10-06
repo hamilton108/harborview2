@@ -1,43 +1,51 @@
+/* _grid_scrapbook.scss */
 
 .grid-scrapbook {
   grid-column: 3;
   display: grid;
   grid-gap: 2px;
-  grid-template-rows: 100px 50px 100px 50px 50px 100px 50px 50px; }
+  grid-template-rows: 100px 50px 100px 50px 50px 100px 50px 50px;
+}
 
 .scrap-1 {
   grid-row: 1;
   border: 1px solid black;
-  padding: 1em; }
+  padding: 1em;
+}
 
 .scrap-2 {
   grid-row: 2;
   margin-top: 1rem;
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+}
 
 .scrap-3 {
   grid-row: 3;
   border: 1px solid black;
-  padding: 1rem; }
+  padding: 1rem;
+}
 
 $rows: 4, 5, 6, 7, 8;
 
 @each $row in $rows {
   .scrap-#{$row} {
-    grid-row: $row; 
+    grid-row: $row;
   }
 }
 
 .scrap-btn {
   font-size: 2rem;
   margin-right: 1rem;
-  float: left; }
+  float: left;
+}
 
 .scrap-div {
   font-size: 2rem;
   margin-right: 1rem;
-  float: left; }
+  float: left;
+}
 
 .scrap-cb {
   float: left;
-  margin-right: 1rem; }
+  margin-right: 1rem;
+}

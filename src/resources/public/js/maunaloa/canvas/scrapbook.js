@@ -1,5 +1,5 @@
-import {Draggable} from "./../svg/draggable.js";
-import {Doodle} from "./doodle.js";
+import { Draggable } from "./../svg/draggable.js";
+import { Doodle } from "./doodle.js";
 //import {LevelLine} from "./levelline.js";
 
 export class Scrapbook {
@@ -20,9 +20,10 @@ export class Scrapbook {
         }
     }
     static initLayers(cfg) {
+        /*
         const rgQry = `input[name="${cfg.RG_LAYER}"]`;
-
         const rgs = document.querySelectorAll(rgQry);
+        */
         const rgClick = (event) => {
             const div_doodle = document.getElementById(cfg.DIV_DOODLE);
             const div_level = document.getElementById(cfg.DIV_LEVEL_LINES);
@@ -46,16 +47,20 @@ export class Scrapbook {
                     break;
             }
         };
+        const rg = document.getElementById(cfg.RG_LAYER);
+        rg.onclick = rgClick;
+        /*
         rgs.forEach(rg => {
             rg.onclick = rgClick;
         });
+        */
         document.getElementById(cfg.DIV_DOODLE).style.zIndex = "10";
         document.getElementById(cfg.DIV_LEVEL_LINES).style.zIndex = "0";
         document.getElementById(cfg.SVG).style.zIndex = "0";
     }
     static initDraggable(cfg) {
         const draggableBtn1 = document.getElementById(cfg.BTN_DRAGGABLE);
-        draggableBtn1.onclick = function() {
+        draggableBtn1.onclick = function () {
             Draggable.addLine(cfg.SVG);
         };
     }
