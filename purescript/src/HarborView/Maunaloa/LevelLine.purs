@@ -109,6 +109,8 @@ data Line =
     , selected :: Boolean
     , ticker :: Ticker 
     , bid :: Number
+    , risc :: Number
+    , riscPrice :: Number
     , lt :: Int
     }
     | BreakEvenLine
@@ -264,6 +266,8 @@ addRiscLine vr line =
                 , selected: false
                 , ticker: ticker
                 , bid: line.bid
+                , risc: line.risc 
+                , riscPrice: line.riscOptionPrice
                 , lt: ltRISC
                 }
         bl = BreakEvenLine
@@ -308,6 +312,7 @@ fetchLevelLines ticker =
 fetchLevelLineButtonClick :: Ticker -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ticker vruler evt = 
     defaultEventHandling evt *>
+    logShow "fxbtn1" *>
     launchAff_ 
     (
         fetchLevelLines ticker >>= \lines ->
@@ -317,6 +322,7 @@ fetchLevelLineButtonClick ticker vruler evt =
                 Right lines1 ->
                     liftEffect 
                     (
+                        logShow lines1 *>
                         clearLines *>
                         addRiscLines vruler lines1
                     )

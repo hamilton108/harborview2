@@ -191,8 +191,10 @@ export const addLine = line => () => {
             break;
         case RISC_LINE:
             paintRiscLine(line);
+            break;
         case BREAK_EVEN_LINE:
             paintBreakEvenLine(line);
+            break;
         default:
             console.log("No such class: " + adtShape);
     }
@@ -213,7 +215,12 @@ const paintRiscLine = function (line) {
     if (rec.selected === true) {
         return;
     }
-    const displayValue = pixToValue(rec.y).toFixed(2) + " - " + rec.ticker + ", op: " + rec.bid.toFixed(2);
+    const displayValue =
+        pixToValue(rec.y).toFixed(2) +
+        " - " + rec.ticker +
+        ", bid: " + rec.bid.toFixed(2) +
+        ", risc: " + rec.risc.toFixed(2) +
+        ", risc price: " + rec.riscPrice.toFixed(2);
     const x2 = _v.w - x1;
     paint(x2, rec.y, displayValue, "red");
 };

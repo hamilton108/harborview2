@@ -21,26 +21,6 @@ body {
   cursor: move;
 }
 
-.fa-solid {
-  transition: all 0.1s linear;
-}
-
-.fa-solid:hover {
-  transform: scale(1.5);
-}
-
-.grid-menu-bar {
-  display: flex;
-  margin-top: 1rem;
-  margin-left: 3rem;
-  margin-right: 3rem;
-}
-
-.form-group--menu-bar {
-  align-self: flex-end;
-  margin-left: 1rem;
-}
-
 .form-check {
   padding-bottom: 1rem;
 }
@@ -64,4 +44,4 @@ a.href-td {
 @import "components/checkbox";
 @import "components/modal_dialog";
 @import "grid_main";
-@import "grid_scrapbook";
+@import "menubar";

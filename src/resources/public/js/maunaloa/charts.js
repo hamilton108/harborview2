@@ -94,10 +94,12 @@ document.addEventListener("DOMContentLoaded", function () {
             canvas.height = h;
         }
     };
+    const CHART_WIDTH = 1750;
+
     const setCanvasSizes = function () {
-        setCanvasSize('canvas.c1', 1310, 500);
-        setCanvasSize('canvas.c2', 1310, 200);
-        setCanvasSize('canvas.c3', 1310, 110);
+        setCanvasSize('canvas.c1', CHART_WIDTH, 600);
+        setCanvasSize('canvas.c2', CHART_WIDTH, 200);
+        setCanvasSize('canvas.c3', CHART_WIDTH, 110);
     };
     setCanvasSizes();
 
@@ -136,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     const toChartMappings = (c) => {
         const mainChart = {
-            chartId: "chart", canvasId: c.MAIN_CHART, chartHeight: 500.0,
+            chartId: "chart", canvasId: c.MAIN_CHART, chartHeight: 600.0,
             levelCanvasId: c.LEVEL_LINES, addLevelId: c.BTN_LEVELLINE, fetchLevelId: c.BTN_RISCLINES
         };
         const osc = {
@@ -164,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const DAY = 1;
     const WEEK = 2;
     const MONTH = 3;
-    const SHIFT_WINDOW = 90;
+    const SHIFT_WINDOW = 120;
 
     const chartTypeParams = (chartType) => {
         var result = {};
@@ -218,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (isPositiveInt(event.target.value)) {
                 _currentTicker = event.target.value;
                 _shiftIndex = 0;
-                PS.paint(chartType)(_chartMappings)(event.target.value)(0)(90)();
+                PS.paint(chartType)(_chartMappings)(event.target.value)(0)(SHIFT_WINDOW)();
             }
             else {
                 _currentTicker = null;

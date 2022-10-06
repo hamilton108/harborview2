@@ -38,7 +38,7 @@ public class RiscLineDTO {
     }
 
     public double getRisc() {
-        return 0; //price.getCurrentRisc();
+        return risc.getRisc();
     }
 
 }

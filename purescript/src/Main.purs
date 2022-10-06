@@ -24,6 +24,8 @@ import HarborView.Maunaloa.Common
     , Env(..)
     , Ticker(..)
     , ChartType
+    , ChartWidth(..)
+    , Scaling(..)
     , asChartType
     )
 import HarborView.Maunaloa.ChartCollection 
@@ -45,6 +47,8 @@ createEnv ctype tik curDrop curTake mappings =
     , takeAmt: curTake
     , chartType: ctype 
     , mappings: mappings
+    , globalChartWidth: ChartWidth 1750.0
+    , scaling: Scaling 1.15
     }
 
 createEnvEmpty :: ChartMappings -> Env
@@ -55,6 +59,8 @@ createEnvEmpty mappings =
     , takeAmt: Take 0
     , chartType: asChartType 1 
     , mappings: mappings
+    , globalChartWidth: ChartWidth 1750.0
+    , scaling: Scaling 1.0
     }
 
 

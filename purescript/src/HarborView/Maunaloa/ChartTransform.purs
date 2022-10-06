@@ -63,6 +63,7 @@ import HarborView.Maunaloa.Common
     , ChartType(..)
     , ChartId(..)
     , ChartMapping(..)
+    , ChartWidth(..)
     , Ticker(..)
     , valueRange
     )
@@ -80,7 +81,6 @@ import HarborView.Maunaloa.Chart
 import HarborView.Maunaloa.ChartCollection
     ( ChartCollection(..)
     , EmptyChartCollection(..)
-    , globalChartWidth
     , mappingToChartLevel
     )
 import HarborView.Maunaloa.Line
@@ -195,11 +195,11 @@ chartWindow dropAmt takeAmt c scaling doNormalizeLines numVlines =
     }
 
 
-transformMapping1 :: ChartMapping -> JsonChartWindow -> Chart 
-transformMapping1 cm@(ChartMapping mapping) ec = 
+transformMapping1 :: ChartWidth -> ChartMapping -> JsonChartWindow -> Chart 
+transformMapping1 chartWidth cm@(ChartMapping mapping) ec = 
     let 
         h = mapping.chartHeight
-        vr = vruler ec.valueRange globalChartWidth h
+        vr = vruler ec.valueRange chartWidth h
         linesToPix = map (lineToPix vr) ec.lines
         cndlToPix = map (candleToPix vr) ec.candlesticks
         clevel = mappingToChartLevel cm
@@ -209,30 +209,43 @@ transformMapping1 cm@(ChartMapping mapping) ec =
         , candlesticks: cndlToPix
         , canvasId: mapping.canvasId
         , vruler: vr 
-        , w: globalChartWidth
+        , w: chartWidth 
         , h: h
         , chartLevel: clevel 
         }
 
 
-transformMapping :: Drop -> Take -> JsonChartResponse -> ChartMapping -> Chart 
-transformMapping dropAmt takeAmt response cm@(ChartMapping mapping) =
+transformMapping :: forall r. 
+    { globalChartWidth :: ChartWidth
+    , dropAmt :: Drop 
+    , takeAmt :: Take  
+    , scaling :: Scaling | r } 
+    -> JsonChartResponse 
+    -> ChartMapping 
+    -> Chart 
+transformMapping env response cm@(ChartMapping mapping) =
+    let 
+        chartWidth = env.globalChartWidth 
+        dropAmt = env.dropAmt 
+        takeAmt = env.takeAmt 
+        scaling = env.scaling
+    in
     case mapping.chartId of
         ChartId "chart" -> 
             let 
-                cw = chartWindow dropAmt takeAmt response.chart (Scaling 1.05) false 10
+                cw = chartWindow dropAmt takeAmt response.chart scaling false 10
             in
-            transformMapping1 cm cw
+            transformMapping1 chartWidth cm cw
         ChartId "chart2" -> 
             let 
                 cw = chartWindow dropAmt takeAmt response.chart2 (Scaling 1.00) true 10
             in
-            transformMapping1 cm cw
+            transformMapping1 chartWidth cm cw
         ChartId "chart3" -> 
             let 
                 cw = chartWindow dropAmt takeAmt response.chart3 (Scaling 1.00) false 10
             in
-            transformMapping1 cm cw
+            transformMapping1 chartWidth cm cw
         _ -> 
             EmptyChart
 
@@ -248,9 +261,9 @@ transform response =
     let 
         xaxis = slice env.dropAmt env.takeAmt response.xAxis
         tm = UnixTime response.minDx 
-        ruler = H.create globalChartWidth tm xaxis padding (incMonths env.chartType)
+        ruler = H.create env.globalChartWidth tm xaxis padding (incMonths env.chartType)
         ruler1 = unsafePartial (fromJust ruler)
-        charts1 = map (transformMapping env.dropAmt env.takeAmt response) env.mappings
+        charts1 = map (transformMapping env response) env.mappings
     in
     pure $ 
     ChartCollection 
@@ -259,11 +272,11 @@ transform response =
         , hruler: ruler1 
         }
 
-transformMappingEmpty :: ChartMapping -> Chart 
-transformMappingEmpty (ChartMapping mapping) =
+transformMappingEmpty :: ChartWidth -> ChartMapping -> Chart 
+transformMappingEmpty chartWidth (ChartMapping mapping) =
     ChartWithoutTicker 
         { canvasId: mapping.canvasId 
-        , w: globalChartWidth
+        , w: chartWidth 
         , h: mapping.chartHeight 
         }
 
@@ -271,7 +284,7 @@ transformEmpty :: Reader Env EmptyChartCollection
 transformEmpty = 
     ask >>= \(Env env) ->
     let 
-        charts = map transformMappingEmpty  env.mappings
+        charts = map (transformMappingEmpty env.globalChartWidth) env.mappings
     in
     pure $
     EmptyChartCollection charts

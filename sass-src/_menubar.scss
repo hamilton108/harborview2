@@ -1,0 +1,27 @@
+.grid-menu-bar {
+  display: flex;
+  margin-top: 1rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
+
+.form-group--menu-bar {
+  align-self: flex-end;
+  margin-left: 1rem;
+}
+
+.scrap-span {
+  font-size: 1.0rem;
+  margin-right: 0.5rem;
+  border: 1px solid silver;
+  border-radius: 0.25em;
+  padding: 0.5em;
+}
+
+.fa-solid {
+  transition: all 0.1s linear;
+}
+
+.fa-solid:hover {
+  transform: scale(1.5);
+}

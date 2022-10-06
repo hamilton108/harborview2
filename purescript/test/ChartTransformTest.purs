@@ -368,6 +368,8 @@ testEnv = Env
     , takeAmt: Take 90
     , chartType: DayChart
     , mappings: defaultChartMappings 
+    , globalChartWidth: ChartWidth 1310.0
+    , scaling: Scaling 1.05
     }
 
 getFirstChartFromColl :: Array Chart -> ChartContent

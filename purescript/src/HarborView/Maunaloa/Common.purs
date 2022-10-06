@@ -228,5 +228,7 @@ newtype Env =
     , takeAmt :: Take
     , chartType :: ChartType
     , mappings :: ChartMappings 
+    , globalChartWidth :: ChartWidth
+    , scaling :: Scaling
     }
 

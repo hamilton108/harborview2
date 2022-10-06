@@ -4250,8 +4250,10 @@ var PS =
         break;
       case RISC_LINE:
         paintRiscLine(line);
+        break;
       case BREAK_EVEN_LINE:
         paintBreakEvenLine(line);
+        break;
       default:
         console.log("No such class: " + adtShape);
     }
@@ -4271,7 +4273,7 @@ var PS =
     if (rec.selected === true) {
       return;
     }
-    const displayValue = pixToValue2(rec.y).toFixed(2) + " - " + rec.ticker + ", op: " + rec.bid.toFixed(2);
+    const displayValue = pixToValue2(rec.y).toFixed(2) + " - " + rec.ticker + ", bid: " + rec.bid.toFixed(2) + ", risc: " + rec.risc.toFixed(2) + ", risc price: " + rec.riscPrice.toFixed(2);
     const x2 = _v.w - x1;
     paint6(x2, rec.y, displayValue, "red");
   };
@@ -6303,29 +6305,58 @@ var PS =
       return "bid";
     }
   };
+  var showRecordFieldsCons22 = /* @__PURE__ */ showRecordFieldsCons(bidIsSymbol);
+  var riscIsSymbol = {
+    reflectSymbol: function() {
+      return "risc";
+    }
+  };
+  var showRecordFieldsCons3 = /* @__PURE__ */ showRecordFieldsCons(riscIsSymbol);
   var tickerIsSymbol = {
     reflectSymbol: function() {
       return "ticker";
     }
   };
-  var showRecordFieldsCons22 = /* @__PURE__ */ showRecordFieldsCons(tickerIsSymbol)(showRecordFieldsConsNil2)(showTicker);
-  var show15 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons(bidIsSymbol)(/* @__PURE__ */ showRecordFieldsCons2(/* @__PURE__ */ showRecordFieldsCons1(showRecordFieldsCons22)(showBoolean))(showInt))(showNumber)));
+  var showRecordFieldsCons4 = /* @__PURE__ */ showRecordFieldsCons(tickerIsSymbol)(showRecordFieldsConsNil2)(showTicker);
+  var show15 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons22(/* @__PURE__ */ showRecordFieldsCons2(/* @__PURE__ */ showRecordFieldsCons3(/* @__PURE__ */ showRecordFieldsCons({
+    reflectSymbol: function() {
+      return "riscPrice";
+    }
+  })(/* @__PURE__ */ showRecordFieldsCons1(showRecordFieldsCons4)(showBoolean))(showNumber))(showNumber))(showInt))(showNumber)));
   var askIsSymbol = {
     reflectSymbol: function() {
       return "ask";
     }
   };
-  var show23 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons(askIsSymbol)(/* @__PURE__ */ showRecordFieldsCons({
+  var showRecordFieldsCons5 = /* @__PURE__ */ showRecordFieldsCons(askIsSymbol);
+  var show23 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons5(/* @__PURE__ */ showRecordFieldsCons({
     reflectSymbol: function() {
       return "breakEven";
     }
-  })(/* @__PURE__ */ showRecordFieldsCons2(showRecordFieldsCons22)(showInt))(showNumber))(showNumber)));
+  })(/* @__PURE__ */ showRecordFieldsCons2(showRecordFieldsCons4)(showInt))(showNumber))(showNumber)));
+  var riscStockPriceIsSymbol = {
+    reflectSymbol: function() {
+      return "riscStockPrice";
+    }
+  };
+  var riscOptionPriceIsSymbol = {
+    reflectSymbol: function() {
+      return "riscOptionPrice";
+    }
+  };
+  var beIsSymbol = {
+    reflectSymbol: function() {
+      return "be";
+    }
+  };
   var bind1 = /* @__PURE__ */ bind(bindMaybe);
   var bind22 = /* @__PURE__ */ bind(bindAff);
   var show33 = /* @__PURE__ */ show(showJsonDecodeError);
   var pure12 = /* @__PURE__ */ pure(applicativeAff);
   var applySecond1 = /* @__PURE__ */ applySecond(applyAff);
   var liftEffect3 = /* @__PURE__ */ liftEffect(monadEffectAff);
+  var logShow3 = /* @__PURE__ */ logShow(showString);
+  var logShow1 = /* @__PURE__ */ logShow(/* @__PURE__ */ showArray(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons5(/* @__PURE__ */ showRecordFieldsCons(beIsSymbol)(/* @__PURE__ */ showRecordFieldsCons22(/* @__PURE__ */ showRecordFieldsCons3(/* @__PURE__ */ showRecordFieldsCons(riscOptionPriceIsSymbol)(/* @__PURE__ */ showRecordFieldsCons(riscStockPriceIsSymbol)(/* @__PURE__ */ showRecordFieldsConsNil(tickerIsSymbol)(showString))(showNumber))(showNumber))(showNumber))(showNumber))(showNumber))(showNumber))));
   var StdLine = /* @__PURE__ */ function() {
     function StdLine2(value0) {
       this.value0 = value0;
@@ -6366,7 +6397,7 @@ var PS =
         return pure6(unit);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 440, column 5 - line 442, column 28): " + [el.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 426, column 5 - line 428, column 28): " + [el.constructor.name]);
     };
   };
   var updOptionPriceFromJson = /* @__PURE__ */ decodeJson(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons2(gDecodeJsonNil)({
@@ -6395,27 +6426,11 @@ var PS =
         return "BreakEvenLine: " + show23(v.value0);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 122, column 1 - line 125, column 57): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 124, column 1 - line 127, column 57): " + [v.constructor.name]);
     }
   };
-  var logShow3 = /* @__PURE__ */ logShow(showLine);
-  var riscLinesFromJson = /* @__PURE__ */ decodeJson(/* @__PURE__ */ decodeArray2(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(decodeJsonString))(gDecodeJsonNil)(tickerIsSymbol)()())({
-    reflectSymbol: function() {
-      return "riscStockPrice";
-    }
-  })()())({
-    reflectSymbol: function() {
-      return "riscOptionPrice";
-    }
-  })()())({
-    reflectSymbol: function() {
-      return "risc";
-    }
-  })()())(bidIsSymbol)()())({
-    reflectSymbol: function() {
-      return "be";
-    }
-  })()())(askIsSymbol)()())()));
+  var logShow22 = /* @__PURE__ */ logShow(showLine);
+  var riscLinesFromJson = /* @__PURE__ */ decodeJson(/* @__PURE__ */ decodeArray2(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(decodeJsonString))(gDecodeJsonNil)(tickerIsSymbol)()())(riscStockPriceIsSymbol)()())(riscOptionPriceIsSymbol)()())(riscIsSymbol)()())(bidIsSymbol)()())(beIsSymbol)()())(askIsSymbol)()())()));
   var optionPriceURL = function(v) {
     return function(curStockPrice) {
       return mainURL + ("/stockoption/price/" + (v + ("/" + toStringWith(fixed(2))(curStockPrice))));
@@ -6424,9 +6439,9 @@ var PS =
   var onMouseUp = function(v) {
     return onMouseUpImpl(Just.create)(Nothing.value);
   };
-  var ltStd = 1;
-  var ltRisc = 2;
-  var ltBreakEven = 3;
+  var ltSTD = 1;
+  var ltRISC = 2;
+  var ltBREAK_EVEN = 3;
   var initEvent = function(toListener) {
     return function(element) {
       return function(eventType) {
@@ -6496,10 +6511,10 @@ var PS =
               return new Right(json2.value0.value);
             }
             ;
-            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 369, column 25 - line 373, column 50): " + [json2.constructor.name]);
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 355, column 25 - line 359, column 50): " + [json2.constructor.name]);
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 362, column 17 - line 373, column 50): " + [res.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 348, column 17 - line 359, column 50): " + [res.constructor.name]);
         }();
         return pure12(result);
       });
@@ -6510,7 +6525,7 @@ var PS =
       if (v1 instanceof RiscLine) {
         return launchAff_(function() {
           var sp = pixToValue(v)(v1.value0.y);
-          return bind22(applySecond1(liftEffect3(logShow3(v1)))(fetchUpdatedOptionPrice(v1.value0.ticker)(sp)))(function(n) {
+          return bind22(applySecond1(liftEffect3(logShow22(v1)))(fetchUpdatedOptionPrice(v1.value0.ticker)(sp)))(function(n) {
             if (n instanceof Left) {
               return handleErrorAff(n.value0);
             }
@@ -6519,7 +6534,7 @@ var PS =
               return liftEffect3(updateRiscLine(v1)(n.value0));
             }
             ;
-            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 385, column 13 - line 389, column 61): " + [n.constructor.name]);
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 371, column 13 - line 375, column 61): " + [n.constructor.name]);
           });
         }());
       }
@@ -6537,7 +6552,7 @@ var PS =
         return handleUpdateOptionPrice(vr)(line.value0);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 396, column 5 - line 400, column 45): " + [line.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 382, column 5 - line 386, column 45): " + [line.constructor.name]);
     };
   };
   var fetchLevelLinesURL = function(v) {
@@ -6560,10 +6575,10 @@ var PS =
             return new Right(lines3.value0);
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 295, column 25 - line 299, column 45): " + [lines3.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 304, column 25 - line 308, column 45): " + [lines3.constructor.name]);
         }
         ;
-        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 288, column 17 - line 299, column 45): " + [res.constructor.name]);
+        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 297, column 17 - line 308, column 45): " + [res.constructor.name]);
       }();
       return pure12(result);
     });
@@ -6593,14 +6608,16 @@ var PS =
         selected: false,
         ticker: line.ticker,
         bid: line.bid,
-        lt: ltRisc
+        risc: line.risc,
+        riscPrice: line.riscOptionPrice,
+        lt: ltRISC
       });
       var bl = new BreakEvenLine({
         y: valueToPix(vr)(line.be),
         ticker: line.ticker,
         ask: line.ask,
         breakEven: line.be,
-        lt: ltBreakEven
+        lt: ltBREAK_EVEN
       });
       return applySecond3(addLine(rl))(addLine(bl));
     };
@@ -6614,16 +6631,16 @@ var PS =
   var fetchLevelLineButtonClick = function(ticker) {
     return function(vruler2) {
       return function(evt) {
-        return applySecond3(defaultEventHandling(evt))(launchAff_(bind22(fetchLevelLines(ticker))(function(lines3) {
+        return applySecond3(applySecond3(defaultEventHandling(evt))(logShow3("fxbtn1")))(launchAff_(bind22(fetchLevelLines(ticker))(function(lines3) {
           if (lines3 instanceof Left) {
             return handleErrorAff(lines3.value0);
           }
           ;
           if (lines3 instanceof Right) {
-            return liftEffect3(applySecond3(clearLines)(addRiscLines(vruler2)(lines3.value0)));
+            return liftEffect3(applySecond3(applySecond3(logShow1(lines3.value0))(clearLines))(addRiscLines(vruler2)(lines3.value0)));
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 309, column 13 - line 317, column 22): " + [lines3.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 319, column 13 - line 328, column 22): " + [lines3.constructor.name]);
         })));
       };
     };
@@ -6632,7 +6649,7 @@ var PS =
     var line = new StdLine({
       y: 200,
       selected: false,
-      lt: ltStd
+      lt: ltSTD
     });
     return addLine(line);
   };
@@ -6650,7 +6667,7 @@ var PS =
             return applySecond3(applySecond3(applySecond3(applySecond3(applySecond3(redraw(ctx)(vruler2))(initEvent(addLevelLineButtonClick)(context.value0.addLevelLineBtn)("click")))(initEvent(fetchLevelLineButtonClick(ticker)(vruler2))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(mouseEventDown)(context.value0.canvasElement)("mousedown")))(initEvent(mouseEventDrag)(context.value0.canvasElement)("mousemove")))(initEvent(mouseEventUp(vruler2))(context.value0.canvasElement)("mouseup"))();
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 479, column 9 - line 493, column 97): " + [context.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 465, column 9 - line 479, column 97): " + [context.constructor.name]);
         };
       };
     };
@@ -6674,7 +6691,7 @@ var PS =
       return "addLevelId";
     }
   })(eqHtmlId))));
-  var logShow1 = /* @__PURE__ */ logShow(showString);
+  var logShow12 = /* @__PURE__ */ logShow(showString);
   var pure7 = /* @__PURE__ */ pure(applicativeEffect);
   var fromJust4 = /* @__PURE__ */ fromJust();
   var liftEffect4 = /* @__PURE__ */ liftEffect(monadEffectAff);
@@ -6693,7 +6710,6 @@ var PS =
       fetchLevelId: v.fetchLevelId
     });
   };
-  var globalChartWidth = 1310;
   var findChartPredicate = function(v) {
     if (v instanceof Chart) {
       return notEq2(v.value0.chartLevel)(Nothing.value);
@@ -6713,7 +6729,7 @@ var PS =
     return function(charts) {
       var levelLine = find2(findChartPredicate)(charts);
       if (levelLine instanceof Nothing) {
-        return applySecond4(logShow1("ERROR! (levelLines) No levelLine!"))(pure7(unit));
+        return applySecond4(logShow12("ERROR! (levelLines) No levelLine!"))(pure7(unit));
       }
       ;
       if (levelLine instanceof Just && levelLine.value0 instanceof Chart) {
@@ -6746,39 +6762,43 @@ var PS =
   var max6 = /* @__PURE__ */ max(ordNumber);
   var abs3 = /* @__PURE__ */ abs(ordNumber)(ringNumber);
   var fromJust5 = /* @__PURE__ */ fromJust();
-  var transformMappingEmpty = function(v) {
-    return new ChartWithoutTicker({
-      canvasId: v.canvasId,
-      w: globalChartWidth,
-      h: v.chartHeight
-    });
-  };
-  var transformMapping1 = function(v) {
-    return function(ec) {
-      var vr = vruler(ec.valueRange)(globalChartWidth)(v.chartHeight);
-      var linesToPix = map15(lineToPix(vr))(ec.lines);
-      var cndlToPix = map15(candleToPix(vr))(ec.candlesticks);
-      var clevel = mappingToChartLevel(v);
-      return new Chart({
-        lines: linesToPix,
-        candlesticks: cndlToPix,
+  var transformMappingEmpty = function(chartWidth) {
+    return function(v) {
+      return new ChartWithoutTicker({
         canvasId: v.canvasId,
-        vruler: vr,
-        w: globalChartWidth,
-        h: v.chartHeight,
-        chartLevel: clevel
+        w: chartWidth,
+        h: v.chartHeight
       });
     };
   };
+  var transformMapping1 = function(chartWidth) {
+    return function(v) {
+      return function(ec) {
+        var vr = vruler(ec.valueRange)(chartWidth)(v.chartHeight);
+        var linesToPix = map15(lineToPix(vr))(ec.lines);
+        var cndlToPix = map15(candleToPix(vr))(ec.candlesticks);
+        var clevel = mappingToChartLevel(v);
+        return new Chart({
+          lines: linesToPix,
+          candlesticks: cndlToPix,
+          canvasId: v.canvasId,
+          vruler: vr,
+          w: chartWidth,
+          h: v.chartHeight,
+          chartLevel: clevel
+        });
+      };
+    };
+  };
   var transformEmpty = /* @__PURE__ */ bind4(ask2)(function(v) {
-    var charts = map15(transformMappingEmpty)(v.mappings);
+    var charts = map15(transformMappingEmpty(v.globalChartWidth))(v.mappings);
     return pure8(charts);
   });
   var slice3 = function(v) {
     return function(v1) {
       return function(vals) {
-        var $49 = v === 0;
-        if ($49) {
+        var $51 = v === 0;
+        if ($51) {
           return take(v1)(vals);
         }
         ;
@@ -6799,8 +6819,8 @@ var PS =
       })(vals));
       var result = fromMaybe(nullValueRange)(bind12(minimumBy2(function(v1) {
         return function(v2) {
-          var $54 = v1.minVal < v2.minVal;
-          if ($54) {
+          var $56 = v1.minVal < v2.minVal;
+          if ($56) {
             return LT.value;
           }
           ;
@@ -6809,8 +6829,8 @@ var PS =
       })(mmas))(function(mib) {
         return bind12(maximumBy2(function(v1) {
           return function(v2) {
-            var $57 = v1.maxVal > v2.maxVal;
-            if ($57) {
+            var $59 = v1.maxVal > v2.maxVal;
+            if ($59) {
               return GT.value;
             }
             ;
@@ -6829,8 +6849,8 @@ var PS =
   var minMaxCndl = function(cndl) {
     return bind12(minimumBy2(function(x) {
       return function(y) {
-        var $60 = x.l < y.l;
-        if ($60) {
+        var $62 = x.l < y.l;
+        if ($62) {
           return LT.value;
         }
         ;
@@ -6839,8 +6859,8 @@ var PS =
     })(cndl))(function(mib) {
       return bind12(maximumBy2(function(x) {
         return function(y) {
-          var $61 = x.h > y.h;
-          if ($61) {
+          var $63 = x.h > y.h;
+          if ($63) {
             return GT.value;
           }
           ;
@@ -6885,7 +6905,7 @@ var PS =
       return 6;
     }
     ;
-    throw new Error("Failed pattern match at HarborView.Maunaloa.ChartTransform (line 240, column 1 - line 240, column 30): " + [v.constructor.name]);
+    throw new Error("Failed pattern match at HarborView.Maunaloa.ChartTransform (line 253, column 1 - line 253, column 30): " + [v.constructor.name]);
   };
   var chartValueRange = function(lx) {
     return function(bars) {
@@ -6908,8 +6928,8 @@ var PS =
             return function(numVlines) {
               var lines_2 = function() {
                 var tmp = map15(slice3(dropAmt)(takeAmt))(fromMaybe([])(c.lines));
-                var $64 = doNormalizeLines === true;
-                if ($64) {
+                var $66 = doNormalizeLines === true;
+                if ($66) {
                   return map15(normalizeLine)(tmp);
                 }
                 ;
@@ -6931,36 +6951,34 @@ var PS =
       };
     };
   };
-  var transformMapping = function(dropAmt) {
-    return function(takeAmt) {
-      return function(response) {
-        return function(v) {
-          if (v.chartId === "chart") {
-            var cw = chartWindow(dropAmt)(takeAmt)(response.chart)(1.05)(false)(10);
-            return transformMapping1(v)(cw);
-          }
-          ;
-          if (v.chartId === "chart2") {
-            var cw = chartWindow(dropAmt)(takeAmt)(response.chart2)(1)(true)(10);
-            return transformMapping1(v)(cw);
-          }
-          ;
-          if (v.chartId === "chart3") {
-            var cw = chartWindow(dropAmt)(takeAmt)(response.chart3)(1)(false)(10);
-            return transformMapping1(v)(cw);
-          }
-          ;
-          return EmptyChart.value;
-        };
+  var transformMapping = function(env) {
+    return function(response) {
+      return function(v) {
+        if (v.chartId === "chart") {
+          var cw = chartWindow(env.dropAmt)(env.takeAmt)(response.chart)(env.scaling)(false)(10);
+          return transformMapping1(env.globalChartWidth)(v)(cw);
+        }
+        ;
+        if (v.chartId === "chart2") {
+          var cw = chartWindow(env.dropAmt)(env.takeAmt)(response.chart2)(1)(true)(10);
+          return transformMapping1(env.globalChartWidth)(v)(cw);
+        }
+        ;
+        if (v.chartId === "chart3") {
+          var cw = chartWindow(env.dropAmt)(env.takeAmt)(response.chart3)(1)(false)(10);
+          return transformMapping1(env.globalChartWidth)(v)(cw);
+        }
+        ;
+        return EmptyChart.value;
       };
     };
   };
   var transform2 = function(response) {
     return bind4(ask2)(function(v) {
       var xaxis = slice3(v.dropAmt)(v.takeAmt)(response.xAxis);
-      var ruler = create2(globalChartWidth)(response.minDx)(xaxis)(padding)(incMonths2(v.chartType));
+      var ruler = create2(v.globalChartWidth)(response.minDx)(xaxis)(padding)(incMonths2(v.chartType));
       var ruler1 = fromJust5(ruler);
-      var charts1 = map15(transformMapping(v.dropAmt)(v.takeAmt)(response))(v.mappings);
+      var charts1 = map15(transformMapping(v)(response))(v.mappings);
       return pure8({
         ticker: response.ticker,
         charts: charts1,
@@ -7095,7 +7113,7 @@ var PS =
   // output/Main/index.js
   var applySecond5 = /* @__PURE__ */ applySecond(applyEffect);
   var logShow5 = /* @__PURE__ */ logShow(showString);
-  var logShow12 = /* @__PURE__ */ logShow(/* @__PURE__ */ showArray(showChart));
+  var logShow13 = /* @__PURE__ */ logShow(/* @__PURE__ */ showArray(showChart));
   var bind6 = /* @__PURE__ */ bind(bindAff);
   var applySecond12 = /* @__PURE__ */ applySecond(applyAff);
   var liftEffect5 = /* @__PURE__ */ liftEffect(monadEffectAff);
@@ -7110,13 +7128,15 @@ var PS =
       dropAmt: 0,
       takeAmt: 0,
       chartType: asChartType(1),
-      mappings
+      mappings,
+      globalChartWidth: 1750,
+      scaling: 1
     };
   };
   var paintEmpty3 = function(mappings) {
     var curEnv = createEnvEmpty(mappings);
     var collection = runReader(transformEmpty)(curEnv);
-    return applySecond5(applySecond5(logShow5("__paintEmpty__"))(logShow12(collection)))(paintEmpty2(collection));
+    return applySecond5(applySecond5(logShow5("__paintEmpty__"))(logShow13(collection)))(paintEmpty2(collection));
   };
   var createEnv = function(ctype) {
     return function(tik) {
@@ -7128,7 +7148,9 @@ var PS =
               dropAmt: curDrop,
               takeAmt: curTake,
               chartType: ctype,
-              mappings
+              mappings,
+              globalChartWidth: 1750,
+              scaling: 1.15
             };
           };
         };
@@ -7160,11 +7182,11 @@ var PS =
                   return applySecond12(liftEffect5(setJsonResponse(reposId)(charts.value0)))(paintAff(collection2));
                 }
                 ;
-                throw new Error("Failed pattern match at Main (line 84, column 21 - line 92, column 64): " + [charts.constructor.name]);
+                throw new Error("Failed pattern match at Main (line 90, column 21 - line 98, column 64): " + [charts.constructor.name]);
               }));
             }
             ;
-            throw new Error("Failed pattern match at Main (line 74, column 5 - line 92, column 64): " + [cachedResponse.constructor.name]);
+            throw new Error("Failed pattern match at Main (line 80, column 5 - line 98, column 64): " + [cachedResponse.constructor.name]);
           };
         };
       };

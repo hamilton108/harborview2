@@ -23,7 +23,7 @@
                  [org.postgresql/postgresql "42.3.3"]
                  [org.jsoup/jsoup "1.11.3"]
                 ;------------------ Local libs ------------------ 
-                 [rcstadheim/critter-repos "3.0.0-20220929.100202-14"]
+                 [rcstadheim/critter-repos "3.0.0-20221010.102250-15"]
                  [rcstadheim/nordnet-repos "3.0.0-20221003.090700-8"]
                  [rcstadheim/oahu "3.0.0-20220413.092122-1"]
                  [rcstadheim/vega "3.0.0-20220413.092302-1"]

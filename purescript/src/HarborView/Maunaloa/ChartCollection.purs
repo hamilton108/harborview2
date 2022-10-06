@@ -56,8 +56,8 @@ instance showChartCollection :: Show ChartCollection where
 
 newtype EmptyChartCollection = EmptyChartCollection (Array Chart)
 
-globalChartWidth :: ChartWidth
-globalChartWidth = ChartWidth 1310.0
+-- globalChartWidth :: ChartWidth
+-- globalChartWidth = ChartWidth 1650.0
 
 mappingToChartLevel :: ChartMapping -> Maybe ChartLevel 
 mappingToChartLevel (ChartMapping {levelCanvasId, addLevelId, fetchLevelId}) = 
