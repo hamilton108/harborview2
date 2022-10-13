@@ -3,7 +3,7 @@ module Test.ChartTransformTest where
 import Prelude
 
 import Test.Unit.Assert as Assert
-import Test.Unit.Console (log)
+--import Test.Unit.Console (log)
 import Test.Unit 
     ( suite
     , test
@@ -87,7 +87,7 @@ import HarborView.Maunaloa.Candlestick
     ( Candlestick(..)
     )
 
-import Effect.Console (logShow)
+--import Effect.Console (logShow)
 --import Maunaloa.HRuler as H
 
 testJsonStr :: String

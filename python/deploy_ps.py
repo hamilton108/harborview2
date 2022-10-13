@@ -49,7 +49,7 @@ def export():
     for l in lx:
         if "main()" in l:
             result.write("  return {\n")
-            result.write("           paint: paint8,\n")
+            result.write("           paint: paint7,\n")
             result.write("           paintEmpty: paintEmpty3,\n")
             result.write(
                 "           clearLevelLines:  clearLevelLines }\n")

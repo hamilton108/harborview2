@@ -2687,7 +2687,7 @@ var PS =
     return _makeFiber(ffiUtil, aff);
   };
   var launchAff = function(aff) {
-    return function __do3() {
+    return function __do2() {
       var fiber = makeFiber(aff)();
       fiber.run();
       return fiber;
@@ -3110,7 +3110,7 @@ var PS =
   // output/Data.Array.ST/index.js
   var withArray = function(f) {
     return function(xs) {
-      return function __do3() {
+      return function __do2() {
         var result = thaw(xs)();
         f(result)();
         return unsafeFreeze(result)();
@@ -3362,6 +3362,21 @@ var PS =
     }
   };
   var dayInMillis = 864e5;
+  var chartTypeAsInt = function(v) {
+    if (v instanceof DayChart) {
+      return 1;
+    }
+    ;
+    if (v instanceof WeekChart) {
+      return 2;
+    }
+    ;
+    if (v instanceof MonthChart) {
+      return 3;
+    }
+    ;
+    throw new Error("Failed pattern match at HarborView.Maunaloa.Common (line 220, column 1 - line 220, column 36): " + [v.constructor.name]);
+  };
   var calcPpy = function(v) {
     return function(v1) {
       return function(v2) {
@@ -3854,7 +3869,7 @@ var PS =
   };
   var paintEmpty = function(v) {
     if (v instanceof ChartWithoutTicker) {
-      return function __do3() {
+      return function __do2() {
         var canvas = getCanvasElementById(v.value0.canvasId)();
         if (canvas instanceof Nothing) {
           return logShow2("CanvasId " + (v.value0.canvasId + " does not exist!"))();
@@ -3875,7 +3890,7 @@ var PS =
   var paint5 = function(v) {
     return function(v1) {
       if (v1 instanceof Chart) {
-        return function __do3() {
+        return function __do2() {
           var canvas = getCanvasElementById(v1.value0.canvasId)();
           if (canvas instanceof Nothing) {
             return logShow2("CanvasId " + (v1.value0.canvasId + " does not exist!"))();
@@ -4085,12 +4100,6 @@ var PS =
 
   // output/HarborView.Maunaloa.LevelLine/foreign.js
   var x1 = 45;
-  var initLines = function() {
-    return {
-      items: [],
-      pilotLine: null
-    };
-  };
   var STD_LINE = 1;
   var RISC_LINE = 2;
   var BREAK_EVEN_LINE = 3;
@@ -4098,15 +4107,12 @@ var PS =
   var lineShapeOf = (line) => {
     return line.value0.lt;
   };
-  var _lines = initLines();
-  var _eventListeners = [];
   var createPilotLine = function(y, strokeStyle) {
     return { y, strokeStyle };
   };
-  var closestLine = function(y) {
+  var closestLine = function(items, y) {
     var dist = 1e8;
     var index4 = null;
-    const items = _lines.items;
     for (var i = 0; i < items.length; ++i) {
       if (lineShapeOf(items[i]) === BREAK_EVEN_LINE) {
         continue;
@@ -4125,190 +4131,265 @@ var PS =
       return items[index4];
     }
   };
-  var clearRect2 = function() {
-    _ctx.clearRect(0, 0, _v.w, _v.h);
+  var initLines = function() {
+    return {
+      items: [],
+      pilotLine: null
+    };
   };
-  var draw = function() {
-    clearRect2();
-    const items = _lines.items;
-    for (var i = 0; i < items.length; ++i) {
-      const curLine = items[i];
-      const adtShape = lineShapeOf(curLine);
-      switch (adtShape) {
-        case STD_LINE:
-          paintStdLine(curLine);
-          break;
-        case RISC_LINE:
-          paintRiscLine(curLine);
-          break;
-        case BREAK_EVEN_LINE:
-          paintBreakEvenLine(curLine);
-          break;
-        case NO_SUCH_LINE:
-          break;
+  var LevelLineInternal = class {
+    constructor() {
+      this.ctx = null;
+      this.v = null;
+      this.lines = initLines();
+      this.eventListeners = [];
+    }
+    paint(x2, y, displayValue, strokeStyle) {
+      const _ctx = this.ctx;
+      _ctx.lineWidth = 1;
+      _ctx.strokeStyle = strokeStyle;
+      _ctx.beginPath();
+      _ctx.moveTo(x1, y);
+      _ctx.lineTo(x2, y);
+      _ctx.stroke();
+      _ctx.font = "16px Arial";
+      _ctx.fillStyle = "#000000";
+      _ctx.fillText(displayValue, x1, y - 10);
+    }
+    clearRect() {
+      this.ctx.clearRect(0, 0, this.v.w, this.v.h);
+    }
+    draw() {
+      this.clearRect();
+      const items = this.lines.items;
+      for (var i = 0; i < items.length; ++i) {
+        const curLine = items[i];
+        const adtShape = lineShapeOf(curLine);
+        switch (adtShape) {
+          case STD_LINE:
+            this.paintStdLine(curLine);
+            break;
+          case RISC_LINE:
+            this.paintRiscLine(curLine);
+            break;
+          case BREAK_EVEN_LINE:
+            this.paintBreakEvenLine(curLine);
+            break;
+          case NO_SUCH_LINE:
+            break;
+        }
       }
+      this.paintPilotLine();
     }
-    paintPilotLine();
-  };
-  var addListener = (listener) => () => {
-    _eventListeners.push(listener);
-  };
-  var resetListeners = () => {
-    _eventListeners = [];
-    _lines = initLines();
-  };
-  var getListeners = () => {
-    return _eventListeners;
-  };
-  var onMouseDown = (evt) => () => {
-    const items = _lines.items;
-    if (items.length === 0) {
-      return;
-    }
-    if (items.length === 1) {
-      const curLine = items[0].value0;
-      curLine.selected = true;
-      _lines.pilotLine = createPilotLine(curLine.y, "black");
-    } else {
-      const cl = closestLine(evt.offsetY);
-      if (cl !== null) {
-        cl.value0.selected = true;
-        _lines.pilotLine = createPilotLine(cl.y, "black");
+    paintStdLine(line) {
+      const rec = line.value0;
+      if (rec.selected === true) {
+        return;
       }
+      const y = rec.y;
+      const displayValue = this.pixToValue(y).toFixed(2);
+      const x2 = this.v.w - x1;
+      this.paint(x2, y, displayValue, "black");
     }
-  };
-  var onMouseDrag = (evt) => () => {
-    if (_lines.pilotLine === null) {
-      return;
-    }
-    _lines.pilotLine.y = evt.offsetY;
-    draw();
-  };
-  var onMouseUpImpl = (just) => (nothing) => () => {
-    var result = nothing;
-    const items = _lines.items;
-    for (var i = 0; i < items.length; ++i) {
-      const curLine = items[i];
-      const adtShape = lineShapeOf(curLine);
-      if (adtShape === BREAK_EVEN_LINE) {
-        continue;
+    paintRiscLine(line) {
+      const rec = line.value0;
+      if (rec.selected === true) {
+        return;
       }
-      const curRec = curLine.value0;
-      if (curRec.selected == true) {
-        curRec.y = _lines.pilotLine.y;
-        curRec.selected = false;
-        if (adtShape === RISC_LINE) {
-          result = just(curLine);
+      const displayValue = this.pixToValue(rec.y).toFixed(2) + " - " + rec.ticker + ", bid: " + rec.bid.toFixed(2) + ", risc: " + rec.risc.toFixed(2) + ", risc price: " + rec.riscPrice.toFixed(2);
+      const x2 = this.v.w - x1;
+      this.paint(x2, rec.y, displayValue, "red");
+    }
+    paintBreakEvenLine(line) {
+      const rec = line.value0;
+      if (rec.selected === true) {
+        return;
+      }
+      const y = rec.y;
+      const displayValue = rec.breakEven.toFixed(2) + " - " + rec.ticker + ", ask: " + rec.ask.toFixed(2);
+      const x2 = this.v.w - x1;
+      this.paint(x2, y, displayValue, "green");
+    }
+    paintPilotLine() {
+      if (this.lines.pilotLine === null) {
+        return;
+      }
+      const y = this.lines.pilotLine.y;
+      const displayValue = this.pixToValue(y).toFixed(2);
+      const x2 = this.v.w - x1;
+      this.paint(x2, y, displayValue, "black");
+    }
+    pixToValue(pix) {
+      const _v = this.v;
+      return _v.maxVal - (pix - _v.padding.top) / _v.ppy;
+    }
+    valueToPix(value13) {
+      const _v = this.v;
+      return (_v.maxVal - value13) * _v.ppy + _v.padding.top;
+    }
+    addListener(listener) {
+      this.eventListeners.push(listener);
+    }
+    resetListeners() {
+      this.eventListeners = [];
+      this.lines = initLines();
+    }
+    getListeners() {
+      return this.eventListeners;
+    }
+    onMouseDown(evt) {
+      const items = this.lines.items;
+      if (items.length === 0) {
+        return;
+      }
+      if (items.length === 1) {
+        const curLine = items[0].value0;
+        curLine.selected = true;
+        this.lines.pilotLine = createPilotLine(curLine.y, "black");
+      } else {
+        const cl = closestLine(items, evt.offsetY);
+        if (cl !== null) {
+          cl.value0.selected = true;
+          this.lines.pilotLine = createPilotLine(cl.y, "black");
         }
       }
     }
-    _lines.pilotLine = null;
-    if (result === nothing) {
-      draw();
+    onMouseDrag(evt) {
+      if (this.lines.pilotLine === null) {
+        return;
+      }
+      this.lines.pilotLine.y = evt.offsetY;
+      this.draw();
     }
-    return result;
-  };
-  var updateRiscLine = (riscLine) => (newValue) => () => {
-    console.log(riscLine);
-    const items = _lines.items;
-    for (var i = 0; i < items.length; ++i) {
-      const item = items[i];
-      if (item === riscLine) {
-        item.value0.bid = newValue;
-        break;
+    onMouseUpImpl(just, nothing) {
+      var result = nothing;
+      const items = this.lines.items;
+      for (var i = 0; i < items.length; ++i) {
+        const curLine = items[i];
+        const adtShape = lineShapeOf(curLine);
+        if (adtShape === BREAK_EVEN_LINE) {
+          continue;
+        }
+        const curRec = curLine.value0;
+        if (curRec.selected == true) {
+          curRec.y = this.lines.pilotLine.y;
+          curRec.selected = false;
+          if (adtShape === RISC_LINE) {
+            result = just(curLine);
+          }
+        }
+      }
+      this.lines.pilotLine = null;
+      if (result === nothing) {
+        this.draw();
+      }
+      return result;
+    }
+    updateRiscLine(riscLine, newValue) {
+      console.log(riscLine);
+      const items = this.lines.items;
+      for (var i = 0; i < items.length; ++i) {
+        const item = items[i];
+        if (item === riscLine) {
+          item.value0.bid = newValue;
+          break;
+        }
+      }
+      this.draw();
+    }
+    redraw(ctx, vruler2) {
+      ctx.clearRect(0, 0, vruler2.w, vruler2.h);
+      this.ctx = ctx;
+      this.v = vruler2;
+    }
+    clearCanvas() {
+      if (this.ctx === null) {
+        return;
+      }
+      if (this.v === null) {
+        return;
+      }
+      this.clearRect();
+      this.lines = initLines();
+    }
+    clearLines() {
+      this.lines = initLines();
+      this.clearRect();
+    }
+    addLine(line) {
+      this.lines.items.push(line);
+      const adtShape = lineShapeOf(line);
+      switch (adtShape) {
+        case STD_LINE:
+          this.paintStdLine(line);
+          break;
+        case RISC_LINE:
+          this.paintRiscLine(line);
+          break;
+        case BREAK_EVEN_LINE:
+          this.paintBreakEvenLine(line);
+          break;
+        default:
+          console.log("No such class: " + adtShape);
       }
     }
-    draw();
   };
-  var _ctx = null;
-  var _v = null;
-  var redraw = (ctx) => (vruler2) => () => {
-    ctx.clearRect(0, 0, vruler2.w, vruler2.h);
-    _ctx = ctx;
-    _v = vruler2;
-  };
-  var clearCanvas = () => {
-    if (_ctx === null) {
-      return;
-    }
-    if (_v === null) {
-      return;
-    }
-    clearRect2();
-    _lines = initLines();
-  };
-  var clearLines = () => {
-    _lines = initLines();
-    clearRect2();
-  };
-  var addLine = (line) => () => {
-    _lines.items.push(line);
-    const adtShape = lineShapeOf(line);
-    switch (adtShape) {
-      case STD_LINE:
-        paintStdLine(line);
-        break;
-      case RISC_LINE:
-        paintRiscLine(line);
-        break;
-      case BREAK_EVEN_LINE:
-        paintBreakEvenLine(line);
-        break;
-      default:
-        console.log("No such class: " + adtShape);
+  var linDay = new LevelLineInternal();
+  var linWeek = new LevelLineInternal();
+  var linMonth = new LevelLineInternal();
+  var getLin = (chartType) => {
+    switch (chartType) {
+      case 1:
+        return linDay;
+      case 2:
+        return linWeek;
+      case 3:
+        return linMonth;
     }
   };
-  var paintStdLine = function(line) {
-    const rec = line.value0;
-    if (rec.selected === true) {
-      return;
-    }
-    const y = rec.y;
-    const displayValue = pixToValue2(y).toFixed(2);
-    const x2 = _v.w - x1;
-    paint6(x2, y, displayValue, "black");
+  var addListener = (chartType) => (listener) => () => {
+    const lin = getLin(chartType);
+    lin.addListener(listener);
   };
-  var paintRiscLine = function(line) {
-    const rec = line.value0;
-    if (rec.selected === true) {
-      return;
-    }
-    const displayValue = pixToValue2(rec.y).toFixed(2) + " - " + rec.ticker + ", bid: " + rec.bid.toFixed(2) + ", risc: " + rec.risc.toFixed(2) + ", risc price: " + rec.riscPrice.toFixed(2);
-    const x2 = _v.w - x1;
-    paint6(x2, rec.y, displayValue, "red");
+  var resetListeners = (chartType) => () => {
+    const lin = getLin(chartType);
+    lin.resetListeners();
   };
-  var paintBreakEvenLine = function(line) {
-    const rec = line.value0;
-    if (rec.selected === true) {
-      return;
-    }
-    const y = rec.y;
-    const displayValue = rec.breakEven.toFixed(2) + " - " + rec.ticker + ", ask: " + rec.ask.toFixed(2);
-    const x2 = _v.w - x1;
-    paint6(x2, y, displayValue, "green");
+  var getListeners = (chartType) => () => {
+    const lin = getLin(chartType);
+    return lin.getListeners();
   };
-  var paintPilotLine = function() {
-    if (_lines.pilotLine === null) {
-      return;
-    }
-    const y = _lines.pilotLine.y;
-    const displayValue = pixToValue2(y).toFixed(2);
-    const x2 = _v.w - x1;
-    paint6(x2, y, displayValue, "black");
+  var onMouseDown = (chartType) => (evt) => () => {
+    const lin = getLin(chartType);
+    lin.onMouseDown(evt);
   };
-  var pixToValue2 = function(pix) {
-    return _v.maxVal - (pix - _v.padding.top) / _v.ppy;
+  var onMouseDrag = (chartType) => (evt) => () => {
+    const lin = getLin(chartType);
+    lin.onMouseDrag(evt);
   };
-  var paint6 = function(x2, y, displayValue, strokeStyle) {
-    _ctx.lineWidth = 1;
-    _ctx.strokeStyle = strokeStyle;
-    _ctx.beginPath();
-    _ctx.moveTo(x1, y);
-    _ctx.lineTo(x2, y);
-    _ctx.stroke();
-    _ctx.font = "16px Arial";
-    _ctx.fillStyle = "#000000";
-    _ctx.fillText(displayValue, x1, y - 10);
+  var onMouseUpImpl = (chartType) => (just) => (nothing) => () => {
+    const lin = getLin(chartType);
+    return lin.onMouseUpImpl(just, nothing);
+  };
+  var updateRiscLine = (chartType) => (riscLine) => (newValue) => () => {
+    const lin = getLin(chartType);
+    lin.updateRiscLine(riscLine, newValue);
+  };
+  var redraw = (chartType) => (ctx) => (vruler2) => () => {
+    const lin = getLin(chartType);
+    lin.redraw(ctx, vruler2);
+  };
+  var clearCanvas = (chartType) => () => {
+    const lin = getLin(chartType);
+    lin.clearCanvas();
+  };
+  var clearLines = (chartType) => () => {
+    const lin = getLin(chartType);
+    lin.clearLines();
+  };
+  var addLine = (chartType) => (line) => () => {
+    const lin = getLin(chartType);
+    lin.addLine(line);
   };
 
   // output/Affjax/foreign.js
@@ -5377,7 +5458,7 @@ var PS =
   // output/Effect.Aff.Compat/index.js
   var fromEffectFnAff = function(v) {
     return makeAff(function(k) {
-      return function __do3() {
+      return function __do2() {
         var v1 = v(function($9) {
           return k(Left.create($9))();
         }, function($10) {
@@ -5385,7 +5466,7 @@ var PS =
         });
         return function(e) {
           return makeAff(function(k2) {
-            return function __do4() {
+            return function __do3() {
               v1(e, function($11) {
                 return k2(Left.create($11))();
               }, function($12) {
@@ -6397,7 +6478,7 @@ var PS =
         return pure6(unit);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 426, column 5 - line 428, column 28): " + [el.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 432, column 5 - line 434, column 28): " + [el.constructor.name]);
     };
   };
   var updOptionPriceFromJson = /* @__PURE__ */ decodeJson(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons2(gDecodeJsonNil)({
@@ -6408,9 +6489,12 @@ var PS =
   var unlisten = function(v) {
     return removeEventListener(v.eventType)(v.listener)(false)(toEventTarget(v.target));
   };
-  var unlistenEvents = function __do() {
-    var listeners = getListeners();
-    return applySecond3(traverse_2(unlisten)(listeners))(resetListeners)();
+  var unlistenEvents = function(ct) {
+    var cti = chartTypeAsInt(ct);
+    return function __do2() {
+      var listeners = getListeners(cti)();
+      return applySecond3(traverse_2(unlisten)(listeners))(resetListeners(cti))();
+    };
   };
   var showLine = {
     show: function(v) {
@@ -6426,7 +6510,7 @@ var PS =
         return "BreakEvenLine: " + show23(v.value0);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 124, column 1 - line 127, column 57): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 126, column 1 - line 129, column 57): " + [v.constructor.name]);
     }
   };
   var logShow22 = /* @__PURE__ */ logShow(showLine);
@@ -6436,23 +6520,28 @@ var PS =
       return mainURL + ("/stockoption/price/" + (v + ("/" + toStringWith(fixed(2))(curStockPrice))));
     };
   };
-  var onMouseUp = function(v) {
-    return onMouseUpImpl(Just.create)(Nothing.value);
+  var onMouseUp = function(ct) {
+    return function(v) {
+      return onMouseUpImpl(chartTypeAsInt(ct))(Just.create)(Nothing.value);
+    };
   };
   var ltSTD = 1;
   var ltRISC = 2;
   var ltBREAK_EVEN = 3;
-  var initEvent = function(toListener) {
-    return function(element) {
-      return function(eventType) {
-        return function __do3() {
-          var e1 = eventListener(toListener)();
-          var info2 = {
-            target: element,
-            listener: e1,
-            eventType
+  var initEvent = function(ct) {
+    return function(toListener) {
+      return function(element) {
+        return function(eventType) {
+          return function __do2() {
+            var e1 = eventListener(toListener)();
+            var info2 = {
+              target: element,
+              listener: e1,
+              eventType
+            };
+            var cti = chartTypeAsInt(ct);
+            return applySecond3(addListener(cti)(info2))(addEventListener(eventType)(e1)(false)(toEventTarget(element)))();
           };
-          return applySecond3(addListener(info2))(addEventListener(eventType)(e1)(false)(toEventTarget(element)))();
         };
       };
     };
@@ -6473,13 +6562,13 @@ var PS =
       });
     });
   };
-  var getDoc = function __do2() {
+  var getDoc = function __do() {
     var win = windowImpl();
     var doc = document2(win)();
     return toNonElementParentNode(doc);
   };
   var getHtmlContext = function(v) {
-    return function __do3() {
+    return function __do2() {
       var doc = getDoc();
       var canvasElement = getElementById(v.levelCanvasId)(doc)();
       var addLevelId2 = getElementById(v.addLevelId)(doc)();
@@ -6511,10 +6600,10 @@ var PS =
               return new Right(json2.value0.value);
             }
             ;
-            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 355, column 25 - line 359, column 50): " + [json2.constructor.name]);
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 361, column 25 - line 365, column 50): " + [json2.constructor.name]);
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 348, column 17 - line 359, column 50): " + [res.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 354, column 17 - line 365, column 50): " + [res.constructor.name]);
         }();
         return pure12(result);
       });
@@ -6522,37 +6611,42 @@ var PS =
   };
   var handleUpdateOptionPrice = function(v) {
     return function(v1) {
-      if (v1 instanceof RiscLine) {
-        return launchAff_(function() {
-          var sp = pixToValue(v)(v1.value0.y);
-          return bind22(applySecond1(liftEffect3(logShow22(v1)))(fetchUpdatedOptionPrice(v1.value0.ticker)(sp)))(function(n) {
-            if (n instanceof Left) {
-              return handleErrorAff(n.value0);
-            }
-            ;
-            if (n instanceof Right) {
-              return liftEffect3(updateRiscLine(v1)(n.value0));
-            }
-            ;
-            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 371, column 13 - line 375, column 61): " + [n.constructor.name]);
-          });
-        }());
-      }
-      ;
-      return pure6(unit);
+      return function(v2) {
+        if (v2 instanceof RiscLine) {
+          return launchAff_(function() {
+            var sp = pixToValue(v1)(v2.value0.y);
+            var cti = chartTypeAsInt(v);
+            return bind22(applySecond1(liftEffect3(logShow22(v2)))(fetchUpdatedOptionPrice(v2.value0.ticker)(sp)))(function(n) {
+              if (n instanceof Left) {
+                return handleErrorAff(n.value0);
+              }
+              ;
+              if (n instanceof Right) {
+                return liftEffect3(updateRiscLine(cti)(v2)(n.value0));
+              }
+              ;
+              throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 378, column 13 - line 382, column 65): " + [n.constructor.name]);
+            });
+          }());
+        }
+        ;
+        return pure6(unit);
+      };
     };
   };
-  var handleMouseEventUpLine = function(vr) {
-    return function(line) {
-      if (line instanceof Nothing) {
-        return pure6(unit);
-      }
-      ;
-      if (line instanceof Just) {
-        return handleUpdateOptionPrice(vr)(line.value0);
-      }
-      ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 382, column 5 - line 386, column 45): " + [line.constructor.name]);
+  var handleMouseEventUpLine = function(ct) {
+    return function(vr) {
+      return function(line) {
+        if (line instanceof Nothing) {
+          return pure6(unit);
+        }
+        ;
+        if (line instanceof Just) {
+          return handleUpdateOptionPrice(ct)(vr)(line.value0);
+        }
+        ;
+        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 388, column 5 - line 392, column 48): " + [line.constructor.name]);
+      };
     };
   };
   var fetchLevelLinesURL = function(v) {
@@ -6575,10 +6669,10 @@ var PS =
             return new Right(lines3.value0);
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 304, column 25 - line 308, column 45): " + [lines3.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 310, column 25 - line 314, column 45): " + [lines3.constructor.name]);
         }
         ;
-        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 297, column 17 - line 308, column 45): " + [res.constructor.name]);
+        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 303, column 17 - line 314, column 45): " + [res.constructor.name]);
       }();
       return pure12(result);
     });
@@ -6586,88 +6680,107 @@ var PS =
   var defaultEventHandling = function(event) {
     return applySecond3(stopPropagation(event))(preventDefault(event));
   };
-  var mouseEventDown = function(evt) {
-    return applySecond3(defaultEventHandling(evt))(onMouseDown(evt));
-  };
-  var mouseEventDrag = function(evt) {
-    return applySecond3(defaultEventHandling(evt))(onMouseDrag(evt));
-  };
-  var mouseEventUp = function(vruler2) {
+  var mouseEventDown = function(ct) {
     return function(evt) {
-      return function __do3() {
-        var line = applySecond3(defaultEventHandling(evt))(onMouseUp(evt))();
-        return handleMouseEventUpLine(vruler2)(line)();
-      };
+      return applySecond3(defaultEventHandling(evt))(onMouseDown(chartTypeAsInt(ct))(evt));
     };
   };
-  var clear2 = clearCanvas;
-  var addRiscLine = function(vr) {
-    return function(line) {
-      var rl = new RiscLine({
-        y: valueToPix(vr)(line.riscStockPrice),
-        selected: false,
-        ticker: line.ticker,
-        bid: line.bid,
-        risc: line.risc,
-        riscPrice: line.riscOptionPrice,
-        lt: ltRISC
-      });
-      var bl = new BreakEvenLine({
-        y: valueToPix(vr)(line.be),
-        ticker: line.ticker,
-        ask: line.ask,
-        breakEven: line.be,
-        lt: ltBREAK_EVEN
-      });
-      return applySecond3(addLine(rl))(addLine(bl));
+  var mouseEventDrag = function(ct) {
+    return function(evt) {
+      return applySecond3(defaultEventHandling(evt))(onMouseDrag(chartTypeAsInt(ct))(evt));
     };
   };
-  var addRiscLines = function(vr) {
-    return function(lines3) {
-      var addRiscLine1 = addRiscLine(vr);
-      return traverse_2(addRiscLine1)(lines3);
-    };
-  };
-  var fetchLevelLineButtonClick = function(ticker) {
+  var mouseEventUp = function(ct) {
     return function(vruler2) {
       return function(evt) {
-        return applySecond3(applySecond3(defaultEventHandling(evt))(logShow3("fxbtn1")))(launchAff_(bind22(fetchLevelLines(ticker))(function(lines3) {
-          if (lines3 instanceof Left) {
-            return handleErrorAff(lines3.value0);
-          }
-          ;
-          if (lines3 instanceof Right) {
-            return liftEffect3(applySecond3(applySecond3(logShow1(lines3.value0))(clearLines))(addRiscLines(vruler2)(lines3.value0)));
-          }
-          ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 319, column 13 - line 328, column 22): " + [lines3.constructor.name]);
-        })));
+        return function __do2() {
+          var line = applySecond3(defaultEventHandling(evt))(onMouseUp(ct)(evt))();
+          return handleMouseEventUpLine(ct)(vruler2)(line)();
+        };
       };
     };
   };
-  var addLevelLineButtonClick = function(v) {
-    var line = new StdLine({
-      y: 200,
-      selected: false,
-      lt: ltSTD
-    });
-    return addLine(line);
+  var clear2 = function(cti) {
+    return clearCanvas(cti);
   };
-  var initEvents = function(ticker) {
-    return function(vruler2) {
-      return function(chartLevel) {
-        return function __do3() {
-          var context = applySecond3(unlistenEvents)(getHtmlContext(chartLevel))();
-          if (context instanceof Nothing) {
-            return applySecond3(alert("ERROR! (initEvents) No getHtmlContext chartLevel!"))(pure6(unit))();
-          }
-          ;
-          if (context instanceof Just) {
-            var ctx = getContext2D(context.value0.canvasContext)();
-            return applySecond3(applySecond3(applySecond3(applySecond3(applySecond3(redraw(ctx)(vruler2))(initEvent(addLevelLineButtonClick)(context.value0.addLevelLineBtn)("click")))(initEvent(fetchLevelLineButtonClick(ticker)(vruler2))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(mouseEventDown)(context.value0.canvasElement)("mousedown")))(initEvent(mouseEventDrag)(context.value0.canvasElement)("mousemove")))(initEvent(mouseEventUp(vruler2))(context.value0.canvasElement)("mouseup"))();
-          }
-          ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 465, column 9 - line 479, column 97): " + [context.constructor.name]);
+  var addRiscLine = function(ct) {
+    return function(vr) {
+      return function(line) {
+        var rl = new RiscLine({
+          y: valueToPix(vr)(line.riscStockPrice),
+          selected: false,
+          ticker: line.ticker,
+          bid: line.bid,
+          risc: line.risc,
+          riscPrice: line.riscOptionPrice,
+          lt: ltRISC
+        });
+        var cti = chartTypeAsInt(ct);
+        var bl = new BreakEvenLine({
+          y: valueToPix(vr)(line.be),
+          ticker: line.ticker,
+          ask: line.ask,
+          breakEven: line.be,
+          lt: ltBREAK_EVEN
+        });
+        return applySecond3(addLine(cti)(rl))(addLine(cti)(bl));
+      };
+    };
+  };
+  var addRiscLines = function(ct) {
+    return function(vr) {
+      return function(lines3) {
+        var addRiscLine1 = addRiscLine(ct)(vr);
+        return traverse_2(addRiscLine1)(lines3);
+      };
+    };
+  };
+  var fetchLevelLineButtonClick = function(ct) {
+    return function(ticker) {
+      return function(vruler2) {
+        return function(evt) {
+          return applySecond3(applySecond3(defaultEventHandling(evt))(logShow3("fxbtn1")))(launchAff_(bind22(fetchLevelLines(ticker))(function(lines3) {
+            if (lines3 instanceof Left) {
+              return handleErrorAff(lines3.value0);
+            }
+            ;
+            if (lines3 instanceof Right) {
+              return liftEffect3(applySecond3(applySecond3(logShow1(lines3.value0))(clearLines(chartTypeAsInt(ct))))(addRiscLines(ct)(vruler2)(lines3.value0)));
+            }
+            ;
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 325, column 13 - line 334, column 22): " + [lines3.constructor.name]);
+          })));
+        };
+      };
+    };
+  };
+  var addLevelLineButtonClick = function(ct) {
+    return function(v) {
+      var line = new StdLine({
+        y: 200,
+        selected: false,
+        lt: ltSTD
+      });
+      return addLine(chartTypeAsInt(ct))(line);
+    };
+  };
+  var initEvents = function(ct) {
+    return function(ticker) {
+      return function(vruler2) {
+        return function(chartLevel) {
+          return function __do2() {
+            var context = applySecond3(unlistenEvents(ct))(getHtmlContext(chartLevel))();
+            if (context instanceof Nothing) {
+              return applySecond3(alert("ERROR! (initEvents) No getHtmlContext chartLevel!"))(pure6(unit))();
+            }
+            ;
+            if (context instanceof Just) {
+              var ctx = getContext2D(context.value0.canvasContext)();
+              return applySecond3(applySecond3(applySecond3(applySecond3(applySecond3(redraw(chartTypeAsInt(ct))(ctx)(vruler2))(initEvent(ct)(addLevelLineButtonClick(ct))(context.value0.addLevelLineBtn)("click")))(initEvent(ct)(fetchLevelLineButtonClick(ct)(ticker)(vruler2))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(ct)(mouseEventDown(ct))(context.value0.canvasElement)("mousedown")))(initEvent(ct)(mouseEventDrag(ct))(context.value0.canvasElement)("mousemove")))(initEvent(ct)(mouseEventUp(ct)(vruler2))(context.value0.canvasElement)("mouseup"))();
+            }
+            ;
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 472, column 9 - line 486, column 103): " + [context.constructor.name]);
+          };
         };
       };
     };
@@ -6725,27 +6838,33 @@ var PS =
     ;
     throw new Error("Failed pattern match at HarborView.Maunaloa.ChartCollection (line 77, column 1 - line 77, column 39): " + [v.constructor.name]);
   };
-  var levelLines = function(ticker) {
-    return function(charts) {
-      var levelLine = find2(findChartPredicate)(charts);
-      if (levelLine instanceof Nothing) {
-        return applySecond4(logShow12("ERROR! (levelLines) No levelLine!"))(pure7(unit));
-      }
-      ;
-      if (levelLine instanceof Just && levelLine.value0 instanceof Chart) {
-        var caid = fromJust4(levelLine.value0.value0.chartLevel);
-        return initEvents(ticker)(levelLine.value0.value0.vruler)(caid);
-      }
-      ;
-      return pure7(unit);
+  var levelLines = function(ct) {
+    return function(ticker) {
+      return function(charts) {
+        var levelLine = find2(findChartPredicate)(charts);
+        if (levelLine instanceof Nothing) {
+          return applySecond4(logShow12("ERROR! (levelLines) No levelLine!"))(pure7(unit));
+        }
+        ;
+        if (levelLine instanceof Just && levelLine.value0 instanceof Chart) {
+          var caid = fromJust4(levelLine.value0.value0.chartLevel);
+          return initEvents(ct)(ticker)(levelLine.value0.value0.vruler)(caid);
+        }
+        ;
+        return pure7(unit);
+      };
     };
   };
-  var paint7 = function(v) {
-    var paint_ = paint5(v.hruler);
-    return applySecond4(traverse_3(paint_)(v.charts))(levelLines(v.ticker)(v.charts));
+  var paint6 = function(ct) {
+    return function(v) {
+      var paint_ = paint5(v.hruler);
+      return applySecond4(traverse_3(paint_)(v.charts))(levelLines(ct)(v.ticker)(v.charts));
+    };
   };
-  var paintAff = function(coll) {
-    return liftEffect4(paint7(coll));
+  var paintAff = function(ct) {
+    return function(coll) {
+      return liftEffect4(paint6(ct)(coll));
+    };
   };
 
   // output/HarborView.Maunaloa.ChartTransform/index.js
@@ -7150,14 +7269,14 @@ var PS =
               chartType: ctype,
               mappings,
               globalChartWidth: 1750,
-              scaling: 1.15
+              scaling: 1.1
             };
           };
         };
       };
     };
   };
-  var paint8 = function(chartTypeId) {
+  var paint7 = function(chartTypeId) {
     return function(mappings) {
       return function(ticker) {
         return function(dropAmt) {
@@ -7168,7 +7287,7 @@ var PS =
             var cachedResponse = getJsonResponse(reposId);
             if (cachedResponse instanceof Just) {
               var collection = runReader(transform2(cachedResponse.value0))(curEnv);
-              return applySecond5(logShow5("Fetched response from repository"))(paint7(collection));
+              return applySecond5(logShow5("Fetched response from repository"))(paint6(curChartType)(collection));
             }
             ;
             if (cachedResponse instanceof Nothing) {
@@ -7179,25 +7298,27 @@ var PS =
                 ;
                 if (charts instanceof Right) {
                   var collection2 = runReader(transform2(charts.value0))(curEnv);
-                  return applySecond12(liftEffect5(setJsonResponse(reposId)(charts.value0)))(paintAff(collection2));
+                  return applySecond12(liftEffect5(setJsonResponse(reposId)(charts.value0)))(paintAff(curChartType)(collection2));
                 }
                 ;
-                throw new Error("Failed pattern match at Main (line 90, column 21 - line 98, column 64): " + [charts.constructor.name]);
+                throw new Error("Failed pattern match at Main (line 90, column 21 - line 98, column 77): " + [charts.constructor.name]);
               }));
             }
             ;
-            throw new Error("Failed pattern match at Main (line 80, column 5 - line 98, column 64): " + [cachedResponse.constructor.name]);
+            throw new Error("Failed pattern match at Main (line 80, column 5 - line 98, column 77): " + [cachedResponse.constructor.name]);
           };
         };
       };
     };
   };
-  var clearLevelLines = /* @__PURE__ */ applySecond5(/* @__PURE__ */ logShow5("clearLevelLines"))(clear2);
-  var main = /* @__PURE__ */ applySecond5(/* @__PURE__ */ applySecond5(/* @__PURE__ */ paint8(4)([])("-")(0)(0))(/* @__PURE__ */ paintEmpty3([])))(clearLevelLines);
+  var clearLevelLines = function(cti) {
+    return applySecond5(logShow5("clearLevelLines"))(clear2(cti));
+  };
+  var main = /* @__PURE__ */ applySecond5(/* @__PURE__ */ applySecond5(/* @__PURE__ */ paint7(4)([])("-")(0)(0))(/* @__PURE__ */ paintEmpty3([])))(/* @__PURE__ */ clearLevelLines(1));
 
   // <stdin>
   return {
-           paint: paint8,
+           paint: paint7,
            paintEmpty: paintEmpty3,
            clearLevelLines:  clearLevelLines }
 })();

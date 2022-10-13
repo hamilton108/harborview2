@@ -38,8 +38,8 @@ import HarborView.Maunaloa.Chart
 import HarborView.Maunaloa.HRuler as H
 import HarborView.Maunaloa.Common 
     ( HtmlId(..)
-    , ChartWidth(..)
     , ChartMapping(..)
+    , ChartType
     , Ticker
     )
 import HarborView.Maunaloa.LevelLine as LevelLine
@@ -86,8 +86,8 @@ findLevelLineChart :: Array Chart -> Maybe Chart
 findLevelLineChart charts = 
     Array.find findChartPredicate charts
 
-levelLines :: Ticker -> Array Chart -> Effect Unit
-levelLines ticker charts = 
+levelLines :: ChartType -> Ticker -> Array Chart -> Effect Unit
+levelLines ct ticker charts = 
     let
         levelLine = Array.find findChartPredicate charts
     in
@@ -99,21 +99,21 @@ levelLines ticker charts =
             let 
                 caid = unsafePartial $ fromJust levelLine1.chartLevel
             in
-            LevelLine.initEvents ticker levelLine1.vruler caid
+            LevelLine.initEvents ct ticker levelLine1.vruler caid
         _ ->
             pure unit
 
-paint :: ChartCollection -> Effect Unit
-paint (ChartCollection coll) = 
+paint :: ChartType -> ChartCollection -> Effect Unit
+paint ct (ChartCollection coll) = 
     let 
         paint_ = C.paint coll.hruler
     in
     traverse_ paint_ coll.charts *>
-    levelLines coll.ticker coll.charts
+    levelLines ct coll.ticker coll.charts
 
-paintAff :: ChartCollection -> Aff Unit
-paintAff coll = 
-    liftEffect $ paint coll
+paintAff :: ChartType -> ChartCollection -> Aff Unit
+paintAff ct coll = 
+    liftEffect $ paint ct coll
     
 paintEmpty :: EmptyChartCollection -> Effect Unit
 paintEmpty (EmptyChartCollection coll) = 

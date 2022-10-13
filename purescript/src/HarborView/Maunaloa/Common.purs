@@ -217,6 +217,11 @@ asChartType 3 =
 asChartType _ = 
     DayChart
 
+chartTypeAsInt  :: ChartType -> Int
+chartTypeAsInt DayChart   = 1 
+chartTypeAsInt WeekChart  = 2
+chartTypeAsInt MonthChart = 3
+
 newtype Drop = Drop Int
 
 newtype Take = Take Int

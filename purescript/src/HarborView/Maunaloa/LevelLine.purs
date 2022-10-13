@@ -39,6 +39,8 @@ import HarborView.Maunaloa.Common
     ( Pix(..)
     , HtmlId(..)
     , Ticker(..)
+    , ChartType
+    , chartTypeAsInt
     , mainURL
     , alert)
 import HarborView.Maunaloa.VRuler (VRuler,valueToPix,pixToValue)
@@ -71,27 +73,27 @@ main = do
 
 
 
-foreign import addListener :: EventListenerInfo -> Effect Unit
+foreign import addListener :: Int -> EventListenerInfo -> Effect Unit
 
-foreign import resetListeners :: Effect Unit 
+foreign import resetListeners :: Int -> Effect Unit 
 
-foreign import getListeners :: Effect (Array EventListenerInfo)
+foreign import getListeners :: Int -> Effect (Array EventListenerInfo)
 
-foreign import clearLines :: Effect Unit
+foreign import clearLines :: Int -> Effect Unit
 
-foreign import addLine :: Line -> Effect Unit
+foreign import addLine :: Int -> Line -> Effect Unit
 
-foreign import onMouseDown :: Event.Event -> Effect Unit
+foreign import onMouseDown :: Int -> Event.Event -> Effect Unit
 
-foreign import onMouseDrag :: Event.Event -> Effect Unit
+foreign import onMouseDrag :: Int -> Event.Event -> Effect Unit
 
-foreign import onMouseUpImpl :: (Line -> Maybe Line) -> (Maybe Line) -> Effect (Maybe Line)
+foreign import onMouseUpImpl :: Int -> (Line -> Maybe Line) -> (Maybe Line) -> Effect (Maybe Line)
 
-foreign import updateRiscLine :: Line -> Number -> Effect Unit
+foreign import updateRiscLine :: Int -> Line -> Number -> Effect Unit
 
-foreign import redraw :: Context2D -> VRuler -> Effect Unit 
+foreign import redraw :: Int -> Context2D -> VRuler -> Effect Unit 
 
-foreign import clearCanvas :: Effect Unit
+foreign import clearCanvas :: Int -> Effect Unit
 
 --foreign import showJson :: Json -> Effect Unit
 
@@ -135,8 +137,8 @@ ltRISC = 2
 ltBREAK_EVEN :: Int 
 ltBREAK_EVEN= 3
 
-onMouseUp :: Event.Event -> Effect (Maybe Line)
-onMouseUp _ = onMouseUpImpl Just Nothing 
+onMouseUp :: ChartType -> Event.Event -> Effect (Maybe Line)
+onMouseUp ct _ = onMouseUpImpl (chartTypeAsInt ct) Just Nothing 
 
 {-
 const STD_LINE = 1;
@@ -221,11 +223,14 @@ unlisten :: EventListenerInfo -> Effect Unit
 unlisten (EventListenerInfo {target,listener,eventType}) = 
     EventTarget.removeEventListener eventType listener false (toEventTarget target)
 
-unlistenEvents :: Effect Unit
-unlistenEvents = 
-    getListeners >>= \listeners ->
+unlistenEvents :: ChartType -> Effect Unit
+unlistenEvents ct = 
+    let 
+        cti = chartTypeAsInt ct
+    in
+    getListeners cti >>= \listeners ->
     Traversable.traverse_ unlisten listeners *>
-    resetListeners 
+    resetListeners cti
 
 {-
 unlistener :: EventListenerRef -> Int -> Effect Unit
@@ -240,12 +245,12 @@ remButtonClick evt =
     resetListeners 
 -}
 
-addLevelLineButtonClick :: Event.Event -> Effect Unit
-addLevelLineButtonClick _ =
+addLevelLineButtonClick :: ChartType -> Event.Event -> Effect Unit
+addLevelLineButtonClick ct _ =
     let
         line = StdLine { y: 200.0, selected: false, lt: ltSTD }
     in
-    addLine line
+    addLine (chartTypeAsInt ct) line
 
 fetchLevelLinesURL :: Ticker -> String
 fetchLevelLinesURL (Ticker ticker) =
@@ -257,9 +262,10 @@ optionPriceURL (Ticker ticker) curStockPrice =
     mainURL <> "/stockoption/price/" <> ticker <> "/" <> toStringWith (fixed 2) curStockPrice
 
 
-addRiscLine :: VRuler -> RiscLineJson -> Effect Unit
-addRiscLine vr line = 
+addRiscLine :: ChartType -> VRuler -> RiscLineJson -> Effect Unit
+addRiscLine ct vr line = 
     let 
+        cti = chartTypeAsInt ct
         ticker = Ticker line.ticker
         rl = RiscLine
                 { y: valueToPix vr line.riscStockPrice
@@ -278,13 +284,13 @@ addRiscLine vr line =
                 , lt: ltBREAK_EVEN
                 }
     in
-    addLine rl *>
-    addLine bl 
+    addLine cti rl *>
+    addLine cti bl 
 
-addRiscLines :: VRuler -> RiscLinesJson -> Effect Unit
-addRiscLines vr lines = 
+addRiscLines :: ChartType -> VRuler -> RiscLinesJson -> Effect Unit
+addRiscLines ct vr lines = 
     let 
-        addRiscLine1 = addRiscLine vr
+        addRiscLine1 = addRiscLine ct vr
     in
     Traversable.traverse_ addRiscLine1 lines
 
@@ -309,8 +315,8 @@ fetchLevelLines ticker =
         in
         pure result
 
-fetchLevelLineButtonClick :: Ticker -> VRuler -> Event.Event -> Effect Unit
-fetchLevelLineButtonClick ticker vruler evt = 
+fetchLevelLineButtonClick :: ChartType -> Ticker -> VRuler -> Event.Event -> Effect Unit
+fetchLevelLineButtonClick ct ticker vruler evt = 
     defaultEventHandling evt *>
     logShow "fxbtn1" *>
     launchAff_ 
@@ -323,21 +329,21 @@ fetchLevelLineButtonClick ticker vruler evt =
                     liftEffect 
                     (
                         logShow lines1 *>
-                        clearLines *>
-                        addRiscLines vruler lines1
+                        clearLines (chartTypeAsInt ct) *>
+                        addRiscLines ct vruler lines1
                     )
     )
 
 
-mouseEventDown :: Event.Event -> Effect Unit
-mouseEventDown evt = 
+mouseEventDown :: ChartType -> Event.Event -> Effect Unit
+mouseEventDown ct evt = 
     defaultEventHandling evt *>
-    onMouseDown evt 
+    onMouseDown (chartTypeAsInt ct) evt 
 
-mouseEventDrag :: Event.Event -> Effect Unit
-mouseEventDrag evt = 
+mouseEventDrag :: ChartType -> Event.Event -> Effect Unit
+mouseEventDrag ct evt = 
     defaultEventHandling evt *>
-    onMouseDrag evt
+    onMouseDrag (chartTypeAsInt ct) evt
 
 fetchUpdatedOptionPrice :: Ticker -> Number -> Aff (Either MaunaloaError Number)
 fetchUpdatedOptionPrice ticker curStockPrice = 
@@ -360,10 +366,11 @@ fetchUpdatedOptionPrice ticker curStockPrice =
         in 
         pure result
 
-handleUpdateOptionPrice :: VRuler -> Line -> Effect Unit
-handleUpdateOptionPrice vr lref@(RiscLine line) = 
+handleUpdateOptionPrice :: ChartType -> VRuler -> Line -> Effect Unit
+handleUpdateOptionPrice ct vr lref@(RiscLine line) = 
     launchAff_ $
         let 
+            cti = chartTypeAsInt ct
             sp = pixToValue vr (Pix line.y)
         in
         (liftEffect $ logShow lref) *>
@@ -372,18 +379,17 @@ handleUpdateOptionPrice vr lref@(RiscLine line) =
                 Left err ->
                     handleErrorAff err
                 Right value ->
-                    (liftEffect $ updateRiscLine lref value)
-
-handleUpdateOptionPrice _ _ = 
+                    (liftEffect $ updateRiscLine cti lref value)
+handleUpdateOptionPrice _ _ _ = 
     pure unit
 
-handleMouseEventUpLine :: VRuler -> Maybe Line -> Effect Unit
-handleMouseEventUpLine vr line = 
+handleMouseEventUpLine :: ChartType -> VRuler -> Maybe Line -> Effect Unit
+handleMouseEventUpLine ct vr line = 
     case line of 
         Nothing -> 
             pure unit
         Just line1 ->
-            handleUpdateOptionPrice vr line1
+            handleUpdateOptionPrice ct vr line1
 
 {- 
         Just lref@(RiscLine rec0) ->76
@@ -397,11 +403,11 @@ handleMouseEventUpLine vr line =
             pure unit
 -}
 
-mouseEventUp :: VRuler -> Event.Event -> Effect Unit
-mouseEventUp vruler evt = 
+mouseEventUp :: ChartType -> VRuler -> Event.Event -> Effect Unit
+mouseEventUp ct vruler evt = 
     defaultEventHandling evt *>
-    onMouseUp evt >>= \line ->
-    handleMouseEventUpLine vruler line 
+    onMouseUp ct evt >>= \line ->
+    handleMouseEventUpLine ct vruler line 
 
 
 getHtmlContext1 :: 
@@ -449,18 +455,19 @@ getHtmlContext
 
 
 
-initEvent :: (Event.Event -> Effect Unit) -> Element -> EventType -> Effect Unit
-initEvent toListener element eventType =
+initEvent :: ChartType -> (Event.Event -> Effect Unit) -> Element -> EventType -> Effect Unit
+initEvent ct toListener element eventType =
     EventTarget.eventListener toListener >>= \e1 -> 
     let
         info = EventListenerInfo {target: element, listener: e1, eventType: eventType}
+        cti = chartTypeAsInt ct
     in 
-    addListener info *>
+    addListener cti info *>
     EventTarget.addEventListener eventType e1 false (toEventTarget element) 
 
-initEvents :: Ticker -> VRuler -> ChartLevel -> Effect Unit
-initEvents ticker vruler chartLevel =
-    unlistenEvents *>
+initEvents :: ChartType -> Ticker -> VRuler -> ChartLevel -> Effect Unit
+initEvents ct ticker vruler chartLevel =
+    unlistenEvents ct *>
     getHtmlContext chartLevel >>= \context ->
         case context of
             Nothing ->
@@ -471,12 +478,12 @@ initEvents ticker vruler chartLevel =
                     ce = context1.canvasContext  
                 in
                 Canvas.getContext2D ce >>= \ctx ->
-                    redraw ctx vruler *>
-                    initEvent addLevelLineButtonClick context1.addLevelLineBtn (EventType "click") *>
-                    initEvent (fetchLevelLineButtonClick ticker vruler) context1.fetchLevelLinesBtn (EventType "click") *>
-                    initEvent mouseEventDown context1.canvasElement (EventType "mousedown") *>
-                    initEvent mouseEventDrag context1.canvasElement (EventType "mousemove") *>
-                    initEvent (mouseEventUp vruler) context1.canvasElement (EventType "mouseup") 
+                    redraw (chartTypeAsInt ct) ctx vruler *>
+                    initEvent ct (addLevelLineButtonClick ct) context1.addLevelLineBtn (EventType "click") *>
+                    initEvent ct (fetchLevelLineButtonClick ct ticker vruler) context1.fetchLevelLinesBtn (EventType "click") *>
+                    initEvent ct (mouseEventDown ct) context1.canvasElement (EventType "mousedown") *>
+                    initEvent ct (mouseEventDrag ct) context1.canvasElement (EventType "mousemove") *>
+                    initEvent ct (mouseEventUp ct vruler) context1.canvasElement (EventType "mouseup") 
 
-clear :: Effect Unit
-clear = clearCanvas
+clear :: Int -> Effect Unit
+clear cti = clearCanvas cti

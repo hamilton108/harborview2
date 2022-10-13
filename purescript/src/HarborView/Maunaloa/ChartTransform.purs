@@ -63,7 +63,7 @@ import HarborView.Maunaloa.Common
     , ChartType(..)
     , ChartId(..)
     , ChartMapping(..)
-    , ChartWidth(..)
+    , ChartWidth
     , Ticker(..)
     , valueRange
     )

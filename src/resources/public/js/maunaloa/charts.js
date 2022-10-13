@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const btnClear = document.getElementById(scrapConfig.BTN_CLEAR);
         btnClear.onclick = () => {
             scrap.clear();
-            PS.clearLevelLines();
+            PS.clearLevelLines(chartType)();
         };
         scrap.clear();
         const btnSave = document.getElementById(scrapConfig.BTN_SAVE);

@@ -48,7 +48,7 @@ createEnv ctype tik curDrop curTake mappings =
     , chartType: ctype 
     , mappings: mappings
     , globalChartWidth: ChartWidth 1750.0
-    , scaling: Scaling 1.15
+    , scaling: Scaling 1.1
     }
 
 createEnvEmpty :: ChartMappings -> Env
@@ -83,7 +83,7 @@ paint chartTypeId mappings ticker dropAmt takeAmt =
                 collection = runReader (ChartTransform.transform cachedResponse1) curEnv
             in
             logShow "Fetched response from repository" *>
-            ChartCollection.paint collection
+            ChartCollection.paint curChartType collection
         Nothing ->
             launchAff_ $
                 fetchCharts curTicker curChartType >>= \charts ->
@@ -95,7 +95,7 @@ paint chartTypeId mappings ticker dropAmt takeAmt =
                                 collection = runReader (ChartTransform.transform jsonChartResponse) curEnv
                             in
                             (liftEffect $ Repository.setJsonResponse reposId jsonChartResponse) *>
-                            ChartCollection.paintAff collection
+                            ChartCollection.paintAff curChartType collection
         
 
 paintEmpty :: ChartMappings -> Effect Unit
@@ -111,10 +111,10 @@ paintEmpty mappings =
     logShow coll *>
     ChartCollection.paintEmpty collection
 
-clearLevelLines :: Effect Unit
-clearLevelLines =
+clearLevelLines :: Int -> Effect Unit
+clearLevelLines cti =
     logShow "clearLevelLines" *>
-    clear
+    clear cti
 
 tmp :: Line -> Int
 tmp (StdLine v) = 1
@@ -125,7 +125,7 @@ main :: Effect Unit
 main = 
     paint 4  [] "-" 0 0 *>
     paintEmpty [] *>
-    clearLevelLines 
+    clearLevelLines 1
 
 {-
 run :: Maybe HTMLElement -> QuerySelector -> Aff Unit
