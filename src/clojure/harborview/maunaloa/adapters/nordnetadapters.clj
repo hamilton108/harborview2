@@ -202,7 +202,7 @@
   (calcRiscOptionPrice
     ;String (stock option ticker) -> Double
     [this ticker stockPrice]
-    (if-let [^OptionDTO o (find-option-from-ticker ticker)]
+    (if-let [^OptionDTO o (find-option-from-ticker ctx ticker)]
       (.optionPriceFor (.getStockOptionPrice o) stockPrice)))
   (riscLines
     ;Int -> [RiscLineDTO]

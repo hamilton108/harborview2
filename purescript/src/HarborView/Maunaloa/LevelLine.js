@@ -217,8 +217,10 @@ class LevelLineInternal {
         const items = this.lines.items;
         for (var i = 0; i < items.length; ++i) {
             const item = items[i];
+            var obj = item.value0;
             if (item === riscLine) {
-                item.value0.bid = newValue;
+                obj.riscPrice = newValue;
+                obj.risc = obj.ask - newValue;
                 break;
             }
         }

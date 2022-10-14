@@ -110,6 +110,7 @@ data Line =
     { y :: Number
     , selected :: Boolean
     , ticker :: Ticker 
+    , ask :: Number
     , bid :: Number
     , risc :: Number
     , riscPrice :: Number
@@ -271,6 +272,7 @@ addRiscLine ct vr line =
                 { y: valueToPix vr line.riscStockPrice
                 , selected: false
                 , ticker: ticker
+                , ask: line.ask 
                 , bid: line.bid
                 , risc: line.risc 
                 , riscPrice: line.riscOptionPrice
@@ -318,7 +320,6 @@ fetchLevelLines ticker =
 fetchLevelLineButtonClick :: ChartType -> Ticker -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ct ticker vruler evt = 
     defaultEventHandling evt *>
-    logShow "fxbtn1" *>
     launchAff_ 
     (
         fetchLevelLines ticker >>= \lines ->

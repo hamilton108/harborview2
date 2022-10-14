@@ -102,7 +102,8 @@
                               (let [ticker (get-in req [:path-params :ticker])
                                     sp (cu/rs (get-in req [:path-params :stockprice]))
                                     price (.calcRiscOptionPrice @nordnet-adapter ticker sp)]
-                                {:value price}))))
+                                {:value price}))
+                            :om-json false))
 
 (def calcriscstockprices
   (pu/default-json-response ::calcriscstockprices 200
