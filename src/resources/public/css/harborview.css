@@ -156,6 +156,17 @@ a.href-td {
   grid-column: 2;
 }
 
+.grid-table {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1750px 1fr;
+}
+
+.main-table {
+  grid-row: 1;
+  grid-column: 2;
+}
+
 /* _grid_scrapbook.scss */
 .grid-scrapbook {
   grid-column: 3;

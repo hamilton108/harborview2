@@ -228,16 +228,20 @@ render st =
         ]
   in
   HH.div_ 
-    [ HH.div [ HP.classes [ ClassName "grid-elm" ]]
+    [ HH.div [ HP.classes [ ClassName "grid-menu-bar" ]]
         [ UI.mkButton (Title "Fetch paper purchases") FetchPaper
         , UI.mkButton (Title "Fetch real purchases") FetchReal
         , HH.p_ [ HH.h5_ [ HH.text st.header ]
                 , HH.text st.msg 
                 ]
         ]
-    , HH.div [ HP.classes [ ClassName "grid-elm" ]]
-        [ purchaseTable 
-        , mkSellDialog st.dlgSell st.sp
+    , HH.div 
+        [ HP.classes [ ClassName "grid-table" ]]
+        [ HH.div 
+          [ HP.classes [ ClassName "main-table" ]]
+          [ purchaseTable 
+          , mkSellDialog st.dlgSell st.sp
+          ]
         ]
     ]
 

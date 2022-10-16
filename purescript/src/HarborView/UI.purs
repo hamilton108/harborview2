@@ -130,11 +130,20 @@ mkCheckbox (Title title) evt =
 
 mkButton :: forall w i. Title -> (MouseEvent -> i) -> HTML w i
 mkButton (Title title) evt = 
-  HH.button
-    [ HE.onClick evt
-    , HP.classes 
-      [ ClassName "btn"
-      , ClassName "btn-outline-success" 
+  HH.div 
+    [ HP.classes 
+      [ ClassName "form-group"
+      , ClassName "form-group--menu-bar" 
       ]
     ]
-    [ HH.text title ]
+    [ HH.button
+      [ HE.onClick evt
+      , HP.classes 
+        [ ClassName "btn"
+        , ClassName "btn-outline-success" 
+        ]
+      ]
+      [ HH.text title 
+      ]
+    ]
+      
