@@ -39,11 +39,11 @@
 (def req
   {:path-params {:ptype 11 :oid 1}})
 
-(def risclines maunaloa/risclines)
-
 (def calls maunaloa/calls)
 
 (def nordnet @maunaloa/nordnet-adapter)
+
+(def db (StockMarketAdapter.))
 
 (defn home
   [request]
@@ -67,11 +67,12 @@
      ;-------------------- maunaloa -------------------- 
      ["/maunaloa/charts" :get (conj hu/common-interceptors `home) :route-name :charts]
      ;["/maunaloa/optiontickers" :get (conj hu/common-interceptors `stockoptions) :route-name :stockoptions]
-     ["/maunaloa/risclines/:oid" :get maunaloa/risclines :route-name :risclines]
+     ["/maunaloa/risclines/:oid" :get maunaloa/risclines]
      ;-------------------- stock option -------------------- 
      ["/maunaloa/stockoption" :get (conj hu/common-interceptors `stockoptions) :route-name :stockoptions]
      ["/maunaloa/stockoption/purchases" :get (conj hu/common-interceptors `optionpurchases) :route-name :optionpurchases]
-     ["/maunaloa/stockoption/purchases/:ptype" :get maunaloa/fetch-optionpurchases :route-name :optionpurchases-2]
+     ;["/maunaloa/stockoption/purchases/:ptype" :get maunaloa/fetch-optionpurchases :route-name :optionpurchases-2]
+     ["/maunaloa/stockoption/purchases/:ptype" :get maunaloa/fetch-optionpurchases]
      ["/maunaloa/stockoption/price/:ticker/:stockprice" :get maunaloa/calcoptionprice]
      ["/maunaloa/stockoption/calls/:oid" :get maunaloa/calls]
      ["/maunaloa/stockoption/puts/:oid" :get maunaloa/puts]

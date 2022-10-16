@@ -34,7 +34,7 @@
 (defn get-context [is-prod]
   (if (= is-prod true)
     ; Prod
-    (let [repos (StockMarketAdapterTest. factory)]
+    (let [repos (StockMarketAdapter.)]
       {:repos repos
        :etrade (etrade repos)
        :dl downloader

@@ -12,7 +12,7 @@
     StockOptionSale
     StockOption
     StockOptionPurchase)
-   (critter.util StockOptionUtil)
+   ;(critter.util StockOptionUtil)
    (critter.repos StockMarketRepository)
    (critter.mybatis
     CritterMapper
@@ -66,6 +66,7 @@
            (StockOptionUtil.)))
 
 (defn find-stock [oid]
+  ;Int -> Stock
   (first (filter #(= oid (.getOid %)) (stox-m))))
 
 (def prices-cache (atom {}))
@@ -215,8 +216,9 @@
 
 (defrecord StockMarketAdapter []
   StockMarketRepository
-  (findStock [this s]
-    (find-stock (StockOptionUtil/stockTickerToOid s)))
+  (findStock [this oid]
+      ;Int -> Stock
+    (find-stock oid))
   (findStockOption [this stockOptInfo]
     (with-session StockOptionMapper
       (if-let [result (.findStockOption it stockOptInfo)]
@@ -227,7 +229,8 @@
     [])
   (purchasesWithSalesAll [this purchaseType status optionType]
       ;Int -> Int -> StockOption.OptionType -> List<StockOptionPurchase> 
-    []))
+    (with-session CritterMapper
+      (.purchasesWithSalesAll it purchaseType 1 nil))))
 
 (defrecord StockMarketAdapterTest [factory]
   StockMarketRepository

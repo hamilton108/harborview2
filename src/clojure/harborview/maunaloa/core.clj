@@ -47,6 +47,11 @@
   (let [oid (get-in request [:path-params :oid])]
     (cu/rs oid)))
 
+(defn charts [request ^ElmChartsFactory factory]
+  (let [oid (req-oid request)
+        prices (.prices @db-adapter oid)]
+    (.elmCharts factory (str oid) prices)))
+
 (defn critter-purchases [request]
   (let [ptypes (get-in request [:path-params :ptype])
         ptype (cu/rs ptypes)
@@ -54,20 +59,18 @@
         result (map #(OptionPurchaseDTO. %) items)]
     (hu/om->json result)))
 
-(defn risclines [request]
-  (let [oid (req-oid request)]
-    (hu/om->json (.riscLines @nordnet-adapter oid))))
+(def risclines
+  (pu/default-json-response ::risclines 200
+                            (fn [body req]
+                              (let [oid (req-oid req)]
+                                (.riscLines @nordnet-adapter oid)))))
 
-(defn fetch-optionpurchases [request]
-  (let [ptype (cu/rs (get-in request [:path-params :ptype]))
-        purchases (.stockOptionPurchases @db-adapter ptype 1)
-        purchases-json (map #(OptionPurchaseWithSalesDTO. % calculator) purchases)]
-    (hu/om->json purchases-json)))
-
-(defn charts [request ^ElmChartsFactory factory]
-  (let [oid (req-oid request)
-        prices (.prices @db-adapter oid)]
-    (.elmCharts factory (str oid) prices)))
+(def fetch-optionpurchases
+  (pu/default-json-response ::fetchoptionpurchases 200
+                            (fn [body req]
+                              (let [ptype (cu/rs (get-in req [:path-params :ptype]))
+                                    purchases (.stockOptionPurchases @db-adapter ptype 1)]
+                                (map #(OptionPurchaseWithSalesDTO. % calculator) purchases)))))
 
 (def days
   (pu/default-json-response ::days 200
