@@ -178,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 result.prevBtnClass = ".shift-prev-1";
                 result.nextBtnClass = ".shift-next-1";
                 result.lastBtnClass = ".shift-last-1";
+                result.resetChartsBtnClass = ".reset-chart-1";
                 break;
             case WEEK:
                 result.canvasesType = canvases.WEEK;
@@ -186,6 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 result.prevBtnClass = ".shift-prev-2";
                 result.nextBtnClass = ".shift-next-2";
                 result.lastBtnClass = ".shift-last-2";
+                result.resetChartsBtnClass = ".reset-chart-2";
                 break;
             case MONTH:
                 result.canvasesType = canvases.MONTH;
@@ -194,6 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 result.prevBtnClass = ".shift-prev-3";
                 result.nextBtnClass = ".shift-next-3";
                 result.lastBtnClass = ".shift-last-3";
+                result.resetChartsBtnClass = ".reset-chart-3";
                 break;
             default:
                 result.canvasesType = canvases.DAY;
@@ -202,6 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 result.prevBtnClass = ".shift-prev-1";
                 result.nextBtnClass = ".shift-next-1";
                 result.lastBtnClass = ".shift-last-1";
+                result.resetChartsBtnClass = ".reset-chart-1";
                 break;
         }
         return result;
@@ -256,12 +260,22 @@ document.addEventListener("DOMContentLoaded", function () {
             _shiftIndex = 0;
             PS.paint(chartType)(_chartMappings)(_currentTicker)(0)(SHIFT_WINDOW)();
         };
+        const resetCharts = (event) => {
+            if (_currentTicker == null) {
+                return;
+            }
+            PS.resetCharts();
+            _shiftIndex = 0;
+            PS.paint(chartType)(_chartMappings)(_currentTicker)(0)(SHIFT_WINDOW)();
+        }
         const prevBtn = document.querySelector(_params.prevBtnClass);
         prevBtn.addEventListener("click", shiftPricesPrev);
         const nextBtn = document.querySelector(_params.nextBtnClass);
         nextBtn.addEventListener("click", shiftPricesNext);
         const lastBtn = document.querySelector(_params.lastBtnClass);
         lastBtn.addEventListener("click", shiftPricesLast);
+        const resetChartsBtn = document.querySelector(_params.resetChartsBtnClass);
+        resetChartsBtn.addEventListener("click", resetCharts);
 
         //---------------------- Scrapbooks ----------------------
         const scrapConfig = _params.scrapBookConfig;

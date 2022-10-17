@@ -15,6 +15,10 @@ export const getJsonResponseImpl = just => nothing => key => {
     }
 };
 
+export const resetChart = key => () => {
+    delete _charts[key];
+}
+
 export const resetCharts = () => {
     _charts = {};
 }

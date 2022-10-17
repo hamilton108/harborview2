@@ -51,6 +51,7 @@ def export():
             result.write("  return {\n")
             result.write("           paint: paint7,\n")
             result.write("           paintEmpty: paintEmpty3,\n")
+            result.write("           resetCharts: resetCharts2,\n")
             result.write(
                 "           clearLevelLines:  clearLevelLines }\n")
         else:

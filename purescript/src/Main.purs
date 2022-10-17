@@ -68,6 +68,17 @@ reposIdFor :: Int -> String -> String
 reposIdFor chartTypeId ticker = 
     ticker <> ":" <> (toString $ toNumber chartTypeId)
 
+resetChart :: Int -> String -> Effect Unit
+resetChart chartTypeId ticker = 
+    let
+        reposId = reposIdFor chartTypeId ticker 
+    in
+    Repository.resetChart reposId
+
+resetCharts :: Effect Unit
+resetCharts = 
+    Repository.resetCharts 
+
 paint :: Int -> ChartMappings -> String -> Int -> Int -> Effect Unit
 paint chartTypeId mappings ticker dropAmt takeAmt = 
     let
@@ -125,7 +136,8 @@ main :: Effect Unit
 main = 
     paint 4  [] "-" 0 0 *>
     paintEmpty [] *>
-    clearLevelLines 1
+    clearLevelLines 1  *> 
+    resetCharts 
 
 {-
 run :: Maybe HTMLElement -> QuerySelector -> Aff Unit

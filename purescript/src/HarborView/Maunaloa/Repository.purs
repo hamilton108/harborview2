@@ -24,6 +24,10 @@ foreign import getJsonResponseImpl ::
 getJsonResponse :: String -> Maybe JsonChartResponse 
 getJsonResponse key = getJsonResponseImpl Just Nothing key
 
+foreign import resetChart :: String -> Effect Unit
+
+foreign import resetCharts :: Effect Unit
+
 
 {-
 foreign import setDemo :: Ticker -> String -> Effect Unit 

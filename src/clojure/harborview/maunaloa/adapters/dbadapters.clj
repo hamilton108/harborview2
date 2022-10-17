@@ -202,7 +202,8 @@
     (swap! prices-cache dissoc oid))
   (stockTickers [this] (stox-m))
   (prices [this oid]
-    (fetch-prices-cache ctx oid))
+    ;(fetch-prices-cache ctx oid))
+    (fetch-prices oid))
   (registerAndPurchaseOption [this json]
     (register-and-purchase-option ctx json))
   (activePurchasesWithCritters [this ptype]
