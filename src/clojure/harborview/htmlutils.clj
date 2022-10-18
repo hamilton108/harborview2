@@ -32,26 +32,26 @@
 (defn bean->json [^critter.stock.Stock b]
   {"v" (str (.getOid b)) "t" (.toHtml b)})
 
-(comment allow-cross-origin
-         "middleware function to allow cross origin"
-         [handler]
-         (fn [request]
-           (let [response (handler request)]
-             (-> response
-                 (assoc-in [:headers "Access-Control-Allow-Origin"]  "*")
-                 (assoc-in [:headers "Access-Control-Allow-Methods"] "GET,PUT,POST,DELETE,OPTIONS")
-                 (assoc-in [:headers "Access-Control-Allow-Headers"] "X-Requested-With,Content-Type,Cache-Control")))))
+;; (comment allow-cross-origin
+;;          "middleware function to allow cross origin"
+;;          [handler]
+;;          (fn [request]
+;;            (let [response (handler request)]
+;;              (-> response
+;;                  (assoc-in [:headers "Access-Control-Allow-Origin"]  "*")
+;;                  (assoc-in [:headers "Access-Control-Allow-Methods"] "GET,PUT,POST,DELETE,OPTIONS")
+;;                  (assoc-in [:headers "Access-Control-Allow-Headers"] "X-Requested-With,Content-Type,Cache-Control")))))
 
-(comment in?
-         "true if seq contains elm"
-         [seq elm]
-         (some #(= elm %) seq))
+;; (comment in?
+;;          "true if seq contains elm"
+;;          [seq elm]
+;;          (some #(= elm %) seq))
 
-(comment str->bool [b]
-         (if (.equals b "true") true false))
+;; (comment str->bool [b]
+;;          (if (.equals b "true") true false))
 
-(comment str->date [dx]
-         (LocalDate/parse dx date-fmt-1))
+;; (comment str->date [dx]
+;;          (LocalDate/parse dx date-fmt-1))
 
-(comment date->str [dx]
-         (.format dx date-fmt-1))
+;; (comment date->str [dx]
+;;          (.format dx date-fmt-1))

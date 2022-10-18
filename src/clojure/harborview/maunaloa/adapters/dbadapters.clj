@@ -3,25 +3,16 @@
   (:import
    (java.sql Date)
    (java.time Instant LocalDate)
-   (java.util.function Consumer)
    (java.util Optional)
-   (oahu.exceptions FinancialException)
    (vega.financial StockOption$OptionType)
-   (vega.financial.calculator BlackScholes)
    (critter.stockoption
-    StockOptionSale
     StockOption
     StockOptionPurchase)
-   ;(critter.util StockOptionUtil)
    (critter.repos StockMarketRepository)
    (critter.mybatis
     CritterMapper
     StockMapper
-    StockOptionMapper)
-   (nordnet.downloader DefaultDownloader TickerInfo)
-   (nordnet.redis NordnetRedis)
-   ;(nordnet.html StockOptionParser2)
-   (harborview.downloader DownloaderStub))
+    StockOptionMapper))
   (:require
    [harborview.commonutils :as cu :refer [with-session with-session-2]]
    [harborview.maunaloa.ports :as ports]))
@@ -41,7 +32,7 @@
 ;;   (.select jedis 5))
 
 
-(comment ^:dynamic is-test true)
+;; (comment ^:dynamic is-test true)
 
 ;(def start-date (LocalDate/of 2020 3 1))
 (def start-date (Date/valueOf (LocalDate/of 2010 3 1)))
@@ -58,12 +49,12 @@
       stox)
     @stox-cache))
 
-(comment redis (NordnetRedis. "172.20.1.2" 5))
+;; (comment redis (NordnetRedis. "172.20.1.2" 5))
 
-(comment stock-option-utils
-         (if (= is-test true)
-           (StockOptionUtil. (LocalDate/of 2020 10 5))
-           (StockOptionUtil.)))
+;; (comment stock-option-utils
+;;          (if (= is-test true)
+;;            (StockOptionUtil. (LocalDate/of 2020 10 5))
+;;            (StockOptionUtil.)))
 
 (defn find-stock [oid]
   ;Int -> Stock
@@ -116,20 +107,20 @@
 ;;                         (prn ex)
 ;;                         {:ok false :msg (.getMessage ex) :statusCode 0})))
 
-(comment purchase-option_ [purchase-type ticker ask bid vol spot]
-         (try
-           (let [purchase (.registerOptionPurchase
-                           purchase-type
-                           ticker
-                           ask
-                           vol
-                           spot
-                           bid)]
-             {:ok true  :msg (str "Option purchase oid: " (.getOid purchase)) :statusCode 0})
-           (catch FinancialException ex
-             {:ok false :msg (.getMessage ex) :statusCode 1})
-           (catch Exception ex
-             {:ok false :msg (.getMessage ex) :statusCode 2})))
+;; (comment purchase-option_ [purchase-type ticker ask bid vol spot]
+;;          (try
+;;            (let [purchase (.registerOptionPurchase
+;;                            purchase-type
+;;                            ticker
+;;                            ask
+;;                            vol
+;;                            spot
+;;                            bid)]
+;;              {:ok true  :msg (str "Option purchase oid: " (.getOid purchase)) :statusCode 0})
+;;            (catch FinancialException ex
+;;              {:ok false :msg (.getMessage ex) :statusCode 1})
+;;            (catch Exception ex
+;;              {:ok false :msg (.getMessage ex) :statusCode 2})))
 
 (defn purchase-option_ [purchase-type ticker ask bid vol spot]
   (with-session-2 StockOptionMapper CritterMapper
@@ -162,17 +153,17 @@
     (prn purchase-type ticker ask bid vol spot)
     (purchase-option_ purchase-type ticker ask bid vol spot)))
 
-(comment demo-json
-         {:expiry "2022-12-16"
-          :ticker "NHY2L58"
-          :volume 10
-          :opType "c"
-          :rt false
-          :x 58
-          :spot 70.98
-          :ask 18
-          :stockId 1
-          :bid 16})
+;; (comment demo-json
+;;          {:expiry "2022-12-16"
+;;           :ticker "NHY2L58"
+;;           :volume 10
+;;           :opType "c"
+;;           :rt false
+;;           :x 58
+;;           :spot 70.98
+;;           :ask 18
+;;           :stockId 1
+;;           :bid 16})
 
 (defn register-and-purchase-option [ctx j]
   (let [soid (:stockId j)]

@@ -5,18 +5,13 @@
    [harborview.maunaloa.adapters.nordnetadapters]
    [harborview.htmlutils :as hu]
    [harborview.commonutils :as cu]
-   [harborview.pedestalutils :as pu]
-   [cheshire.core :as json]
-   [harborview.thyme :as thyme])
+   [harborview.pedestalutils :as pu])
   (:import
    (vega.financial.calculator BlackScholes)
    (harborview.dto.html.critters OptionPurchaseDTO)
    (harborview.dto.html.options OptionPurchaseWithSalesDTO)
    (harborview.maunaloa.charts
-    ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory)
-   (java.util ArrayList)
-   (java.time.temporal IsoFields)
-   (java.time LocalDate)))
+    ElmChartsFactory ElmChartsWeekFactory ElmChartsMonthFactory)))
 
 (def calculator (BlackScholes.))
 
@@ -36,9 +31,9 @@
      (let [t (map hu/bean->json (.stockTickers @db-adapter))]
        (hu/json-response t)))))
 
-(comment ok [body]
-         {:status 200 :body body
-          :headers {"Content-Type" "application/json"}})
+;; (comment ok [body]
+;;          {:status 200 :body body
+;;           :headers {"Content-Type" "application/json"}})
 
 (defn tix [request]
   (tix-m))
@@ -52,12 +47,13 @@
         prices (.prices @db-adapter oid)]
     (.elmCharts factory (str oid) prices)))
 
-(defn critter-purchases [request]
-  (let [ptypes (get-in request [:path-params :ptype])
-        ptype (cu/rs ptypes)
-        items (.activePurchasesWithCritters @db-adapter ptype)
-        result (map #(OptionPurchaseDTO. %) items)]
-    (hu/om->json result)))
+(def critter-purchases
+  (pu/default-json-response ::critterpurchases 200
+                            (fn [body req]
+                              (let [ptypes (get-in req [:path-params :ptype])
+                                    ptype (cu/rs ptypes)
+                                    items (.activePurchasesWithCritters @db-adapter ptype)]
+                                (map #(OptionPurchaseDTO. %) items)))))
 
 (def risclines
   (pu/default-json-response ::risclines 200
@@ -133,20 +129,21 @@
                               (.sellOption @db-adapter body))
                             :om-json false))
 
-(comment check-implied-vol [ox]
-         (if (= (.isPresent (.getIvBuy ox)) true)
-           (if (= (.isPresent (.getIvSell ox)) true)
-             true
-             false)
-           false))
 
-(comment valid? [ox]
-         (if (> (.getBuy ox) 0)
-           (if (> (.getSell ox) 0)
-             (if (= (check-implied-vol ox) true)
-               (.isPresent (.getBreakEven ox)))
-             false)
-           false))
+;; (comment check-implied-vol [ox]
+;;          (if (= (.isPresent (.getIvBuy ox)) true)
+;;            (if (= (.isPresent (.getIvSell ox)) true)
+;;              true
+;;              false)
+;;            false))
+
+;; (comment valid? [ox]
+;;          (if (> (.getBuy ox) 0)
+;;            (if (> (.getSell ox) 0)
+;;              (if (= (check-implied-vol ox) true)
+;;                (.isPresent (.getBreakEven ox)))
+;;              false)
+;;            false))
 
 ;; (defn echo
 ;;   {:name ::echo

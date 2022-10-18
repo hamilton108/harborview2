@@ -14,16 +14,16 @@
    [harborview.commonutils :refer [find-first not-nil?]]
    [harborview.maunaloa.ports :as ports]))
 
+;critter.repos.StockMarketRepository -> Int -> TickerInfo
 (defn ticker-info
   [repos oid]
-  "critter.repos.StockMarketRepository -> Int -> TickerInfo"
   (let [stock (.findStock repos oid)
         ticker (.getTicker stock)]
     (TickerInfo. ticker)))
 
+;Map -> Int -> [OptionDTO]
 (defn stock-options
   [ctx oid]
-  "Map -> Int -> [OptionDTO]"
   (let [{:keys [repos etrade dl redis]} ctx
         tif (ticker-info repos oid)
         pages (.downloadDerivatives dl tif)
@@ -35,9 +35,9 @@
 
 (def options-cache (atom {}))
 
+;Map -> Int -> [OptionDTO]
 (defn stock-options-cache
   [ctx oid]
-  "Map -> Int -> [OptionDTO]"
   (let [cached (get @options-cache oid)]
     (if (nil? cached)
       (let [data (stock-options ctx oid)]
@@ -45,59 +45,60 @@
         data)
       cached)))
 
+;String -> [OptionDTO] -> OptionDTO
 (defn find-option
   [ticker
    opx]
-  "String -> [OptionDTO] -> OptionDTO"
   (find-first #(= (.getTicker %) ticker) opx))
 
+;Map -> Int -> Bool -> [OptionDTO]
 (defn calls-or-puts
   [ctx
    oid
    is-call]
-  "Map -> Int -> Bool -> [OptionDTO]"
   (filter #(= (.isCall %) is-call)
           (stock-options-cache ctx oid)))
 
+
+;Map -> Int -> [OptionDTO]
 (defn calls_
   [ctx oid]
-  "Map -> Int -> [OptionDTO]"
   (calls-or-puts ctx oid true))
 
-(comment demo [x:TickerInfo y:int]
-         (if-not (instance? TickerInfo x)
-           (throw (Exception. "nope"))))
+;; (comment demo [x:TickerInfo y:int]
+;;          (if-not (instance? TickerInfo x)
+;;            (throw (Exception. "nope"))))
 
+;Map -> Int -> [OptionDTO]
 (defn puts_
   [ctx oid]
-  "Map -> Int -> [OptionDTO]"
   (calls-or-puts ctx oid false))
 
+;Map -> Int -> StockPriceDTO
 (defn stockprice_
   [ctx oid]
-  "Map -> Int -> StockPriceDTO"
   (let [data (stock-options-cache ctx oid)]
     (if (> (.size data) 0)
       (StockPriceDTO. (.getStockPrice (first data))))))
 
+;{Int : {String : [StockOptionRisc]}}
 (def risc-repos
-  "{Int : {String : [StockOptionRisc]}}"
   (atom {}))
 
+;Int -> [Map String StockOptionRisc]
 (defn get-riscs [stock-oid]
-  "Int -> [Map String StockOptionRisc]"
   (if-let [riscs-ticker (get @risc-repos stock-oid)]
     riscs-ticker
     (clojure.lang.PersistentHashMap/EMPTY)))
 
+;String -> StockOptionRisc
 (defn get-risc [option-ticker]
-  "String -> StockOptionRisc"
   (let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker option-ticker)
         oid (.first info)]
     ((get-riscs oid) option-ticker)))
 
+;StockOptionRisc -> ()
 (defn update-risc
-  "StockOptionRisc -> ()"
   [^StockOptionRisc risc-obj]
   (let [opt-tik (.getOptionTicker risc-obj)
         ^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker opt-tik)
@@ -105,15 +106,15 @@
     (reset! risc-repos
             (update @risc-repos oid (fn [s] (assoc-in s [opt-tik] risc-obj))))))
 
+;StockOptionRisc -> String
 (defn make-risc-json [risc-ticker risc]
-  "StockOptionRisc -> String"
   {:ticker risc-ticker :stockprice (.getStockPrice risc) :status 1})
 
+;Map -> Int -> Map -> Map
 (defn calc-risc-stockprice
   [ctx
    oid
    risc-json]
-  "Map -> Int -> Map -> Map"
   (let [opx (stock-options-cache ctx oid)
         risc-ticker (:ticker risc-json)
         risc-value (:risc risc-json)
@@ -125,17 +126,17 @@
         (let [^StockOptionPrice sp (.getStockOptionPrice o)
               cur-option-price (- (.getSell o) risc-value)
               ^StockOptionRisc risc (.riscOptionPrice sp cur-option-price)] ;adjusted-stockprice (.stockPriceFor sp cur-option-price)]
-          (comment
-            (prn "option ticker " (.getTicker o))
-            (prn "cur-option-price " cur-option-price)
-            (prn "x " (.getX o))
-            (prn "iv buy" (.getIvBuy o))
-            (prn "iv sell" (.getIvSell o))
-            (prn "buy " (.getBuy o))
-            (prn "sell " (.getSell o))
-            (prn "days" (.getDays o))
-            (prn "adjusted-stockprice " adjusted-stockprice)
-            (prn "---------------------------------------"))
+          ;; (comment
+          ;;   (prn "option ticker " (.getTicker o))
+          ;;   (prn "cur-option-price " cur-option-price)
+          ;;   (prn "x " (.getX o))
+          ;;   (prn "iv buy" (.getIvBuy o))
+          ;;   (prn "iv sell" (.getIvSell o))
+          ;;   (prn "buy " (.getBuy o))
+          ;;   (prn "sell " (.getSell o))
+          ;;   (prn "days" (.getDays o))
+          ;;   (prn "adjusted-stockprice " adjusted-stockprice)
+          ;;   (prn "---------------------------------------"))
           (if (= (.isPresent risc) true)
             (let [risc1 (.get risc)]
               (update-risc risc1)
@@ -144,23 +145,25 @@
       ;else
         {:ticker risc-ticker :stockprice -1.0 :status 3}))))
 
+;String -> OptionDTO
 (defn find-option-from-ticker [ctx ticker]
-  "String -> OptionDTO"
   (if-let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker ticker)]
     (let [is-calls (= (.third info) StockOption$OptionType/CALL)
           opx (calls-or-puts ctx (.first info) is-calls)]
       (find-option ticker opx))))
 
-(comment risc-lines [ctx oid]
-         (let [opx (stock-options-cache ctx oid)
-               calculated (map #(.getStockOptionPrice %) (filter #(= (.isCalculated %) true) opx))]
-           (map #(RiscLineDTO. %) calculated)))
+;; (comment risc-lines [ctx oid]
+;;          (let [opx (stock-options-cache ctx oid)
+;;                calculated (map #(.getStockOptionPrice %) (filter #(= (.isCalculated %) true) opx))]
+;;            (map #(RiscLineDTO. %) calculated)))
 
 (defn risc-lines [oid]
   (let [riscs-oid (get-riscs oid)]
     (if (= (.size riscs-oid) 0)
       clojure.lang.PersistentVector/EMPTY
       (map #(RiscLineDTO. (.getValue %)) riscs-oid))))
+
+(comment (risc-lines 3))
 
 (defrecord NordnetEtradeAdapter [ctx]
   ports/Etrade

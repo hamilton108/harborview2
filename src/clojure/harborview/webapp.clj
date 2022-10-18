@@ -3,19 +3,14 @@
   (:require
    [io.pedestal.http :as http]
    [io.pedestal.http.route :as route]
-   [io.pedestal.http.body-params :as body-params]
    [ring.util.response :as ring-resp]
    [harborview.htmlutils :as hu]
    [harborview.maunaloa.config :as config]
-   ;[harborview.commonutils :refer [with-session rs]]
    [harborview.maunaloa.adapters.dbadapters]
    [harborview.maunaloa.adapters.nordnetadapters] ; :refer (->Postgres)]
    [harborview.maunaloa.core :as maunaloa]
    [harborview.thyme :as thyme])
   (:import
-   (nordnet.redis NordnetRedis)
-   (critter.mybatis StockMapper)
-   (harborview.downloader DownloaderStub)
    (harborview.maunaloa.adapters.dbadapters PostgresAdapter StockMarketAdapter)
    (harborview.maunaloa.adapters.nordnetadapters NordnetEtradeAdapter)))
 
@@ -30,20 +25,20 @@
 ;      :else n)))
 
 
-(def ctx (config/get-context true))
+(def ctx (config/get-context :demo))
 
 (reset! maunaloa/db-adapter (PostgresAdapter. ctx))
 
 (reset! maunaloa/nordnet-adapter (NordnetEtradeAdapter. ctx))
 
-(def req
-  {:path-params {:ptype 11 :oid 1}})
+;; (def req
+;;   {:path-params {:ptype 11 :oid 1}})
 
-(def calls maunaloa/calls)
+;; (def calls maunaloa/calls)
 
-(def nordnet @maunaloa/nordnet-adapter)
+;; (def nordnet @maunaloa/nordnet-adapter)
 
-(def db (StockMarketAdapter.))
+;; (def db (StockMarketAdapter.))
 
 (defn home
   [request]
@@ -106,7 +101,7 @@
 
 (defn -main
   "The entry-point for 'lein run'"
-  [& args]
+  [& _]
   (println "\nCreating your server...")
   (http/start runnable-service))
 
@@ -115,20 +110,20 @@
 ;(let [req {:path-params {:ptype 11 :oid 1}}]
 ;  (maunaloa/fetch-optionpurchases req)))
 
-(comment wrap-return-favicon [handler]
-         (fn [req]
-           (if (= [:get "/favicon.ico"] [(:request-method req) (:uri req)])
-             (resource-response "favicon.ico" {:root "public/img"})
-             (handler req))))
+;; (comment wrap-return-favicon [handler]
+;;          (fn [req]
+;;            (if (= [:get "/favicon.ico"] [(:request-method req) (:uri req)])
+;;              (resource-response "favicon.ico" {:root "public/img"})
+;;              (handler req))))
 
-(comment -main []
-         (let [x (run-jetty #'webapp {:port 8082 :join? false})]
+;; (comment -main []
+;;          (let [x (run-jetty #'webapp {:port 8082 :join? false})]
 
-           (prn x))
-         (comment
-           (run-jetty #'webapp
-                      {:port 8443
-                       :join? false
-                       :ssl? true
-                       :keystore "../local/harborview.ssl"
-                       :key-password "VhCHeUJ4"})))
+;;            (prn x))
+;;          (comment
+;;            (run-jetty #'webapp
+;;                       {:port 8443
+;;                        :join? false
+;;                        :ssl? true
+;;                        :keystore "../local/harborview.ssl"
+;;                        :key-password "VhCHeUJ4"})))

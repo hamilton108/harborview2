@@ -9,7 +9,7 @@
    (harborview.dto.html StockPriceDTO)
    (harborview.maunaloa.adapters.nordnetadapters NordnetEtradeAdapter)))
 
-(def ctx (config/get-context false))
+(def ctx (config/get-context :test))
 
 (def sut (NordnetEtradeAdapter. ctx))
 
@@ -64,7 +64,7 @@
 (deftest yar-calc-risc-optionprice
   (let [^StockOptionPrice o (.stockOptionPrice sut "YAR2F470")]
     (is (not-nil? o))
-    (comment "Buy: " (.getBuy o) ", sell: " (.getSell o) ", stock price: " | (-> o .getStockPrice .getCls))
+    ;(comment "Buy: " (.getBuy o) ", sell: " (.getSell o) ", stock price: "  (-> o .getStockPrice .getCls))
     (let [risc (.riscStockPrice o 480.0)]
       (is (.isPresent risc))
       (is (close-to (-> risc .get .getOptionPrice) 19.1 0.2))
@@ -91,14 +91,14 @@
       (is (not-nil? (cur-riscs tik-yar-2)))))
   (.invalidateRiscs sut))
 
-(comment yar-risclines
-         (let [p (.stockPriceFor o 16.0)
-               lines (.riscLines sut "YAR")]
-           (is (= 1 (.size lines)))
-           (is (close-to (.get p) 475.0 0.1))
-           (.resetRiscCalc o)))
+;; (comment yar-risclines
+;;          (let [p (.stockPriceFor o 16.0)
+;;                lines (.riscLines sut "YAR")]
+;;            (is (= 1 (.size lines)))
+;;            (is (close-to (.get p) 475.0 0.1))
+;;            (.resetRiscCalc o)))
 
-(comment demo-risc [{:ticker "YAR2F550" :risc 1.05}])
+;; (comment demo-risc [{:ticker "YAR2F550" :risc 1.05}])
 
-(comment demo-run []
-         (.calcRiscStockprices sut "YAR" demo-risc))
+;; (comment demo-run []
+;;          (.calcRiscStockprices sut "YAR" demo-risc))

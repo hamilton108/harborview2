@@ -5,8 +5,6 @@
    (org.apache.ibatis.session SqlSession)
    (critter.util MyBatisUtil)))
 
-(comment str->oid
-         {"YAR" 3})
 
 (def not-nil? (comp not nil?))
 
@@ -94,12 +92,12 @@
       :else
       (prn "Argument vector must be 2, 4, 6, or 8"))))
 
-(comment demo
-         [i :int
-          k :any
-          j :double]
-         (prn i)
-         (prn k))
+;; (comment demo
+;;          [i :int
+;;           k :any
+;;           j :double]
+;;          (prn i)
+;;          (prn k))
 
 (defn close-to
   [x y epsilon]
@@ -145,20 +143,20 @@
       (read-string vs))
     v))
 
-(comment mem-binding [f]
-         (let [mem (atom {})]
-           (fn [& args]
-             (if (= *reset-cache* true)
-               (reset! mem {}))
-             (let [arg0 (first args)]
-               (if-let [e (find @mem arg0)]
-                 (val e)
-                 (let [ret (apply f args)]
-                   (swap! mem assoc arg0 ret)
-                   ret))))))
+;; (comment mem-binding [f]
+;;          (let [mem (atom {})]
+;;            (fn [& args]
+;;              (if (= *reset-cache* true)
+;;                (reset! mem {}))
+;;              (let [arg0 (first args)]
+;;                (if-let [e (find @mem arg0)]
+;;                  (val e)
+;;                  (let [ret (apply f args)]
+;;                    (swap! mem assoc arg0 ret)
+;;                    ret))))))
 
-(comment defn-memb [name & body]
-         `(def ~name (mem-binding (fn ~body))))
+;; (comment defn-memb [name & body]
+;;          `(def ~name (mem-binding (fn ~body))))
 
 (defn double->decimal
   ([v]
@@ -169,14 +167,14 @@
 (defn find-first [f coll]
   (first (drop-while (complement f) coll)))
 
-(comment if-let*
-         ([bindings-vec then] `(if-let* ~bindings-vec ~then nil))
-         ([bindings-vec then else]
-          (if (seq bindings-vec)
-            `(let ~bindings-vec
-               (if (and ~@(take-nth 2 bindings-vec))
-                 ~then
-                 ~else)))))
+;; (comment if-let*
+;;          ([bindings-vec then] `(if-let* ~bindings-vec ~then nil))
+;;          ([bindings-vec then else]
+;;           (if (seq bindings-vec)
+;;             `(let ~bindings-vec
+;;                (if (and ~@(take-nth 2 bindings-vec))
+;;                  ~then
+;;                  ~else)))))
 
 (defmacro defn-defaults [name args & body]
   "Create a function that can provide default values for arguments.
@@ -197,11 +195,11 @@
        ~@body)
     `(defn ~name ~args ~@body)))
 
-(comment
-  ; EXAMPLE
-  (defn-defaults foo [a b {c 5 d 10}]
-    (+ a b c d))
+;; (comment
+;;   ; EXAMPLE
+;;   (defn-defaults foo [a b {c 5 d 10}]
+;;     (+ a b c d))
 
-  (foo 5 10) ;=> 30
-  (foo 5 10 :c 10 :d 20) ;=> 45
-  (foo 5 10 :c 0)) ;=> 25
+;;   (foo 5 10) ;=> 30
+;;   (foo 5 10 :c 10 :d 20) ;=> 45
+;;   (foo 5 10 :c 0)) ;=> 25

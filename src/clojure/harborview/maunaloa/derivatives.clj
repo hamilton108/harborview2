@@ -1,12 +1,11 @@
 (ns harborview.maunaloa.derivatives
   (:gen-class)
   (:import
-   (java.io IOException File FileOutputStream FileNotFoundException)
+   (java.io IOException File FileOutputStream)
    (java.time LocalDate LocalTime)
    (nordnet.downloader PageInfo))
   (:require
-   [harborview.maunaloa.config :as C]
-   [harborview.htmlutils :as U]))
+   [harborview.maunaloa.config :as C]))
 
 (def feed "/home/rcs/opt/java/harborview2/feed")
 
@@ -55,5 +54,5 @@
   (binding [C/is-test true]
     (C/etrade page-consumer)))
 
-(comment demo []
-         (.calls etrade "EQNR"))
+;; (comment demo []
+;;          (.calls etrade "EQNR"))
