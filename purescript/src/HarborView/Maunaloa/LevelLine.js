@@ -9,6 +9,16 @@ const RISC_LINE = 2;
 const BREAK_EVEN_LINE = 3;
 const NO_SUCH_LINE = 99;
 
+const getLin = (chartType) => {
+    switch (chartType) {
+        case 1:
+            return linDay;
+        case 2:
+            return linWeek;
+        case 3:
+            return linMonth;
+    }
+}
 
 const lineShapeOf = (line) => {
     return line.value0.lt;
@@ -48,6 +58,11 @@ const initLines = function () {
     }
 }
 
+const randomBetween = function (min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+
 /*------------------- LevelLineInternal -------------------*/
 
 class LevelLineInternal {
@@ -61,7 +76,7 @@ class LevelLineInternal {
 
     paint(x2, y, displayValue, strokeStyle) {
         const _ctx = this.ctx;
-        _ctx.lineWidth = 1.0;
+        _ctx.lineWidth = 2.0;
         _ctx.strokeStyle = strokeStyle;
         _ctx.beginPath();
         _ctx.moveTo(x1, y);
@@ -107,7 +122,7 @@ class LevelLineInternal {
         const y = rec.y;
         const displayValue = this.pixToValue(y).toFixed(2);
         const x2 = this.v.w - x1;
-        this.paint(x2, y, displayValue, "black");
+        this.paint(x2, y, displayValue, rec.color);
     };
     paintRiscLine(line) {
         const rec = line.value0;
@@ -271,16 +286,6 @@ const linMonth = new LevelLineInternal();
 
 /*------------------- exports -------------------*/
 
-const getLin = (chartType) => {
-    switch (chartType) {
-        case 1:
-            return linDay;
-        case 2:
-            return linWeek;
-        case 3:
-            return linMonth;
-    }
-}
 
 export const addListener = chartType => listener => () => {
     const lin = getLin(chartType);
@@ -335,3 +340,9 @@ export const addLine = chartType => line => () => {
     const lin = getLin(chartType);
     lin.addLine(line);
 };
+export const randomRgb = () => {
+    const r = randomBetween(0, 220);
+    const g = randomBetween(0, 220);
+    const b = randomBetween(0, 220);
+    return `rgb(${r},${g},${b})`;
+}

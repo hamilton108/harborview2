@@ -95,6 +95,8 @@ foreign import redraw :: Int -> Context2D -> VRuler -> Effect Unit
 
 foreign import clearCanvas :: Int -> Effect Unit
 
+foreign import randomRgb :: Effect String
+
 --foreign import showJson :: Json -> Effect Unit
 
 --foreign import alert :: String -> Effect Unit
@@ -105,6 +107,7 @@ data Line =
     { y :: Number
     , selected :: Boolean
     , lt :: Int
+    , color :: String
     } 
     | RiscLine
     { y :: Number
@@ -248,8 +251,9 @@ remButtonClick evt =
 
 addLevelLineButtonClick :: ChartType -> Event.Event -> Effect Unit
 addLevelLineButtonClick ct _ =
+    randomRgb >>= \curColor ->
     let
-        line = StdLine { y: 200.0, selected: false, lt: ltSTD }
+        line = StdLine { y: 200.0, selected: false, lt: ltSTD, color: curColor }
     in
     addLine (chartTypeAsInt ct) line
 
