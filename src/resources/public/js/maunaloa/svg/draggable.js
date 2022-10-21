@@ -11,6 +11,7 @@ export class Draggable {
         const vL = Math.min(v0, v1)
         const fe = (h * Draggable.PHI_EXT) - h;
         return {
+            /*
             f23: Math.round((h * Draggable.PHI_23) + vL),
             f38: Math.round((h * Draggable.PHI_38) + vL),
             f50: Math.round((h * 0.5) + vL),
@@ -18,6 +19,16 @@ export class Draggable {
             f78: Math.round((h * Draggable.PHI_78) + vL),
             e27H: Math.round(vH + fe),
             e27L: Math.round(vL - fe)
+            */
+            //f23: (h * Draggable.PHI_23) + vL,
+            f23: vH - (h * Draggable.PHI_23),
+            f38: (h * Draggable.PHI_38) + vL,
+            f50: (h * 0.5) + vL,
+            f62: (h * Draggable.PHI) + vL,
+            //f78: (h * Draggable.PHI_78) + vL,
+            f78: vH - (h * Draggable.PHI_78),
+            e27H: vH + fe,
+            e27L: vL - fe
         }
     }
     static addLine(svgId) {
@@ -35,11 +46,11 @@ export class Draggable {
         const color = Draggable.randomRgb()
         const f = Draggable.fib(150, 450);
         const l = Draggable.svgLine(200, 150, 200, 450, color);
-        const l23 = Draggable.svgLine(Draggable.X1, f.f23, Draggable.X2, f.f23, color);
+        //const l23 = Draggable.svgLine(Draggable.X1, f.f23, Draggable.X2, f.f23, color);
         const l38 = Draggable.svgLine(Draggable.X1, f.f38, Draggable.X2, f.f38, color);
         const l50 = Draggable.svgLine(Draggable.X1, f.f50, Draggable.X2, f.f50, color);
         const l62 = Draggable.svgLine(Draggable.X1, f.f62, Draggable.X2, f.f62, color);
-        const l78 = Draggable.svgLine(Draggable.X1, f.f78, Draggable.X2, f.f78, color);
+        //const l78 = Draggable.svgLine(Draggable.X1, f.f78, Draggable.X2, f.f78, color);
         const le27H = Draggable.svgLine(Draggable.X1, f.e27H, Draggable.X2, f.e27H, color);
         const le27L = Draggable.svgLine(Draggable.X1, f.e27L, Draggable.X2, f.e27L, color);
         const c1 = Draggable.draggableMarker("1", l.getAttribute("x1"), l.getAttribute("y1"), curMarkerDown, curMarkerUp);
@@ -65,21 +76,21 @@ export class Draggable {
                 }
 
                 const fu = Draggable.fib(y0, y);
-                Draggable.updateSvg(l23, fu.f23);
+                //Draggable.updateSvg(l23, fu.f23);
                 Draggable.updateSvg(l38, fu.f38);
                 Draggable.updateSvg(l50, fu.f50);
                 Draggable.updateSvg(l62, fu.f62);
-                Draggable.updateSvg(l78, fu.f78);
+                //Draggable.updateSvg(l78, fu.f78);
                 Draggable.updateSvg(le27H, fu.e27H);
                 Draggable.updateSvg(le27L, fu.e27L);
             }
         });
         svg.appendChild(l);
-        svg.appendChild(l23);
+        //svg.appendChild(l23);
         svg.appendChild(l38);
         svg.appendChild(l50);
         svg.appendChild(l62);
-        svg.appendChild(l78);
+        //svg.appendChild(l78);
         svg.appendChild(le27H);
         svg.appendChild(le27L);
         svg.appendChild(c1);
@@ -108,9 +119,9 @@ export class Draggable {
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
     static randomRgb() {
-        const r = Draggable.randomBetween(0, 220);
-        const g = Draggable.randomBetween(0, 220);
-        const b = Draggable.randomBetween(0, 220);
+        const r = Draggable.randomBetween(0, 150);
+        const g = Draggable.randomBetween(0, 150);
+        const b = Draggable.randomBetween(0, 200);
         return `rgb(${r},${g},${b})`;
     }
     static svgLine(x1, y1, x2, y2, color) {
@@ -120,7 +131,7 @@ export class Draggable {
         l.setAttribute("x2", x2);
         l.setAttribute("y2", y2);
         l.setAttribute("stroke", color);
-        l.setAttribute("stroke-width", 2);
+        l.setAttribute("stroke-width", 1.5);
         return l;
     };
     static removeElements(svgId) {
