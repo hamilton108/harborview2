@@ -1,34 +1,50 @@
 export class Draggable {
     /*
-    constructor(svgId){
+    constructor(svgId) {
         this.svgId = svgId;
     }
     */
-
-    static fib(v0, v1) {
-        const h = Math.abs(v1 - v0);
-        const vH = Math.max(v0, v1);
-        const vL = Math.min(v0, v1)
-        const fe = (h * Draggable.PHI_EXT) - h;
-        return {
+    static removeElements(svgId) {
+        const svg = document.getElementById(svgId);
+        if (svg === null) {
+            return;
+        }
+        while (svg.lastChild) {
+            svg.removeChild(svg.lastChild);
+        }
+    }
+    static draw(svgId, ctx) {
+        const svg = document.getElementById(svgId);
+        if (svg === null) {
+            return;
+        }
+        const len = svg.children.length;
+        ctx.lineWidth = 1.0;
+        for (var i = 0; i < len; ++i) {
+            let ch = svg.children[i];
+            let tn = ch.tagName;
+            let st = ch.getAttribute("stroke");
+            //let stw = ch.getAttribute("stroke-width");
+            if (tn === "line") {
+                let x1 = ch.x1.baseVal.value;
+                let x2 = ch.x2.baseVal.value;
+                let y1 = ch.y1.baseVal.value;
+                let y2 = ch.y2.baseVal.value;
+                //console.log(`${tn}, x1: ${x1}, x2: ${x2}, color: ${st}, width: ${stw}`);
+                //ctx.lineWidth = stw;
+                ctx.strokeStyle = st;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
             /*
-            f23: Math.round((h * Draggable.PHI_23) + vL),
-            f38: Math.round((h * Draggable.PHI_38) + vL),
-            f50: Math.round((h * 0.5) + vL),
-            f62: Math.round((h * Draggable.PHI) + vL),
-            f78: Math.round((h * Draggable.PHI_78) + vL),
-            e27H: Math.round(vH + fe),
-            e27L: Math.round(vL - fe)
+            else if (tn === "circle") {
+                let cx = ch.cx.baseVal.value;
+                let cy = ch.cy.baseVal.value;
+                console.log(`${tn}, cx: ${cx}, cy: ${cy}, color: ${st}, width: ${stw}`);
+            }
             */
-            //f23: (h * Draggable.PHI_23) + vL,
-            f23: vH - (h * Draggable.PHI_23),
-            f38: (h * Draggable.PHI_38) + vL,
-            f50: (h * 0.5) + vL,
-            f62: (h * Draggable.PHI) + vL,
-            //f78: (h * Draggable.PHI_78) + vL,
-            f78: vH - (h * Draggable.PHI_78),
-            e27H: vH + fe,
-            e27L: vL - fe
         }
     }
     static addLine(svgId) {
@@ -96,6 +112,33 @@ export class Draggable {
         svg.appendChild(c1);
         svg.appendChild(c2);
     }
+    static fib(v0, v1) {
+        const h = Math.abs(v1 - v0);
+        const vH = Math.max(v0, v1);
+        const vL = Math.min(v0, v1)
+        const fe = (h * Draggable.PHI_EXT) - h;
+        return {
+            /*
+            f23: Math.round((h * Draggable.PHI_23) + vL),
+            f38: Math.round((h * Draggable.PHI_38) + vL),
+            f50: Math.round((h * 0.5) + vL),
+            f62: Math.round((h * Draggable.PHI) + vL),
+            f78: Math.round((h * Draggable.PHI_78) + vL),
+            e27H: Math.round(vH + fe),
+            e27L: Math.round(vL - fe)
+            */
+            //f23: (h * Draggable.PHI_23) + vL,
+            f23: vH - (h * Draggable.PHI_23),
+            f38: (h * Draggable.PHI_38) + vL,
+            f50: (h * 0.5) + vL,
+            f62: (h * Draggable.PHI) + vL,
+            //f78: (h * Draggable.PHI_78) + vL,
+            f78: vH - (h * Draggable.PHI_78),
+            e27H: vH + fe,
+            e27L: vL - fe
+        }
+    }
+
     static updateSvg(l, val) {
         l.setAttribute("y1", val);
         l.setAttribute("y2", val);
@@ -115,7 +158,8 @@ export class Draggable {
         c.addEventListener("mouseup", fnUp);
         return c;
     }
-    static randomBetween(min, max) { // min and max included 
+    static randomBetween(min, max) {
+        // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
     static randomRgb() {
@@ -134,15 +178,6 @@ export class Draggable {
         l.setAttribute("stroke-width", 1.5);
         return l;
     };
-    static removeElements(svgId) {
-        const svg = document.getElementById(svgId);
-        if (svg === null) {
-            return;
-        }
-        while (svg.lastChild) {
-            svg.removeChild(svg.lastChild);
-        }
-    }
 }
 Draggable.PHI = 0.618034;
 Draggable.PHI_38 = Draggable.PHI * Draggable.PHI;

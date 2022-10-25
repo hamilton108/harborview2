@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //---------------------- Elm.Maunaloa.Charts ---------------------------
 
-    const saveCanvases = (canvases, canvasVolume, canvasCyberCycle) => {
+    const saveCanvases = (canvases, canvasVolume, canvasCyberCycle, scrapbook) => {
         const c1 = canvases[0]; // this.canvas; //document.getElementById('canvas');
         const w1 = c1.width;
         const h1 = c1.height;
@@ -122,6 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         newCtx.drawImage(canvasVolume, 0, h1);
         newCtx.drawImage(canvasCyberCycle, 0, h1 + h2);
+        scrapbook.drawDraggable(newCtx);
         newCanvas.toBlob(function (blob) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -295,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
             blobCanvases.push(document.getElementById(canvasConfig.LEVEL_LINES));
             const canvasVolume = document.getElementById(canvasConfig.VOLUME);
             const canvasCyberCycle = document.getElementById(canvasConfig.OSC);
-            saveCanvases(blobCanvases, canvasVolume, canvasCyberCycle);
+            saveCanvases(blobCanvases, canvasVolume, canvasCyberCycle, scrap);
         };
 
     };

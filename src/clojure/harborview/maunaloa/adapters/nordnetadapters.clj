@@ -1,8 +1,6 @@
 (ns harborview.maunaloa.adapters.nordnetadapters
   (:gen-class)
   (:import
-   (java.util Map Collection)
-   (java.util ArrayList)
    (harborview.dto.html StockPriceDTO RiscLineDTO)
    (harborview.dto.html.options StockPriceAndOptions OptionDTO)
    (critter.util StockOptionUtil)
@@ -14,8 +12,8 @@
    [harborview.commonutils :refer [find-first not-nil?]]
    [harborview.maunaloa.ports :as ports]))
 
-;critter.repos.StockMarketRepository -> Int -> TickerInfo
 (defn ticker-info
+  "critter.repos.StockMarketRepository -> Int -> TickerInfo"
   [repos oid]
   (let [stock (.findStock repos oid)
         ticker (.getTicker stock)]
@@ -150,7 +148,8 @@
   (if-let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker ticker)]
     (let [is-calls (= (.third info) StockOption$OptionType/CALL)
           opx (calls-or-puts ctx (.first info) is-calls)]
-      (find-option ticker opx))))
+      (find-option ticker opx))
+    nil))
 
 ;; (comment risc-lines [ctx oid]
 ;;          (let [opx (stock-options-cache ctx oid)
@@ -168,46 +167,48 @@
 (defrecord NordnetEtradeAdapter [ctx]
   ports/Etrade
   (invalidateRiscs
-    [this]
+    [_]
     (reset! risc-repos {}))
   (invalidate
-    [this]
+    [_]
     (reset! options-cache {}))
   (invalidate
     ;Int -> ()
-    [this oid]
+    [_ oid]
     (swap! options-cache dissoc oid))
   (calls
     ;Int -> [OptionDTO]
-    [this oid]
+    [_ oid]
     (let [opx (calls_ ctx oid)
           s (stockprice_ ctx oid)]
       (StockPriceAndOptions. s opx)))
   (puts
     ;Int -> [OptionDTO]
-    [this oid]
+    [_ oid]
     (let [opx (puts_ ctx oid)
           s (stockprice_ ctx oid)]
       (StockPriceAndOptions. s opx)))
   (stockPrice
     ;Int -> StockPriceDTO
-    [this oid]
+    [_ oid]
     (stockprice_ ctx oid))
   (stockOptionPrice
     ;String (stock option ticker) -> StockOptionPrice
-    [this ticker]
+    [_ ticker]
     (if-let [^OptionDTO o (find-option-from-ticker ctx ticker)]
-      (.getStockOptionPrice o)))
+      (.getStockOptionPrice o)
+      nil))
   (calcRiscStockprices
     ;Int -> {:ticker :risc} -> {:ticker :stockprice :status}
-    [this oid riscs]
+    [_ oid riscs]
     (map (partial calc-risc-stockprice ctx oid) riscs))
   (calcRiscOptionPrice
     ;String (stock option ticker) -> Double
-    [this ticker stockPrice]
+    [_ ticker stockPrice]
     (if-let [^OptionDTO o (find-option-from-ticker ctx ticker)]
-      (.optionPriceFor (.getStockOptionPrice o) stockPrice)))
+      (.optionPriceFor (.getStockOptionPrice o) stockPrice)
+      nil))
   (riscLines
     ;Int -> [RiscLineDTO]
-    [this oid]
+    [_ oid]
     (risc-lines oid)))

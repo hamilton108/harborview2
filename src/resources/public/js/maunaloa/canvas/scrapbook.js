@@ -9,6 +9,7 @@ export class Scrapbook {
         this.doodle = Scrapbook.initDoodle(config);
         //Scrapbook.initLevelLine(config);
         this.clearSvg = Scrapbook.clearSvgFn(config);
+        this.svgId = config.SVG;
     }
     clear() {
         this.doodle.clearCanvas();
@@ -18,6 +19,9 @@ export class Scrapbook {
         return function () {
             Draggable.removeElements(cfg.SVG);
         }
+    }
+    drawDraggable(ctx) {
+        Draggable.draw(this.svgId, ctx);
     }
     static initLayers(cfg) {
         /*
