@@ -51,6 +51,7 @@
   :repositories {"project" "file:/home/rcs/opt/java/mavenlocalrepo"}
   :resource-paths ["src/resources"]
   :source-paths ["src/clojure"]
+  :test-paths ["test"]
   :java-source-paths ["src/java"]
   :main ^:skip-aot harborview.webapp
   :target-path "target/%s"

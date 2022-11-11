@@ -49,7 +49,7 @@
 
 (def critter-purchases
   (pu/default-json-response ::critterpurchases 200
-                            (fn [body req]
+                            (fn [_ req]
                               (let [ptypes (get-in req [:path-params :ptype])
                                     ptype (cu/rs ptypes)
                                     items (.activePurchasesWithCritters @db-adapter ptype)]
@@ -57,47 +57,47 @@
 
 (def risclines
   (pu/default-json-response ::risclines 200
-                            (fn [body req]
+                            (fn [_ req]
                               (let [oid (req-oid req)]
                                 (.riscLines @nordnet-adapter oid)))))
 
 (def fetch-optionpurchases
   (pu/default-json-response ::fetchoptionpurchases 200
-                            (fn [body req]
+                            (fn [_ req]
                               (let [ptype (cu/rs (get-in req [:path-params :ptype]))
                                     purchases (.stockOptionPurchases @db-adapter ptype 1)]
                                 (map #(OptionPurchaseWithSalesDTO. % calculator) purchases)))))
 
 (def days
   (pu/default-json-response ::days 200
-                            (fn [body req]
+                            (fn [_ req]
                               (charts req factory))))
 
 (def weeks
   (pu/default-json-response ::weeks 200
-                            (fn [body req]
+                            (fn [_ req]
                               (charts req factory-weeks))))
 
 (def months
   (pu/default-json-response ::months 200
-                            (fn [body req]
+                            (fn [_ req]
                               (charts req factory-months))))
 
 (def calls
   (pu/default-json-response ::calls 200
-                            (fn [body req]
+                            (fn [_ req]
                               (let [oid (req-oid req)]
                                 (.calls @nordnet-adapter oid)))))
 
 (def puts
   (pu/default-json-response ::puts 200
-                            (fn [body req]
+                            (fn [_ req]
                               (let [oid (req-oid req)]
                                 (.puts @nordnet-adapter oid)))))
 
 (def calcoptionprice
   (pu/default-json-response ::calcoptionprice 200
-                            (fn [body req]
+                            (fn [_ req]
                               (let [ticker (get-in req [:path-params :ticker])
                                     sp (cu/rs (get-in req [:path-params :stockprice]))
                                     price (.calcRiscOptionPrice @nordnet-adapter ticker sp)]
