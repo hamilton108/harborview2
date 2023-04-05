@@ -1,1 +1,8062 @@
-!function(n){"use strict";function r(n,r,t){return t.a=n,t.f=r,t}function o(t){return r(2,t,function(r){return function(n){return t(r,n)}})}function t(e){return r(3,e,function(t){return function(r){return function(n){return e(t,r,n)}}})}function e(u){return r(4,u,function(e){return function(t){return function(r){return function(n){return u(e,t,r,n)}}}})}function u(c){return r(5,c,function(u){return function(e){return function(t){return function(r){return function(n){return c(u,e,t,r,n)}}}}})}function c(a){return r(6,a,function(c){return function(u){return function(e){return function(t){return function(r){return function(n){return a(c,u,e,t,r,n)}}}}}})}function a(o){return r(7,o,function(a){return function(c){return function(u){return function(e){return function(t){return function(r){return function(n){return o(a,c,u,e,t,r,n)}}}}}}})}function i(i){return r(8,i,function(o){return function(a){return function(c){return function(u){return function(e){return function(t){return function(r){return function(n){return i(o,a,c,u,e,t,r,n)}}}}}}}})}function f(f){return r(9,f,function(i){return function(o){return function(a){return function(c){return function(u){return function(e){return function(t){return function(r){return function(n){return f(i,o,a,c,u,e,t,r,n)}}}}}}}}})}function d(n,r,t){return 2===n.a?n.f(r,t):n(r)(t)}function l(n,r,t,e){return 3===n.a?n.f(r,t,e):n(r)(t)(e)}function b(n,r,t,e,u){return 4===n.a?n.f(r,t,e,u):n(r)(t)(e)(u)}function h(n,r,t,e,u,c){return 5===n.a?n.f(r,t,e,u,c):n(r)(t)(e)(u)(c)}function v(n,r,t,e,u,c,a){return 6===n.a?n.f(r,t,e,u,c,a):n(r)(t)(e)(u)(c)(a)}function s(n,r,t,e,u,c,a,o){return 7===n.a?n.f(r,t,e,u,c,a,o):n(r)(t)(e)(u)(c)(a)(o)}var $=t(function(n,r,t){for(var e=Array(n),u=0;u<n;u++)e[u]=t(r+u);return e}),p=o(function(n,r){for(var t=Array(n),e=0;e<n&&r.b;e++)t[e]=r.a,r=r.b;return t.length=e,C(t,r)}),g=(o(function(n,r){return r[n]}),t(function(n,r,t){for(var e=t.length,u=Array(e),c=0;c<e;c++)u[c]=t[c];return u[n]=r,u}),o(function(n,r){for(var t=r.length,e=Array(t+1),u=0;u<t;u++)e[u]=r[u];return e[t]=n,e}),t(function(n,r,t){for(var e=t.length,u=0;u<e;u++)r=d(n,t[u],r);return r}),t(function(n,r,t){for(var e=t.length-1;0<=e;e--)r=d(n,t[e],r);return r}));o(function(n,r){for(var t=r.length,e=Array(t),u=0;u<t;u++)e[u]=n(r[u]);return e}),t(function(n,r,t){for(var e=t.length,u=Array(e),c=0;c<e;c++)u[c]=d(n,r+c,t[c]);return u}),t(function(n,r,t){return t.slice(n,r)}),t(function(n,r,t){var e=r.length,u=n-e;t.length<u&&(u=t.length);for(var c=Array(e+u),a=0;a<e;a++)c[a]=r[a];for(a=0;a<u;a++)c[a+e]=t[a];return c}),o(function(n,r){return r}),o(function(n,r){return console.log(n+": "+m()),r});function m(){return"<internals>"}function y(n){throw Error("https://github.com/elm/core/blob/1.0.0/hints/"+n+".md")}function k(n,r){for(var t,e=[],u=A(n,r,0,e);u&&(t=e.pop());u=A(t.a,t.b,0,e));return u}function A(n,r,t,e){if(100<t)return e.push(C(n,r)),!0;if(n===r)return!0;if("object"!=typeof n||null===n||null===r)return"function"==typeof n&&y(5),!1;for(var u in n.$<0&&(n=Hr(n),r=Hr(r)),n)if(!A(n[u],r[u],t+1,e))return!1;return!0}o(k),o(function(n,r){return!k(n,r)});function w(n,r,t){if("object"!=typeof n)return n===r?0:n<r?-1:1;if(!n.$)return(t=w(n.a,r.a))||(t=w(n.b,r.b))?t:w(n.c,r.c);for(;n.b&&r.b&&!(t=w(n.a,r.a));n=n.b,r=r.b);return t||(n.b?1:r.b?-1:0)}o(function(n,r){return w(n,r)<0}),o(function(n,r){return w(n,r)<1}),o(function(n,r){return 0<w(n,r)}),o(function(n,r){return 0<=w(n,r)});var E=o(function(n,r){var t=w(n,r);return t<0?Mr:t?Ir:Jr}),j=0;function C(n,r){return{a:n,b:r}}function T(n,r,t){return{a:n,b:r,c:t}}function O(n){return n}function L(n,r){var t={};for(var e in n)t[e]=n[e];for(var e in r)t[e]=r[e];return t}o(R);function R(n,r){if("string"==typeof n)return n+r;if(!n.b)return r;var t=B(n.a,r);n=n.b;for(var e=t;n.b;n=n.b)e=e.b=B(n.a,r);return t}var x={$:0};function B(n,r){return{$:1,a:n,b:r}}var N=o(B);function S(n){for(var r=x,t=n.length;t--;)r=B(n[t],r);return r}function _(n){for(var r=[];n.b;n=n.b)r.push(n.a);return r}var F=t(function(n,r,t){for(var e=[];r.b&&t.b;r=r.b,t=t.b)e.push(d(n,r.a,t.a));return S(e)}),q=(e(function(n,r,t,e){for(var u=[];r.b&&t.b&&e.b;r=r.b,t=t.b,e=e.b)u.push(l(n,r.a,t.a,e.a));return S(u)}),u(function(n,r,t,e,u){for(var c=[];r.b&&t.b&&e.b&&u.b;r=r.b,t=t.b,e=e.b,u=u.b)c.push(b(n,r.a,t.a,e.a,u.a));return S(c)}),c(function(n,r,t,e,u,c){for(var a=[];r.b&&t.b&&e.b&&u.b&&c.b;r=r.b,t=t.b,e=e.b,u=u.b,c=c.b)a.push(h(n,r.a,t.a,e.a,u.a,c.a));return S(a)}),o(function(t,n){return S(_(n).sort(function(n,r){return w(t(n),t(r))}))})),D=(o(function(e,n){return S(_(n).sort(function(n,r){var t=d(e,n,r);return t===Jr?0:t===Mr?-1:1}))}),o(function(n,r){return n+r}),o(function(n,r){return n-r}),o(function(n,r){return n*r}),o(function(n,r){return n/r}),o(function(n,r){return n/r|0}),o(Math.pow),o(function(n,r){return r%n}),o(function(n,r){var t=r%n;return 0===n?y(11):0<t&&n<0||t<0&&0<n?t+n:t}));o(Math.atan2);var P=Math.ceil,z=Math.floor,H=Math.round,J=Math.log;o(function(n,r){return n&&r}),o(function(n,r){return n||r}),o(function(n,r){return n!==r}),o(function(n,r){return n+r});o(function(n,r){return n+r});o(function(n,r){for(var t=r.length,e=Array(t),u=0;u<t;){var c=r.charCodeAt(u);c<55296||56319<c?(e[u]=n(O(r[u])),u++):(e[u]=n(O(r[u]+r[u+1])),u+=2)}return e.join("")}),o(function(n,r){for(var t=[],e=r.length,u=0;u<e;){var c=r[u],a=r.charCodeAt(u);u++,a<55296||56319<a||(c+=r[u],u++),n(O(c))&&t.push(c)}return t.join("")});t(function(n,r,t){for(var e=t.length,u=0;u<e;){var c=t[u],a=t.charCodeAt(u);u++,a<55296||56319<a||(c+=t[u],u++),r=d(n,O(c),r)}return r}),t(function(n,r,t){for(var e=t.length;e--;){var u=t[e],c=t.charCodeAt(e);c<56320||57343<c||(u=t[--e]+u),r=d(n,O(u),r)}return r});var I=o(function(n,r){return r.split(n)}),M=o(function(n,r){return r.join(n)}),G=t(function(n,r,t){return t.slice(n,r)});o(function(n,r){for(var t=r.length;t--;){var e=r[t],u=r.charCodeAt(t);if(u<56320||57343<u||(e=r[--t]+e),n(O(e)))return!0}return!1});var K=o(function(n,r){for(var t=r.length;t--;){var e=r[t],u=r.charCodeAt(t);if(u<56320||57343<u||(e=r[--t]+e),!n(O(e)))return!1}return!0}),Q=o(function(n,r){return!!~r.indexOf(n)}),V=(o(function(n,r){return 0==r.indexOf(n)}),o(function(n,r){return n.length<=r.length&&r.lastIndexOf(n)==r.length-n.length}),o(function(n,r){var t=n.length;if(t<1)return x;for(var e=0,u=[];-1<(e=r.indexOf(n,e));)u.push(e),e+=t;return S(u)}));function U(n){return n+""}var W=o(function(n,r){return{$:10,d:n,b:r}});o(function(n,r){return{$:11,e:n,b:r}});function Y(n,r){return{$:13,f:n,g:r}}var X=o(function(n,r){return{$:14,b:r,h:n}});var Z=o(function(n,r){return Y(n,[r])}),nn=t(function(n,r,t){return Y(n,[r,t])}),rn=(e(function(n,r,t,e){return Y(n,[r,t,e])}),u(function(n,r,t,e,u){return Y(n,[r,t,e,u])}),c(function(n,r,t,e,u,c){return Y(n,[r,t,e,u,c])}),a(function(n,r,t,e,u,c,a){return Y(n,[r,t,e,u,c,a])}),i(function(n,r,t,e,u,c,a,o){return Y(n,[r,t,e,u,c,a,o])}),f(function(n,r,t,e,u,c,a,o,i){return Y(n,[r,t,e,u,c,a,o,i])}),o(function(n,r){try{return en(n,JSON.parse(r))}catch(n){return Gr(d(Kr,"This is not valid JSON! "+n.message,sn(r)))}})),tn=o(function(n,r){return en(n,bn(r))});function en(n,r){switch(n.$){case 3:return"boolean"==typeof r?Ur(r):an("a BOOL",r);case 2:return"number"!=typeof r?an("an INT",r):(r<=-2147483647||2147483647<=r||(0|r)!==r)&&(!isFinite(r)||r%1)?an("an INT",r):Ur(r);case 4:return"number"==typeof r?Ur(r):an("a FLOAT",r);case 6:return"string"==typeof r?Ur(r):r instanceof String?Ur(r+""):an("a STRING",r);case 9:return null===r?Ur(n.c):an("null",r);case 5:return Ur(sn(r));case 7:return Array.isArray(r)?un(n.b,r,S):an("a LIST",r);case 8:return Array.isArray(r)?un(n.b,r,cn):an("an ARRAY",r);case 10:var t=n.d;if("object"!=typeof r||null===r||!(t in r))return an("an OBJECT with a field named `"+t+"`",r);var e=en(n.b,r[t]);return Bt(e)?e:Gr(d(Qr,t,e.a));case 11:var u=n.e;if(!Array.isArray(r))return an("an ARRAY",r);if(r.length<=u)return an("a LONGER array. Need index "+u+" but only see "+r.length+" entries",r);e=en(n.b,r[u]);return Bt(e)?e:Gr(d(Vr,u,e.a));case 12:if("object"!=typeof r||null===r||Array.isArray(r))return an("an OBJECT",r);var c=x;for(var a in r)if(r.hasOwnProperty(a)){e=en(n.b,r[a]);if(!Bt(e))return Gr(d(Qr,a,e.a));c=B(C(a,e.a),c)}return Ur(vt(c));case 13:for(var o=n.f,i=n.g,f=0;f<i.length;f++){e=en(i[f],r);if(!Bt(e))return e;o=o(e.a)}return Ur(o);case 14:e=en(n.b,r);return Bt(e)?en(n.h(e.a),r):e;case 15:for(var v=x,s=n.g;s.b;s=s.b){e=en(s.a,r);if(Bt(e))return e;v=B(e.a,v)}return Gr(Wr(vt(v)));case 1:return Gr(d(Kr,n.a,sn(r)));case 0:return Ur(n.a)}}function un(n,r,t){for(var e=r.length,u=Array(e),c=0;c<e;c++){var a=en(n,r[c]);if(!Bt(a))return Gr(d(Vr,c,a.a));u[c]=a.a}return Ur(t(u))}function cn(r){return d(xt,r.length,function(n){return r[n]})}function an(n,r){return Gr(d(Kr,"Expecting "+n,sn(r)))}function on(n,r){if(n===r)return!0;if(n.$!==r.$)return!1;switch(n.$){case 0:case 1:return n.a===r.a;case 3:case 2:case 4:case 6:case 5:return!0;case 9:return n.c===r.c;case 7:case 8:case 12:return on(n.b,r.b);case 10:return n.d===r.d&&on(n.b,r.b);case 11:return n.e===r.e&&on(n.b,r.b);case 13:return n.f===r.f&&fn(n.g,r.g);case 14:return n.h===r.h&&on(n.b,r.b);case 15:return fn(n.g,r.g)}}function fn(n,r){var t=n.length;if(t!==r.length)return!1;for(var e=0;e<t;e++)if(!on(n[e],r[e]))return!1;return!0}var vn=o(function(n,r){return JSON.stringify(bn(r),null,n)+""});function sn(n){return n}function bn(n){return n}var ln=t(function(n,r,t){return t[n]=bn(r),t});function dn(n){return{$:0,a:n}}function hn(n){return{$:1,a:n}}function $n(n){return{$:2,b:n,c:null}}var pn=o(function(n,r){return{$:3,b:n,d:r}}),gn=o(function(n,r){return{$:4,b:n,d:r}});var mn=0;function yn(n){var r={$:0,e:mn++,f:n,g:null,h:[]};return Cn(r),r}function kn(r){return $n(function(n){n(dn(yn(r)))})}function An(n,r){n.h.push(r),Cn(n)}var wn=o(function(r,t){return $n(function(n){An(r,t),n(dn(j))})});var En=!1,jn=[];function Cn(n){if(jn.push(n),!En){for(En=!0;n=jn.shift();)Tn(n);En=!1}}function Tn(r){for(;r.f;){var n=r.f.$;if(0===n||1===n){for(;r.g&&r.g.$!==n;)r.g=r.g.i;if(!r.g)return;r.f=r.g.b(r.f.a),r.g=r.g.i}else{if(2===n)return void(r.f.c=r.f.b(function(n){r.f=n,Cn(r)}));if(5===n){if(0===r.h.length)return;r.f=r.f.b(r.h.shift())}else r.g={$:3===n?0:1,b:r.f.b,i:r.g},r.f=r.f.d}}}e(function(n,r,t,e){return On(r,e,n.bP,n.cH,n.cw,function(){return function(){}})});function On(n,r,t,e,u,c){var a=d(tn,n,sn(r?r.flags:void 0));Bt(a)||y(2);var o={},i=(a=t(a.a)).a,f=c(s,i),v=function(n,r){var t;for(var e in Ln){var u=Ln[e];u.a&&((t=t||{})[e]=u.a(e,r)),n[e]=Rn(u,r)}return t}(o,s);function s(n,r){a=d(e,n,i),f(i=a.a,r),Sn(o,a.b,u(i))}return Sn(o,a.b,u(i)),v?{ports:v}:{}}var Ln={};function Rn(n,r){var e={g:r,h:void 0},u=n.c,c=n.d,a=n.e,o=n.f;return e.h=yn(d(pn,function n(t){return d(pn,n,{$:5,b:function(n){var r=n.a;return 0===n.$?l(c,e,r,t):a&&o?b(u,e,r.i,r.j,t):l(u,e,a?r.i:r.j,t)}})},n.b))}var xn=o(function(r,t){return $n(function(n){r.g(t),n(dn(j))})});o(function(n,r){return d(wn,n.h,{$:0,a:r})});function Bn(r){return function(n){return{$:1,k:r,l:n}}}function Nn(n){return{$:2,m:n}}o(function(n,r){return{$:3,n:n,o:r}});function Sn(n,r,t){var e={};for(var u in _n(!0,r,e,null),_n(!1,t,e,null),n)An(n[u],{$:"fx",a:e[u]||{i:x,j:x}})}function _n(n,r,t,e){switch(r.$){case 1:var u=r.k,c=function(n,r,t,e){return d(n?Ln[r].e:Ln[r].f,function(n){for(var r=t;r;r=r.q)n=r.p(n);return n},e)}(n,u,e,r.l);return void(t[u]=function(n,r,t){return t=t||{i:x,j:x},n?t.i=B(r,t.i):t.j=B(r,t.j),t}(n,c,t[u]));case 2:for(var a=r.m;a.b;a=a.b)_n(n,a.a,t,e);return;case 3:return void _n(n,r.o,t,{p:r.n,q:e})}}o(function(n,r){return r});var Fn;o(function(r,t){return function(n){return r(t(n))}});var qn="undefined"!=typeof document?document:{};function Dn(n,r){n.appendChild(r)}e(function(n,r,t,e){var u=e.node;return u.parentNode.replaceChild(Zn(n,function(){}),u),{}});function Pn(n){return{$:0,a:n}}var zn=o(function(c,a){return o(function(n,r){for(var t=[],e=0;r.b;r=r.b){var u=r.a;e+=u.b||0,t.push(u)}return e+=t.length,{$:1,c:a,d:Yn(n),e:t,f:c,b:e}})})(void 0),Hn=o(function(c,a){return o(function(n,r){for(var t=[],e=0;r.b;r=r.b){var u=r.a;e+=u.b.b||0,t.push(u)}return e+=t.length,{$:2,c:a,d:Yn(n),e:t,f:c,b:e}})})(void 0);o(function(n,r){return{$:4,j:n,k:r,b:1+(r.b||0)}});function Jn(n,r){return{$:5,l:n,m:r,k:void 0}}o(function(n,r){return Jn([n,r],function(){return n(r)})}),t(function(n,r,t){return Jn([n,r,t],function(){return d(n,r,t)})});var In=e(function(n,r,t,e){return Jn([n,r,t,e],function(){return l(n,r,t,e)})}),Mn=(u(function(n,r,t,e,u){return Jn([n,r,t,e,u],function(){return b(n,r,t,e,u)})}),c(function(n,r,t,e,u,c){return Jn([n,r,t,e,u,c],function(){return h(n,r,t,e,u,c)})}),a(function(n,r,t,e,u,c,a){return Jn([n,r,t,e,u,c,a],function(){return v(n,r,t,e,u,c,a)})}),i(function(n,r,t,e,u,c,a,o){return Jn([n,r,t,e,u,c,a,o],function(){return s(n,r,t,e,u,c,a,o)})}),f(function(n,r,t,e,u,c,a,o,i){return Jn([n,r,t,e,u,c,a,o,i],function(){return function(n,r,t,e,u,c,a,o,i){return 8===n.a?n.f(r,t,e,u,c,a,o,i):n(r)(t)(e)(u)(c)(a)(o)(i)}(n,r,t,e,u,c,a,o,i)})}),o(function(n,r){return{$:"a0",n:n,o:r}})),Gn=o(function(n,r){return{$:"a1",n:n,o:r}}),Kn=o(function(n,r){return{$:"a2",n:n,o:r}}),Qn=o(function(n,r){return{$:"a3",n:n,o:r}});t(function(n,r,t){return{$:"a4",n:r,o:{f:n,o:t}}});o(function(n,r){return"a0"===r.$?d(Mn,r.n,function(n,r){var t=Dt(r);return{$:r.$,a:t?l(Ft,t<3?Un:Wn,qt(n),r.a):d(_t,n,r.a)}}(n,r.o)):r});var Vn,Un=o(function(n,r){return C(n(r.a),r.b)}),Wn=o(function(n,r){return{q:n(r.q),ah:r.ah,ad:r.ad}});function Yn(n){for(var r={};n.b;n=n.b){var t=n.a,e=t.$,u=t.n,c=t.o;if("a2"!==e){var a=r[e]||(r[e]={});"a3"===e&&"class"===u?Xn(a,u,c):a[u]=c}else"className"===u?Xn(r,u,bn(c)):r[u]=bn(c)}return r}function Xn(n,r,t){var e=n[r];n[r]=e?e+" "+t:t}function Zn(n,r){var t=n.$;if(5===t)return Zn(n.k||(n.k=n.m()),r);if(0===t)return qn.createTextNode(n.a);if(4===t){for(var e=n.k,u=n.j;4===e.$;)"object"!=typeof u?u=[u,e.j]:u.push(e.j),e=e.k;var c={j:u,p:r};return(a=Zn(e,c)).elm_event_node_ref=c,a}if(3===t)return nr(a=n.h(n.g),r,n.d),a;var a=n.f?qn.createElementNS(n.f,n.c):qn.createElement(n.c);Fn&&"a"==n.c&&a.addEventListener("click",Fn(a)),nr(a,r,n.d);for(var o=n.e,i=0;i<o.length;i++)Dn(a,Zn(1===t?o[i]:o[i].b,r));return a}function nr(n,r,t){for(var e in t){var u=t[e];"a1"===e?rr(n,u):"a0"===e?ur(n,r,u):"a3"===e?tr(n,u):"a4"===e?er(n,u):"value"===e&&"checked"===e&&n[e]===u||(n[e]=u)}}function rr(n,r){var t=n.style;for(var e in r)t[e]=r[e]}function tr(n,r){for(var t in r){var e=r[t];e?n.setAttribute(t,e):n.removeAttribute(t)}}function er(n,r){for(var t in r){var e=r[t],u=e.f,c=e.o;c?n.setAttributeNS(u,t,c):n.removeAttributeNS(u,t)}}function ur(n,r,t){var e=n.elmFs||(n.elmFs={});for(var u in t){var c=t[u],a=e[u];if(c){if(a){if(a.q.$===c.$){a.q=c;continue}n.removeEventListener(u,a)}a=cr(r,c),n.addEventListener(u,a,Vn&&{passive:Dt(c)<2}),e[u]=a}else n.removeEventListener(u,a),e[u]=void 0}}try{window.addEventListener("t",null,Object.defineProperty({},"passive",{get:function(){Vn=!0}}))}catch(n){}function cr(v,n){function s(n){var r=s.q,t=en(r.a,n);if(Bt(t)){for(var e,u=Dt(r),c=t.a,a=u?u<3?c.a:c.q:c,o=1==u?c.b:3==u&&c.ah,i=(o&&n.stopPropagation(),(2==u?c.b:3==u&&c.ad)&&n.preventDefault(),v);e=i.j;){if("function"==typeof e)a=e(a);else for(var f=e.length;f--;)a=e[f](a);i=i.p}i(a,o)}}return s.q=n,s}function ar(n,r){return n.$==r.$&&on(n.a,r.a)}function or(n,r){var t=[];return fr(n,r,t,0),t}function ir(n,r,t,e){var u={$:r,r:t,s:e,t:void 0,u:void 0};return n.push(u),u}function fr(n,r,t,e){if(n!==r){var u=n.$,c=r.$;if(u!==c){if(1!==u||2!==c)return void ir(t,0,e,r);r=function(n){for(var r=n.e,t=r.length,e=Array(t),u=0;u<t;u++)e[u]=r[u].b;return{$:1,c:n.c,d:n.d,e:e,f:n.f,b:n.b}}(r),c=1}switch(c){case 5:for(var a=n.l,o=r.l,i=a.length,f=i===o.length;f&&i--;)f=a[i]===o[i];if(f)return void(r.k=n.k);r.k=r.m();var v=[];return fr(n.k,r.k,v,0),void(0<v.length&&ir(t,1,e,v));case 4:for(var s=n.j,b=r.j,l=!1,d=n.k;4===d.$;)l=!0,"object"!=typeof s?s=[s,d.j]:s.push(d.j),d=d.k;for(var h=r.k;4===h.$;)l=!0,"object"!=typeof b?b=[b,h.j]:b.push(h.j),h=h.k;return l&&s.length!==b.length?void ir(t,0,e,r):((l?function(n,r){for(var t=0;t<n.length;t++)if(n[t]!==r[t])return;return 1}(s,b):s===b)||ir(t,2,e,b),void fr(d,h,t,e+1));case 0:return void(n.a!==r.a&&ir(t,3,e,r.a));case 1:return void vr(n,r,t,e,br);case 2:return void vr(n,r,t,e,lr);case 3:if(n.h!==r.h)return void ir(t,0,e,r);var $=sr(n.d,r.d);$&&ir(t,4,e,$);var p=r.i(n.g,r.g);return void(p&&ir(t,5,e,p))}}}function vr(n,r,t,e,u){if(n.c===r.c&&n.f===r.f){var c=sr(n.d,r.d);c&&ir(t,4,e,c),u(n,r,t,e)}else ir(t,0,e,r)}function sr(n,r,t){var e;for(var u in n)if("a1"!==u&&"a0"!==u&&"a3"!==u&&"a4"!==u)if(u in r){var c=n[u],a=r[u];c===a&&"value"!==u&&"checked"!==u||"a0"===t&&ar(c,a)||((e=e||{})[u]=a)}else(e=e||{})[u]=t?"a1"===t?"":"a0"===t||"a3"===t?void 0:{f:n[u].f,o:void 0}:"string"==typeof n[u]?"":null;else{var o=sr(n[u],r[u]||{},u);o&&((e=e||{})[u]=o)}for(var i in r)i in n||((e=e||{})[i]=r[i]);return e}function br(n,r,t,e){var u=n.e,c=r.e,a=u.length,o=c.length;o<a?ir(t,6,e,{v:o,i:a-o}):a<o&&ir(t,7,e,{v:a,e:c});for(var i=a<o?a:o,f=0;f<i;f++){var v=u[f];fr(v,c[f],t,++e),e+=v.b||0}}function lr(n,r,t,e){for(var u=[],c={},a=[],o=n.e,i=r.e,f=o.length,v=i.length,s=0,b=0,l=e;s<f&&b<v;){var d=(C=o[s]).a,h=(T=i[b]).a,$=C.b,p=T.b;if(d!==h){var g=o[s+1],m=i[b+1];if(g)var y=g.a,k=g.b,A=h===y;if(m)var w=m.a,E=m.b,j=d===w;if(j&&A)fr($,E,u,++l),hr(c,u,d,p,b,a),l+=$.b||0,$r(c,u,d,k,++l),l+=k.b||0,s+=2,b+=2;else if(j)l++,hr(c,u,h,p,b,a),fr($,E,u,l),l+=$.b||0,s+=1,b+=2;else if(A)$r(c,u,d,$,++l),l+=$.b||0,fr(k,p,u,++l),l+=k.b||0,s+=2,b+=1;else{if(!g||y!==w)break;$r(c,u,d,$,++l),hr(c,u,h,p,b,a),l+=$.b||0,fr(k,E,u,++l),l+=k.b||0,s+=2,b+=2}}else fr($,p,u,++l),l+=$.b||0,s++,b++}for(;s<f;){var C;$r(c,u,(C=o[s]).a,$=C.b,++l),l+=$.b||0,s++}for(;b<v;){var T,O=O||[];hr(c,u,(T=i[b]).a,T.b,void 0,O),b++}(0<u.length||0<a.length||O)&&ir(t,8,e,{w:u,x:a,y:O})}var dr="_elmW6BL";function hr(n,r,t,e,u,c){var a=n[t];if(!a)return c.push({r:u,A:a={c:0,z:e,r:u,s:void 0}}),void(n[t]=a);if(1===a.c){c.push({r:u,A:a}),a.c=2;var o=[];return fr(a.z,e,o,a.r),a.r=u,void(a.s.s={w:o,A:a})}hr(n,r,t+dr,e,u,c)}function $r(n,r,t,e,u){var c=n[t];if(c){if(0===c.c){c.c=2;var a=[];return fr(e,c.z,a,u),void ir(r,9,u,{w:a,A:c})}$r(n,r,t+dr,e,u)}else{var o=ir(r,9,u,void 0);n[t]={c:1,z:e,r:u,s:o}}}function pr(n,r,t,e){!function n(r,t,e,u,c,a,o){var i=e[u];var f=i.r;for(;f===c;){var v=i.$;if(1===v)pr(r,t.k,i.s,o);else if(8===v){i.t=r,i.u=o;var s=i.s.w;0<s.length&&n(r,t,s,0,c,a,o)}else if(9===v){i.t=r,i.u=o;var b=i.s;if(b){b.A.s=r;var s=b.w;0<s.length&&n(r,t,s,0,c,a,o)}}else i.t=r,i.u=o;if(!(i=e[++u])||(f=i.r)>a)return u}var l=t.$;if(4===l){for(var d=t.k;4===d.$;)d=d.k;return n(r,d,e,u,c+1,a,r.elm_event_node_ref)}var h=t.e;var $=r.childNodes;for(var p=0;p<h.length;p++){var g=1===l?h[p]:h[p].b,m=++c+(g.b||0);if(c<=f&&f<=m&&(u=n($[p],g,e,u,c,m,o),!(i=e[u])||(f=i.r)>a))return u;c=m}return u}(n,r,t,0,0,r.b,e)}function gr(n,r,t,e){return 0===t.length?n:(pr(n,r,t,e),mr(n,t))}function mr(n,r){for(var t=0;t<r.length;t++){var e=r[t],u=e.t,c=yr(u,e);u===n&&(n=c)}return n}function yr(n,r){switch(r.$){case 0:return function(n,r,t){var e=n.parentNode,u=Zn(r,t);u.elm_event_node_ref||(u.elm_event_node_ref=n.elm_event_node_ref);e&&u!==n&&e.replaceChild(u,n);return u}(n,r.s,r.u);case 4:return nr(n,r.u,r.s),n;case 3:return n.replaceData(0,n.length,r.s),n;case 1:return mr(n,r.s);case 2:return n.elm_event_node_ref?n.elm_event_node_ref.j=r.s:n.elm_event_node_ref={j:r.s,p:r.u},n;case 6:for(var t=r.s,e=0;e<t.i;e++)n.removeChild(n.childNodes[t.v]);return n;case 7:for(var u=(t=r.s).e,c=n.childNodes[e=t.v];e<u.length;e++)n.insertBefore(Zn(u[e],r.u),c);return n;case 9:if(!(t=r.s))return n.parentNode.removeChild(n),n;var a=t.A;return void 0!==a.r&&n.parentNode.removeChild(n),a.s=mr(n,t.w),n;case 8:return function(n,r){var t=r.s,e=function(n,r){if(!n)return;for(var t=qn.createDocumentFragment(),e=0;e<n.length;e++){var u=n[e].A;Dn(t,2===u.c?u.s:Zn(u.z,r.u))}return t}(t.y,r);n=mr(n,t.w);for(var u=t.x,c=0;c<u.length;c++){var a=u[c],o=a.A,i=2===o.c?o.s:Zn(o.z,r.u);n.insertBefore(i,n.childNodes[a.r])}e&&Dn(n,e);return n}(n,r);case 5:return r.s(n);default:y(10)}}function kr(n){if(3===n.nodeType)return Pn(n.textContent);if(1!==n.nodeType)return Pn("");for(var r=x,t=n.attributes,e=t.length;e--;){var u=t[e];r=B(d(Qn,u.name,u.value),r)}var c=n.tagName.toLowerCase(),a=x,o=n.childNodes;for(e=o.length;e--;)a=B(kr(o[e]),a);return l(zn,c,r,a)}var Ar=e(function(r,n,t,o){return On(n,o,r.bP,r.cH,r.cw,function(e,n){var u=r.cI,c=o.node,a=kr(c);return Er(n,function(n){var r=u(n),t=or(a,r);c=gr(c,a,t,e),a=r})})}),wr=(e(function(r,n,t,e){return On(n,e,r.bP,r.cH,r.cw,function(u,n){var c=r.af&&r.af(u),a=r.cI,o=qn.title,i=qn.body,f=kr(i);return Er(n,function(n){Fn=c;var r=a(n),t=zn("body")(x)(r.bh),e=or(f,t);i=gr(i,f,e,u),f=t,Fn=0,o!==r.cD&&(qn.title=o=r.cD)})})}),"undefined"!=typeof requestAnimationFrame?requestAnimationFrame:function(n){setTimeout(n,1e3/60)});function Er(t,e){e(t);var u=0;function c(){u=1===u?0:(wr(c),e(t),1)}return function(n,r){t=n,r?(e(t),2===u&&(u=1)):(0===u&&wr(c),u=2)}}o(function(n,r){return d(Ve,Yt,$n(function(){r&&history.go(r),n()}))}),o(function(n,r){return d(Ve,Yt,$n(function(){history.pushState({},"",r),n()}))}),o(function(n,r){return d(Ve,Yt,$n(function(){history.replaceState({},"",r),n()}))});var jr={addEventListener:function(){},removeEventListener:function(){}},Cr="undefined"!=typeof window?window:jr;t(function(r,t,e){return kn($n(function(){function n(n){yn(e(n))}return r.addEventListener(t,n,Vn&&{passive:!0}),function(){r.removeEventListener(t,n)}}))}),o(function(n,r){var t=en(n,r);return Bt(t)?Yr(t.a):Xr});function Tr(t,e){return $n(function(r){wr(function(){var n=document.getElementById(t);r(n?dn(e(n)):hn(Pt(t)))})})}o(function(r,n){return Tr(n,function(n){return n[r](),j})});o(function(n,r){return t=function(){return Cr.scroll(n,r),j},$n(function(n){wr(function(){n(dn(t()))})});var t});t(function(n,r,t){return Tr(n,function(n){return n.scrollLeft=r,n.scrollTop=t,j})});var Or=o(function(e,u){return $n(function(r){var n=new XMLHttpRequest;!function(n,r){if(!au(r))return;n.addEventListener("progress",function(n){n.lengthComputable&&yn(r.a({bl:n.loaded,bm:n.total}))})}(n,u),n.addEventListener("error",function(){r(hn(tu))}),n.addEventListener("timeout",function(){r(hn(eu))}),n.addEventListener("load",function(){r(function(n,r){var t=function(n){return{ao:n.responseURL,cr:{bp:n.status,q:n.statusText},aE:function(n){var r=cu;if(!n)return r;for(var t=n.split("\r\n"),e=t.length;e--;){var u=t[e],c=u.indexOf(": ");if(0<c){var a=u.substring(0,c),o=u.substring(2+c);r=l(yu,a,function(n){return Yr(au(n)?o+", "+n.a:o)},r)}}return r}(n.getAllResponseHeaders()),bh:n.response}}(n);if(n.status<200||300<=n.status)return t.body=n.responseText,hn(nu(t));var e=r(t);return Bt(e)?dn(e.a):(t.body=n.responseText,hn(d(Ze,e.a,t)))}(n,e.az.a))});try{n.open(e.bW,e.ao,!0)}catch(n){return r(hn(ru(e.ao)))}!function(n,r){for(var t=r.aE;t.b;t=t.b)n.setRequestHeader(t.a.a,t.a.b);n.responseType=r.az.b,n.withCredentials=r.cK,au(r.a6)&&(n.timeout=r.a6.a)}(n,e);var t=e.bh;return n.send(ou(t)?(n.setRequestHeader("Content-Type",t.a),t.b):t.a),function(){n.abort()}})});o(function(t,e){return{$:0,b:e.b,a:function(n){var r=e.a(n);return d(iu,t,r)}}});function Lr(n){return d(tt,"\n    ",d(et,"\n",n))}function Rr(n){return l(ut,o(function(n,r){return r+1}),0,n)}function xr(n){var r=ft(n);return 97<=r&&r<=122}function Br(n){var r=ft(n);return r<=90&&65<=r}function Nr(n){return xr(n)||Br(n)}function Sr(n){return xr(n)||Br(n)||function(n){var r=ft(n);return r<=57&&48<=r}(n)}function _r(n){return n}function Fr(n){return""===n}var qr,Dr=N,Pr=g,zr=(t(function(t,n,r){var e=r.c,u=r.d,c=o(function(n,r){return l(Pr,n.$?t:c,r,n.a)});return l(Pr,c,l(Pr,t,n,u),e)}),t(function(n,r,t){for(;;){if(-2===t.$)return r;var e=t.d,u=n,c=l(n,t.b,t.c,l(zr,n,r,t.e));n=u,r=c,t=e}})),Hr=function(n){return l(zr,t(function(n,r,t){return d(Dr,C(n,r),t)}),x,n)},Jr=1,Ir=2,Mr=0,Gr=function(n){return{$:1,a:n}},Kr=o(function(n,r){return{$:3,a:n,b:r}}),Qr=o(function(n,r){return{$:0,a:n,b:r}}),Vr=o(function(n,r){return{$:1,a:n,b:r}}),Ur=function(n){return{$:0,a:n}},Wr=function(n){return{$:2,a:n}},Yr=function(n){return{$:0,a:n}},Xr={$:1},Zr=K,nt=vn,rt=U,tt=o(function(n,r){return d(M,n,_(r))}),et=o(function(n,r){return S(d(I,n,r))}),ut=t(function(n,r,t){for(;;){if(!t.b)return r;var e=t.b,u=n,c=d(n,t.a,r);n=u,r=c,t=e}}),ct=F,at=t(function(n,r,t){for(;;){if(1<=w(n,r))return t;var e=n,u=r-1,c=d(Dr,r,t);n=e,r=u,t=c}}),ot=o(function(n,r){return l(at,n,r,x)}),it=o(function(n,r){return l(ct,n,d(ot,0,Rr(r)-1),r)}),ft=function(n){var r=n.charCodeAt(0);return r<55296||56319<r?r:1024*(r-55296)+n.charCodeAt(1)-56320+65536},vt=function(n){return l(ut,Dr,x,n)},st=function(n){var r=n.charCodeAt(0);return r?Yr(r<55296||56319<r?C(O(n[0]),n.slice(1)):C(O(n[0]+n[1]),n.slice(2))):Xr},bt=o(function(n,r){return"\n\n("+rt(n+1)+(") "+Lr(lt(r)))}),lt=function(n){return d(dt,n,x)},dt=o(function(n,r){n:for(;;)switch(n.$){case 0:var e=n.a,t=n.b,u=function(){var n=st(e);if(1===n.$)return!1;var r=n.a,t=r.b;return Nr(r.a)&&d(Zr,Sr,t)}(),c=t,a=d(Dr,u?"."+e:"['"+e+"']",r);n=c,r=a;continue n;case 1:t=n.b;var o="["+rt(n.a)+"]";c=t,a=d(Dr,o,r);n=c,r=a;continue n;case 2:var i=n.a;if(i.b){if(i.b.b){var f=(r.b?"The Json.Decode.oneOf at json"+d(tt,"",vt(r)):"Json.Decode.oneOf")+" failed in the following "+rt(Rr(i))+" ways:";return d(tt,"\n\n",d(Dr,f,d(it,bt,i)))}n=c=t=i.a,r=a=r;continue n}return"Ran into a Json.Decode.oneOf with no possibilities"+(r.b?" at json"+d(tt,"",vt(r)):"!");default:var v=n.a,s=n.b;return(f=r.b?"Problem with the value at json"+d(tt,"",vt(r))+":\n\n    ":"Problem with the given value:\n\n")+(Lr(d(nt,4,s))+"\n\n")+v}}),ht=e(function(n,r,t,e){return{$:0,a:n,b:r,c:t,d:e}}),$t=[],pt=P,gt=o(function(n,r){return J(r)/J(n)}),mt=pt(d(gt,2,32)),yt=b(ht,0,mt,$t,$t),kt=$,At=(o(function(n,r){return n(r)}),o(function(n,r){return r(n)})),wt=z,Et=function(n){return n.length},jt=o(function(n,r){return 0<w(n,r)?n:r}),Ct=p,Tt=o(function(n,r){for(;;){var t=d(Ct,32,n),e=t.b,u=d(Dr,{$:0,a:t.a},r);if(!e.b)return vt(u);n=e,r=u}}),Ot=o(function(n,r){for(;;){var t=pt(r/32);if(1===t)return d(Ct,32,n).a;n=d(Tt,n,x),r=t}}),Lt=o(function(n,r){if(r.b){var t=32*r.b,e=wt(d(gt,32,t-1)),u=n?vt(r.e):r.e,c=d(Ot,u,r.b);return b(ht,Et(r.d)+t,d(jt,5,e*mt),c,r.d)}return b(ht,Et(r.d),mt,$t,r.d)}),Rt=u(function(n,r,t,e,u){for(;;){if(r<0)return d(Lt,!1,{e:e,b:t/32|0,d:u});var c={$:1,a:l(kt,32,r,n)};n=n,r=r-32,t=t,e=d(Dr,c,e),u=u}}),xt=o(function(n,r){if(0<n){var t=n%32,e=l(kt,t,n-t,r);return h(Rt,r,n-t-32,n,x,e)}return yt}),Bt=function(n){return!n.$},Nt=X,St={$:3},_t=Z,Ft=nn,qt=function(n){return{$:0,a:n}},Dt=function(n){switch(n.$){case 0:return 0;case 1:return 1;case 2:return 2;default:return 3}},Pt=_r,zt=c(function(n,r,t,e,u,c){return{aB:c,aF:r,aO:e,aQ:t,aT:n,aV:u}}),Ht=Q,Jt=function(n){return n.length},It=G,Mt=o(function(n,r){return n<1?r:l(It,n,Jt(r),r)}),Gt=V,Kt=o(function(n,r){return n<1?"":l(It,0,n,r)}),Qt=function(n){for(var r=0,t=n.charCodeAt(0),e=43==t||45==t?1:0,u=e;u<n.length;++u){var c=n.charCodeAt(u);if(c<48||57<c)return Xr;r=10*r+c-48}return u==e?Xr:Yr(45==t?-r:r)},Vt=u(function(n,r,t,e,u){if(Fr(u)||d(Ht,"@",u))return Xr;var c=d(Gt,":",u);if(c.b){if(c.b.b)return Xr;var a=c.a,o=Qt(d(Mt,a+1,u));if(1===o.$)return Xr;var i=o;return Yr(v(zt,n,d(Kt,a,u),i,r,t,e))}return Yr(v(zt,n,u,Xr,r,t,e))}),Ut=e(function(n,r,t,e){if(Fr(e))return Xr;var u=d(Gt,"/",e);if(u.b){var c=u.a;return h(Vt,n,d(Mt,c,e),r,t,d(Kt,c,e))}return h(Vt,n,"/",r,t,e)}),Wt=t(function(n,r,t){if(Fr(t))return Xr;var e=d(Gt,"?",t);if(e.b){var u=e.a;return b(Ut,n,Yr(d(Mt,u+1,t)),r,d(Kt,u,t))}return b(Ut,n,Xr,r,t)}),Yt=(o(function(n,r){if(Fr(r))return Xr;var t=d(Gt,"#",r);if(t.b){var e=t.a;return l(Wt,n,Yr(d(Mt,e+1,r)),d(Kt,e,r))}return l(Wt,n,Xr,r)}),function(){for(;;){0}}),Xt=dn,Zt=Xt(0),ne=e(function(n,r,t,e){if(e.b){var u=e.a,c=e.b;if(c.b){var a=c.a,o=c.b;if(o.b){var i=o.a,f=o.b;if(f.b){var v=f.b;return d(n,u,d(n,a,d(n,i,d(n,f.a,500<t?l(ut,n,r,vt(v)):b(ne,n,r,t+1,v)))))}return d(n,u,d(n,a,d(n,i,r)))}return d(n,u,d(n,a,r))}return d(n,u,r)}return r}),re=t(function(n,r,t){return b(ne,n,r,0,t)}),te=o(function(t,n){return l(re,o(function(n,r){return d(Dr,t(n),r)}),x,n)}),ee=pn,ue=o(function(r,n){return d(ee,function(n){return Xt(r(n))},n)}),ce=t(function(t,n,e){return d(ee,function(r){return d(ee,function(n){return Xt(d(t,r,n))},e)},n)}),ae=xn,oe=o(function(n,r){var t=r;return kn(d(ee,ae(n),t))}),ie=t(function(n,r){return d(ue,function(){return 0},(t=d(te,oe(n),r),l(re,ce(Dr),Xt(x),t)));var t}),fe=t(function(){return Xt(0)}),ve=o(function(n,r){return d(ue,n,r)});Ln.Task={b:Zt,c:ie,d:fe,e:ve,f:qr};function se(n){return{$:1,a:n}}function be(n){if(-1!==n.$||-1!==n.d.$||-1!==n.e.$)return n;if(-1!==n.e.d.$||n.e.d.a){var r=n.d,t=n.e;a=t.b,o=t.c,e=t.d,v=t.e;return h(su,1,n.b,n.c,h(su,0,r.b,r.c,r.d,r.e),h(su,0,a,o,e,v))}var e,u=n.d,c=n.e,a=c.b,o=c.c,i=(e=c.d).d,f=e.e,v=c.e;return h(su,0,e.b,e.c,h(su,1,n.b,n.c,h(su,0,u.b,u.c,u.d,u.e),i),h(su,1,a,o,f,v))}function le(n){if(-1!==n.$||-1!==n.d.$||-1!==n.e.$)return n;if(-1!==n.d.d.$||n.d.d.a){var r=n.d,t=r.d,e=n.e;v=e.b,s=e.c,b=e.d,l=e.e;return h(su,1,u=n.b,c=n.c,h(su,0,r.b,r.c,t,i=r.e),h(su,0,v,s,b,l))}var u=n.b,c=n.c,a=n.d,o=a.d,i=a.e,f=n.e,v=f.b,s=f.c,b=f.d,l=f.e;return h(su,0,a.b,a.c,h(su,1,o.b,o.c,o.d,o.e),h(su,1,u,c,i,h(su,0,v,s,b,l)))}function de(t){return ku(function(n){var r=d(Xe,t,n.bh);return 1!==r.$?Ur(r.a):Gr(lt(r.a))})}function he(n){return{bf:"0.0",bg:"0.0",bz:Su,bD:Su,aA:n,bQ:!0,bR:!0,cb:x,cg:"0.0",ck:Xr,cm:Xr,cp:"0.0",ct:Xr,cy:d(_u,"Ticker",!1),cC:x,cJ:"10"}}function $e(n){return{$:12,a:n}}function pe(n){return{$:1,a:n}}function ge(n){return{$:3,a:n}}function me(n){return{$:13,a:n}}function ye(n){return sn(l(ut,o(function(n,r){return l(ln,n.a,n.b,r)}),{},n))}function ke(n){var r=ye(n);return d(ec,"application/json",d(nt,0,r))}function Ae(n){return{$:1,a:n}}function we(n){return{$:11,a:n}}function Ee(n){return{$:7,a:n}}function je(n){return{$:8,a:n}}function Ce(n){return{$:0,a:n}}function Te(n){return{$:2,a:n}}function Oe(n){return{$:10,a:n}}function Le(n){return{$:9,a:n}}function Re(n){return d(Dc,"click",qt(n))}function xe(n){return d(Zc,S([d(zc,"color","#555")]),S([Hc(" "+n)]))}function Be(n){return d(Zc,S([d(zc,"color","#ccc")]),S([Hc(" "+n)]))}function Ne(n){var t=n.a,e=n.b,r=n.c,u=function(){switch(e.$){case 0:return S([Hc(t)]);case 1:var n=e.a;return S([Hc(t),(n?xe:Be)("↓")]);default:if(1===e.a.$){return S([Hc(t),Be("↕")])}var r=e.a.a;return S([Hc(t),xe(r?"↑":"↓")])}}();return d(na,S([r]),u)}function Se(n){return{$:3,a:ta(n)}}function _e(n){return d(Mc,x,S([Hc(n)]))}function Fe(n){return C(n,!0)}function qe(n){return d(sa,"input",d(_t,Fe,d(_t,n,ba)))}function De(n){var r=d(ja,n,1440)+719468,t=(r<0?r-146096:r)/146097|0,e=r-146097*t,u=(e-(e/1460|0)+(e/36524|0)-(e/146096|0))/365|0,c=e-(365*u+(u/4|0)-(u/100|0)),a=(5*c+2)/153|0,o=a+(a<10?3:-9);return{av:c-((153*a+2)/5|0)+1,aK:o,ba:u+400*t+(2<o?0:1)}}function Pe(n){return Hn(function(n){return"script"==n?"p":n}(n))}function ze(n){return{$:2,a:n}}function He(n){return{$:1,a:n}}var Je,Ie,Me,Ge,Ke,Qe=Bn("Task"),Ve=o(function(n,r){return Qe(d(ue,n,r))}),Ue=Ar,We=W,Ye={$:0},Xe=rn,Ze=o(function(n,r){return{$:4,a:n,b:r}}),nu=function(n){return{$:3,a:n}},ru=function(n){return{$:0,a:n}},tu={$:2},eu={$:1},uu={$:-2},cu=uu,au=function(n){return!n.$},ou=function(n){return 1===n.$},iu=o(function(n,r){return r.$?Gr(r.a):Ur(n(r.a))}),fu=E,vu=o(function(n,r){n:for(;;){if(-2===r.$)return Xr;var t=r.c,e=r.d,u=r.e;switch(d(fu,n,r.b)){case 0:n=n,r=e;continue n;case 1:return Yr(t);default:n=n,r=u;continue n}}}),su=u(function(n,r,t,e,u){return{$:-1,a:n,b:r,c:t,d:e,e:u}}),bu=u(function(n,r,t,e,u){if(-1!==u.$||u.a){if(-1!==e.$||e.a||-1!==e.d.$||e.d.a)return h(su,n,r,t,e,u);var c=e.d;v=e.e;return h(su,0,e.b,e.c,h(su,1,c.b,c.c,c.d,c.e),h(su,1,r,t,v,u))}var a=u.b,o=u.c,i=u.d,f=u.e;if(-1!==e.$||e.a)return h(su,n,a,o,h(su,0,r,t,e,i),f);var v;return h(su,0,r,t,h(su,1,e.b,e.c,e.d,v=e.e),h(su,1,a,o,i,f))}),lu=t(function(n,r,t){if(-2===t.$)return h(su,0,n,r,uu,uu);var e=t.a,u=t.b,c=t.c,a=t.d,o=t.e;switch(d(fu,n,u)){case 0:return h(bu,e,u,c,l(lu,n,r,a),o);case 1:return h(su,e,u,r,a,o);default:return h(bu,e,u,c,a,l(lu,n,r,o))}}),du=t(function(n,r,t){var e=l(lu,n,r,t);if(-1!==e.$||e.a)return e;return h(su,1,e.b,e.c,e.d,e.e)}),hu=a(function(n,r,t,e,u,c,a){if(-1!==c.$||c.a){n:for(;-1===a.$&&1===a.a;){if(-1===a.d.$){if(1!==a.d.a)break n;return le(r)}return le(r)}return r}return h(su,t,c.b,c.c,c.d,h(su,0,e,u,c.e,a))}),$u=function(n){if(-1!==n.$||-1!==n.d.$)return uu;var r=n.a,t=n.b,e=n.c,u=n.d,c=u.d,a=n.e;if(1!==u.a)return h(su,r,t,e,$u(u),a);if(-1!==c.$||c.a){var o=be(n);if(-1!==o.$)return uu;var i=o.e;return h(bu,o.a,o.b,o.c,$u(o.d),i)}return h(su,r,t,e,$u(u),a)},pu=o(function(n,r){if(-2===r.$)return uu;var t=r.a,e=r.b,u=r.c,c=r.d,a=r.e;if(w(n,e)<0){if(-1!==c.$||1!==c.a)return h(su,t,e,u,d(pu,n,c),a);var o=c.d;if(-1!==o.$||o.a){var i=be(r);if(-1!==i.$)return uu;var f=i.e;return h(bu,i.a,i.b,i.c,d(pu,n,i.d),f)}return h(su,t,e,u,d(pu,n,c),a)}return d(gu,n,s(hu,n,r,t,e,u,c,a))}),gu=o(function(n,r){if(-1!==r.$)return uu;var t=r.a,e=r.b,u=r.c,c=r.d,a=r.e;if(k(n,e)){var o=function(n){for(;;){if(-1!==n.$||-1!==n.d.$)return n;n=n.d}}(a);return-1!==o.$?uu:h(bu,t,o.b,o.c,c,$u(a))}return h(bu,t,e,u,c,d(pu,n,a))}),mu=o(function(n,r){var t=d(pu,n,r);if(-1!==t.$||t.a)return t;return h(su,1,t.b,t.c,t.d,t.e)}),yu=t(function(n,r,t){var e=r(d(vu,n,t));return e.$?d(mu,n,t):l(du,n,e.a,t)}),ku=function(n){return{$:0,b:"text",a:n}},Au=_r,wu=o(function(n,r){return Au({bh:Ye,az:de(r),aE:x,bW:"GET",a6:Xr,ao:n,cK:!1})}),Eu=function(n){return{$:7,b:n}},ju=o(function(n,r){return{an:r,V:n}}),Cu={$:6},Tu=l(Ft,ju,d(We,"v",Cu),d(We,"t",Cu)),Ou=Eu(Tu),Lu=t(function(n,r,t){return n(r(t))}),Ru=gn,xu=o(function(n,r){return Qe(d(Ru,d(Lu,d(Lu,Xt,n),Gr),d(ee,d(Lu,d(Lu,Xt,n),Ur),r)))}),Bu=o(function(n,r){return d(xu,n,d(Or,r,Xr))}),Nu=d(Bu,se,d(wu,"/maunaloa/stockprice/tickers",Ou)),Su={$:0},_u=o(function(n,r){return{$:0,a:n,b:r}}),Fu=Nn(x),qu=t(function(n,r,t){return{$:2,a:n,b:r,c:t}}),Du=e(function(n,r,t,e){var u=R(r,function(n){switch(n.$){case 1:return"Timeout";case 2:return"NetworkError";case 0:return"BadUrl: "+n.a;case 3:return"BadStatus: ";default:return"BadPayload: "+n.a}}(t));return L(e,{bz:l(qu,n,u,2)})}),Pu=Nn(x),zu=o(function(n,r){return k(r.cB,n)?L(r,{ae:!r.ae}):r}),Hu=o(function(n,r){return{cc:r,ct:n}}),Ju=H,Iu=o(function(n,r){return Ju(n*r)/r}),Mu=f(function(n,r,t,e,u,c,a,o,i){return l=n,function(b){return function(s){return function(v){return function(f){return function(i){return function(o){return function(a){return function(c){return function(u){return function(e){return function(t){return function(r){return function(n){return{bi:a,bk:v,bw:s,bH:c,bS:i,bT:o,ca:t,cg:e,ae:n,cn:f,cq:u,cu:r,cB:l,cM:b}}}}}}}}}}}}}}(r)(t)(e)(u)(c)(a)(o)(i)(d(Iu,100*(u/e-1),10))(0)(0)(0)(!1);var l}),Gu={$:4},Ku=Ft(At),Qu=t(function(n,r,t){return d(Ku,d(We,n,r),t)}),Vu=l(Qu,"expiry",Cu,l(Qu,"brEven",Gu,l(Qu,"ivSell",Gu,l(Qu,"ivBuy",Gu,l(Qu,"sell",Gu,l(Qu,"buy",Gu,l(Qu,"days",Gu,l(Qu,"x",Gu,l(Qu,"ticker",Cu,qt(Mu)))))))))),Uu=u(function(n,r,t,e,u){return{bn:u,bL:t,bU:e,b5:r,cG:n}}),Wu={$:2},Yu=l(Qu,"c",Gu,l(Qu,"l",Gu,l(Qu,"h",Gu,l(Qu,"o",Gu,l(Qu,"unixTime",Wu,qt(Uu)))))),Xu=l(Qu,"options",Eu(Vu),l(Qu,"stock",Yu,qt(Hu))),Zu=o(function(n,r){if(1===r.$)return Pu;var t=r.a,e=n.aA.aG?"/maunaloa/stockoption/calls/"+t:"/maunaloa/stockoption/puts/"+t;return d(Bu,d(Lu,$e,pe),d(wu,e,Xu))}),nc=o(function(n,r){if(n.$)return C(n.a.$?b(Du,"Error","OptionsFetched Error: ",t=n.a.a,r):L(r,{cb:(t=n.a.a).cc,ct:Yr(t.ct)}),Pu);var t,e="-1"===(t=n.a)?Xr:Yr(t);return C(L(r,{cm:e}),d(Zu,r,e))}),rc={$:1},tc=U,ec=o(function(n,r){return{$:1,a:n,b:r}}),uc=sn,cc=sn,ac=sn,oc=t(function(n,r,t){return{bY:r,b6:n,cs:t}}),ic=l(Qu,"statusCode",Wu,l(Qu,"msg",Cu,l(Qu,"ok",St,qt(oc)))),fc=t(function(n,r,t){return Au({bh:r,az:de(t),aE:x,bW:"POST",a6:Xr,ao:n,cK:!1})}),vc=sn,sc=c(function(n,r,t,e,u,c){var a=r,o=t,i=e,f=u,v=S([C("ticker",vc(n)),C("ask",cc(a)),C("bid",cc(o)),C("volume",ac(i)),C("spot",cc(f)),C("rt",uc(c))]),s=ke(v);return d(Bu,d(Lu,me,ge),l(fc,"/maunaloa/stockoption/purchase",s,ic))}),bc=function(n){if(0===n.length||/[\sxbo]/.test(n))return Xr;var r=+n;return r==r?Yr(r):Xr},lc=o(function(n,r){return r.$?n:r.a}),dc=o(function(n,r){var t=d(lc,"-1",n.cm),e=d(lc,-1,Qt(t)),u=n.aA.aG?"c":"p",c=d(lc,-1,Qt(n.cJ)),a=d(lc,-1,bc(n.cp)),o=d(lc,-1,bc(n.bg)),i=d(lc,-1,bc(n.bf)),f=S([C("ticker",vc(r.cB)),C("ask",cc(i)),C("bid",cc(o)),C("volume",ac(c)),C("spot",cc(a)),C("rt",uc(n.bR)),C("stockId",ac(e)),C("opType",vc(u)),C("expiry",vc(r.bH)),C("x",cc(r.cM))]),v=ke(f);return d(Bu,d(Lu,me,ge),l(fc,"/maunaloa/stockoption/regpur",v,ic))}),hc=o(function(n,r){return r.$?Xr:Yr(n(r.a))}),$c=t(function(n,r,t){return d(lc,t,d(hc,r,n))}),pc=o(function(n,r){switch(n.$){case 0:var t=n.a,e=l($c,r.ct,function(n){return n.bn},0);return C(L(r,{bf:tc(t.cn),bg:tc(t.bk),bD:rc,ck:Yr(t),cp:tc(e),cJ:"10"}),Pu);case 1:var u=r.ck;if(u.$)return C(L(r,{bD:Su}),Pu);var c=u.a,a=d(lc,-1,Qt(r.cJ)),o=(e=d(lc,-1,bc(r.cp)),d(lc,-1,bc(r.bg))),i=d(lc,-1,bc(r.bf));return C(L(r,{bD:Su}),v(sc,c.cB,i,o,a,e,r.bR));case 2:return C(L(r,{bD:Su}),Pu);default:var f;return n.a.$?C(b(Du,"Purchase Sale ERROR!","SaleOk Error: ",f=n.a.a,r),Pu):1===(f=n.a.a).cs?C(L(r,{bD:Su}),function(n){var r=n.ck;return 1===r.$?Pu:d(dc,n,r.a)}(r)):C(L(r,{bz:l(qu,"Option purchase",f.bY,f.b6?0:2)}),Pu)}}),gc=t(function(n,r,t){return{cr:t,cv:r,cB:n}}),mc=o(function(t,n){return l(re,o(function(n,r){return t(n)?d(Dr,n,r):r}),x,n)}),yc=o(function(n,r){return sn(l(ut,function(t){return o(function(n,r){return r.push(bn(t(n))),r})}(n),[],r))}),kc=t(function(n,r,t){if(1===n.$)return Pu;var e,u,c="/maunaloa/stockprice/calculate/"+n.a,a=d(lc,0,bc(r)),o=l(Qu,"status",Wu,l(Qu,"stockprice",Gu,l(Qu,"ticker",Cu,qt(gc)))),i=d(mc,function(n){return n.ae},t),f=(e=d(te,function(n){return S([C("ticker",vc(n.cB)),C("risc",cc(a))])},i),u=d(yc,ye,e),d(ec,"application/json",d(nt,0,u)));return d(Bu,d(Lu,we,Ae),l(fc,c,f,Eu(o)))}),Ac=t(function(n,r,t){var e=function(n){if(n.b){return Yr(n.a)}return Xr}(d(mc,function(n){return k(n.cB,t.cB)},r));return 1===e.$?t:L(t,{ca:t.cn-n,cg:n,cu:d(Iu,e.a.cv,100)})}),wc=o(function(n,r){switch(n.$){case 0:return C(r,l(kc,r.cm,r.cg,r.cb));case 1:if(n.a.$)return C(b(Du,"RiscCalculated","RiscCalculated Error: ",n.a.a,r),Pu);var t=n.a.a,e=d(lc,0,bc(r.cg));return C(L(r,{cb:d(te,d(Ac,e,t),r.cb)}),Pu);default:return C(L(r,{cg:n.a}),Pu)}}),Ec=o(function(n,r){switch(n.$){case 12:return d(nc,n.a,r);case 13:return d(pc,n.a,r);case 11:return d(wc,n.a,r);case 0:return C(L(r,{bz:Su}),Pu);case 1:return C(n.a.$?b(Du,"Error","TickersFetched Error: ",n.a.a,r):L(r,{cC:n.a.a}),Pu);case 2:return C(L(r,{cy:n.a}),Pu);case 3:return C(r,Pu);case 4:return C(L(r,{cb:d(te,zu(n.a),r.cb)}),Pu);case 5:return C(L(r,{bR:!r.bR}),Pu);case 6:return C(L(r,{bQ:!r.bQ}),Pu);case 7:return C(L(r,{bf:n.a}),Pu);case 8:return C(L(r,{bg:n.a}),Pu);case 9:return C(L(r,{cJ:n.a}),Pu);default:return C(L(r,{cp:n.a}),Pu)}}),jc={$:0},Cc={$:0},Tc={$:2},Oc={$:1},Lc={$:3},Rc={$:6},xc={$:5},Bc=zn("button"),Nc=o(function(n,r){return d(Kn,n,vc(r))}),Sc=Nc("className"),_c=zn("div"),Fc=zn("h4"),qc=Mn,Dc=o(function(n,r){return d(qc,n,{$:0,a:r})}),Pc=zn("p"),zc=Gn,Hc=Pn,Jc=o(function(n,r){if(2!==n.$)return d(_c,S([Sc("modalDialog"),d(zc,"opacity","0"),d(zc,"pointer-events","none")]),x);var t=n.b,e=n.c,u=d(Fc,x,S([Hc(n.a)])),c=d(_c,x,S([d(Pc,x,S([Hc(t)]))])),a=function(){switch(e){case 0:return"btn btn-info";case 1:return"btn btn-warning";default:return"btn btn-danger"}}(),o=d(Bc,S([Sc(a),Re(r)]),S([Hc("OK")]));return d(_c,S([Sc("modalDialog"),d(zc,"opacity","1"),d(zc,"pointer-events","auto")]),S([d(_c,x,S([u,c,o]))]))}),Ic=o(function(n,r){return d(_c,S([Sc("form-group form-group--elm")]),S([d(Bc,S([Sc("btn btn-outline-success"),Re(r)]),S([Hc(n)]))]))}),Mc=o(function(n,r){return{F:n,H:r}}),Gc={$:0},Kc=_r,Qc=Kc({aL:"Purchase",a1:Gc,a8:function(n){return d(Mc,x,S([d(Bc,S([Sc("btn btn-success"),Re(me({$:0,a:n}))]),S([Hc("Buy")]))]))}}),Vc=o(function(n,r){return d(Kn,n,uc(r))}),Uc=Vc("checked"),Wc=zn("input"),Yc=Nc("type"),Xc=Kc({aL:"Select",a1:Gc,a8:function(n){var r=n.ae,t=n.cB;return d(Mc,x,S([d(Wc,S([Yc("checkbox"),Uc(r),Re({$:4,a:t})]),x)]))}}),Zc=zn("span"),na=zn("th"),ra={X:Xr,ch:function(){return x},cx:x,aj:x,al:Xr,am:function(n){return d(Mc,x,d(te,Ne,n))}},ta=q,ea=o(function(n,r){return{aL:n,a1:Se(r),a8:d(Lu,d(Lu,_e,tc),r)}}),ua=o(function(n,r){return{aL:n,a1:Se(r),a8:d(Lu,_e,r)}}),ca=S([Sc("table")]),aa=(Je={bq:S([Xc,Qc,d(ua,"Ticker",function(n){return n.cB}),d(ea,"Exercise",function(n){return n.cM}),d(ea,"Days",function(n){return n.bw}),d(ea,"Buy",function(n){return n.bk}),d(ea,"Sell",function(n){return n.cn}),d(ea,"Spread",function(n){return n.cq}),d(ea,"IvBuy",function(n){return n.bS}),d(ea,"IvSell",function(n){return n.bT}),d(ea,"Break-Even",function(n){return n.bi}),d(ea,"Risc",function(n){return n.cg}),d(ea,"O.P. at Risc",function(n){return n.ca}),d(ea,"S.P. at Risc",function(n){return n.cu})]),bv:L(ra,{ch:function(n){return S([d(zc,"background",n.ae?"#FFCC99":"white")])},cx:ca}),cE:function(n){return n.cB},cF:function(n){return{$:2,a:n}}},Ie=Je.cE,Me=Je.cF,Ge=Je.bv,{bq:d(te,function(n){return n},Je.bq),bv:Ge,cE:Ie,cF:Me}),oa=Nc("htmlFor"),ia=Nc("id"),fa=zn("label"),va=e(function(n,r,t,e){var u=n,c=r,a=t;return d(_c,S([Sc("form-group form-group--elm")]),S([d(_c,S([Sc("checkbox")]),S([d(fa,S([oa(u)]),S([d(Wc,S([Yc("checkbox"),Sc("fake-cb"),Uc(a),Re(e),ia(u)]),x),d(Zc,S([Sc("fake-input")]),x),d(Zc,S([Sc("fake-label")]),S([Hc(c)]))]))]))]))}),sa=o(function(n,r){return d(qc,n,{$:1,a:r})}),ba=d(o(function(n,r){return l(re,We,r,n)}),S(["target","value"]),Cu),la=Nc("value"),da=e(function(n,r,t,e){var u=n,c=r,a=t;if(1===e.$)return d(Wc,S([la(c),Yc(u),Sc(a)]),x);var o=e.a;return d(Wc,S([la(c),qe(o),Yc(u),Sc(a)]),x)}),ha=u(function(n,r,t,e,u){var c=n;return d(_c,S([Sc("form-group")]),S([d(fa,S([Sc("control-label")]),S([Hc(c)])),b(da,r,t,e,u)]))}),$a=zn("option"),pa=d($a,S([la("")]),S([Hc("-")])),ga=Vc("selected"),ma=o(function(n,r){if(1===n.$)return d($a,S([la(r.V)]),S([Hc(r.an)]));var t=n.a;return d($a,S([la(r.V),ga(k(t,r.V))]),S([Hc(r.an)]))}),ya=zn("select"),ka=e(function(n,r,t,e){var u=ma(e),c=d(Dr,pa,d(te,u,t));return d(_c,S([Sc("form-group")]),S([d(fa,x,S([Hc(n)])),d(ya,S([d(Dc,"change",d(_t,r,ba)),Sc("form-control")]),c)]))}),Aa=u(function(n,r,t,e,u){var c=d(Fc,x,S([Hc(n)])),a=d(Bc,S([Sc("btn btn-info"),Re(t)]),S([Hc("OK")])),o=d(Bc,S([Sc("btn btn-danger"),Re(e)]),S([Hc("Cancel")])),i=S([a,o]),f=r.$?C("1","auto"):C("0","none"),v=f.a,s=f.b;return d(_c,S([Sc("modalDialog"),d(zc,"opacity",v),d(zc,"pointer-events",s)]),S([d(_c,x,d(Dr,c,R(u,i)))]))}),wa=Nc("placeholder"),Ea=_r,ja=o(function(n,r){return wt(n/r)}),Ca=t(function(n,r,t){for(;;){if(!t.b)return r+n;var e=t.a,u=t.b;if(w(e.ag,r)<0)return r+e.aN;n=n,r=r,t=u}}),Ta=o(function(n,r){var t=n.b;return l(Ca,n.a,d(ja,function(n){return n}(r),6e4),t)}),Oa=o(function(n,r){return De(d(Ta,n,r)).av}),La=D,Ra=o(function(n,r){return d(La,24,d(ja,d(Ta,n,r),60))}),xa=o(function(n,r){return d(La,60,d(Ta,n,r))}),Ba=o(function(n,r){switch(De(d(Ta,n,r)).aK){case 1:return 0;case 2:return 1;case 3:return 2;case 4:return 3;case 5:return 4;case 6:return 5;case 7:return 6;case 8:return 7;case 9:return 8;case 10:return 9;case 11:return 10;default:return 11}}),Na=o(function(n,r){return De(d(Ta,n,r)).ba}),Sa=d(o(function(n,r){return{$:0,a:n,b:r}}),0,x),_a=zn("caption"),Fa=t(function(n,r,t){switch(r.$){case 0:return t;case 1:return(e=r.a)(t);case 2:return vt((e=r.a)(t));case 3:var e=r.a;return n?vt(e(t)):e(t);default:e=r.a;return n?e(t):vt(e(t))}}),qa=o(function(n,r){for(;;){if(!r.b)return Xr;var t=r.a.a1,e=r.b;if(k(r.a.aL,n))return Yr(t);n=n,r=e}}),Da=t(function(n,r,t){var e=n.b,u=d(qa,n.a,r);return 1===u.$?t:l(Fa,e,u.a,t)}),Pa=zn("table"),za=zn("tfoot"),Ha=zn("thead"),Ja={$:0},Ia=t(function(n,r,t){return d(Dc,"click",d(_t,t,l(Ft,_u,qt(n),qt(r))))}),Ma=t(function(n,r,t){var e=n.a,u=n.b,c=t.aL;switch(t.a1.$){case 0:return T(c,Ja,l(Ia,e,u,r));case 1:case 2:return T(c,He(k(c,e)),l(Ia,c,!1,r));case 3:default:return k(c,e)?T(c,ze(Yr(u)),l(Ia,c,!u,r)):T(c,ze(Xr),l(Ia,c,!1,r))}}),Ga=In,Ka=zn("tr"),Qa=zn("td"),Va=o(function(n,r){var t=(0,r.a8)(n);return d(Qa,t.F,t.H)}),Ua=t(function(n,r,t){return d(Ka,r(t),d(te,Va(t),n))}),Wa=e(function(n,r,t,e){return C(n(e),b(Ga,Ua,r,t,e))}),Ya=t(function(n,r,t){var e,u,c=n.cE,a=n.bq,o=n.bv,i=o.am(d(te,d(Ma,r,n.cF),a)),f=d(Ha,i.F,i.H),v=l(Da,r,a,t),s=l(Pe,"tbody",o.aj,d(te,l(Wa,c,a,o.ch),v)),b=1===(e=o.al).$?d(Dr,s,x):d(Dr,d(za,e.a.F,e.a.H),d(Dr,s,x));return d(Pa,o.cx,1===(u=o.X).$?d(Dr,f,b):d(Dr,d(_a,u.a.F,u.a.H),d(Dr,f,b)))}),Xa=Ue({bP:function(n){return C(he(n),Nu)},cw:function(){return Fu},cH:Ec,cI:function(s){var n,r=function(){var n=s.ct;if(1===n.$)return"";var r,t,e,u,c,a=n.a,o=tc(a.b5),i=tc(a.bU),f=tc(a.bL),v=tc(a.bn);return r=Ea(a.cG),t=rt(d(Na,Sa,r)),e=function(n){switch(n){case 0:return"01";case 1:return"02";case 2:return"03";case 3:return"04";case 4:return"05";case 5:return"06";case 6:return"07";case 7:return"08";case 8:return"09";case 9:return"10";case 10:return"11";default:return"12"}}(d(Ba,Sa,r)),u=rt(d(xa,Sa,r)),c=rt(d(Ra,Sa,r)),t+"-"+e+"-"+rt(d(Oa,Sa,r))+" "+c+":"+u+", o: "+o+", hi: "+f+", lo: "+i+", c: "+v}(),t=1===(n=s.ck).$?"Option Purchase":"Option Purchase "+n.a.cB,e=s.bQ?d(mc,function(n){return 0<n.bS&&0<n.bT},s.cb):s.cb,u=s.aA.aG?"cb-calls":"cb-puts";return d(_c,x,S([d(_c,S([Sc("grid-elm")]),S([d(_c,S([Sc("form-group form-group--elm")]),S([Hc(r)])),d(Ic,"Calc Risc",we(Cc)),d(_c,S([Sc("form-group form-group--elm")]),S([d(Wc,S([wa("Risc"),qe(d(Lu,we,Te))]),x)])),d(Ic,"Reset Cache",Lc),b(ka,"Tickers: ",d(Lu,$e,Ce),s.cC,s.cm),b(va,u+"-1","Only iv > 0.0",s.bQ,Rc)])),d(_c,S([Sc("grid-elm")]),S([l(Ya,aa,s.cy,e)])),h(Aa,t,s.bD,me(Oc),me(Tc),S([b(va,u+"-2","Real-time purchase",s.bR,xc),h(ha,"Ask:","number",s.bf,"form-control",Yr(Ee)),h(ha,"Bid:","number",s.bg,"form-control",Yr(je)),h(ha,"Voluime:","number",s.cJ,"form-control",Yr(Le)),h(ha,"Spot:","number",s.cp,"form-control",Yr(Oe))])),d(Jc,s.bz,jc)]))}});Ke={Maunaloa:{Options:{Main:{init:Xa(d(Nt,function(n){return qt({aG:n})},d(We,"isCalls",St)))(0)}}}},n.Elm?function n(r,t){for(var e in t)e in r?"init"==e?y(6):n(r[e],t[e]):r[e]=t[e]}(n.Elm,Ke):n.Elm=Ke}(this);
+(function(scope){
+'use strict';
+
+function F(arity, fun, wrapper) {
+  wrapper.a = arity;
+  wrapper.f = fun;
+  return wrapper;
+}
+
+function F2(fun) {
+  return F(2, fun, function(a) { return function(b) { return fun(a,b); }; })
+}
+function F3(fun) {
+  return F(3, fun, function(a) {
+    return function(b) { return function(c) { return fun(a, b, c); }; };
+  });
+}
+function F4(fun) {
+  return F(4, fun, function(a) { return function(b) { return function(c) {
+    return function(d) { return fun(a, b, c, d); }; }; };
+  });
+}
+function F5(fun) {
+  return F(5, fun, function(a) { return function(b) { return function(c) {
+    return function(d) { return function(e) { return fun(a, b, c, d, e); }; }; }; };
+  });
+}
+function F6(fun) {
+  return F(6, fun, function(a) { return function(b) { return function(c) {
+    return function(d) { return function(e) { return function(f) {
+    return fun(a, b, c, d, e, f); }; }; }; }; };
+  });
+}
+function F7(fun) {
+  return F(7, fun, function(a) { return function(b) { return function(c) {
+    return function(d) { return function(e) { return function(f) {
+    return function(g) { return fun(a, b, c, d, e, f, g); }; }; }; }; }; };
+  });
+}
+function F8(fun) {
+  return F(8, fun, function(a) { return function(b) { return function(c) {
+    return function(d) { return function(e) { return function(f) {
+    return function(g) { return function(h) {
+    return fun(a, b, c, d, e, f, g, h); }; }; }; }; }; }; };
+  });
+}
+function F9(fun) {
+  return F(9, fun, function(a) { return function(b) { return function(c) {
+    return function(d) { return function(e) { return function(f) {
+    return function(g) { return function(h) { return function(i) {
+    return fun(a, b, c, d, e, f, g, h, i); }; }; }; }; }; }; }; };
+  });
+}
+
+function A2(fun, a, b) {
+  return fun.a === 2 ? fun.f(a, b) : fun(a)(b);
+}
+function A3(fun, a, b, c) {
+  return fun.a === 3 ? fun.f(a, b, c) : fun(a)(b)(c);
+}
+function A4(fun, a, b, c, d) {
+  return fun.a === 4 ? fun.f(a, b, c, d) : fun(a)(b)(c)(d);
+}
+function A5(fun, a, b, c, d, e) {
+  return fun.a === 5 ? fun.f(a, b, c, d, e) : fun(a)(b)(c)(d)(e);
+}
+function A6(fun, a, b, c, d, e, f) {
+  return fun.a === 6 ? fun.f(a, b, c, d, e, f) : fun(a)(b)(c)(d)(e)(f);
+}
+function A7(fun, a, b, c, d, e, f, g) {
+  return fun.a === 7 ? fun.f(a, b, c, d, e, f, g) : fun(a)(b)(c)(d)(e)(f)(g);
+}
+function A8(fun, a, b, c, d, e, f, g, h) {
+  return fun.a === 8 ? fun.f(a, b, c, d, e, f, g, h) : fun(a)(b)(c)(d)(e)(f)(g)(h);
+}
+function A9(fun, a, b, c, d, e, f, g, h, i) {
+  return fun.a === 9 ? fun.f(a, b, c, d, e, f, g, h, i) : fun(a)(b)(c)(d)(e)(f)(g)(h)(i);
+}
+
+console.warn('Compiled in DEV mode. Follow the advice at https://elm-lang.org/0.19.1/optimize for better performance and smaller assets.');
+
+
+var _JsArray_empty = [];
+
+function _JsArray_singleton(value)
+{
+    return [value];
+}
+
+function _JsArray_length(array)
+{
+    return array.length;
+}
+
+var _JsArray_initialize = F3(function(size, offset, func)
+{
+    var result = new Array(size);
+
+    for (var i = 0; i < size; i++)
+    {
+        result[i] = func(offset + i);
+    }
+
+    return result;
+});
+
+var _JsArray_initializeFromList = F2(function (max, ls)
+{
+    var result = new Array(max);
+
+    for (var i = 0; i < max && ls.b; i++)
+    {
+        result[i] = ls.a;
+        ls = ls.b;
+    }
+
+    result.length = i;
+    return _Utils_Tuple2(result, ls);
+});
+
+var _JsArray_unsafeGet = F2(function(index, array)
+{
+    return array[index];
+});
+
+var _JsArray_unsafeSet = F3(function(index, value, array)
+{
+    var length = array.length;
+    var result = new Array(length);
+
+    for (var i = 0; i < length; i++)
+    {
+        result[i] = array[i];
+    }
+
+    result[index] = value;
+    return result;
+});
+
+var _JsArray_push = F2(function(value, array)
+{
+    var length = array.length;
+    var result = new Array(length + 1);
+
+    for (var i = 0; i < length; i++)
+    {
+        result[i] = array[i];
+    }
+
+    result[length] = value;
+    return result;
+});
+
+var _JsArray_foldl = F3(function(func, acc, array)
+{
+    var length = array.length;
+
+    for (var i = 0; i < length; i++)
+    {
+        acc = A2(func, array[i], acc);
+    }
+
+    return acc;
+});
+
+var _JsArray_foldr = F3(function(func, acc, array)
+{
+    for (var i = array.length - 1; i >= 0; i--)
+    {
+        acc = A2(func, array[i], acc);
+    }
+
+    return acc;
+});
+
+var _JsArray_map = F2(function(func, array)
+{
+    var length = array.length;
+    var result = new Array(length);
+
+    for (var i = 0; i < length; i++)
+    {
+        result[i] = func(array[i]);
+    }
+
+    return result;
+});
+
+var _JsArray_indexedMap = F3(function(func, offset, array)
+{
+    var length = array.length;
+    var result = new Array(length);
+
+    for (var i = 0; i < length; i++)
+    {
+        result[i] = A2(func, offset + i, array[i]);
+    }
+
+    return result;
+});
+
+var _JsArray_slice = F3(function(from, to, array)
+{
+    return array.slice(from, to);
+});
+
+var _JsArray_appendN = F3(function(n, dest, source)
+{
+    var destLen = dest.length;
+    var itemsToCopy = n - destLen;
+
+    if (itemsToCopy > source.length)
+    {
+        itemsToCopy = source.length;
+    }
+
+    var size = destLen + itemsToCopy;
+    var result = new Array(size);
+
+    for (var i = 0; i < destLen; i++)
+    {
+        result[i] = dest[i];
+    }
+
+    for (var i = 0; i < itemsToCopy; i++)
+    {
+        result[i + destLen] = source[i];
+    }
+
+    return result;
+});
+
+
+
+// LOG
+
+var _Debug_log_UNUSED = F2(function(tag, value)
+{
+	return value;
+});
+
+var _Debug_log = F2(function(tag, value)
+{
+	console.log(tag + ': ' + _Debug_toString(value));
+	return value;
+});
+
+
+// TODOS
+
+function _Debug_todo(moduleName, region)
+{
+	return function(message) {
+		_Debug_crash(8, moduleName, region, message);
+	};
+}
+
+function _Debug_todoCase(moduleName, region, value)
+{
+	return function(message) {
+		_Debug_crash(9, moduleName, region, value, message);
+	};
+}
+
+
+// TO STRING
+
+function _Debug_toString_UNUSED(value)
+{
+	return '<internals>';
+}
+
+function _Debug_toString(value)
+{
+	return _Debug_toAnsiString(false, value);
+}
+
+function _Debug_toAnsiString(ansi, value)
+{
+	if (typeof value === 'function')
+	{
+		return _Debug_internalColor(ansi, '<function>');
+	}
+
+	if (typeof value === 'boolean')
+	{
+		return _Debug_ctorColor(ansi, value ? 'True' : 'False');
+	}
+
+	if (typeof value === 'number')
+	{
+		return _Debug_numberColor(ansi, value + '');
+	}
+
+	if (value instanceof String)
+	{
+		return _Debug_charColor(ansi, "'" + _Debug_addSlashes(value, true) + "'");
+	}
+
+	if (typeof value === 'string')
+	{
+		return _Debug_stringColor(ansi, '"' + _Debug_addSlashes(value, false) + '"');
+	}
+
+	if (typeof value === 'object' && '$' in value)
+	{
+		var tag = value.$;
+
+		if (typeof tag === 'number')
+		{
+			return _Debug_internalColor(ansi, '<internals>');
+		}
+
+		if (tag[0] === '#')
+		{
+			var output = [];
+			for (var k in value)
+			{
+				if (k === '$') continue;
+				output.push(_Debug_toAnsiString(ansi, value[k]));
+			}
+			return '(' + output.join(',') + ')';
+		}
+
+		if (tag === 'Set_elm_builtin')
+		{
+			return _Debug_ctorColor(ansi, 'Set')
+				+ _Debug_fadeColor(ansi, '.fromList') + ' '
+				+ _Debug_toAnsiString(ansi, $elm$core$Set$toList(value));
+		}
+
+		if (tag === 'RBNode_elm_builtin' || tag === 'RBEmpty_elm_builtin')
+		{
+			return _Debug_ctorColor(ansi, 'Dict')
+				+ _Debug_fadeColor(ansi, '.fromList') + ' '
+				+ _Debug_toAnsiString(ansi, $elm$core$Dict$toList(value));
+		}
+
+		if (tag === 'Array_elm_builtin')
+		{
+			return _Debug_ctorColor(ansi, 'Array')
+				+ _Debug_fadeColor(ansi, '.fromList') + ' '
+				+ _Debug_toAnsiString(ansi, $elm$core$Array$toList(value));
+		}
+
+		if (tag === '::' || tag === '[]')
+		{
+			var output = '[';
+
+			value.b && (output += _Debug_toAnsiString(ansi, value.a), value = value.b)
+
+			for (; value.b; value = value.b) // WHILE_CONS
+			{
+				output += ',' + _Debug_toAnsiString(ansi, value.a);
+			}
+			return output + ']';
+		}
+
+		var output = '';
+		for (var i in value)
+		{
+			if (i === '$') continue;
+			var str = _Debug_toAnsiString(ansi, value[i]);
+			var c0 = str[0];
+			var parenless = c0 === '{' || c0 === '(' || c0 === '[' || c0 === '<' || c0 === '"' || str.indexOf(' ') < 0;
+			output += ' ' + (parenless ? str : '(' + str + ')');
+		}
+		return _Debug_ctorColor(ansi, tag) + output;
+	}
+
+	if (typeof value === 'object')
+	{
+		var output = [];
+		for (var key in value)
+		{
+			var field = key[0] === '_' ? key.slice(1) : key;
+			output.push(_Debug_fadeColor(ansi, field) + ' = ' + _Debug_toAnsiString(ansi, value[key]));
+		}
+		if (output.length === 0)
+		{
+			return '{}';
+		}
+		return '{ ' + output.join(', ') + ' }';
+	}
+
+	return _Debug_internalColor(ansi, '<internals>');
+}
+
+function _Debug_addSlashes(str, isChar)
+{
+	var s = str
+		.replace(/\\/g, '\\\\')
+		.replace(/\n/g, '\\n')
+		.replace(/\t/g, '\\t')
+		.replace(/\r/g, '\\r')
+		.replace(/\v/g, '\\v')
+		.replace(/\0/g, '\\0');
+
+	if (isChar)
+	{
+		return s.replace(/\'/g, '\\\'');
+	}
+	else
+	{
+		return s.replace(/\"/g, '\\"');
+	}
+}
+
+function _Debug_ctorColor(ansi, string)
+{
+	return ansi ? '\x1b[96m' + string + '\x1b[0m' : string;
+}
+
+function _Debug_numberColor(ansi, string)
+{
+	return ansi ? '\x1b[95m' + string + '\x1b[0m' : string;
+}
+
+function _Debug_stringColor(ansi, string)
+{
+	return ansi ? '\x1b[93m' + string + '\x1b[0m' : string;
+}
+
+function _Debug_charColor(ansi, string)
+{
+	return ansi ? '\x1b[92m' + string + '\x1b[0m' : string;
+}
+
+function _Debug_fadeColor(ansi, string)
+{
+	return ansi ? '\x1b[37m' + string + '\x1b[0m' : string;
+}
+
+function _Debug_internalColor(ansi, string)
+{
+	return ansi ? '\x1b[94m' + string + '\x1b[0m' : string;
+}
+
+
+
+// CRASH
+
+
+function _Debug_crash_UNUSED(identifier)
+{
+	throw new Error('https://github.com/elm/core/blob/1.0.0/hints/' + identifier + '.md');
+}
+
+
+function _Debug_crash(identifier, fact1, fact2, fact3, fact4)
+{
+	switch(identifier)
+	{
+		case 0:
+			throw new Error('What node should I take over? In JavaScript I need something like:\n\n    Elm.Main.init({\n        node: document.getElementById("elm-node")\n    })\n\nYou need to do this with any Browser.sandbox or Browser.element program.');
+
+		case 1:
+			throw new Error('Browser.application programs cannot handle URLs like this:\n\n    ' + document.location.href + '\n\nWhat is the root? The root of your file system? Try looking at this program with `elm reactor` or some other server.');
+
+		case 2:
+			var jsonErrorString = fact1;
+			throw new Error('Problem with the flags given to your Elm program on initialization.\n\n' + jsonErrorString);
+
+		case 3:
+			var portName = fact1;
+			throw new Error('There can only be one port named `' + portName + '`, but your program has multiple.');
+
+		case 4:
+			var portName = fact1;
+			var problem = fact2;
+			throw new Error('Trying to send an unexpected type of value through port `' + portName + '`:\n' + problem);
+
+		case 5:
+			throw new Error('Trying to use `(==)` on functions.\nThere is no way to know if functions are "the same" in the Elm sense.\nRead more about this at https://package.elm-lang.org/packages/elm/core/latest/Basics#== which describes why it is this way and what the better version will look like.');
+
+		case 6:
+			var moduleName = fact1;
+			throw new Error('Your page is loading multiple Elm scripts with a module named ' + moduleName + '. Maybe a duplicate script is getting loaded accidentally? If not, rename one of them so I know which is which!');
+
+		case 8:
+			var moduleName = fact1;
+			var region = fact2;
+			var message = fact3;
+			throw new Error('TODO in module `' + moduleName + '` ' + _Debug_regionToString(region) + '\n\n' + message);
+
+		case 9:
+			var moduleName = fact1;
+			var region = fact2;
+			var value = fact3;
+			var message = fact4;
+			throw new Error(
+				'TODO in module `' + moduleName + '` from the `case` expression '
+				+ _Debug_regionToString(region) + '\n\nIt received the following value:\n\n    '
+				+ _Debug_toString(value).replace('\n', '\n    ')
+				+ '\n\nBut the branch that handles it says:\n\n    ' + message.replace('\n', '\n    ')
+			);
+
+		case 10:
+			throw new Error('Bug in https://github.com/elm/virtual-dom/issues');
+
+		case 11:
+			throw new Error('Cannot perform mod 0. Division by zero error.');
+	}
+}
+
+function _Debug_regionToString(region)
+{
+	if (region.start.line === region.end.line)
+	{
+		return 'on line ' + region.start.line;
+	}
+	return 'on lines ' + region.start.line + ' through ' + region.end.line;
+}
+
+
+
+// EQUALITY
+
+function _Utils_eq(x, y)
+{
+	for (
+		var pair, stack = [], isEqual = _Utils_eqHelp(x, y, 0, stack);
+		isEqual && (pair = stack.pop());
+		isEqual = _Utils_eqHelp(pair.a, pair.b, 0, stack)
+		)
+	{}
+
+	return isEqual;
+}
+
+function _Utils_eqHelp(x, y, depth, stack)
+{
+	if (depth > 100)
+	{
+		stack.push(_Utils_Tuple2(x,y));
+		return true;
+	}
+
+	if (x === y)
+	{
+		return true;
+	}
+
+	if (typeof x !== 'object' || x === null || y === null)
+	{
+		typeof x === 'function' && _Debug_crash(5);
+		return false;
+	}
+
+	/**/
+	if (x.$ === 'Set_elm_builtin')
+	{
+		x = $elm$core$Set$toList(x);
+		y = $elm$core$Set$toList(y);
+	}
+	if (x.$ === 'RBNode_elm_builtin' || x.$ === 'RBEmpty_elm_builtin')
+	{
+		x = $elm$core$Dict$toList(x);
+		y = $elm$core$Dict$toList(y);
+	}
+	//*/
+
+	/**_UNUSED/
+	if (x.$ < 0)
+	{
+		x = $elm$core$Dict$toList(x);
+		y = $elm$core$Dict$toList(y);
+	}
+	//*/
+
+	for (var key in x)
+	{
+		if (!_Utils_eqHelp(x[key], y[key], depth + 1, stack))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+var _Utils_equal = F2(_Utils_eq);
+var _Utils_notEqual = F2(function(a, b) { return !_Utils_eq(a,b); });
+
+
+
+// COMPARISONS
+
+// Code in Generate/JavaScript.hs, Basics.js, and List.js depends on
+// the particular integer values assigned to LT, EQ, and GT.
+
+function _Utils_cmp(x, y, ord)
+{
+	if (typeof x !== 'object')
+	{
+		return x === y ? /*EQ*/ 0 : x < y ? /*LT*/ -1 : /*GT*/ 1;
+	}
+
+	/**/
+	if (x instanceof String)
+	{
+		var a = x.valueOf();
+		var b = y.valueOf();
+		return a === b ? 0 : a < b ? -1 : 1;
+	}
+	//*/
+
+	/**_UNUSED/
+	if (!x.$)
+	//*/
+	/**/
+	if (x.$[0] === '#')
+	//*/
+	{
+		return (ord = _Utils_cmp(x.a, y.a))
+			? ord
+			: (ord = _Utils_cmp(x.b, y.b))
+				? ord
+				: _Utils_cmp(x.c, y.c);
+	}
+
+	// traverse conses until end of a list or a mismatch
+	for (; x.b && y.b && !(ord = _Utils_cmp(x.a, y.a)); x = x.b, y = y.b) {} // WHILE_CONSES
+	return ord || (x.b ? /*GT*/ 1 : y.b ? /*LT*/ -1 : /*EQ*/ 0);
+}
+
+var _Utils_lt = F2(function(a, b) { return _Utils_cmp(a, b) < 0; });
+var _Utils_le = F2(function(a, b) { return _Utils_cmp(a, b) < 1; });
+var _Utils_gt = F2(function(a, b) { return _Utils_cmp(a, b) > 0; });
+var _Utils_ge = F2(function(a, b) { return _Utils_cmp(a, b) >= 0; });
+
+var _Utils_compare = F2(function(x, y)
+{
+	var n = _Utils_cmp(x, y);
+	return n < 0 ? $elm$core$Basics$LT : n ? $elm$core$Basics$GT : $elm$core$Basics$EQ;
+});
+
+
+// COMMON VALUES
+
+var _Utils_Tuple0_UNUSED = 0;
+var _Utils_Tuple0 = { $: '#0' };
+
+function _Utils_Tuple2_UNUSED(a, b) { return { a: a, b: b }; }
+function _Utils_Tuple2(a, b) { return { $: '#2', a: a, b: b }; }
+
+function _Utils_Tuple3_UNUSED(a, b, c) { return { a: a, b: b, c: c }; }
+function _Utils_Tuple3(a, b, c) { return { $: '#3', a: a, b: b, c: c }; }
+
+function _Utils_chr_UNUSED(c) { return c; }
+function _Utils_chr(c) { return new String(c); }
+
+
+// RECORDS
+
+function _Utils_update(oldRecord, updatedFields)
+{
+	var newRecord = {};
+
+	for (var key in oldRecord)
+	{
+		newRecord[key] = oldRecord[key];
+	}
+
+	for (var key in updatedFields)
+	{
+		newRecord[key] = updatedFields[key];
+	}
+
+	return newRecord;
+}
+
+
+// APPEND
+
+var _Utils_append = F2(_Utils_ap);
+
+function _Utils_ap(xs, ys)
+{
+	// append Strings
+	if (typeof xs === 'string')
+	{
+		return xs + ys;
+	}
+
+	// append Lists
+	if (!xs.b)
+	{
+		return ys;
+	}
+	var root = _List_Cons(xs.a, ys);
+	xs = xs.b
+	for (var curr = root; xs.b; xs = xs.b) // WHILE_CONS
+	{
+		curr = curr.b = _List_Cons(xs.a, ys);
+	}
+	return root;
+}
+
+
+
+var _List_Nil_UNUSED = { $: 0 };
+var _List_Nil = { $: '[]' };
+
+function _List_Cons_UNUSED(hd, tl) { return { $: 1, a: hd, b: tl }; }
+function _List_Cons(hd, tl) { return { $: '::', a: hd, b: tl }; }
+
+
+var _List_cons = F2(_List_Cons);
+
+function _List_fromArray(arr)
+{
+	var out = _List_Nil;
+	for (var i = arr.length; i--; )
+	{
+		out = _List_Cons(arr[i], out);
+	}
+	return out;
+}
+
+function _List_toArray(xs)
+{
+	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
+	{
+		out.push(xs.a);
+	}
+	return out;
+}
+
+var _List_map2 = F3(function(f, xs, ys)
+{
+	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
+	{
+		arr.push(A2(f, xs.a, ys.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map3 = F4(function(f, xs, ys, zs)
+{
+	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A3(f, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map4 = F5(function(f, ws, xs, ys, zs)
+{
+	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
+{
+	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_sortBy = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		return _Utils_cmp(f(a), f(b));
+	}));
+});
+
+var _List_sortWith = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		var ord = A2(f, a, b);
+		return ord === $elm$core$Basics$EQ ? 0 : ord === $elm$core$Basics$LT ? -1 : 1;
+	}));
+});
+
+
+
+// MATH
+
+var _Basics_add = F2(function(a, b) { return a + b; });
+var _Basics_sub = F2(function(a, b) { return a - b; });
+var _Basics_mul = F2(function(a, b) { return a * b; });
+var _Basics_fdiv = F2(function(a, b) { return a / b; });
+var _Basics_idiv = F2(function(a, b) { return (a / b) | 0; });
+var _Basics_pow = F2(Math.pow);
+
+var _Basics_remainderBy = F2(function(b, a) { return a % b; });
+
+// https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/divmodnote-letter.pdf
+var _Basics_modBy = F2(function(modulus, x)
+{
+	var answer = x % modulus;
+	return modulus === 0
+		? _Debug_crash(11)
+		:
+	((answer > 0 && modulus < 0) || (answer < 0 && modulus > 0))
+		? answer + modulus
+		: answer;
+});
+
+
+// TRIGONOMETRY
+
+var _Basics_pi = Math.PI;
+var _Basics_e = Math.E;
+var _Basics_cos = Math.cos;
+var _Basics_sin = Math.sin;
+var _Basics_tan = Math.tan;
+var _Basics_acos = Math.acos;
+var _Basics_asin = Math.asin;
+var _Basics_atan = Math.atan;
+var _Basics_atan2 = F2(Math.atan2);
+
+
+// MORE MATH
+
+function _Basics_toFloat(x) { return x; }
+function _Basics_truncate(n) { return n | 0; }
+function _Basics_isInfinite(n) { return n === Infinity || n === -Infinity; }
+
+var _Basics_ceiling = Math.ceil;
+var _Basics_floor = Math.floor;
+var _Basics_round = Math.round;
+var _Basics_sqrt = Math.sqrt;
+var _Basics_log = Math.log;
+var _Basics_isNaN = isNaN;
+
+
+// BOOLEANS
+
+function _Basics_not(bool) { return !bool; }
+var _Basics_and = F2(function(a, b) { return a && b; });
+var _Basics_or  = F2(function(a, b) { return a || b; });
+var _Basics_xor = F2(function(a, b) { return a !== b; });
+
+
+
+var _String_cons = F2(function(chr, str)
+{
+	return chr + str;
+});
+
+function _String_uncons(string)
+{
+	var word = string.charCodeAt(0);
+	return word
+		? $elm$core$Maybe$Just(
+			0xD800 <= word && word <= 0xDBFF
+				? _Utils_Tuple2(_Utils_chr(string[0] + string[1]), string.slice(2))
+				: _Utils_Tuple2(_Utils_chr(string[0]), string.slice(1))
+		)
+		: $elm$core$Maybe$Nothing;
+}
+
+var _String_append = F2(function(a, b)
+{
+	return a + b;
+});
+
+function _String_length(str)
+{
+	return str.length;
+}
+
+var _String_map = F2(function(func, string)
+{
+	var len = string.length;
+	var array = new Array(len);
+	var i = 0;
+	while (i < len)
+	{
+		var word = string.charCodeAt(i);
+		if (0xD800 <= word && word <= 0xDBFF)
+		{
+			array[i] = func(_Utils_chr(string[i] + string[i+1]));
+			i += 2;
+			continue;
+		}
+		array[i] = func(_Utils_chr(string[i]));
+		i++;
+	}
+	return array.join('');
+});
+
+var _String_filter = F2(function(isGood, str)
+{
+	var arr = [];
+	var len = str.length;
+	var i = 0;
+	while (i < len)
+	{
+		var char = str[i];
+		var word = str.charCodeAt(i);
+		i++;
+		if (0xD800 <= word && word <= 0xDBFF)
+		{
+			char += str[i];
+			i++;
+		}
+
+		if (isGood(_Utils_chr(char)))
+		{
+			arr.push(char);
+		}
+	}
+	return arr.join('');
+});
+
+function _String_reverse(str)
+{
+	var len = str.length;
+	var arr = new Array(len);
+	var i = 0;
+	while (i < len)
+	{
+		var word = str.charCodeAt(i);
+		if (0xD800 <= word && word <= 0xDBFF)
+		{
+			arr[len - i] = str[i + 1];
+			i++;
+			arr[len - i] = str[i - 1];
+			i++;
+		}
+		else
+		{
+			arr[len - i] = str[i];
+			i++;
+		}
+	}
+	return arr.join('');
+}
+
+var _String_foldl = F3(function(func, state, string)
+{
+	var len = string.length;
+	var i = 0;
+	while (i < len)
+	{
+		var char = string[i];
+		var word = string.charCodeAt(i);
+		i++;
+		if (0xD800 <= word && word <= 0xDBFF)
+		{
+			char += string[i];
+			i++;
+		}
+		state = A2(func, _Utils_chr(char), state);
+	}
+	return state;
+});
+
+var _String_foldr = F3(function(func, state, string)
+{
+	var i = string.length;
+	while (i--)
+	{
+		var char = string[i];
+		var word = string.charCodeAt(i);
+		if (0xDC00 <= word && word <= 0xDFFF)
+		{
+			i--;
+			char = string[i] + char;
+		}
+		state = A2(func, _Utils_chr(char), state);
+	}
+	return state;
+});
+
+var _String_split = F2(function(sep, str)
+{
+	return str.split(sep);
+});
+
+var _String_join = F2(function(sep, strs)
+{
+	return strs.join(sep);
+});
+
+var _String_slice = F3(function(start, end, str) {
+	return str.slice(start, end);
+});
+
+function _String_trim(str)
+{
+	return str.trim();
+}
+
+function _String_trimLeft(str)
+{
+	return str.replace(/^\s+/, '');
+}
+
+function _String_trimRight(str)
+{
+	return str.replace(/\s+$/, '');
+}
+
+function _String_words(str)
+{
+	return _List_fromArray(str.trim().split(/\s+/g));
+}
+
+function _String_lines(str)
+{
+	return _List_fromArray(str.split(/\r\n|\r|\n/g));
+}
+
+function _String_toUpper(str)
+{
+	return str.toUpperCase();
+}
+
+function _String_toLower(str)
+{
+	return str.toLowerCase();
+}
+
+var _String_any = F2(function(isGood, string)
+{
+	var i = string.length;
+	while (i--)
+	{
+		var char = string[i];
+		var word = string.charCodeAt(i);
+		if (0xDC00 <= word && word <= 0xDFFF)
+		{
+			i--;
+			char = string[i] + char;
+		}
+		if (isGood(_Utils_chr(char)))
+		{
+			return true;
+		}
+	}
+	return false;
+});
+
+var _String_all = F2(function(isGood, string)
+{
+	var i = string.length;
+	while (i--)
+	{
+		var char = string[i];
+		var word = string.charCodeAt(i);
+		if (0xDC00 <= word && word <= 0xDFFF)
+		{
+			i--;
+			char = string[i] + char;
+		}
+		if (!isGood(_Utils_chr(char)))
+		{
+			return false;
+		}
+	}
+	return true;
+});
+
+var _String_contains = F2(function(sub, str)
+{
+	return str.indexOf(sub) > -1;
+});
+
+var _String_startsWith = F2(function(sub, str)
+{
+	return str.indexOf(sub) === 0;
+});
+
+var _String_endsWith = F2(function(sub, str)
+{
+	return str.length >= sub.length &&
+		str.lastIndexOf(sub) === str.length - sub.length;
+});
+
+var _String_indexes = F2(function(sub, str)
+{
+	var subLen = sub.length;
+
+	if (subLen < 1)
+	{
+		return _List_Nil;
+	}
+
+	var i = 0;
+	var is = [];
+
+	while ((i = str.indexOf(sub, i)) > -1)
+	{
+		is.push(i);
+		i = i + subLen;
+	}
+
+	return _List_fromArray(is);
+});
+
+
+// TO STRING
+
+function _String_fromNumber(number)
+{
+	return number + '';
+}
+
+
+// INT CONVERSIONS
+
+function _String_toInt(str)
+{
+	var total = 0;
+	var code0 = str.charCodeAt(0);
+	var start = code0 == 0x2B /* + */ || code0 == 0x2D /* - */ ? 1 : 0;
+
+	for (var i = start; i < str.length; ++i)
+	{
+		var code = str.charCodeAt(i);
+		if (code < 0x30 || 0x39 < code)
+		{
+			return $elm$core$Maybe$Nothing;
+		}
+		total = 10 * total + code - 0x30;
+	}
+
+	return i == start
+		? $elm$core$Maybe$Nothing
+		: $elm$core$Maybe$Just(code0 == 0x2D ? -total : total);
+}
+
+
+// FLOAT CONVERSIONS
+
+function _String_toFloat(s)
+{
+	// check if it is a hex, octal, or binary number
+	if (s.length === 0 || /[\sxbo]/.test(s))
+	{
+		return $elm$core$Maybe$Nothing;
+	}
+	var n = +s;
+	// faster isNaN check
+	return n === n ? $elm$core$Maybe$Just(n) : $elm$core$Maybe$Nothing;
+}
+
+function _String_fromList(chars)
+{
+	return _List_toArray(chars).join('');
+}
+
+
+
+
+function _Char_toCode(char)
+{
+	var code = char.charCodeAt(0);
+	if (0xD800 <= code && code <= 0xDBFF)
+	{
+		return (code - 0xD800) * 0x400 + char.charCodeAt(1) - 0xDC00 + 0x10000
+	}
+	return code;
+}
+
+function _Char_fromCode(code)
+{
+	return _Utils_chr(
+		(code < 0 || 0x10FFFF < code)
+			? '\uFFFD'
+			:
+		(code <= 0xFFFF)
+			? String.fromCharCode(code)
+			:
+		(code -= 0x10000,
+			String.fromCharCode(Math.floor(code / 0x400) + 0xD800)
+			+
+			String.fromCharCode(code % 0x400 + 0xDC00)
+		)
+	);
+}
+
+function _Char_toUpper(char)
+{
+	return _Utils_chr(char.toUpperCase());
+}
+
+function _Char_toLower(char)
+{
+	return _Utils_chr(char.toLowerCase());
+}
+
+function _Char_toLocaleUpper(char)
+{
+	return _Utils_chr(char.toLocaleUpperCase());
+}
+
+function _Char_toLocaleLower(char)
+{
+	return _Utils_chr(char.toLocaleLowerCase());
+}
+
+
+
+/**/
+function _Json_errorToString(error)
+{
+	return $elm$json$Json$Decode$errorToString(error);
+}
+//*/
+
+
+// CORE DECODERS
+
+function _Json_succeed(msg)
+{
+	return {
+		$: 0,
+		a: msg
+	};
+}
+
+function _Json_fail(msg)
+{
+	return {
+		$: 1,
+		a: msg
+	};
+}
+
+var _Json_decodeInt = { $: 2 };
+var _Json_decodeBool = { $: 3 };
+var _Json_decodeFloat = { $: 4 };
+var _Json_decodeValue = { $: 5 };
+var _Json_decodeString = { $: 6 };
+
+function _Json_decodeList(decoder) { return { $: 7, b: decoder }; }
+function _Json_decodeArray(decoder) { return { $: 8, b: decoder }; }
+
+function _Json_decodeNull(value) { return { $: 9, c: value }; }
+
+var _Json_decodeField = F2(function(field, decoder)
+{
+	return {
+		$: 10,
+		d: field,
+		b: decoder
+	};
+});
+
+var _Json_decodeIndex = F2(function(index, decoder)
+{
+	return {
+		$: 11,
+		e: index,
+		b: decoder
+	};
+});
+
+function _Json_decodeKeyValuePairs(decoder)
+{
+	return {
+		$: 12,
+		b: decoder
+	};
+}
+
+function _Json_mapMany(f, decoders)
+{
+	return {
+		$: 13,
+		f: f,
+		g: decoders
+	};
+}
+
+var _Json_andThen = F2(function(callback, decoder)
+{
+	return {
+		$: 14,
+		b: decoder,
+		h: callback
+	};
+});
+
+function _Json_oneOf(decoders)
+{
+	return {
+		$: 15,
+		g: decoders
+	};
+}
+
+
+// DECODING OBJECTS
+
+var _Json_map1 = F2(function(f, d1)
+{
+	return _Json_mapMany(f, [d1]);
+});
+
+var _Json_map2 = F3(function(f, d1, d2)
+{
+	return _Json_mapMany(f, [d1, d2]);
+});
+
+var _Json_map3 = F4(function(f, d1, d2, d3)
+{
+	return _Json_mapMany(f, [d1, d2, d3]);
+});
+
+var _Json_map4 = F5(function(f, d1, d2, d3, d4)
+{
+	return _Json_mapMany(f, [d1, d2, d3, d4]);
+});
+
+var _Json_map5 = F6(function(f, d1, d2, d3, d4, d5)
+{
+	return _Json_mapMany(f, [d1, d2, d3, d4, d5]);
+});
+
+var _Json_map6 = F7(function(f, d1, d2, d3, d4, d5, d6)
+{
+	return _Json_mapMany(f, [d1, d2, d3, d4, d5, d6]);
+});
+
+var _Json_map7 = F8(function(f, d1, d2, d3, d4, d5, d6, d7)
+{
+	return _Json_mapMany(f, [d1, d2, d3, d4, d5, d6, d7]);
+});
+
+var _Json_map8 = F9(function(f, d1, d2, d3, d4, d5, d6, d7, d8)
+{
+	return _Json_mapMany(f, [d1, d2, d3, d4, d5, d6, d7, d8]);
+});
+
+
+// DECODE
+
+var _Json_runOnString = F2(function(decoder, string)
+{
+	try
+	{
+		var value = JSON.parse(string);
+		return _Json_runHelp(decoder, value);
+	}
+	catch (e)
+	{
+		return $elm$core$Result$Err(A2($elm$json$Json$Decode$Failure, 'This is not valid JSON! ' + e.message, _Json_wrap(string)));
+	}
+});
+
+var _Json_run = F2(function(decoder, value)
+{
+	return _Json_runHelp(decoder, _Json_unwrap(value));
+});
+
+function _Json_runHelp(decoder, value)
+{
+	switch (decoder.$)
+	{
+		case 3:
+			return (typeof value === 'boolean')
+				? $elm$core$Result$Ok(value)
+				: _Json_expecting('a BOOL', value);
+
+		case 2:
+			if (typeof value !== 'number') {
+				return _Json_expecting('an INT', value);
+			}
+
+			if (-2147483647 < value && value < 2147483647 && (value | 0) === value) {
+				return $elm$core$Result$Ok(value);
+			}
+
+			if (isFinite(value) && !(value % 1)) {
+				return $elm$core$Result$Ok(value);
+			}
+
+			return _Json_expecting('an INT', value);
+
+		case 4:
+			return (typeof value === 'number')
+				? $elm$core$Result$Ok(value)
+				: _Json_expecting('a FLOAT', value);
+
+		case 6:
+			return (typeof value === 'string')
+				? $elm$core$Result$Ok(value)
+				: (value instanceof String)
+					? $elm$core$Result$Ok(value + '')
+					: _Json_expecting('a STRING', value);
+
+		case 9:
+			return (value === null)
+				? $elm$core$Result$Ok(decoder.c)
+				: _Json_expecting('null', value);
+
+		case 5:
+			return $elm$core$Result$Ok(_Json_wrap(value));
+
+		case 7:
+			if (!Array.isArray(value))
+			{
+				return _Json_expecting('a LIST', value);
+			}
+			return _Json_runArrayDecoder(decoder.b, value, _List_fromArray);
+
+		case 8:
+			if (!Array.isArray(value))
+			{
+				return _Json_expecting('an ARRAY', value);
+			}
+			return _Json_runArrayDecoder(decoder.b, value, _Json_toElmArray);
+
+		case 10:
+			var field = decoder.d;
+			if (typeof value !== 'object' || value === null || !(field in value))
+			{
+				return _Json_expecting('an OBJECT with a field named `' + field + '`', value);
+			}
+			var result = _Json_runHelp(decoder.b, value[field]);
+			return ($elm$core$Result$isOk(result)) ? result : $elm$core$Result$Err(A2($elm$json$Json$Decode$Field, field, result.a));
+
+		case 11:
+			var index = decoder.e;
+			if (!Array.isArray(value))
+			{
+				return _Json_expecting('an ARRAY', value);
+			}
+			if (index >= value.length)
+			{
+				return _Json_expecting('a LONGER array. Need index ' + index + ' but only see ' + value.length + ' entries', value);
+			}
+			var result = _Json_runHelp(decoder.b, value[index]);
+			return ($elm$core$Result$isOk(result)) ? result : $elm$core$Result$Err(A2($elm$json$Json$Decode$Index, index, result.a));
+
+		case 12:
+			if (typeof value !== 'object' || value === null || Array.isArray(value))
+			{
+				return _Json_expecting('an OBJECT', value);
+			}
+
+			var keyValuePairs = _List_Nil;
+			// TODO test perf of Object.keys and switch when support is good enough
+			for (var key in value)
+			{
+				if (value.hasOwnProperty(key))
+				{
+					var result = _Json_runHelp(decoder.b, value[key]);
+					if (!$elm$core$Result$isOk(result))
+					{
+						return $elm$core$Result$Err(A2($elm$json$Json$Decode$Field, key, result.a));
+					}
+					keyValuePairs = _List_Cons(_Utils_Tuple2(key, result.a), keyValuePairs);
+				}
+			}
+			return $elm$core$Result$Ok($elm$core$List$reverse(keyValuePairs));
+
+		case 13:
+			var answer = decoder.f;
+			var decoders = decoder.g;
+			for (var i = 0; i < decoders.length; i++)
+			{
+				var result = _Json_runHelp(decoders[i], value);
+				if (!$elm$core$Result$isOk(result))
+				{
+					return result;
+				}
+				answer = answer(result.a);
+			}
+			return $elm$core$Result$Ok(answer);
+
+		case 14:
+			var result = _Json_runHelp(decoder.b, value);
+			return (!$elm$core$Result$isOk(result))
+				? result
+				: _Json_runHelp(decoder.h(result.a), value);
+
+		case 15:
+			var errors = _List_Nil;
+			for (var temp = decoder.g; temp.b; temp = temp.b) // WHILE_CONS
+			{
+				var result = _Json_runHelp(temp.a, value);
+				if ($elm$core$Result$isOk(result))
+				{
+					return result;
+				}
+				errors = _List_Cons(result.a, errors);
+			}
+			return $elm$core$Result$Err($elm$json$Json$Decode$OneOf($elm$core$List$reverse(errors)));
+
+		case 1:
+			return $elm$core$Result$Err(A2($elm$json$Json$Decode$Failure, decoder.a, _Json_wrap(value)));
+
+		case 0:
+			return $elm$core$Result$Ok(decoder.a);
+	}
+}
+
+function _Json_runArrayDecoder(decoder, value, toElmValue)
+{
+	var len = value.length;
+	var array = new Array(len);
+	for (var i = 0; i < len; i++)
+	{
+		var result = _Json_runHelp(decoder, value[i]);
+		if (!$elm$core$Result$isOk(result))
+		{
+			return $elm$core$Result$Err(A2($elm$json$Json$Decode$Index, i, result.a));
+		}
+		array[i] = result.a;
+	}
+	return $elm$core$Result$Ok(toElmValue(array));
+}
+
+function _Json_toElmArray(array)
+{
+	return A2($elm$core$Array$initialize, array.length, function(i) { return array[i]; });
+}
+
+function _Json_expecting(type, value)
+{
+	return $elm$core$Result$Err(A2($elm$json$Json$Decode$Failure, 'Expecting ' + type, _Json_wrap(value)));
+}
+
+
+// EQUALITY
+
+function _Json_equality(x, y)
+{
+	if (x === y)
+	{
+		return true;
+	}
+
+	if (x.$ !== y.$)
+	{
+		return false;
+	}
+
+	switch (x.$)
+	{
+		case 0:
+		case 1:
+			return x.a === y.a;
+
+		case 3:
+		case 2:
+		case 4:
+		case 6:
+		case 5:
+			return true;
+
+		case 9:
+			return x.c === y.c;
+
+		case 7:
+		case 8:
+		case 12:
+			return _Json_equality(x.b, y.b);
+
+		case 10:
+			return x.d === y.d && _Json_equality(x.b, y.b);
+
+		case 11:
+			return x.e === y.e && _Json_equality(x.b, y.b);
+
+		case 13:
+			return x.f === y.f && _Json_listEquality(x.g, y.g);
+
+		case 14:
+			return x.h === y.h && _Json_equality(x.b, y.b);
+
+		case 15:
+			return _Json_listEquality(x.g, y.g);
+	}
+}
+
+function _Json_listEquality(aDecoders, bDecoders)
+{
+	var len = aDecoders.length;
+	if (len !== bDecoders.length)
+	{
+		return false;
+	}
+	for (var i = 0; i < len; i++)
+	{
+		if (!_Json_equality(aDecoders[i], bDecoders[i]))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+
+// ENCODE
+
+var _Json_encode = F2(function(indentLevel, value)
+{
+	return JSON.stringify(_Json_unwrap(value), null, indentLevel) + '';
+});
+
+function _Json_wrap(value) { return { $: 0, a: value }; }
+function _Json_unwrap(value) { return value.a; }
+
+function _Json_wrap_UNUSED(value) { return value; }
+function _Json_unwrap_UNUSED(value) { return value; }
+
+function _Json_emptyArray() { return []; }
+function _Json_emptyObject() { return {}; }
+
+var _Json_addField = F3(function(key, value, object)
+{
+	object[key] = _Json_unwrap(value);
+	return object;
+});
+
+function _Json_addEntry(func)
+{
+	return F2(function(entry, array)
+	{
+		array.push(_Json_unwrap(func(entry)));
+		return array;
+	});
+}
+
+var _Json_encodeNull = _Json_wrap(null);
+
+
+
+// TASKS
+
+function _Scheduler_succeed(value)
+{
+	return {
+		$: 0,
+		a: value
+	};
+}
+
+function _Scheduler_fail(error)
+{
+	return {
+		$: 1,
+		a: error
+	};
+}
+
+function _Scheduler_binding(callback)
+{
+	return {
+		$: 2,
+		b: callback,
+		c: null
+	};
+}
+
+var _Scheduler_andThen = F2(function(callback, task)
+{
+	return {
+		$: 3,
+		b: callback,
+		d: task
+	};
+});
+
+var _Scheduler_onError = F2(function(callback, task)
+{
+	return {
+		$: 4,
+		b: callback,
+		d: task
+	};
+});
+
+function _Scheduler_receive(callback)
+{
+	return {
+		$: 5,
+		b: callback
+	};
+}
+
+
+// PROCESSES
+
+var _Scheduler_guid = 0;
+
+function _Scheduler_rawSpawn(task)
+{
+	var proc = {
+		$: 0,
+		e: _Scheduler_guid++,
+		f: task,
+		g: null,
+		h: []
+	};
+
+	_Scheduler_enqueue(proc);
+
+	return proc;
+}
+
+function _Scheduler_spawn(task)
+{
+	return _Scheduler_binding(function(callback) {
+		callback(_Scheduler_succeed(_Scheduler_rawSpawn(task)));
+	});
+}
+
+function _Scheduler_rawSend(proc, msg)
+{
+	proc.h.push(msg);
+	_Scheduler_enqueue(proc);
+}
+
+var _Scheduler_send = F2(function(proc, msg)
+{
+	return _Scheduler_binding(function(callback) {
+		_Scheduler_rawSend(proc, msg);
+		callback(_Scheduler_succeed(_Utils_Tuple0));
+	});
+});
+
+function _Scheduler_kill(proc)
+{
+	return _Scheduler_binding(function(callback) {
+		var task = proc.f;
+		if (task.$ === 2 && task.c)
+		{
+			task.c();
+		}
+
+		proc.f = null;
+
+		callback(_Scheduler_succeed(_Utils_Tuple0));
+	});
+}
+
+
+/* STEP PROCESSES
+
+type alias Process =
+  { $ : tag
+  , id : unique_id
+  , root : Task
+  , stack : null | { $: SUCCEED | FAIL, a: callback, b: stack }
+  , mailbox : [msg]
+  }
+
+*/
+
+
+var _Scheduler_working = false;
+var _Scheduler_queue = [];
+
+
+function _Scheduler_enqueue(proc)
+{
+	_Scheduler_queue.push(proc);
+	if (_Scheduler_working)
+	{
+		return;
+	}
+	_Scheduler_working = true;
+	while (proc = _Scheduler_queue.shift())
+	{
+		_Scheduler_step(proc);
+	}
+	_Scheduler_working = false;
+}
+
+
+function _Scheduler_step(proc)
+{
+	while (proc.f)
+	{
+		var rootTag = proc.f.$;
+		if (rootTag === 0 || rootTag === 1)
+		{
+			while (proc.g && proc.g.$ !== rootTag)
+			{
+				proc.g = proc.g.i;
+			}
+			if (!proc.g)
+			{
+				return;
+			}
+			proc.f = proc.g.b(proc.f.a);
+			proc.g = proc.g.i;
+		}
+		else if (rootTag === 2)
+		{
+			proc.f.c = proc.f.b(function(newRoot) {
+				proc.f = newRoot;
+				_Scheduler_enqueue(proc);
+			});
+			return;
+		}
+		else if (rootTag === 5)
+		{
+			if (proc.h.length === 0)
+			{
+				return;
+			}
+			proc.f = proc.f.b(proc.h.shift());
+		}
+		else // if (rootTag === 3 || rootTag === 4)
+		{
+			proc.g = {
+				$: rootTag === 3 ? 0 : 1,
+				b: proc.f.b,
+				i: proc.g
+			};
+			proc.f = proc.f.d;
+		}
+	}
+}
+
+
+
+function _Process_sleep(time)
+{
+	return _Scheduler_binding(function(callback) {
+		var id = setTimeout(function() {
+			callback(_Scheduler_succeed(_Utils_Tuple0));
+		}, time);
+
+		return function() { clearTimeout(id); };
+	});
+}
+
+
+
+
+// PROGRAMS
+
+
+var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
+{
+	return _Platform_initialize(
+		flagDecoder,
+		args,
+		impl.init,
+		impl.update,
+		impl.subscriptions,
+		function() { return function() {} }
+	);
+});
+
+
+
+// INITIALIZE A PROGRAM
+
+
+function _Platform_initialize(flagDecoder, args, init, update, subscriptions, stepperBuilder)
+{
+	var result = A2(_Json_run, flagDecoder, _Json_wrap(args ? args['flags'] : undefined));
+	$elm$core$Result$isOk(result) || _Debug_crash(2 /**/, _Json_errorToString(result.a) /**/);
+	var managers = {};
+	result = init(result.a);
+	var model = result.a;
+	var stepper = stepperBuilder(sendToApp, model);
+	var ports = _Platform_setupEffects(managers, sendToApp);
+
+	function sendToApp(msg, viewMetadata)
+	{
+		result = A2(update, msg, model);
+		stepper(model = result.a, viewMetadata);
+		_Platform_dispatchEffects(managers, result.b, subscriptions(model));
+	}
+
+	_Platform_dispatchEffects(managers, result.b, subscriptions(model));
+
+	return ports ? { ports: ports } : {};
+}
+
+
+
+// TRACK PRELOADS
+//
+// This is used by code in elm/browser and elm/http
+// to register any HTTP requests that are triggered by init.
+//
+
+
+var _Platform_preload;
+
+
+function _Platform_registerPreload(url)
+{
+	_Platform_preload.add(url);
+}
+
+
+
+// EFFECT MANAGERS
+
+
+var _Platform_effectManagers = {};
+
+
+function _Platform_setupEffects(managers, sendToApp)
+{
+	var ports;
+
+	// setup all necessary effect managers
+	for (var key in _Platform_effectManagers)
+	{
+		var manager = _Platform_effectManagers[key];
+
+		if (manager.a)
+		{
+			ports = ports || {};
+			ports[key] = manager.a(key, sendToApp);
+		}
+
+		managers[key] = _Platform_instantiateManager(manager, sendToApp);
+	}
+
+	return ports;
+}
+
+
+function _Platform_createManager(init, onEffects, onSelfMsg, cmdMap, subMap)
+{
+	return {
+		b: init,
+		c: onEffects,
+		d: onSelfMsg,
+		e: cmdMap,
+		f: subMap
+	};
+}
+
+
+function _Platform_instantiateManager(info, sendToApp)
+{
+	var router = {
+		g: sendToApp,
+		h: undefined
+	};
+
+	var onEffects = info.c;
+	var onSelfMsg = info.d;
+	var cmdMap = info.e;
+	var subMap = info.f;
+
+	function loop(state)
+	{
+		return A2(_Scheduler_andThen, loop, _Scheduler_receive(function(msg)
+		{
+			var value = msg.a;
+
+			if (msg.$ === 0)
+			{
+				return A3(onSelfMsg, router, value, state);
+			}
+
+			return cmdMap && subMap
+				? A4(onEffects, router, value.i, value.j, state)
+				: A3(onEffects, router, cmdMap ? value.i : value.j, state);
+		}));
+	}
+
+	return router.h = _Scheduler_rawSpawn(A2(_Scheduler_andThen, loop, info.b));
+}
+
+
+
+// ROUTING
+
+
+var _Platform_sendToApp = F2(function(router, msg)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		router.g(msg);
+		callback(_Scheduler_succeed(_Utils_Tuple0));
+	});
+});
+
+
+var _Platform_sendToSelf = F2(function(router, msg)
+{
+	return A2(_Scheduler_send, router.h, {
+		$: 0,
+		a: msg
+	});
+});
+
+
+
+// BAGS
+
+
+function _Platform_leaf(home)
+{
+	return function(value)
+	{
+		return {
+			$: 1,
+			k: home,
+			l: value
+		};
+	};
+}
+
+
+function _Platform_batch(list)
+{
+	return {
+		$: 2,
+		m: list
+	};
+}
+
+
+var _Platform_map = F2(function(tagger, bag)
+{
+	return {
+		$: 3,
+		n: tagger,
+		o: bag
+	}
+});
+
+
+
+// PIPE BAGS INTO EFFECT MANAGERS
+
+
+function _Platform_dispatchEffects(managers, cmdBag, subBag)
+{
+	var effectsDict = {};
+	_Platform_gatherEffects(true, cmdBag, effectsDict, null);
+	_Platform_gatherEffects(false, subBag, effectsDict, null);
+
+	for (var home in managers)
+	{
+		_Scheduler_rawSend(managers[home], {
+			$: 'fx',
+			a: effectsDict[home] || { i: _List_Nil, j: _List_Nil }
+		});
+	}
+}
+
+
+function _Platform_gatherEffects(isCmd, bag, effectsDict, taggers)
+{
+	switch (bag.$)
+	{
+		case 1:
+			var home = bag.k;
+			var effect = _Platform_toEffect(isCmd, home, taggers, bag.l);
+			effectsDict[home] = _Platform_insert(isCmd, effect, effectsDict[home]);
+			return;
+
+		case 2:
+			for (var list = bag.m; list.b; list = list.b) // WHILE_CONS
+			{
+				_Platform_gatherEffects(isCmd, list.a, effectsDict, taggers);
+			}
+			return;
+
+		case 3:
+			_Platform_gatherEffects(isCmd, bag.o, effectsDict, {
+				p: bag.n,
+				q: taggers
+			});
+			return;
+	}
+}
+
+
+function _Platform_toEffect(isCmd, home, taggers, value)
+{
+	function applyTaggers(x)
+	{
+		for (var temp = taggers; temp; temp = temp.q)
+		{
+			x = temp.p(x);
+		}
+		return x;
+	}
+
+	var map = isCmd
+		? _Platform_effectManagers[home].e
+		: _Platform_effectManagers[home].f;
+
+	return A2(map, applyTaggers, value)
+}
+
+
+function _Platform_insert(isCmd, newEffect, effects)
+{
+	effects = effects || { i: _List_Nil, j: _List_Nil };
+
+	isCmd
+		? (effects.i = _List_Cons(newEffect, effects.i))
+		: (effects.j = _List_Cons(newEffect, effects.j));
+
+	return effects;
+}
+
+
+
+// PORTS
+
+
+function _Platform_checkPortName(name)
+{
+	if (_Platform_effectManagers[name])
+	{
+		_Debug_crash(3, name)
+	}
+}
+
+
+
+// OUTGOING PORTS
+
+
+function _Platform_outgoingPort(name, converter)
+{
+	_Platform_checkPortName(name);
+	_Platform_effectManagers[name] = {
+		e: _Platform_outgoingPortMap,
+		r: converter,
+		a: _Platform_setupOutgoingPort
+	};
+	return _Platform_leaf(name);
+}
+
+
+var _Platform_outgoingPortMap = F2(function(tagger, value) { return value; });
+
+
+function _Platform_setupOutgoingPort(name)
+{
+	var subs = [];
+	var converter = _Platform_effectManagers[name].r;
+
+	// CREATE MANAGER
+
+	var init = _Process_sleep(0);
+
+	_Platform_effectManagers[name].b = init;
+	_Platform_effectManagers[name].c = F3(function(router, cmdList, state)
+	{
+		for ( ; cmdList.b; cmdList = cmdList.b) // WHILE_CONS
+		{
+			// grab a separate reference to subs in case unsubscribe is called
+			var currentSubs = subs;
+			var value = _Json_unwrap(converter(cmdList.a));
+			for (var i = 0; i < currentSubs.length; i++)
+			{
+				currentSubs[i](value);
+			}
+		}
+		return init;
+	});
+
+	// PUBLIC API
+
+	function subscribe(callback)
+	{
+		subs.push(callback);
+	}
+
+	function unsubscribe(callback)
+	{
+		// copy subs into a new array in case unsubscribe is called within a
+		// subscribed callback
+		subs = subs.slice();
+		var index = subs.indexOf(callback);
+		if (index >= 0)
+		{
+			subs.splice(index, 1);
+		}
+	}
+
+	return {
+		subscribe: subscribe,
+		unsubscribe: unsubscribe
+	};
+}
+
+
+
+// INCOMING PORTS
+
+
+function _Platform_incomingPort(name, converter)
+{
+	_Platform_checkPortName(name);
+	_Platform_effectManagers[name] = {
+		f: _Platform_incomingPortMap,
+		r: converter,
+		a: _Platform_setupIncomingPort
+	};
+	return _Platform_leaf(name);
+}
+
+
+var _Platform_incomingPortMap = F2(function(tagger, finalTagger)
+{
+	return function(value)
+	{
+		return tagger(finalTagger(value));
+	};
+});
+
+
+function _Platform_setupIncomingPort(name, sendToApp)
+{
+	var subs = _List_Nil;
+	var converter = _Platform_effectManagers[name].r;
+
+	// CREATE MANAGER
+
+	var init = _Scheduler_succeed(null);
+
+	_Platform_effectManagers[name].b = init;
+	_Platform_effectManagers[name].c = F3(function(router, subList, state)
+	{
+		subs = subList;
+		return init;
+	});
+
+	// PUBLIC API
+
+	function send(incomingValue)
+	{
+		var result = A2(_Json_run, converter, _Json_wrap(incomingValue));
+
+		$elm$core$Result$isOk(result) || _Debug_crash(4, name, result.a);
+
+		var value = result.a;
+		for (var temp = subs; temp.b; temp = temp.b) // WHILE_CONS
+		{
+			sendToApp(temp.a(value));
+		}
+	}
+
+	return { send: send };
+}
+
+
+
+// EXPORT ELM MODULES
+//
+// Have DEBUG and PROD versions so that we can (1) give nicer errors in
+// debug mode and (2) not pay for the bits needed for that in prod mode.
+//
+
+
+function _Platform_export_UNUSED(exports)
+{
+	scope['Elm']
+		? _Platform_mergeExportsProd(scope['Elm'], exports)
+		: scope['Elm'] = exports;
+}
+
+
+function _Platform_mergeExportsProd(obj, exports)
+{
+	for (var name in exports)
+	{
+		(name in obj)
+			? (name == 'init')
+				? _Debug_crash(6)
+				: _Platform_mergeExportsProd(obj[name], exports[name])
+			: (obj[name] = exports[name]);
+	}
+}
+
+
+function _Platform_export(exports)
+{
+	scope['Elm']
+		? _Platform_mergeExportsDebug('Elm', scope['Elm'], exports)
+		: scope['Elm'] = exports;
+}
+
+
+function _Platform_mergeExportsDebug(moduleName, obj, exports)
+{
+	for (var name in exports)
+	{
+		(name in obj)
+			? (name == 'init')
+				? _Debug_crash(6, moduleName)
+				: _Platform_mergeExportsDebug(moduleName + '.' + name, obj[name], exports[name])
+			: (obj[name] = exports[name]);
+	}
+}
+
+
+
+
+// HELPERS
+
+
+var _VirtualDom_divertHrefToApp;
+
+var _VirtualDom_doc = typeof document !== 'undefined' ? document : {};
+
+
+function _VirtualDom_appendChild(parent, child)
+{
+	parent.appendChild(child);
+}
+
+var _VirtualDom_init = F4(function(virtualNode, flagDecoder, debugMetadata, args)
+{
+	// NOTE: this function needs _Platform_export available to work
+
+	/**_UNUSED/
+	var node = args['node'];
+	//*/
+	/**/
+	var node = args && args['node'] ? args['node'] : _Debug_crash(0);
+	//*/
+
+	node.parentNode.replaceChild(
+		_VirtualDom_render(virtualNode, function() {}),
+		node
+	);
+
+	return {};
+});
+
+
+
+// TEXT
+
+
+function _VirtualDom_text(string)
+{
+	return {
+		$: 0,
+		a: string
+	};
+}
+
+
+
+// NODE
+
+
+var _VirtualDom_nodeNS = F2(function(namespace, tag)
+{
+	return F2(function(factList, kidList)
+	{
+		for (var kids = [], descendantsCount = 0; kidList.b; kidList = kidList.b) // WHILE_CONS
+		{
+			var kid = kidList.a;
+			descendantsCount += (kid.b || 0);
+			kids.push(kid);
+		}
+		descendantsCount += kids.length;
+
+		return {
+			$: 1,
+			c: tag,
+			d: _VirtualDom_organizeFacts(factList),
+			e: kids,
+			f: namespace,
+			b: descendantsCount
+		};
+	});
+});
+
+
+var _VirtualDom_node = _VirtualDom_nodeNS(undefined);
+
+
+
+// KEYED NODE
+
+
+var _VirtualDom_keyedNodeNS = F2(function(namespace, tag)
+{
+	return F2(function(factList, kidList)
+	{
+		for (var kids = [], descendantsCount = 0; kidList.b; kidList = kidList.b) // WHILE_CONS
+		{
+			var kid = kidList.a;
+			descendantsCount += (kid.b.b || 0);
+			kids.push(kid);
+		}
+		descendantsCount += kids.length;
+
+		return {
+			$: 2,
+			c: tag,
+			d: _VirtualDom_organizeFacts(factList),
+			e: kids,
+			f: namespace,
+			b: descendantsCount
+		};
+	});
+});
+
+
+var _VirtualDom_keyedNode = _VirtualDom_keyedNodeNS(undefined);
+
+
+
+// CUSTOM
+
+
+function _VirtualDom_custom(factList, model, render, diff)
+{
+	return {
+		$: 3,
+		d: _VirtualDom_organizeFacts(factList),
+		g: model,
+		h: render,
+		i: diff
+	};
+}
+
+
+
+// MAP
+
+
+var _VirtualDom_map = F2(function(tagger, node)
+{
+	return {
+		$: 4,
+		j: tagger,
+		k: node,
+		b: 1 + (node.b || 0)
+	};
+});
+
+
+
+// LAZY
+
+
+function _VirtualDom_thunk(refs, thunk)
+{
+	return {
+		$: 5,
+		l: refs,
+		m: thunk,
+		k: undefined
+	};
+}
+
+var _VirtualDom_lazy = F2(function(func, a)
+{
+	return _VirtualDom_thunk([func, a], function() {
+		return func(a);
+	});
+});
+
+var _VirtualDom_lazy2 = F3(function(func, a, b)
+{
+	return _VirtualDom_thunk([func, a, b], function() {
+		return A2(func, a, b);
+	});
+});
+
+var _VirtualDom_lazy3 = F4(function(func, a, b, c)
+{
+	return _VirtualDom_thunk([func, a, b, c], function() {
+		return A3(func, a, b, c);
+	});
+});
+
+var _VirtualDom_lazy4 = F5(function(func, a, b, c, d)
+{
+	return _VirtualDom_thunk([func, a, b, c, d], function() {
+		return A4(func, a, b, c, d);
+	});
+});
+
+var _VirtualDom_lazy5 = F6(function(func, a, b, c, d, e)
+{
+	return _VirtualDom_thunk([func, a, b, c, d, e], function() {
+		return A5(func, a, b, c, d, e);
+	});
+});
+
+var _VirtualDom_lazy6 = F7(function(func, a, b, c, d, e, f)
+{
+	return _VirtualDom_thunk([func, a, b, c, d, e, f], function() {
+		return A6(func, a, b, c, d, e, f);
+	});
+});
+
+var _VirtualDom_lazy7 = F8(function(func, a, b, c, d, e, f, g)
+{
+	return _VirtualDom_thunk([func, a, b, c, d, e, f, g], function() {
+		return A7(func, a, b, c, d, e, f, g);
+	});
+});
+
+var _VirtualDom_lazy8 = F9(function(func, a, b, c, d, e, f, g, h)
+{
+	return _VirtualDom_thunk([func, a, b, c, d, e, f, g, h], function() {
+		return A8(func, a, b, c, d, e, f, g, h);
+	});
+});
+
+
+
+// FACTS
+
+
+var _VirtualDom_on = F2(function(key, handler)
+{
+	return {
+		$: 'a0',
+		n: key,
+		o: handler
+	};
+});
+var _VirtualDom_style = F2(function(key, value)
+{
+	return {
+		$: 'a1',
+		n: key,
+		o: value
+	};
+});
+var _VirtualDom_property = F2(function(key, value)
+{
+	return {
+		$: 'a2',
+		n: key,
+		o: value
+	};
+});
+var _VirtualDom_attribute = F2(function(key, value)
+{
+	return {
+		$: 'a3',
+		n: key,
+		o: value
+	};
+});
+var _VirtualDom_attributeNS = F3(function(namespace, key, value)
+{
+	return {
+		$: 'a4',
+		n: key,
+		o: { f: namespace, o: value }
+	};
+});
+
+
+
+// XSS ATTACK VECTOR CHECKS
+
+
+function _VirtualDom_noScript(tag)
+{
+	return tag == 'script' ? 'p' : tag;
+}
+
+function _VirtualDom_noOnOrFormAction(key)
+{
+	return /^(on|formAction$)/i.test(key) ? 'data-' + key : key;
+}
+
+function _VirtualDom_noInnerHtmlOrFormAction(key)
+{
+	return key == 'innerHTML' || key == 'formAction' ? 'data-' + key : key;
+}
+
+function _VirtualDom_noJavaScriptUri_UNUSED(value)
+{
+	return /^javascript:/i.test(value.replace(/\s/g,'')) ? '' : value;
+}
+
+function _VirtualDom_noJavaScriptUri(value)
+{
+	return /^javascript:/i.test(value.replace(/\s/g,''))
+		? 'javascript:alert("This is an XSS vector. Please use ports or web components instead.")'
+		: value;
+}
+
+function _VirtualDom_noJavaScriptOrHtmlUri_UNUSED(value)
+{
+	return /^\s*(javascript:|data:text\/html)/i.test(value) ? '' : value;
+}
+
+function _VirtualDom_noJavaScriptOrHtmlUri(value)
+{
+	return /^\s*(javascript:|data:text\/html)/i.test(value)
+		? 'javascript:alert("This is an XSS vector. Please use ports or web components instead.")'
+		: value;
+}
+
+
+
+// MAP FACTS
+
+
+var _VirtualDom_mapAttribute = F2(function(func, attr)
+{
+	return (attr.$ === 'a0')
+		? A2(_VirtualDom_on, attr.n, _VirtualDom_mapHandler(func, attr.o))
+		: attr;
+});
+
+function _VirtualDom_mapHandler(func, handler)
+{
+	var tag = $elm$virtual_dom$VirtualDom$toHandlerInt(handler);
+
+	// 0 = Normal
+	// 1 = MayStopPropagation
+	// 2 = MayPreventDefault
+	// 3 = Custom
+
+	return {
+		$: handler.$,
+		a:
+			!tag
+				? A2($elm$json$Json$Decode$map, func, handler.a)
+				:
+			A3($elm$json$Json$Decode$map2,
+				tag < 3
+					? _VirtualDom_mapEventTuple
+					: _VirtualDom_mapEventRecord,
+				$elm$json$Json$Decode$succeed(func),
+				handler.a
+			)
+	};
+}
+
+var _VirtualDom_mapEventTuple = F2(function(func, tuple)
+{
+	return _Utils_Tuple2(func(tuple.a), tuple.b);
+});
+
+var _VirtualDom_mapEventRecord = F2(function(func, record)
+{
+	return {
+		message: func(record.message),
+		stopPropagation: record.stopPropagation,
+		preventDefault: record.preventDefault
+	}
+});
+
+
+
+// ORGANIZE FACTS
+
+
+function _VirtualDom_organizeFacts(factList)
+{
+	for (var facts = {}; factList.b; factList = factList.b) // WHILE_CONS
+	{
+		var entry = factList.a;
+
+		var tag = entry.$;
+		var key = entry.n;
+		var value = entry.o;
+
+		if (tag === 'a2')
+		{
+			(key === 'className')
+				? _VirtualDom_addClass(facts, key, _Json_unwrap(value))
+				: facts[key] = _Json_unwrap(value);
+
+			continue;
+		}
+
+		var subFacts = facts[tag] || (facts[tag] = {});
+		(tag === 'a3' && key === 'class')
+			? _VirtualDom_addClass(subFacts, key, value)
+			: subFacts[key] = value;
+	}
+
+	return facts;
+}
+
+function _VirtualDom_addClass(object, key, newClass)
+{
+	var classes = object[key];
+	object[key] = classes ? classes + ' ' + newClass : newClass;
+}
+
+
+
+// RENDER
+
+
+function _VirtualDom_render(vNode, eventNode)
+{
+	var tag = vNode.$;
+
+	if (tag === 5)
+	{
+		return _VirtualDom_render(vNode.k || (vNode.k = vNode.m()), eventNode);
+	}
+
+	if (tag === 0)
+	{
+		return _VirtualDom_doc.createTextNode(vNode.a);
+	}
+
+	if (tag === 4)
+	{
+		var subNode = vNode.k;
+		var tagger = vNode.j;
+
+		while (subNode.$ === 4)
+		{
+			typeof tagger !== 'object'
+				? tagger = [tagger, subNode.j]
+				: tagger.push(subNode.j);
+
+			subNode = subNode.k;
+		}
+
+		var subEventRoot = { j: tagger, p: eventNode };
+		var domNode = _VirtualDom_render(subNode, subEventRoot);
+		domNode.elm_event_node_ref = subEventRoot;
+		return domNode;
+	}
+
+	if (tag === 3)
+	{
+		var domNode = vNode.h(vNode.g);
+		_VirtualDom_applyFacts(domNode, eventNode, vNode.d);
+		return domNode;
+	}
+
+	// at this point `tag` must be 1 or 2
+
+	var domNode = vNode.f
+		? _VirtualDom_doc.createElementNS(vNode.f, vNode.c)
+		: _VirtualDom_doc.createElement(vNode.c);
+
+	if (_VirtualDom_divertHrefToApp && vNode.c == 'a')
+	{
+		domNode.addEventListener('click', _VirtualDom_divertHrefToApp(domNode));
+	}
+
+	_VirtualDom_applyFacts(domNode, eventNode, vNode.d);
+
+	for (var kids = vNode.e, i = 0; i < kids.length; i++)
+	{
+		_VirtualDom_appendChild(domNode, _VirtualDom_render(tag === 1 ? kids[i] : kids[i].b, eventNode));
+	}
+
+	return domNode;
+}
+
+
+
+// APPLY FACTS
+
+
+function _VirtualDom_applyFacts(domNode, eventNode, facts)
+{
+	for (var key in facts)
+	{
+		var value = facts[key];
+
+		key === 'a1'
+			? _VirtualDom_applyStyles(domNode, value)
+			:
+		key === 'a0'
+			? _VirtualDom_applyEvents(domNode, eventNode, value)
+			:
+		key === 'a3'
+			? _VirtualDom_applyAttrs(domNode, value)
+			:
+		key === 'a4'
+			? _VirtualDom_applyAttrsNS(domNode, value)
+			:
+		(key !== 'value' || key !== 'checked' || domNode[key] !== value) && (domNode[key] = value);
+	}
+}
+
+
+
+// APPLY STYLES
+
+
+function _VirtualDom_applyStyles(domNode, styles)
+{
+	var domNodeStyle = domNode.style;
+
+	for (var key in styles)
+	{
+		domNodeStyle[key] = styles[key];
+	}
+}
+
+
+
+// APPLY ATTRS
+
+
+function _VirtualDom_applyAttrs(domNode, attrs)
+{
+	for (var key in attrs)
+	{
+		var value = attrs[key];
+		value
+			? domNode.setAttribute(key, value)
+			: domNode.removeAttribute(key);
+	}
+}
+
+
+
+// APPLY NAMESPACED ATTRS
+
+
+function _VirtualDom_applyAttrsNS(domNode, nsAttrs)
+{
+	for (var key in nsAttrs)
+	{
+		var pair = nsAttrs[key];
+		var namespace = pair.f;
+		var value = pair.o;
+
+		value
+			? domNode.setAttributeNS(namespace, key, value)
+			: domNode.removeAttributeNS(namespace, key);
+	}
+}
+
+
+
+// APPLY EVENTS
+
+
+function _VirtualDom_applyEvents(domNode, eventNode, events)
+{
+	var allCallbacks = domNode.elmFs || (domNode.elmFs = {});
+
+	for (var key in events)
+	{
+		var newHandler = events[key];
+		var oldCallback = allCallbacks[key];
+
+		if (!newHandler)
+		{
+			domNode.removeEventListener(key, oldCallback);
+			allCallbacks[key] = undefined;
+			continue;
+		}
+
+		if (oldCallback)
+		{
+			var oldHandler = oldCallback.q;
+			if (oldHandler.$ === newHandler.$)
+			{
+				oldCallback.q = newHandler;
+				continue;
+			}
+			domNode.removeEventListener(key, oldCallback);
+		}
+
+		oldCallback = _VirtualDom_makeCallback(eventNode, newHandler);
+		domNode.addEventListener(key, oldCallback,
+			_VirtualDom_passiveSupported
+			&& { passive: $elm$virtual_dom$VirtualDom$toHandlerInt(newHandler) < 2 }
+		);
+		allCallbacks[key] = oldCallback;
+	}
+}
+
+
+
+// PASSIVE EVENTS
+
+
+var _VirtualDom_passiveSupported;
+
+try
+{
+	window.addEventListener('t', null, Object.defineProperty({}, 'passive', {
+		get: function() { _VirtualDom_passiveSupported = true; }
+	}));
+}
+catch(e) {}
+
+
+
+// EVENT HANDLERS
+
+
+function _VirtualDom_makeCallback(eventNode, initialHandler)
+{
+	function callback(event)
+	{
+		var handler = callback.q;
+		var result = _Json_runHelp(handler.a, event);
+
+		if (!$elm$core$Result$isOk(result))
+		{
+			return;
+		}
+
+		var tag = $elm$virtual_dom$VirtualDom$toHandlerInt(handler);
+
+		// 0 = Normal
+		// 1 = MayStopPropagation
+		// 2 = MayPreventDefault
+		// 3 = Custom
+
+		var value = result.a;
+		var message = !tag ? value : tag < 3 ? value.a : value.message;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.stopPropagation;
+		var currentEventNode = (
+			stopPropagation && event.stopPropagation(),
+			(tag == 2 ? value.b : tag == 3 && value.preventDefault) && event.preventDefault(),
+			eventNode
+		);
+		var tagger;
+		var i;
+		while (tagger = currentEventNode.j)
+		{
+			if (typeof tagger == 'function')
+			{
+				message = tagger(message);
+			}
+			else
+			{
+				for (var i = tagger.length; i--; )
+				{
+					message = tagger[i](message);
+				}
+			}
+			currentEventNode = currentEventNode.p;
+		}
+		currentEventNode(message, stopPropagation); // stopPropagation implies isSync
+	}
+
+	callback.q = initialHandler;
+
+	return callback;
+}
+
+function _VirtualDom_equalEvents(x, y)
+{
+	return x.$ == y.$ && _Json_equality(x.a, y.a);
+}
+
+
+
+// DIFF
+
+
+// TODO: Should we do patches like in iOS?
+//
+// type Patch
+//   = At Int Patch
+//   | Batch (List Patch)
+//   | Change ...
+//
+// How could it not be better?
+//
+function _VirtualDom_diff(x, y)
+{
+	var patches = [];
+	_VirtualDom_diffHelp(x, y, patches, 0);
+	return patches;
+}
+
+
+function _VirtualDom_pushPatch(patches, type, index, data)
+{
+	var patch = {
+		$: type,
+		r: index,
+		s: data,
+		t: undefined,
+		u: undefined
+	};
+	patches.push(patch);
+	return patch;
+}
+
+
+function _VirtualDom_diffHelp(x, y, patches, index)
+{
+	if (x === y)
+	{
+		return;
+	}
+
+	var xType = x.$;
+	var yType = y.$;
+
+	// Bail if you run into different types of nodes. Implies that the
+	// structure has changed significantly and it's not worth a diff.
+	if (xType !== yType)
+	{
+		if (xType === 1 && yType === 2)
+		{
+			y = _VirtualDom_dekey(y);
+			yType = 1;
+		}
+		else
+		{
+			_VirtualDom_pushPatch(patches, 0, index, y);
+			return;
+		}
+	}
+
+	// Now we know that both nodes are the same $.
+	switch (yType)
+	{
+		case 5:
+			var xRefs = x.l;
+			var yRefs = y.l;
+			var i = xRefs.length;
+			var same = i === yRefs.length;
+			while (same && i--)
+			{
+				same = xRefs[i] === yRefs[i];
+			}
+			if (same)
+			{
+				y.k = x.k;
+				return;
+			}
+			y.k = y.m();
+			var subPatches = [];
+			_VirtualDom_diffHelp(x.k, y.k, subPatches, 0);
+			subPatches.length > 0 && _VirtualDom_pushPatch(patches, 1, index, subPatches);
+			return;
+
+		case 4:
+			// gather nested taggers
+			var xTaggers = x.j;
+			var yTaggers = y.j;
+			var nesting = false;
+
+			var xSubNode = x.k;
+			while (xSubNode.$ === 4)
+			{
+				nesting = true;
+
+				typeof xTaggers !== 'object'
+					? xTaggers = [xTaggers, xSubNode.j]
+					: xTaggers.push(xSubNode.j);
+
+				xSubNode = xSubNode.k;
+			}
+
+			var ySubNode = y.k;
+			while (ySubNode.$ === 4)
+			{
+				nesting = true;
+
+				typeof yTaggers !== 'object'
+					? yTaggers = [yTaggers, ySubNode.j]
+					: yTaggers.push(ySubNode.j);
+
+				ySubNode = ySubNode.k;
+			}
+
+			// Just bail if different numbers of taggers. This implies the
+			// structure of the virtual DOM has changed.
+			if (nesting && xTaggers.length !== yTaggers.length)
+			{
+				_VirtualDom_pushPatch(patches, 0, index, y);
+				return;
+			}
+
+			// check if taggers are "the same"
+			if (nesting ? !_VirtualDom_pairwiseRefEqual(xTaggers, yTaggers) : xTaggers !== yTaggers)
+			{
+				_VirtualDom_pushPatch(patches, 2, index, yTaggers);
+			}
+
+			// diff everything below the taggers
+			_VirtualDom_diffHelp(xSubNode, ySubNode, patches, index + 1);
+			return;
+
+		case 0:
+			if (x.a !== y.a)
+			{
+				_VirtualDom_pushPatch(patches, 3, index, y.a);
+			}
+			return;
+
+		case 1:
+			_VirtualDom_diffNodes(x, y, patches, index, _VirtualDom_diffKids);
+			return;
+
+		case 2:
+			_VirtualDom_diffNodes(x, y, patches, index, _VirtualDom_diffKeyedKids);
+			return;
+
+		case 3:
+			if (x.h !== y.h)
+			{
+				_VirtualDom_pushPatch(patches, 0, index, y);
+				return;
+			}
+
+			var factsDiff = _VirtualDom_diffFacts(x.d, y.d);
+			factsDiff && _VirtualDom_pushPatch(patches, 4, index, factsDiff);
+
+			var patch = y.i(x.g, y.g);
+			patch && _VirtualDom_pushPatch(patches, 5, index, patch);
+
+			return;
+	}
+}
+
+// assumes the incoming arrays are the same length
+function _VirtualDom_pairwiseRefEqual(as, bs)
+{
+	for (var i = 0; i < as.length; i++)
+	{
+		if (as[i] !== bs[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+function _VirtualDom_diffNodes(x, y, patches, index, diffKids)
+{
+	// Bail if obvious indicators have changed. Implies more serious
+	// structural changes such that it's not worth it to diff.
+	if (x.c !== y.c || x.f !== y.f)
+	{
+		_VirtualDom_pushPatch(patches, 0, index, y);
+		return;
+	}
+
+	var factsDiff = _VirtualDom_diffFacts(x.d, y.d);
+	factsDiff && _VirtualDom_pushPatch(patches, 4, index, factsDiff);
+
+	diffKids(x, y, patches, index);
+}
+
+
+
+// DIFF FACTS
+
+
+// TODO Instead of creating a new diff object, it's possible to just test if
+// there *is* a diff. During the actual patch, do the diff again and make the
+// modifications directly. This way, there's no new allocations. Worth it?
+function _VirtualDom_diffFacts(x, y, category)
+{
+	var diff;
+
+	// look for changes and removals
+	for (var xKey in x)
+	{
+		if (xKey === 'a1' || xKey === 'a0' || xKey === 'a3' || xKey === 'a4')
+		{
+			var subDiff = _VirtualDom_diffFacts(x[xKey], y[xKey] || {}, xKey);
+			if (subDiff)
+			{
+				diff = diff || {};
+				diff[xKey] = subDiff;
+			}
+			continue;
+		}
+
+		// remove if not in the new facts
+		if (!(xKey in y))
+		{
+			diff = diff || {};
+			diff[xKey] =
+				!category
+					? (typeof x[xKey] === 'string' ? '' : null)
+					:
+				(category === 'a1')
+					? ''
+					:
+				(category === 'a0' || category === 'a3')
+					? undefined
+					:
+				{ f: x[xKey].f, o: undefined };
+
+			continue;
+		}
+
+		var xValue = x[xKey];
+		var yValue = y[xKey];
+
+		// reference equal, so don't worry about it
+		if (xValue === yValue && xKey !== 'value' && xKey !== 'checked'
+			|| category === 'a0' && _VirtualDom_equalEvents(xValue, yValue))
+		{
+			continue;
+		}
+
+		diff = diff || {};
+		diff[xKey] = yValue;
+	}
+
+	// add new stuff
+	for (var yKey in y)
+	{
+		if (!(yKey in x))
+		{
+			diff = diff || {};
+			diff[yKey] = y[yKey];
+		}
+	}
+
+	return diff;
+}
+
+
+
+// DIFF KIDS
+
+
+function _VirtualDom_diffKids(xParent, yParent, patches, index)
+{
+	var xKids = xParent.e;
+	var yKids = yParent.e;
+
+	var xLen = xKids.length;
+	var yLen = yKids.length;
+
+	// FIGURE OUT IF THERE ARE INSERTS OR REMOVALS
+
+	if (xLen > yLen)
+	{
+		_VirtualDom_pushPatch(patches, 6, index, {
+			v: yLen,
+			i: xLen - yLen
+		});
+	}
+	else if (xLen < yLen)
+	{
+		_VirtualDom_pushPatch(patches, 7, index, {
+			v: xLen,
+			e: yKids
+		});
+	}
+
+	// PAIRWISE DIFF EVERYTHING ELSE
+
+	for (var minLen = xLen < yLen ? xLen : yLen, i = 0; i < minLen; i++)
+	{
+		var xKid = xKids[i];
+		_VirtualDom_diffHelp(xKid, yKids[i], patches, ++index);
+		index += xKid.b || 0;
+	}
+}
+
+
+
+// KEYED DIFF
+
+
+function _VirtualDom_diffKeyedKids(xParent, yParent, patches, rootIndex)
+{
+	var localPatches = [];
+
+	var changes = {}; // Dict String Entry
+	var inserts = []; // Array { index : Int, entry : Entry }
+	// type Entry = { tag : String, vnode : VNode, index : Int, data : _ }
+
+	var xKids = xParent.e;
+	var yKids = yParent.e;
+	var xLen = xKids.length;
+	var yLen = yKids.length;
+	var xIndex = 0;
+	var yIndex = 0;
+
+	var index = rootIndex;
+
+	while (xIndex < xLen && yIndex < yLen)
+	{
+		var x = xKids[xIndex];
+		var y = yKids[yIndex];
+
+		var xKey = x.a;
+		var yKey = y.a;
+		var xNode = x.b;
+		var yNode = y.b;
+
+		// check if keys match
+
+		if (xKey === yKey)
+		{
+			index++;
+			_VirtualDom_diffHelp(xNode, yNode, localPatches, index);
+			index += xNode.b || 0;
+
+			xIndex++;
+			yIndex++;
+			continue;
+		}
+
+		// look ahead 1 to detect insertions and removals.
+
+		var xNext = xKids[xIndex + 1];
+		var yNext = yKids[yIndex + 1];
+
+		if (xNext)
+		{
+			var xNextKey = xNext.a;
+			var xNextNode = xNext.b;
+			var oldMatch = yKey === xNextKey;
+		}
+
+		if (yNext)
+		{
+			var yNextKey = yNext.a;
+			var yNextNode = yNext.b;
+			var newMatch = xKey === yNextKey;
+		}
+
+
+		// swap x and y
+		if (newMatch && oldMatch)
+		{
+			index++;
+			_VirtualDom_diffHelp(xNode, yNextNode, localPatches, index);
+			_VirtualDom_insertNode(changes, localPatches, xKey, yNode, yIndex, inserts);
+			index += xNode.b || 0;
+
+			index++;
+			_VirtualDom_removeNode(changes, localPatches, xKey, xNextNode, index);
+			index += xNextNode.b || 0;
+
+			xIndex += 2;
+			yIndex += 2;
+			continue;
+		}
+
+		// insert y
+		if (newMatch)
+		{
+			index++;
+			_VirtualDom_insertNode(changes, localPatches, yKey, yNode, yIndex, inserts);
+			_VirtualDom_diffHelp(xNode, yNextNode, localPatches, index);
+			index += xNode.b || 0;
+
+			xIndex += 1;
+			yIndex += 2;
+			continue;
+		}
+
+		// remove x
+		if (oldMatch)
+		{
+			index++;
+			_VirtualDom_removeNode(changes, localPatches, xKey, xNode, index);
+			index += xNode.b || 0;
+
+			index++;
+			_VirtualDom_diffHelp(xNextNode, yNode, localPatches, index);
+			index += xNextNode.b || 0;
+
+			xIndex += 2;
+			yIndex += 1;
+			continue;
+		}
+
+		// remove x, insert y
+		if (xNext && xNextKey === yNextKey)
+		{
+			index++;
+			_VirtualDom_removeNode(changes, localPatches, xKey, xNode, index);
+			_VirtualDom_insertNode(changes, localPatches, yKey, yNode, yIndex, inserts);
+			index += xNode.b || 0;
+
+			index++;
+			_VirtualDom_diffHelp(xNextNode, yNextNode, localPatches, index);
+			index += xNextNode.b || 0;
+
+			xIndex += 2;
+			yIndex += 2;
+			continue;
+		}
+
+		break;
+	}
+
+	// eat up any remaining nodes with removeNode and insertNode
+
+	while (xIndex < xLen)
+	{
+		index++;
+		var x = xKids[xIndex];
+		var xNode = x.b;
+		_VirtualDom_removeNode(changes, localPatches, x.a, xNode, index);
+		index += xNode.b || 0;
+		xIndex++;
+	}
+
+	while (yIndex < yLen)
+	{
+		var endInserts = endInserts || [];
+		var y = yKids[yIndex];
+		_VirtualDom_insertNode(changes, localPatches, y.a, y.b, undefined, endInserts);
+		yIndex++;
+	}
+
+	if (localPatches.length > 0 || inserts.length > 0 || endInserts)
+	{
+		_VirtualDom_pushPatch(patches, 8, rootIndex, {
+			w: localPatches,
+			x: inserts,
+			y: endInserts
+		});
+	}
+}
+
+
+
+// CHANGES FROM KEYED DIFF
+
+
+var _VirtualDom_POSTFIX = '_elmW6BL';
+
+
+function _VirtualDom_insertNode(changes, localPatches, key, vnode, yIndex, inserts)
+{
+	var entry = changes[key];
+
+	// never seen this key before
+	if (!entry)
+	{
+		entry = {
+			c: 0,
+			z: vnode,
+			r: yIndex,
+			s: undefined
+		};
+
+		inserts.push({ r: yIndex, A: entry });
+		changes[key] = entry;
+
+		return;
+	}
+
+	// this key was removed earlier, a match!
+	if (entry.c === 1)
+	{
+		inserts.push({ r: yIndex, A: entry });
+
+		entry.c = 2;
+		var subPatches = [];
+		_VirtualDom_diffHelp(entry.z, vnode, subPatches, entry.r);
+		entry.r = yIndex;
+		entry.s.s = {
+			w: subPatches,
+			A: entry
+		};
+
+		return;
+	}
+
+	// this key has already been inserted or moved, a duplicate!
+	_VirtualDom_insertNode(changes, localPatches, key + _VirtualDom_POSTFIX, vnode, yIndex, inserts);
+}
+
+
+function _VirtualDom_removeNode(changes, localPatches, key, vnode, index)
+{
+	var entry = changes[key];
+
+	// never seen this key before
+	if (!entry)
+	{
+		var patch = _VirtualDom_pushPatch(localPatches, 9, index, undefined);
+
+		changes[key] = {
+			c: 1,
+			z: vnode,
+			r: index,
+			s: patch
+		};
+
+		return;
+	}
+
+	// this key was inserted earlier, a match!
+	if (entry.c === 0)
+	{
+		entry.c = 2;
+		var subPatches = [];
+		_VirtualDom_diffHelp(vnode, entry.z, subPatches, index);
+
+		_VirtualDom_pushPatch(localPatches, 9, index, {
+			w: subPatches,
+			A: entry
+		});
+
+		return;
+	}
+
+	// this key has already been removed or moved, a duplicate!
+	_VirtualDom_removeNode(changes, localPatches, key + _VirtualDom_POSTFIX, vnode, index);
+}
+
+
+
+// ADD DOM NODES
+//
+// Each DOM node has an "index" assigned in order of traversal. It is important
+// to minimize our crawl over the actual DOM, so these indexes (along with the
+// descendantsCount of virtual nodes) let us skip touching entire subtrees of
+// the DOM if we know there are no patches there.
+
+
+function _VirtualDom_addDomNodes(domNode, vNode, patches, eventNode)
+{
+	_VirtualDom_addDomNodesHelp(domNode, vNode, patches, 0, 0, vNode.b, eventNode);
+}
+
+
+// assumes `patches` is non-empty and indexes increase monotonically.
+function _VirtualDom_addDomNodesHelp(domNode, vNode, patches, i, low, high, eventNode)
+{
+	var patch = patches[i];
+	var index = patch.r;
+
+	while (index === low)
+	{
+		var patchType = patch.$;
+
+		if (patchType === 1)
+		{
+			_VirtualDom_addDomNodes(domNode, vNode.k, patch.s, eventNode);
+		}
+		else if (patchType === 8)
+		{
+			patch.t = domNode;
+			patch.u = eventNode;
+
+			var subPatches = patch.s.w;
+			if (subPatches.length > 0)
+			{
+				_VirtualDom_addDomNodesHelp(domNode, vNode, subPatches, 0, low, high, eventNode);
+			}
+		}
+		else if (patchType === 9)
+		{
+			patch.t = domNode;
+			patch.u = eventNode;
+
+			var data = patch.s;
+			if (data)
+			{
+				data.A.s = domNode;
+				var subPatches = data.w;
+				if (subPatches.length > 0)
+				{
+					_VirtualDom_addDomNodesHelp(domNode, vNode, subPatches, 0, low, high, eventNode);
+				}
+			}
+		}
+		else
+		{
+			patch.t = domNode;
+			patch.u = eventNode;
+		}
+
+		i++;
+
+		if (!(patch = patches[i]) || (index = patch.r) > high)
+		{
+			return i;
+		}
+	}
+
+	var tag = vNode.$;
+
+	if (tag === 4)
+	{
+		var subNode = vNode.k;
+
+		while (subNode.$ === 4)
+		{
+			subNode = subNode.k;
+		}
+
+		return _VirtualDom_addDomNodesHelp(domNode, subNode, patches, i, low + 1, high, domNode.elm_event_node_ref);
+	}
+
+	// tag must be 1 or 2 at this point
+
+	var vKids = vNode.e;
+	var childNodes = domNode.childNodes;
+	for (var j = 0; j < vKids.length; j++)
+	{
+		low++;
+		var vKid = tag === 1 ? vKids[j] : vKids[j].b;
+		var nextLow = low + (vKid.b || 0);
+		if (low <= index && index <= nextLow)
+		{
+			i = _VirtualDom_addDomNodesHelp(childNodes[j], vKid, patches, i, low, nextLow, eventNode);
+			if (!(patch = patches[i]) || (index = patch.r) > high)
+			{
+				return i;
+			}
+		}
+		low = nextLow;
+	}
+	return i;
+}
+
+
+
+// APPLY PATCHES
+
+
+function _VirtualDom_applyPatches(rootDomNode, oldVirtualNode, patches, eventNode)
+{
+	if (patches.length === 0)
+	{
+		return rootDomNode;
+	}
+
+	_VirtualDom_addDomNodes(rootDomNode, oldVirtualNode, patches, eventNode);
+	return _VirtualDom_applyPatchesHelp(rootDomNode, patches);
+}
+
+function _VirtualDom_applyPatchesHelp(rootDomNode, patches)
+{
+	for (var i = 0; i < patches.length; i++)
+	{
+		var patch = patches[i];
+		var localDomNode = patch.t
+		var newNode = _VirtualDom_applyPatch(localDomNode, patch);
+		if (localDomNode === rootDomNode)
+		{
+			rootDomNode = newNode;
+		}
+	}
+	return rootDomNode;
+}
+
+function _VirtualDom_applyPatch(domNode, patch)
+{
+	switch (patch.$)
+	{
+		case 0:
+			return _VirtualDom_applyPatchRedraw(domNode, patch.s, patch.u);
+
+		case 4:
+			_VirtualDom_applyFacts(domNode, patch.u, patch.s);
+			return domNode;
+
+		case 3:
+			domNode.replaceData(0, domNode.length, patch.s);
+			return domNode;
+
+		case 1:
+			return _VirtualDom_applyPatchesHelp(domNode, patch.s);
+
+		case 2:
+			if (domNode.elm_event_node_ref)
+			{
+				domNode.elm_event_node_ref.j = patch.s;
+			}
+			else
+			{
+				domNode.elm_event_node_ref = { j: patch.s, p: patch.u };
+			}
+			return domNode;
+
+		case 6:
+			var data = patch.s;
+			for (var i = 0; i < data.i; i++)
+			{
+				domNode.removeChild(domNode.childNodes[data.v]);
+			}
+			return domNode;
+
+		case 7:
+			var data = patch.s;
+			var kids = data.e;
+			var i = data.v;
+			var theEnd = domNode.childNodes[i];
+			for (; i < kids.length; i++)
+			{
+				domNode.insertBefore(_VirtualDom_render(kids[i], patch.u), theEnd);
+			}
+			return domNode;
+
+		case 9:
+			var data = patch.s;
+			if (!data)
+			{
+				domNode.parentNode.removeChild(domNode);
+				return domNode;
+			}
+			var entry = data.A;
+			if (typeof entry.r !== 'undefined')
+			{
+				domNode.parentNode.removeChild(domNode);
+			}
+			entry.s = _VirtualDom_applyPatchesHelp(domNode, data.w);
+			return domNode;
+
+		case 8:
+			return _VirtualDom_applyPatchReorder(domNode, patch);
+
+		case 5:
+			return patch.s(domNode);
+
+		default:
+			_Debug_crash(10); // 'Ran into an unknown patch!'
+	}
+}
+
+
+function _VirtualDom_applyPatchRedraw(domNode, vNode, eventNode)
+{
+	var parentNode = domNode.parentNode;
+	var newNode = _VirtualDom_render(vNode, eventNode);
+
+	if (!newNode.elm_event_node_ref)
+	{
+		newNode.elm_event_node_ref = domNode.elm_event_node_ref;
+	}
+
+	if (parentNode && newNode !== domNode)
+	{
+		parentNode.replaceChild(newNode, domNode);
+	}
+	return newNode;
+}
+
+
+function _VirtualDom_applyPatchReorder(domNode, patch)
+{
+	var data = patch.s;
+
+	// remove end inserts
+	var frag = _VirtualDom_applyPatchReorderEndInsertsHelp(data.y, patch);
+
+	// removals
+	domNode = _VirtualDom_applyPatchesHelp(domNode, data.w);
+
+	// inserts
+	var inserts = data.x;
+	for (var i = 0; i < inserts.length; i++)
+	{
+		var insert = inserts[i];
+		var entry = insert.A;
+		var node = entry.c === 2
+			? entry.s
+			: _VirtualDom_render(entry.z, patch.u);
+		domNode.insertBefore(node, domNode.childNodes[insert.r]);
+	}
+
+	// add end inserts
+	if (frag)
+	{
+		_VirtualDom_appendChild(domNode, frag);
+	}
+
+	return domNode;
+}
+
+
+function _VirtualDom_applyPatchReorderEndInsertsHelp(endInserts, patch)
+{
+	if (!endInserts)
+	{
+		return;
+	}
+
+	var frag = _VirtualDom_doc.createDocumentFragment();
+	for (var i = 0; i < endInserts.length; i++)
+	{
+		var insert = endInserts[i];
+		var entry = insert.A;
+		_VirtualDom_appendChild(frag, entry.c === 2
+			? entry.s
+			: _VirtualDom_render(entry.z, patch.u)
+		);
+	}
+	return frag;
+}
+
+
+function _VirtualDom_virtualize(node)
+{
+	// TEXT NODES
+
+	if (node.nodeType === 3)
+	{
+		return _VirtualDom_text(node.textContent);
+	}
+
+
+	// WEIRD NODES
+
+	if (node.nodeType !== 1)
+	{
+		return _VirtualDom_text('');
+	}
+
+
+	// ELEMENT NODES
+
+	var attrList = _List_Nil;
+	var attrs = node.attributes;
+	for (var i = attrs.length; i--; )
+	{
+		var attr = attrs[i];
+		var name = attr.name;
+		var value = attr.value;
+		attrList = _List_Cons( A2(_VirtualDom_attribute, name, value), attrList );
+	}
+
+	var tag = node.tagName.toLowerCase();
+	var kidList = _List_Nil;
+	var kids = node.childNodes;
+
+	for (var i = kids.length; i--; )
+	{
+		kidList = _List_Cons(_VirtualDom_virtualize(kids[i]), kidList);
+	}
+	return A3(_VirtualDom_node, tag, attrList, kidList);
+}
+
+function _VirtualDom_dekey(keyedNode)
+{
+	var keyedKids = keyedNode.e;
+	var len = keyedKids.length;
+	var kids = new Array(len);
+	for (var i = 0; i < len; i++)
+	{
+		kids[i] = keyedKids[i].b;
+	}
+
+	return {
+		$: 1,
+		c: keyedNode.c,
+		d: keyedNode.d,
+		e: kids,
+		f: keyedNode.f,
+		b: keyedNode.b
+	};
+}
+
+
+
+// ELEMENT
+
+
+var _Debugger_element;
+
+var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debugMetadata, args)
+{
+	return _Platform_initialize(
+		flagDecoder,
+		args,
+		impl.init,
+		impl.update,
+		impl.subscriptions,
+		function(sendToApp, initialModel) {
+			var view = impl.view;
+			/**_UNUSED/
+			var domNode = args['node'];
+			//*/
+			/**/
+			var domNode = args && args['node'] ? args['node'] : _Debug_crash(0);
+			//*/
+			var currNode = _VirtualDom_virtualize(domNode);
+
+			return _Browser_makeAnimator(initialModel, function(model)
+			{
+				var nextNode = view(model);
+				var patches = _VirtualDom_diff(currNode, nextNode);
+				domNode = _VirtualDom_applyPatches(domNode, currNode, patches, sendToApp);
+				currNode = nextNode;
+			});
+		}
+	);
+});
+
+
+
+// DOCUMENT
+
+
+var _Debugger_document;
+
+var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, debugMetadata, args)
+{
+	return _Platform_initialize(
+		flagDecoder,
+		args,
+		impl.init,
+		impl.update,
+		impl.subscriptions,
+		function(sendToApp, initialModel) {
+			var divertHrefToApp = impl.setup && impl.setup(sendToApp)
+			var view = impl.view;
+			var title = _VirtualDom_doc.title;
+			var bodyNode = _VirtualDom_doc.body;
+			var currNode = _VirtualDom_virtualize(bodyNode);
+			return _Browser_makeAnimator(initialModel, function(model)
+			{
+				_VirtualDom_divertHrefToApp = divertHrefToApp;
+				var doc = view(model);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.body);
+				var patches = _VirtualDom_diff(currNode, nextNode);
+				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
+				currNode = nextNode;
+				_VirtualDom_divertHrefToApp = 0;
+				(title !== doc.title) && (_VirtualDom_doc.title = title = doc.title);
+			});
+		}
+	);
+});
+
+
+
+// ANIMATION
+
+
+var _Browser_requestAnimationFrame =
+	typeof requestAnimationFrame !== 'undefined'
+		? requestAnimationFrame
+		: function(callback) { setTimeout(callback, 1000 / 60); };
+
+
+function _Browser_makeAnimator(model, draw)
+{
+	draw(model);
+
+	var state = 0;
+
+	function updateIfNeeded()
+	{
+		state = state === 1
+			? 0
+			: ( _Browser_requestAnimationFrame(updateIfNeeded), draw(model), 1 );
+	}
+
+	return function(nextModel, isSync)
+	{
+		model = nextModel;
+
+		isSync
+			? ( draw(model),
+				state === 2 && (state = 1)
+				)
+			: ( state === 0 && _Browser_requestAnimationFrame(updateIfNeeded),
+				state = 2
+				);
+	};
+}
+
+
+
+// APPLICATION
+
+
+function _Browser_application(impl)
+{
+	var onUrlChange = impl.onUrlChange;
+	var onUrlRequest = impl.onUrlRequest;
+	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
+
+	return _Browser_document({
+		setup: function(sendToApp)
+		{
+			key.a = sendToApp;
+			_Browser_window.addEventListener('popstate', key);
+			_Browser_window.navigator.userAgent.indexOf('Trident') < 0 || _Browser_window.addEventListener('hashchange', key);
+
+			return F2(function(domNode, event)
+			{
+				if (!event.ctrlKey && !event.metaKey && !event.shiftKey && event.button < 1 && !domNode.target && !domNode.download)
+				{
+					event.preventDefault();
+					var href = domNode.href;
+					var curr = _Browser_getUrl();
+					var next = $elm$url$Url$fromString(href).a;
+					sendToApp(onUrlRequest(
+						(next
+							&& curr.protocol === next.protocol
+							&& curr.host === next.host
+							&& curr.port_.a === next.port_.a
+						)
+							? $elm$browser$Browser$Internal(next)
+							: $elm$browser$Browser$External(href)
+					));
+				}
+			});
+		},
+		init: function(flags)
+		{
+			return A3(impl.init, flags, _Browser_getUrl(), key);
+		},
+		view: impl.view,
+		update: impl.update,
+		subscriptions: impl.subscriptions
+	});
+}
+
+function _Browser_getUrl()
+{
+	return $elm$url$Url$fromString(_VirtualDom_doc.location.href).a || _Debug_crash(1);
+}
+
+var _Browser_go = F2(function(key, n)
+{
+	return A2($elm$core$Task$perform, $elm$core$Basics$never, _Scheduler_binding(function() {
+		n && history.go(n);
+		key();
+	}));
+});
+
+var _Browser_pushUrl = F2(function(key, url)
+{
+	return A2($elm$core$Task$perform, $elm$core$Basics$never, _Scheduler_binding(function() {
+		history.pushState({}, '', url);
+		key();
+	}));
+});
+
+var _Browser_replaceUrl = F2(function(key, url)
+{
+	return A2($elm$core$Task$perform, $elm$core$Basics$never, _Scheduler_binding(function() {
+		history.replaceState({}, '', url);
+		key();
+	}));
+});
+
+
+
+// GLOBAL EVENTS
+
+
+var _Browser_fakeNode = { addEventListener: function() {}, removeEventListener: function() {} };
+var _Browser_doc = typeof document !== 'undefined' ? document : _Browser_fakeNode;
+var _Browser_window = typeof window !== 'undefined' ? window : _Browser_fakeNode;
+
+var _Browser_on = F3(function(node, eventName, sendToSelf)
+{
+	return _Scheduler_spawn(_Scheduler_binding(function(callback)
+	{
+		function handler(event)	{ _Scheduler_rawSpawn(sendToSelf(event)); }
+		node.addEventListener(eventName, handler, _VirtualDom_passiveSupported && { passive: true });
+		return function() { node.removeEventListener(eventName, handler); };
+	}));
+});
+
+var _Browser_decodeEvent = F2(function(decoder, event)
+{
+	var result = _Json_runHelp(decoder, event);
+	return $elm$core$Result$isOk(result) ? $elm$core$Maybe$Just(result.a) : $elm$core$Maybe$Nothing;
+});
+
+
+
+// PAGE VISIBILITY
+
+
+function _Browser_visibilityInfo()
+{
+	return (typeof _VirtualDom_doc.hidden !== 'undefined')
+		? { hidden: 'hidden', change: 'visibilitychange' }
+		:
+	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
+		? { hidden: 'mozHidden', change: 'mozvisibilitychange' }
+		:
+	(typeof _VirtualDom_doc.msHidden !== 'undefined')
+		? { hidden: 'msHidden', change: 'msvisibilitychange' }
+		:
+	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
+		? { hidden: 'webkitHidden', change: 'webkitvisibilitychange' }
+		: { hidden: 'hidden', change: 'visibilitychange' };
+}
+
+
+
+// ANIMATION FRAMES
+
+
+function _Browser_rAF()
+{
+	return _Scheduler_binding(function(callback)
+	{
+		var id = requestAnimationFrame(function() {
+			callback(_Scheduler_succeed(Date.now()));
+		});
+
+		return function() {
+			cancelAnimationFrame(id);
+		};
+	});
+}
+
+
+function _Browser_now()
+{
+	return _Scheduler_binding(function(callback)
+	{
+		callback(_Scheduler_succeed(Date.now()));
+	});
+}
+
+
+
+// DOM STUFF
+
+
+function _Browser_withNode(id, doStuff)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		_Browser_requestAnimationFrame(function() {
+			var node = document.getElementById(id);
+			callback(node
+				? _Scheduler_succeed(doStuff(node))
+				: _Scheduler_fail($elm$browser$Browser$Dom$NotFound(id))
+			);
+		});
+	});
+}
+
+
+function _Browser_withWindow(doStuff)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		_Browser_requestAnimationFrame(function() {
+			callback(_Scheduler_succeed(doStuff()));
+		});
+	});
+}
+
+
+// FOCUS and BLUR
+
+
+var _Browser_call = F2(function(functionName, id)
+{
+	return _Browser_withNode(id, function(node) {
+		node[functionName]();
+		return _Utils_Tuple0;
+	});
+});
+
+
+
+// WINDOW VIEWPORT
+
+
+function _Browser_getViewport()
+{
+	return {
+		scene: _Browser_getScene(),
+		viewport: {
+			x: _Browser_window.pageXOffset,
+			y: _Browser_window.pageYOffset,
+			width: _Browser_doc.documentElement.clientWidth,
+			height: _Browser_doc.documentElement.clientHeight
+		}
+	};
+}
+
+function _Browser_getScene()
+{
+	var body = _Browser_doc.body;
+	var elem = _Browser_doc.documentElement;
+	return {
+		width: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		height: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+	};
+}
+
+var _Browser_setViewport = F2(function(x, y)
+{
+	return _Browser_withWindow(function()
+	{
+		_Browser_window.scroll(x, y);
+		return _Utils_Tuple0;
+	});
+});
+
+
+
+// ELEMENT VIEWPORT
+
+
+function _Browser_getViewportOf(id)
+{
+	return _Browser_withNode(id, function(node)
+	{
+		return {
+			scene: {
+				width: node.scrollWidth,
+				height: node.scrollHeight
+			},
+			viewport: {
+				x: node.scrollLeft,
+				y: node.scrollTop,
+				width: node.clientWidth,
+				height: node.clientHeight
+			}
+		};
+	});
+}
+
+
+var _Browser_setViewportOf = F3(function(id, x, y)
+{
+	return _Browser_withNode(id, function(node)
+	{
+		node.scrollLeft = x;
+		node.scrollTop = y;
+		return _Utils_Tuple0;
+	});
+});
+
+
+
+// ELEMENT
+
+
+function _Browser_getElement(id)
+{
+	return _Browser_withNode(id, function(node)
+	{
+		var rect = node.getBoundingClientRect();
+		var x = _Browser_window.pageXOffset;
+		var y = _Browser_window.pageYOffset;
+		return {
+			scene: _Browser_getScene(),
+			viewport: {
+				x: x,
+				y: y,
+				width: _Browser_doc.documentElement.clientWidth,
+				height: _Browser_doc.documentElement.clientHeight
+			},
+			element: {
+				x: x + rect.left,
+				y: y + rect.top,
+				width: rect.width,
+				height: rect.height
+			}
+		};
+	});
+}
+
+
+
+// LOAD and RELOAD
+
+
+function _Browser_reload(skipCache)
+{
+	return A2($elm$core$Task$perform, $elm$core$Basics$never, _Scheduler_binding(function(callback)
+	{
+		_VirtualDom_doc.location.reload(skipCache);
+	}));
+}
+
+function _Browser_load(url)
+{
+	return A2($elm$core$Task$perform, $elm$core$Basics$never, _Scheduler_binding(function(callback)
+	{
+		try
+		{
+			_Browser_window.location = url;
+		}
+		catch(err)
+		{
+			// Only Firefox can throw a NS_ERROR_MALFORMED_URI exception here.
+			// Other browsers reload the page, so let's be consistent about that.
+			_VirtualDom_doc.location.reload(false);
+		}
+	}));
+}
+
+
+
+// SEND REQUEST
+
+var _Http_toTask = F2(function(request, maybeProgress)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		var xhr = new XMLHttpRequest();
+
+		_Http_configureProgress(xhr, maybeProgress);
+
+		xhr.addEventListener('error', function() {
+			callback(_Scheduler_fail($elm$http$Http$NetworkError));
+		});
+		xhr.addEventListener('timeout', function() {
+			callback(_Scheduler_fail($elm$http$Http$Timeout));
+		});
+		xhr.addEventListener('load', function() {
+			callback(_Http_handleResponse(xhr, request.expect.a));
+		});
+
+		try
+		{
+			xhr.open(request.method, request.url, true);
+		}
+		catch (e)
+		{
+			return callback(_Scheduler_fail($elm$http$Http$BadUrl(request.url)));
+		}
+
+		_Http_configureRequest(xhr, request);
+
+		var body = request.body;
+		xhr.send($elm$http$Http$Internal$isStringBody(body)
+			? (xhr.setRequestHeader('Content-Type', body.a), body.b)
+			: body.a
+		);
+
+		return function() { xhr.abort(); };
+	});
+});
+
+function _Http_configureProgress(xhr, maybeProgress)
+{
+	if (!$elm$core$Maybe$isJust(maybeProgress))
+	{
+		return;
+	}
+
+	xhr.addEventListener('progress', function(event) {
+		if (!event.lengthComputable)
+		{
+			return;
+		}
+		_Scheduler_rawSpawn(maybeProgress.a({
+			bytes: event.loaded,
+			bytesExpected: event.total
+		}));
+	});
+}
+
+function _Http_configureRequest(xhr, request)
+{
+	for (var headers = request.headers; headers.b; headers = headers.b) // WHILE_CONS
+	{
+		xhr.setRequestHeader(headers.a.a, headers.a.b);
+	}
+
+	xhr.responseType = request.expect.b;
+	xhr.withCredentials = request.withCredentials;
+
+	$elm$core$Maybe$isJust(request.timeout) && (xhr.timeout = request.timeout.a);
+}
+
+
+// RESPONSES
+
+function _Http_handleResponse(xhr, responseToResult)
+{
+	var response = _Http_toResponse(xhr);
+
+	if (xhr.status < 200 || 300 <= xhr.status)
+	{
+		response.body = xhr.responseText;
+		return _Scheduler_fail($elm$http$Http$BadStatus(response));
+	}
+
+	var result = responseToResult(response);
+
+	if ($elm$core$Result$isOk(result))
+	{
+		return _Scheduler_succeed(result.a);
+	}
+	else
+	{
+		response.body = xhr.responseText;
+		return _Scheduler_fail(A2($elm$http$Http$BadPayload, result.a, response));
+	}
+}
+
+function _Http_toResponse(xhr)
+{
+	return {
+		url: xhr.responseURL,
+		status: { code: xhr.status, message: xhr.statusText },
+		headers: _Http_parseHeaders(xhr.getAllResponseHeaders()),
+		body: xhr.response
+	};
+}
+
+function _Http_parseHeaders(rawHeaders)
+{
+	var headers = $elm$core$Dict$empty;
+
+	if (!rawHeaders)
+	{
+		return headers;
+	}
+
+	var headerPairs = rawHeaders.split('\u000d\u000a');
+	for (var i = headerPairs.length; i--; )
+	{
+		var headerPair = headerPairs[i];
+		var index = headerPair.indexOf('\u003a\u0020');
+		if (index > 0)
+		{
+			var key = headerPair.substring(0, index);
+			var value = headerPair.substring(index + 2);
+
+			headers = A3($elm$core$Dict$update, key, function(oldValue) {
+				return $elm$core$Maybe$Just($elm$core$Maybe$isJust(oldValue)
+					? value + ', ' + oldValue.a
+					: value
+				);
+			}, headers);
+		}
+	}
+
+	return headers;
+}
+
+
+// EXPECTORS
+
+function _Http_expectStringResponse(responseToResult)
+{
+	return {
+		$: 0,
+		b: 'text',
+		a: responseToResult
+	};
+}
+
+var _Http_mapExpect = F2(function(func, expect)
+{
+	return {
+		$: 0,
+		b: expect.b,
+		a: function(response) {
+			var convertedResponse = expect.a(response);
+			return A2($elm$core$Result$map, func, convertedResponse);
+		}
+	};
+});
+
+
+// BODY
+
+function _Http_multipart(parts)
+{
+
+
+	for (var formData = new FormData(); parts.b; parts = parts.b) // WHILE_CONS
+	{
+		var part = parts.a;
+		formData.append(part.a, part.b);
+	}
+
+	return $elm$http$Http$Internal$FormDataBody(formData);
+}
+var $elm$core$List$cons = _List_cons;
+var $elm$core$Elm$JsArray$foldr = _JsArray_foldr;
+var $elm$core$Array$foldr = F3(
+	function (func, baseCase, _v0) {
+		var tree = _v0.c;
+		var tail = _v0.d;
+		var helper = F2(
+			function (node, acc) {
+				if (node.$ === 'SubTree') {
+					var subTree = node.a;
+					return A3($elm$core$Elm$JsArray$foldr, helper, acc, subTree);
+				} else {
+					var values = node.a;
+					return A3($elm$core$Elm$JsArray$foldr, func, acc, values);
+				}
+			});
+		return A3(
+			$elm$core$Elm$JsArray$foldr,
+			helper,
+			A3($elm$core$Elm$JsArray$foldr, func, baseCase, tail),
+			tree);
+	});
+var $elm$core$Array$toList = function (array) {
+	return A3($elm$core$Array$foldr, $elm$core$List$cons, _List_Nil, array);
+};
+var $elm$core$Dict$foldr = F3(
+	function (func, acc, t) {
+		foldr:
+		while (true) {
+			if (t.$ === 'RBEmpty_elm_builtin') {
+				return acc;
+			} else {
+				var key = t.b;
+				var value = t.c;
+				var left = t.d;
+				var right = t.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldr, func, acc, right)),
+					$temp$t = left;
+				func = $temp$func;
+				acc = $temp$acc;
+				t = $temp$t;
+				continue foldr;
+			}
+		}
+	});
+var $elm$core$Dict$toList = function (dict) {
+	return A3(
+		$elm$core$Dict$foldr,
+		F3(
+			function (key, value, list) {
+				return A2(
+					$elm$core$List$cons,
+					_Utils_Tuple2(key, value),
+					list);
+			}),
+		_List_Nil,
+		dict);
+};
+var $elm$core$Dict$keys = function (dict) {
+	return A3(
+		$elm$core$Dict$foldr,
+		F3(
+			function (key, value, keyList) {
+				return A2($elm$core$List$cons, key, keyList);
+			}),
+		_List_Nil,
+		dict);
+};
+var $elm$core$Set$toList = function (_v0) {
+	var dict = _v0.a;
+	return $elm$core$Dict$keys(dict);
+};
+var $elm$core$Basics$EQ = {$: 'EQ'};
+var $elm$core$Basics$GT = {$: 'GT'};
+var $elm$core$Basics$LT = {$: 'LT'};
+var $elm$core$Result$Err = function (a) {
+	return {$: 'Err', a: a};
+};
+var $elm$json$Json$Decode$Failure = F2(
+	function (a, b) {
+		return {$: 'Failure', a: a, b: b};
+	});
+var $elm$json$Json$Decode$Field = F2(
+	function (a, b) {
+		return {$: 'Field', a: a, b: b};
+	});
+var $elm$json$Json$Decode$Index = F2(
+	function (a, b) {
+		return {$: 'Index', a: a, b: b};
+	});
+var $elm$core$Result$Ok = function (a) {
+	return {$: 'Ok', a: a};
+};
+var $elm$json$Json$Decode$OneOf = function (a) {
+	return {$: 'OneOf', a: a};
+};
+var $elm$core$Basics$False = {$: 'False'};
+var $elm$core$Basics$add = _Basics_add;
+var $elm$core$Maybe$Just = function (a) {
+	return {$: 'Just', a: a};
+};
+var $elm$core$Maybe$Nothing = {$: 'Nothing'};
+var $elm$core$String$all = _String_all;
+var $elm$core$Basics$and = _Basics_and;
+var $elm$core$Basics$append = _Utils_append;
+var $elm$json$Json$Encode$encode = _Json_encode;
+var $elm$core$String$fromInt = _String_fromNumber;
+var $elm$core$String$join = F2(
+	function (sep, chunks) {
+		return A2(
+			_String_join,
+			sep,
+			_List_toArray(chunks));
+	});
+var $elm$core$String$split = F2(
+	function (sep, string) {
+		return _List_fromArray(
+			A2(_String_split, sep, string));
+	});
+var $elm$json$Json$Decode$indent = function (str) {
+	return A2(
+		$elm$core$String$join,
+		'\n    ',
+		A2($elm$core$String$split, '\n', str));
+};
+var $elm$core$List$foldl = F3(
+	function (func, acc, list) {
+		foldl:
+		while (true) {
+			if (!list.b) {
+				return acc;
+			} else {
+				var x = list.a;
+				var xs = list.b;
+				var $temp$func = func,
+					$temp$acc = A2(func, x, acc),
+					$temp$list = xs;
+				func = $temp$func;
+				acc = $temp$acc;
+				list = $temp$list;
+				continue foldl;
+			}
+		}
+	});
+var $elm$core$List$length = function (xs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, i) {
+				return i + 1;
+			}),
+		0,
+		xs);
+};
+var $elm$core$List$map2 = _List_map2;
+var $elm$core$Basics$le = _Utils_le;
+var $elm$core$Basics$sub = _Basics_sub;
+var $elm$core$List$rangeHelp = F3(
+	function (lo, hi, list) {
+		rangeHelp:
+		while (true) {
+			if (_Utils_cmp(lo, hi) < 1) {
+				var $temp$lo = lo,
+					$temp$hi = hi - 1,
+					$temp$list = A2($elm$core$List$cons, hi, list);
+				lo = $temp$lo;
+				hi = $temp$hi;
+				list = $temp$list;
+				continue rangeHelp;
+			} else {
+				return list;
+			}
+		}
+	});
+var $elm$core$List$range = F2(
+	function (lo, hi) {
+		return A3($elm$core$List$rangeHelp, lo, hi, _List_Nil);
+	});
+var $elm$core$List$indexedMap = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$map2,
+			f,
+			A2(
+				$elm$core$List$range,
+				0,
+				$elm$core$List$length(xs) - 1),
+			xs);
+	});
+var $elm$core$Char$toCode = _Char_toCode;
+var $elm$core$Char$isLower = function (_char) {
+	var code = $elm$core$Char$toCode(_char);
+	return (97 <= code) && (code <= 122);
+};
+var $elm$core$Char$isUpper = function (_char) {
+	var code = $elm$core$Char$toCode(_char);
+	return (code <= 90) && (65 <= code);
+};
+var $elm$core$Basics$or = _Basics_or;
+var $elm$core$Char$isAlpha = function (_char) {
+	return $elm$core$Char$isLower(_char) || $elm$core$Char$isUpper(_char);
+};
+var $elm$core$Char$isDigit = function (_char) {
+	var code = $elm$core$Char$toCode(_char);
+	return (code <= 57) && (48 <= code);
+};
+var $elm$core$Char$isAlphaNum = function (_char) {
+	return $elm$core$Char$isLower(_char) || ($elm$core$Char$isUpper(_char) || $elm$core$Char$isDigit(_char));
+};
+var $elm$core$List$reverse = function (list) {
+	return A3($elm$core$List$foldl, $elm$core$List$cons, _List_Nil, list);
+};
+var $elm$core$String$uncons = _String_uncons;
+var $elm$json$Json$Decode$errorOneOf = F2(
+	function (i, error) {
+		return '\n\n(' + ($elm$core$String$fromInt(i + 1) + (') ' + $elm$json$Json$Decode$indent(
+			$elm$json$Json$Decode$errorToString(error))));
+	});
+var $elm$json$Json$Decode$errorToString = function (error) {
+	return A2($elm$json$Json$Decode$errorToStringHelp, error, _List_Nil);
+};
+var $elm$json$Json$Decode$errorToStringHelp = F2(
+	function (error, context) {
+		errorToStringHelp:
+		while (true) {
+			switch (error.$) {
+				case 'Field':
+					var f = error.a;
+					var err = error.b;
+					var isSimple = function () {
+						var _v1 = $elm$core$String$uncons(f);
+						if (_v1.$ === 'Nothing') {
+							return false;
+						} else {
+							var _v2 = _v1.a;
+							var _char = _v2.a;
+							var rest = _v2.b;
+							return $elm$core$Char$isAlpha(_char) && A2($elm$core$String$all, $elm$core$Char$isAlphaNum, rest);
+						}
+					}();
+					var fieldName = isSimple ? ('.' + f) : ('[\'' + (f + '\']'));
+					var $temp$error = err,
+						$temp$context = A2($elm$core$List$cons, fieldName, context);
+					error = $temp$error;
+					context = $temp$context;
+					continue errorToStringHelp;
+				case 'Index':
+					var i = error.a;
+					var err = error.b;
+					var indexName = '[' + ($elm$core$String$fromInt(i) + ']');
+					var $temp$error = err,
+						$temp$context = A2($elm$core$List$cons, indexName, context);
+					error = $temp$error;
+					context = $temp$context;
+					continue errorToStringHelp;
+				case 'OneOf':
+					var errors = error.a;
+					if (!errors.b) {
+						return 'Ran into a Json.Decode.oneOf with no possibilities' + function () {
+							if (!context.b) {
+								return '!';
+							} else {
+								return ' at json' + A2(
+									$elm$core$String$join,
+									'',
+									$elm$core$List$reverse(context));
+							}
+						}();
+					} else {
+						if (!errors.b.b) {
+							var err = errors.a;
+							var $temp$error = err,
+								$temp$context = context;
+							error = $temp$error;
+							context = $temp$context;
+							continue errorToStringHelp;
+						} else {
+							var starter = function () {
+								if (!context.b) {
+									return 'Json.Decode.oneOf';
+								} else {
+									return 'The Json.Decode.oneOf at json' + A2(
+										$elm$core$String$join,
+										'',
+										$elm$core$List$reverse(context));
+								}
+							}();
+							var introduction = starter + (' failed in the following ' + ($elm$core$String$fromInt(
+								$elm$core$List$length(errors)) + ' ways:'));
+							return A2(
+								$elm$core$String$join,
+								'\n\n',
+								A2(
+									$elm$core$List$cons,
+									introduction,
+									A2($elm$core$List$indexedMap, $elm$json$Json$Decode$errorOneOf, errors)));
+						}
+					}
+				default:
+					var msg = error.a;
+					var json = error.b;
+					var introduction = function () {
+						if (!context.b) {
+							return 'Problem with the given value:\n\n';
+						} else {
+							return 'Problem with the value at json' + (A2(
+								$elm$core$String$join,
+								'',
+								$elm$core$List$reverse(context)) + ':\n\n    ');
+						}
+					}();
+					return introduction + ($elm$json$Json$Decode$indent(
+						A2($elm$json$Json$Encode$encode, 4, json)) + ('\n\n' + msg));
+			}
+		}
+	});
+var $elm$core$Array$branchFactor = 32;
+var $elm$core$Array$Array_elm_builtin = F4(
+	function (a, b, c, d) {
+		return {$: 'Array_elm_builtin', a: a, b: b, c: c, d: d};
+	});
+var $elm$core$Elm$JsArray$empty = _JsArray_empty;
+var $elm$core$Basics$ceiling = _Basics_ceiling;
+var $elm$core$Basics$fdiv = _Basics_fdiv;
+var $elm$core$Basics$logBase = F2(
+	function (base, number) {
+		return _Basics_log(number) / _Basics_log(base);
+	});
+var $elm$core$Basics$toFloat = _Basics_toFloat;
+var $elm$core$Array$shiftStep = $elm$core$Basics$ceiling(
+	A2($elm$core$Basics$logBase, 2, $elm$core$Array$branchFactor));
+var $elm$core$Array$empty = A4($elm$core$Array$Array_elm_builtin, 0, $elm$core$Array$shiftStep, $elm$core$Elm$JsArray$empty, $elm$core$Elm$JsArray$empty);
+var $elm$core$Elm$JsArray$initialize = _JsArray_initialize;
+var $elm$core$Array$Leaf = function (a) {
+	return {$: 'Leaf', a: a};
+};
+var $elm$core$Basics$apL = F2(
+	function (f, x) {
+		return f(x);
+	});
+var $elm$core$Basics$apR = F2(
+	function (x, f) {
+		return f(x);
+	});
+var $elm$core$Basics$eq = _Utils_equal;
+var $elm$core$Basics$floor = _Basics_floor;
+var $elm$core$Elm$JsArray$length = _JsArray_length;
+var $elm$core$Basics$gt = _Utils_gt;
+var $elm$core$Basics$max = F2(
+	function (x, y) {
+		return (_Utils_cmp(x, y) > 0) ? x : y;
+	});
+var $elm$core$Basics$mul = _Basics_mul;
+var $elm$core$Array$SubTree = function (a) {
+	return {$: 'SubTree', a: a};
+};
+var $elm$core$Elm$JsArray$initializeFromList = _JsArray_initializeFromList;
+var $elm$core$Array$compressNodes = F2(
+	function (nodes, acc) {
+		compressNodes:
+		while (true) {
+			var _v0 = A2($elm$core$Elm$JsArray$initializeFromList, $elm$core$Array$branchFactor, nodes);
+			var node = _v0.a;
+			var remainingNodes = _v0.b;
+			var newAcc = A2(
+				$elm$core$List$cons,
+				$elm$core$Array$SubTree(node),
+				acc);
+			if (!remainingNodes.b) {
+				return $elm$core$List$reverse(newAcc);
+			} else {
+				var $temp$nodes = remainingNodes,
+					$temp$acc = newAcc;
+				nodes = $temp$nodes;
+				acc = $temp$acc;
+				continue compressNodes;
+			}
+		}
+	});
+var $elm$core$Tuple$first = function (_v0) {
+	var x = _v0.a;
+	return x;
+};
+var $elm$core$Array$treeFromBuilder = F2(
+	function (nodeList, nodeListSize) {
+		treeFromBuilder:
+		while (true) {
+			var newNodeSize = $elm$core$Basics$ceiling(nodeListSize / $elm$core$Array$branchFactor);
+			if (newNodeSize === 1) {
+				return A2($elm$core$Elm$JsArray$initializeFromList, $elm$core$Array$branchFactor, nodeList).a;
+			} else {
+				var $temp$nodeList = A2($elm$core$Array$compressNodes, nodeList, _List_Nil),
+					$temp$nodeListSize = newNodeSize;
+				nodeList = $temp$nodeList;
+				nodeListSize = $temp$nodeListSize;
+				continue treeFromBuilder;
+			}
+		}
+	});
+var $elm$core$Array$builderToArray = F2(
+	function (reverseNodeList, builder) {
+		if (!builder.nodeListSize) {
+			return A4(
+				$elm$core$Array$Array_elm_builtin,
+				$elm$core$Elm$JsArray$length(builder.tail),
+				$elm$core$Array$shiftStep,
+				$elm$core$Elm$JsArray$empty,
+				builder.tail);
+		} else {
+			var treeLen = builder.nodeListSize * $elm$core$Array$branchFactor;
+			var depth = $elm$core$Basics$floor(
+				A2($elm$core$Basics$logBase, $elm$core$Array$branchFactor, treeLen - 1));
+			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.nodeList) : builder.nodeList;
+			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.nodeListSize);
+			return A4(
+				$elm$core$Array$Array_elm_builtin,
+				$elm$core$Elm$JsArray$length(builder.tail) + treeLen,
+				A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep),
+				tree,
+				builder.tail);
+		}
+	});
+var $elm$core$Basics$idiv = _Basics_idiv;
+var $elm$core$Basics$lt = _Utils_lt;
+var $elm$core$Array$initializeHelp = F5(
+	function (fn, fromIndex, len, nodeList, tail) {
+		initializeHelp:
+		while (true) {
+			if (fromIndex < 0) {
+				return A2(
+					$elm$core$Array$builderToArray,
+					false,
+					{nodeList: nodeList, nodeListSize: (len / $elm$core$Array$branchFactor) | 0, tail: tail});
+			} else {
+				var leaf = $elm$core$Array$Leaf(
+					A3($elm$core$Elm$JsArray$initialize, $elm$core$Array$branchFactor, fromIndex, fn));
+				var $temp$fn = fn,
+					$temp$fromIndex = fromIndex - $elm$core$Array$branchFactor,
+					$temp$len = len,
+					$temp$nodeList = A2($elm$core$List$cons, leaf, nodeList),
+					$temp$tail = tail;
+				fn = $temp$fn;
+				fromIndex = $temp$fromIndex;
+				len = $temp$len;
+				nodeList = $temp$nodeList;
+				tail = $temp$tail;
+				continue initializeHelp;
+			}
+		}
+	});
+var $elm$core$Basics$remainderBy = _Basics_remainderBy;
+var $elm$core$Array$initialize = F2(
+	function (len, fn) {
+		if (len <= 0) {
+			return $elm$core$Array$empty;
+		} else {
+			var tailLen = len % $elm$core$Array$branchFactor;
+			var tail = A3($elm$core$Elm$JsArray$initialize, tailLen, len - tailLen, fn);
+			var initialFromIndex = (len - tailLen) - $elm$core$Array$branchFactor;
+			return A5($elm$core$Array$initializeHelp, fn, initialFromIndex, len, _List_Nil, tail);
+		}
+	});
+var $elm$core$Basics$True = {$: 'True'};
+var $elm$core$Result$isOk = function (result) {
+	if (result.$ === 'Ok') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $elm$json$Json$Decode$andThen = _Json_andThen;
+var $elm$json$Json$Decode$bool = _Json_decodeBool;
+var $elm$json$Json$Decode$map = _Json_map1;
+var $elm$json$Json$Decode$map2 = _Json_map2;
+var $elm$json$Json$Decode$succeed = _Json_succeed;
+var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
+	switch (handler.$) {
+		case 'Normal':
+			return 0;
+		case 'MayStopPropagation':
+			return 1;
+		case 'MayPreventDefault':
+			return 2;
+		default:
+			return 3;
+	}
+};
+var $elm$browser$Browser$External = function (a) {
+	return {$: 'External', a: a};
+};
+var $elm$browser$Browser$Internal = function (a) {
+	return {$: 'Internal', a: a};
+};
+var $elm$core$Basics$identity = function (x) {
+	return x;
+};
+var $elm$browser$Browser$Dom$NotFound = function (a) {
+	return {$: 'NotFound', a: a};
+};
+var $elm$url$Url$Http = {$: 'Http'};
+var $elm$url$Url$Https = {$: 'Https'};
+var $elm$url$Url$Url = F6(
+	function (protocol, host, port_, path, query, fragment) {
+		return {fragment: fragment, host: host, path: path, port_: port_, protocol: protocol, query: query};
+	});
+var $elm$core$String$contains = _String_contains;
+var $elm$core$String$length = _String_length;
+var $elm$core$String$slice = _String_slice;
+var $elm$core$String$dropLeft = F2(
+	function (n, string) {
+		return (n < 1) ? string : A3(
+			$elm$core$String$slice,
+			n,
+			$elm$core$String$length(string),
+			string);
+	});
+var $elm$core$String$indexes = _String_indexes;
+var $elm$core$String$isEmpty = function (string) {
+	return string === '';
+};
+var $elm$core$String$left = F2(
+	function (n, string) {
+		return (n < 1) ? '' : A3($elm$core$String$slice, 0, n, string);
+	});
+var $elm$core$String$toInt = _String_toInt;
+var $elm$url$Url$chompBeforePath = F5(
+	function (protocol, path, params, frag, str) {
+		if ($elm$core$String$isEmpty(str) || A2($elm$core$String$contains, '@', str)) {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var _v0 = A2($elm$core$String$indexes, ':', str);
+			if (!_v0.b) {
+				return $elm$core$Maybe$Just(
+					A6($elm$url$Url$Url, protocol, str, $elm$core$Maybe$Nothing, path, params, frag));
+			} else {
+				if (!_v0.b.b) {
+					var i = _v0.a;
+					var _v1 = $elm$core$String$toInt(
+						A2($elm$core$String$dropLeft, i + 1, str));
+					if (_v1.$ === 'Nothing') {
+						return $elm$core$Maybe$Nothing;
+					} else {
+						var port_ = _v1;
+						return $elm$core$Maybe$Just(
+							A6(
+								$elm$url$Url$Url,
+								protocol,
+								A2($elm$core$String$left, i, str),
+								port_,
+								path,
+								params,
+								frag));
+					}
+				} else {
+					return $elm$core$Maybe$Nothing;
+				}
+			}
+		}
+	});
+var $elm$url$Url$chompBeforeQuery = F4(
+	function (protocol, params, frag, str) {
+		if ($elm$core$String$isEmpty(str)) {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var _v0 = A2($elm$core$String$indexes, '/', str);
+			if (!_v0.b) {
+				return A5($elm$url$Url$chompBeforePath, protocol, '/', params, frag, str);
+			} else {
+				var i = _v0.a;
+				return A5(
+					$elm$url$Url$chompBeforePath,
+					protocol,
+					A2($elm$core$String$dropLeft, i, str),
+					params,
+					frag,
+					A2($elm$core$String$left, i, str));
+			}
+		}
+	});
+var $elm$url$Url$chompBeforeFragment = F3(
+	function (protocol, frag, str) {
+		if ($elm$core$String$isEmpty(str)) {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var _v0 = A2($elm$core$String$indexes, '?', str);
+			if (!_v0.b) {
+				return A4($elm$url$Url$chompBeforeQuery, protocol, $elm$core$Maybe$Nothing, frag, str);
+			} else {
+				var i = _v0.a;
+				return A4(
+					$elm$url$Url$chompBeforeQuery,
+					protocol,
+					$elm$core$Maybe$Just(
+						A2($elm$core$String$dropLeft, i + 1, str)),
+					frag,
+					A2($elm$core$String$left, i, str));
+			}
+		}
+	});
+var $elm$url$Url$chompAfterProtocol = F2(
+	function (protocol, str) {
+		if ($elm$core$String$isEmpty(str)) {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var _v0 = A2($elm$core$String$indexes, '#', str);
+			if (!_v0.b) {
+				return A3($elm$url$Url$chompBeforeFragment, protocol, $elm$core$Maybe$Nothing, str);
+			} else {
+				var i = _v0.a;
+				return A3(
+					$elm$url$Url$chompBeforeFragment,
+					protocol,
+					$elm$core$Maybe$Just(
+						A2($elm$core$String$dropLeft, i + 1, str)),
+					A2($elm$core$String$left, i, str));
+			}
+		}
+	});
+var $elm$core$String$startsWith = _String_startsWith;
+var $elm$url$Url$fromString = function (str) {
+	return A2($elm$core$String$startsWith, 'http://', str) ? A2(
+		$elm$url$Url$chompAfterProtocol,
+		$elm$url$Url$Http,
+		A2($elm$core$String$dropLeft, 7, str)) : (A2($elm$core$String$startsWith, 'https://', str) ? A2(
+		$elm$url$Url$chompAfterProtocol,
+		$elm$url$Url$Https,
+		A2($elm$core$String$dropLeft, 8, str)) : $elm$core$Maybe$Nothing);
+};
+var $elm$core$Basics$never = function (_v0) {
+	never:
+	while (true) {
+		var nvr = _v0.a;
+		var $temp$_v0 = nvr;
+		_v0 = $temp$_v0;
+		continue never;
+	}
+};
+var $elm$core$Task$Perform = function (a) {
+	return {$: 'Perform', a: a};
+};
+var $elm$core$Task$succeed = _Scheduler_succeed;
+var $elm$core$Task$init = $elm$core$Task$succeed(_Utils_Tuple0);
+var $elm$core$List$foldrHelper = F4(
+	function (fn, acc, ctr, ls) {
+		if (!ls.b) {
+			return acc;
+		} else {
+			var a = ls.a;
+			var r1 = ls.b;
+			if (!r1.b) {
+				return A2(fn, a, acc);
+			} else {
+				var b = r1.a;
+				var r2 = r1.b;
+				if (!r2.b) {
+					return A2(
+						fn,
+						a,
+						A2(fn, b, acc));
+				} else {
+					var c = r2.a;
+					var r3 = r2.b;
+					if (!r3.b) {
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(fn, c, acc)));
+					} else {
+						var d = r3.a;
+						var r4 = r3.b;
+						var res = (ctr > 500) ? A3(
+							$elm$core$List$foldl,
+							fn,
+							acc,
+							$elm$core$List$reverse(r4)) : A4($elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(
+									fn,
+									c,
+									A2(fn, d, res))));
+					}
+				}
+			}
+		}
+	});
+var $elm$core$List$foldr = F3(
+	function (fn, acc, ls) {
+		return A4($elm$core$List$foldrHelper, fn, acc, 0, ls);
+	});
+var $elm$core$List$map = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, acc) {
+					return A2(
+						$elm$core$List$cons,
+						f(x),
+						acc);
+				}),
+			_List_Nil,
+			xs);
+	});
+var $elm$core$Task$andThen = _Scheduler_andThen;
+var $elm$core$Task$map = F2(
+	function (func, taskA) {
+		return A2(
+			$elm$core$Task$andThen,
+			function (a) {
+				return $elm$core$Task$succeed(
+					func(a));
+			},
+			taskA);
+	});
+var $elm$core$Task$map2 = F3(
+	function (func, taskA, taskB) {
+		return A2(
+			$elm$core$Task$andThen,
+			function (a) {
+				return A2(
+					$elm$core$Task$andThen,
+					function (b) {
+						return $elm$core$Task$succeed(
+							A2(func, a, b));
+					},
+					taskB);
+			},
+			taskA);
+	});
+var $elm$core$Task$sequence = function (tasks) {
+	return A3(
+		$elm$core$List$foldr,
+		$elm$core$Task$map2($elm$core$List$cons),
+		$elm$core$Task$succeed(_List_Nil),
+		tasks);
+};
+var $elm$core$Platform$sendToApp = _Platform_sendToApp;
+var $elm$core$Task$spawnCmd = F2(
+	function (router, _v0) {
+		var task = _v0.a;
+		return _Scheduler_spawn(
+			A2(
+				$elm$core$Task$andThen,
+				$elm$core$Platform$sendToApp(router),
+				task));
+	});
+var $elm$core$Task$onEffects = F3(
+	function (router, commands, state) {
+		return A2(
+			$elm$core$Task$map,
+			function (_v0) {
+				return _Utils_Tuple0;
+			},
+			$elm$core$Task$sequence(
+				A2(
+					$elm$core$List$map,
+					$elm$core$Task$spawnCmd(router),
+					commands)));
+	});
+var $elm$core$Task$onSelfMsg = F3(
+	function (_v0, _v1, _v2) {
+		return $elm$core$Task$succeed(_Utils_Tuple0);
+	});
+var $elm$core$Task$cmdMap = F2(
+	function (tagger, _v0) {
+		var task = _v0.a;
+		return $elm$core$Task$Perform(
+			A2($elm$core$Task$map, tagger, task));
+	});
+_Platform_effectManagers['Task'] = _Platform_createManager($elm$core$Task$init, $elm$core$Task$onEffects, $elm$core$Task$onSelfMsg, $elm$core$Task$cmdMap);
+var $elm$core$Task$command = _Platform_leaf('Task');
+var $elm$core$Task$perform = F2(
+	function (toMessage, task) {
+		return $elm$core$Task$command(
+			$elm$core$Task$Perform(
+				A2($elm$core$Task$map, toMessage, task)));
+	});
+var $elm$browser$Browser$element = _Browser_element;
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $author$project$Maunaloa$Options$Types$TickersFetched = function (a) {
+	return {$: 'TickersFetched', a: a};
+};
+var $elm$http$Http$Internal$EmptyBody = {$: 'EmptyBody'};
+var $elm$http$Http$emptyBody = $elm$http$Http$Internal$EmptyBody;
+var $elm$json$Json$Decode$decodeString = _Json_runOnString;
+var $elm$http$Http$BadPayload = F2(
+	function (a, b) {
+		return {$: 'BadPayload', a: a, b: b};
+	});
+var $elm$http$Http$BadStatus = function (a) {
+	return {$: 'BadStatus', a: a};
+};
+var $elm$http$Http$BadUrl = function (a) {
+	return {$: 'BadUrl', a: a};
+};
+var $elm$http$Http$Internal$FormDataBody = function (a) {
+	return {$: 'FormDataBody', a: a};
+};
+var $elm$http$Http$NetworkError = {$: 'NetworkError'};
+var $elm$http$Http$Timeout = {$: 'Timeout'};
+var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
+var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
+var $elm$core$Maybe$isJust = function (maybe) {
+	if (maybe.$ === 'Just') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $elm$http$Http$Internal$isStringBody = function (body) {
+	if (body.$ === 'StringBody') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $elm$core$Result$map = F2(
+	function (func, ra) {
+		if (ra.$ === 'Ok') {
+			var a = ra.a;
+			return $elm$core$Result$Ok(
+				func(a));
+		} else {
+			var e = ra.a;
+			return $elm$core$Result$Err(e);
+		}
+	});
+var $elm$core$Basics$compare = _Utils_compare;
+var $elm$core$Dict$get = F2(
+	function (targetKey, dict) {
+		get:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var _v1 = A2($elm$core$Basics$compare, targetKey, key);
+				switch (_v1.$) {
+					case 'LT':
+						var $temp$targetKey = targetKey,
+							$temp$dict = left;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+					case 'EQ':
+						return $elm$core$Maybe$Just(value);
+					default:
+						var $temp$targetKey = targetKey,
+							$temp$dict = right;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+				}
+			}
+		}
+	});
+var $elm$core$Dict$Black = {$: 'Black'};
+var $elm$core$Dict$RBNode_elm_builtin = F5(
+	function (a, b, c, d, e) {
+		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
+	});
+var $elm$core$Dict$Red = {$: 'Red'};
+var $elm$core$Dict$balance = F5(
+	function (color, key, value, left, right) {
+		if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Red')) {
+			var _v1 = right.a;
+			var rK = right.b;
+			var rV = right.c;
+			var rLeft = right.d;
+			var rRight = right.e;
+			if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
+				var _v3 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var lLeft = left.d;
+				var lRight = left.e;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Red,
+					key,
+					value,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					color,
+					rK,
+					rV,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, left, rLeft),
+					rRight);
+			}
+		} else {
+			if ((((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) && (left.d.$ === 'RBNode_elm_builtin')) && (left.d.a.$ === 'Red')) {
+				var _v5 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var _v6 = left.d;
+				var _v7 = _v6.a;
+				var llK = _v6.b;
+				var llV = _v6.c;
+				var llLeft = _v6.d;
+				var llRight = _v6.e;
+				var lRight = left.e;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Red,
+					lK,
+					lV,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, key, value, lRight, right));
+			} else {
+				return A5($elm$core$Dict$RBNode_elm_builtin, color, key, value, left, right);
+			}
+		}
+	});
+var $elm$core$Dict$insertHelp = F3(
+	function (key, value, dict) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
+		} else {
+			var nColor = dict.a;
+			var nKey = dict.b;
+			var nValue = dict.c;
+			var nLeft = dict.d;
+			var nRight = dict.e;
+			var _v1 = A2($elm$core$Basics$compare, key, nKey);
+			switch (_v1.$) {
+				case 'LT':
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						A3($elm$core$Dict$insertHelp, key, value, nLeft),
+						nRight);
+				case 'EQ':
+					return A5($elm$core$Dict$RBNode_elm_builtin, nColor, nKey, value, nLeft, nRight);
+				default:
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						nLeft,
+						A3($elm$core$Dict$insertHelp, key, value, nRight));
+			}
+		}
+	});
+var $elm$core$Dict$insert = F3(
+	function (key, value, dict) {
+		var _v0 = A3($elm$core$Dict$insertHelp, key, value, dict);
+		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
+			var _v1 = _v0.a;
+			var k = _v0.b;
+			var v = _v0.c;
+			var l = _v0.d;
+			var r = _v0.e;
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
+		} else {
+			var x = _v0;
+			return x;
+		}
+	});
+var $elm$core$Dict$getMin = function (dict) {
+	getMin:
+	while (true) {
+		if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
+			var left = dict.d;
+			var $temp$dict = left;
+			dict = $temp$dict;
+			continue getMin;
+		} else {
+			return dict;
+		}
+	}
+};
+var $elm$core$Dict$moveRedLeft = function (dict) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.e.d.$ === 'RBNode_elm_builtin') && (dict.e.d.a.$ === 'Red')) {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v1 = dict.d;
+			var lClr = _v1.a;
+			var lK = _v1.b;
+			var lV = _v1.c;
+			var lLeft = _v1.d;
+			var lRight = _v1.e;
+			var _v2 = dict.e;
+			var rClr = _v2.a;
+			var rK = _v2.b;
+			var rV = _v2.c;
+			var rLeft = _v2.d;
+			var _v3 = rLeft.a;
+			var rlK = rLeft.b;
+			var rlV = rLeft.c;
+			var rlL = rLeft.d;
+			var rlR = rLeft.e;
+			var rRight = _v2.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				$elm$core$Dict$Red,
+				rlK,
+				rlV,
+				A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					rlL),
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rlR, rRight));
+		} else {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v4 = dict.d;
+			var lClr = _v4.a;
+			var lK = _v4.b;
+			var lV = _v4.c;
+			var lLeft = _v4.d;
+			var lRight = _v4.e;
+			var _v5 = dict.e;
+			var rClr = _v5.a;
+			var rK = _v5.b;
+			var rV = _v5.c;
+			var rLeft = _v5.d;
+			var rRight = _v5.e;
+			if (clr.$ === 'Black') {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			}
+		}
+	} else {
+		return dict;
+	}
+};
+var $elm$core$Dict$moveRedRight = function (dict) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.d.d.$ === 'RBNode_elm_builtin') && (dict.d.d.a.$ === 'Red')) {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v1 = dict.d;
+			var lClr = _v1.a;
+			var lK = _v1.b;
+			var lV = _v1.c;
+			var _v2 = _v1.d;
+			var _v3 = _v2.a;
+			var llK = _v2.b;
+			var llV = _v2.c;
+			var llLeft = _v2.d;
+			var llRight = _v2.e;
+			var lRight = _v1.e;
+			var _v4 = dict.e;
+			var rClr = _v4.a;
+			var rK = _v4.b;
+			var rV = _v4.c;
+			var rLeft = _v4.d;
+			var rRight = _v4.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				$elm$core$Dict$Red,
+				lK,
+				lV,
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
+				A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					lRight,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight)));
+		} else {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v5 = dict.d;
+			var lClr = _v5.a;
+			var lK = _v5.b;
+			var lV = _v5.c;
+			var lLeft = _v5.d;
+			var lRight = _v5.e;
+			var _v6 = dict.e;
+			var rClr = _v6.a;
+			var rK = _v6.b;
+			var rV = _v6.c;
+			var rLeft = _v6.d;
+			var rRight = _v6.e;
+			if (clr.$ === 'Black') {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			}
+		}
+	} else {
+		return dict;
+	}
+};
+var $elm$core$Dict$removeHelpPrepEQGT = F7(
+	function (targetKey, dict, color, key, value, left, right) {
+		if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
+			var _v1 = left.a;
+			var lK = left.b;
+			var lV = left.c;
+			var lLeft = left.d;
+			var lRight = left.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				color,
+				lK,
+				lV,
+				lLeft,
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, lRight, right));
+		} else {
+			_v2$2:
+			while (true) {
+				if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Black')) {
+					if (right.d.$ === 'RBNode_elm_builtin') {
+						if (right.d.a.$ === 'Black') {
+							var _v3 = right.a;
+							var _v4 = right.d;
+							var _v5 = _v4.a;
+							return $elm$core$Dict$moveRedRight(dict);
+						} else {
+							break _v2$2;
+						}
+					} else {
+						var _v6 = right.a;
+						var _v7 = right.d;
+						return $elm$core$Dict$moveRedRight(dict);
+					}
+				} else {
+					break _v2$2;
+				}
+			}
+			return dict;
+		}
+	});
+var $elm$core$Dict$removeMin = function (dict) {
+	if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
+		var color = dict.a;
+		var key = dict.b;
+		var value = dict.c;
+		var left = dict.d;
+		var lColor = left.a;
+		var lLeft = left.d;
+		var right = dict.e;
+		if (lColor.$ === 'Black') {
+			if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
+				var _v3 = lLeft.a;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					color,
+					key,
+					value,
+					$elm$core$Dict$removeMin(left),
+					right);
+			} else {
+				var _v4 = $elm$core$Dict$moveRedLeft(dict);
+				if (_v4.$ === 'RBNode_elm_builtin') {
+					var nColor = _v4.a;
+					var nKey = _v4.b;
+					var nValue = _v4.c;
+					var nLeft = _v4.d;
+					var nRight = _v4.e;
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						$elm$core$Dict$removeMin(nLeft),
+						nRight);
+				} else {
+					return $elm$core$Dict$RBEmpty_elm_builtin;
+				}
+			}
+		} else {
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				color,
+				key,
+				value,
+				$elm$core$Dict$removeMin(left),
+				right);
+		}
+	} else {
+		return $elm$core$Dict$RBEmpty_elm_builtin;
+	}
+};
+var $elm$core$Dict$removeHelp = F2(
+	function (targetKey, dict) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return $elm$core$Dict$RBEmpty_elm_builtin;
+		} else {
+			var color = dict.a;
+			var key = dict.b;
+			var value = dict.c;
+			var left = dict.d;
+			var right = dict.e;
+			if (_Utils_cmp(targetKey, key) < 0) {
+				if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Black')) {
+					var _v4 = left.a;
+					var lLeft = left.d;
+					if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
+						var _v6 = lLeft.a;
+						return A5(
+							$elm$core$Dict$RBNode_elm_builtin,
+							color,
+							key,
+							value,
+							A2($elm$core$Dict$removeHelp, targetKey, left),
+							right);
+					} else {
+						var _v7 = $elm$core$Dict$moveRedLeft(dict);
+						if (_v7.$ === 'RBNode_elm_builtin') {
+							var nColor = _v7.a;
+							var nKey = _v7.b;
+							var nValue = _v7.c;
+							var nLeft = _v7.d;
+							var nRight = _v7.e;
+							return A5(
+								$elm$core$Dict$balance,
+								nColor,
+								nKey,
+								nValue,
+								A2($elm$core$Dict$removeHelp, targetKey, nLeft),
+								nRight);
+						} else {
+							return $elm$core$Dict$RBEmpty_elm_builtin;
+						}
+					}
+				} else {
+					return A5(
+						$elm$core$Dict$RBNode_elm_builtin,
+						color,
+						key,
+						value,
+						A2($elm$core$Dict$removeHelp, targetKey, left),
+						right);
+				}
+			} else {
+				return A2(
+					$elm$core$Dict$removeHelpEQGT,
+					targetKey,
+					A7($elm$core$Dict$removeHelpPrepEQGT, targetKey, dict, color, key, value, left, right));
+			}
+		}
+	});
+var $elm$core$Dict$removeHelpEQGT = F2(
+	function (targetKey, dict) {
+		if (dict.$ === 'RBNode_elm_builtin') {
+			var color = dict.a;
+			var key = dict.b;
+			var value = dict.c;
+			var left = dict.d;
+			var right = dict.e;
+			if (_Utils_eq(targetKey, key)) {
+				var _v1 = $elm$core$Dict$getMin(right);
+				if (_v1.$ === 'RBNode_elm_builtin') {
+					var minKey = _v1.b;
+					var minValue = _v1.c;
+					return A5(
+						$elm$core$Dict$balance,
+						color,
+						minKey,
+						minValue,
+						left,
+						$elm$core$Dict$removeMin(right));
+				} else {
+					return $elm$core$Dict$RBEmpty_elm_builtin;
+				}
+			} else {
+				return A5(
+					$elm$core$Dict$balance,
+					color,
+					key,
+					value,
+					left,
+					A2($elm$core$Dict$removeHelp, targetKey, right));
+			}
+		} else {
+			return $elm$core$Dict$RBEmpty_elm_builtin;
+		}
+	});
+var $elm$core$Dict$remove = F2(
+	function (key, dict) {
+		var _v0 = A2($elm$core$Dict$removeHelp, key, dict);
+		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
+			var _v1 = _v0.a;
+			var k = _v0.b;
+			var v = _v0.c;
+			var l = _v0.d;
+			var r = _v0.e;
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
+		} else {
+			var x = _v0;
+			return x;
+		}
+	});
+var $elm$core$Dict$update = F3(
+	function (targetKey, alter, dictionary) {
+		var _v0 = alter(
+			A2($elm$core$Dict$get, targetKey, dictionary));
+		if (_v0.$ === 'Just') {
+			var value = _v0.a;
+			return A3($elm$core$Dict$insert, targetKey, value, dictionary);
+		} else {
+			return A2($elm$core$Dict$remove, targetKey, dictionary);
+		}
+	});
+var $elm$http$Http$expectStringResponse = _Http_expectStringResponse;
+var $elm$http$Http$expectJson = function (decoder) {
+	return $elm$http$Http$expectStringResponse(
+		function (response) {
+			var _v0 = A2($elm$json$Json$Decode$decodeString, decoder, response.body);
+			if (_v0.$ === 'Err') {
+				var decodeError = _v0.a;
+				return $elm$core$Result$Err(
+					$elm$json$Json$Decode$errorToString(decodeError));
+			} else {
+				var value = _v0.a;
+				return $elm$core$Result$Ok(value);
+			}
+		});
+};
+var $elm$http$Http$Internal$Request = function (a) {
+	return {$: 'Request', a: a};
+};
+var $elm$http$Http$request = $elm$http$Http$Internal$Request;
+var $elm$http$Http$get = F2(
+	function (url, decoder) {
+		return $elm$http$Http$request(
+			{
+				body: $elm$http$Http$emptyBody,
+				expect: $elm$http$Http$expectJson(decoder),
+				headers: _List_Nil,
+				method: 'GET',
+				timeout: $elm$core$Maybe$Nothing,
+				url: url,
+				withCredentials: false
+			});
+	});
+var $author$project$Maunaloa$Options$Commands$mainUrl = '/maunaloa';
+var $elm$json$Json$Decode$list = _Json_decodeList;
+var $author$project$Common$Select$SelectItem = F2(
+	function (val, txt) {
+		return {txt: txt, val: val};
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $author$project$Common$Decoders$selectItemDecoder = A3(
+	$elm$json$Json$Decode$map2,
+	$author$project$Common$Select$SelectItem,
+	A2($elm$json$Json$Decode$field, 'v', $elm$json$Json$Decode$string),
+	A2($elm$json$Json$Decode$field, 't', $elm$json$Json$Decode$string));
+var $author$project$Common$Decoders$selectItemListDecoder = $elm$json$Json$Decode$list($author$project$Common$Decoders$selectItemDecoder);
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$core$Task$onError = _Scheduler_onError;
+var $elm$core$Task$attempt = F2(
+	function (resultToMessage, task) {
+		return $elm$core$Task$command(
+			$elm$core$Task$Perform(
+				A2(
+					$elm$core$Task$onError,
+					A2(
+						$elm$core$Basics$composeL,
+						A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+						$elm$core$Result$Err),
+					A2(
+						$elm$core$Task$andThen,
+						A2(
+							$elm$core$Basics$composeL,
+							A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+							$elm$core$Result$Ok),
+						task))));
+	});
+var $elm$http$Http$toTask = function (_v0) {
+	var request_ = _v0.a;
+	return A2(_Http_toTask, request_, $elm$core$Maybe$Nothing);
+};
+var $elm$http$Http$send = F2(
+	function (resultToMessage, request_) {
+		return A2(
+			$elm$core$Task$attempt,
+			resultToMessage,
+			$elm$http$Http$toTask(request_));
+	});
+var $author$project$Maunaloa$Options$Commands$fetchTickers = function () {
+	var url = $author$project$Maunaloa$Options$Commands$mainUrl + '/stockprice/tickers';
+	return A2(
+		$elm$http$Http$send,
+		$author$project$Maunaloa$Options$Types$TickersFetched,
+		A2($elm$http$Http$get, url, $author$project$Common$Decoders$selectItemListDecoder));
+}();
+var $author$project$Common$ModalDialog$DialogHidden = {$: 'DialogHidden'};
+var $NoRedInk$elm_sortable_table$Table$State = F2(
+	function (a, b) {
+		return {$: 'State', a: a, b: b};
+	});
+var $NoRedInk$elm_sortable_table$Table$initialSort = function (header) {
+	return A2($NoRedInk$elm_sortable_table$Table$State, header, false);
+};
+var $author$project$Maunaloa$Options$Main$initModel = function (flags) {
+	return {
+		ask: '0.0',
+		bid: '0.0',
+		dlgAlert: $author$project$Common$ModalDialog$DialogHidden,
+		dlgPurchase: $author$project$Common$ModalDialog$DialogHidden,
+		flags: flags,
+		isOnlyIvGtZero: true,
+		isRealTimePurchase: true,
+		options: _List_Nil,
+		risc: '0.0',
+		selectedPurchase: $elm$core$Maybe$Nothing,
+		selectedTicker: $elm$core$Maybe$Nothing,
+		spot: '0.0',
+		stock: $elm$core$Maybe$Nothing,
+		tableState: $NoRedInk$elm_sortable_table$Table$initialSort('Ticker'),
+		tickers: _List_Nil,
+		volume: '10'
+	};
+};
+var $author$project$Maunaloa$Options$Main$init = function (flags) {
+	return _Utils_Tuple2(
+		$author$project$Maunaloa$Options$Main$initModel(flags),
+		$author$project$Maunaloa$Options$Commands$fetchTickers);
+};
+var $elm$core$Platform$Sub$batch = _Platform_batch;
+var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$Common$ModalDialog$DialogVisibleAlert = F3(
+	function (a, b, c) {
+		return {$: 'DialogVisibleAlert', a: a, b: b, c: c};
+	});
+var $author$project$Common$ModalDialog$Error = {$: 'Error'};
+var $author$project$Common$Html$httpErr2str = function (err) {
+	switch (err.$) {
+		case 'Timeout':
+			return 'Timeout';
+		case 'NetworkError':
+			return 'NetworkError';
+		case 'BadUrl':
+			var s = err.a;
+			return 'BadUrl: ' + s;
+		case 'BadStatus':
+			var r = err.a;
+			return 'BadStatus: ';
+		default:
+			var s = err.a;
+			var r = err.b;
+			return 'BadPayload: ' + s;
+	}
+};
+var $author$project$Common$ModalDialog$errorAlert = F4(
+	function (title, errMsg, httpErr, model) {
+		var errStr = _Utils_ap(
+			errMsg,
+			$author$project$Common$Html$httpErr2str(httpErr));
+		return _Utils_update(
+			model,
+			{
+				dlgAlert: A3($author$project$Common$ModalDialog$DialogVisibleAlert, title, errStr, $author$project$Common$ModalDialog$Error)
+			});
+	});
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$core$Basics$not = _Basics_not;
+var $author$project$Maunaloa$Options$Commands$toggle = F2(
+	function (ticker, opt) {
+		return _Utils_eq(opt.ticker, ticker) ? _Utils_update(
+			opt,
+			{selected: !opt.selected}) : opt;
+	});
+var $author$project$Maunaloa$Options$Types$OptionMsgFor = function (a) {
+	return {$: 'OptionMsgFor', a: a};
+};
+var $author$project$Maunaloa$Options$Types$OptionsFetched = function (a) {
+	return {$: 'OptionsFetched', a: a};
+};
+var $author$project$Maunaloa$Options$Types$StockAndOptions = F2(
+	function (stock, opx) {
+		return {opx: opx, stock: stock};
+	});
+var $author$project$Maunaloa$Options$Types$Option = function (ticker) {
+	return function (x) {
+		return function (days) {
+			return function (buy) {
+				return function (sell) {
+					return function (ivBuy) {
+						return function (ivSell) {
+							return function (breakEven) {
+								return function (expiry) {
+									return function (spread) {
+										return function (risc) {
+											return function (optionPriceAtRisc) {
+												return function (stockPriceAtRisc) {
+													return function (selected) {
+														return {breakEven: breakEven, buy: buy, days: days, expiry: expiry, ivBuy: ivBuy, ivSell: ivSell, optionPriceAtRisc: optionPriceAtRisc, risc: risc, selected: selected, sell: sell, spread: spread, stockPriceAtRisc: stockPriceAtRisc, ticker: ticker, x: x};
+													};
+												};
+											};
+										};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+var $elm$core$Basics$round = _Basics_round;
+var $author$project$Common$Utils$toDecimal = F2(
+	function (value, roundFactor) {
+		var valx = $elm$core$Basics$round(value * roundFactor);
+		return valx / roundFactor;
+	});
+var $author$project$Maunaloa$Options$Decoders$buildOption = F9(
+	function (t, x, d, b, s, ib, is, be, ex) {
+		return $author$project$Maunaloa$Options$Types$Option(t)(x)(d)(b)(s)(ib)(is)(be)(ex)(
+			A2($author$project$Common$Utils$toDecimal, 100 * ((s / b) - 1.0), 10.0))(0)(0)(0)(false);
+	});
+var $elm$json$Json$Decode$float = _Json_decodeFloat;
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
+var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
+	function (key, valDecoder, decoder) {
+		return A2(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom,
+			A2($elm$json$Json$Decode$field, key, valDecoder),
+			decoder);
+	});
+var $author$project$Maunaloa$Options$Decoders$optionDecoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'expiry',
+	$elm$json$Json$Decode$string,
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'brEven',
+		$elm$json$Json$Decode$float,
+		A3(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+			'ivSell',
+			$elm$json$Json$Decode$float,
+			A3(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+				'ivBuy',
+				$elm$json$Json$Decode$float,
+				A3(
+					$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+					'sell',
+					$elm$json$Json$Decode$float,
+					A3(
+						$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+						'buy',
+						$elm$json$Json$Decode$float,
+						A3(
+							$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+							'days',
+							$elm$json$Json$Decode$float,
+							A3(
+								$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+								'x',
+								$elm$json$Json$Decode$float,
+								A3(
+									$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+									'ticker',
+									$elm$json$Json$Decode$string,
+									$elm$json$Json$Decode$succeed($author$project$Maunaloa$Options$Decoders$buildOption))))))))));
+var $author$project$Maunaloa$Options$Types$Stock = F5(
+	function (unixTime, o, h, l, c) {
+		return {c: c, h: h, l: l, o: o, unixTime: unixTime};
+	});
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $author$project$Maunaloa$Options$Decoders$stockDecoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'c',
+	$elm$json$Json$Decode$float,
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'l',
+		$elm$json$Json$Decode$float,
+		A3(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+			'h',
+			$elm$json$Json$Decode$float,
+			A3(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+				'o',
+				$elm$json$Json$Decode$float,
+				A3(
+					$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+					'unix-time',
+					$elm$json$Json$Decode$int,
+					$elm$json$Json$Decode$succeed($author$project$Maunaloa$Options$Types$Stock))))));
+var $author$project$Maunaloa$Options$Decoders$stockAndOptionsDecoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'opx',
+	$elm$json$Json$Decode$list($author$project$Maunaloa$Options$Decoders$optionDecoder),
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'stock-price',
+		$author$project$Maunaloa$Options$Decoders$stockDecoder,
+		$elm$json$Json$Decode$succeed($author$project$Maunaloa$Options$Types$StockAndOptions)));
+var $author$project$Maunaloa$Options$Commands$fetchOptions = F2(
+	function (model, s) {
+		if (s.$ === 'Nothing') {
+			return $elm$core$Platform$Cmd$none;
+		} else {
+			var sx = s.a;
+			var url = model.flags.isCalls ? ($author$project$Maunaloa$Options$Commands$mainUrl + ('/stockoption/calls/' + sx)) : ($author$project$Maunaloa$Options$Commands$mainUrl + ('/stockoption/puts/' + sx));
+			return A2(
+				$elm$http$Http$send,
+				A2($elm$core$Basics$composeL, $author$project$Maunaloa$Options$Types$OptionMsgFor, $author$project$Maunaloa$Options$Types$OptionsFetched),
+				A2($elm$http$Http$get, url, $author$project$Maunaloa$Options$Decoders$stockAndOptionsDecoder));
+		}
+	});
+var $elm$core$Debug$log = _Debug_log;
+var $author$project$Maunaloa$Options$Update$updateOption = F2(
+	function (msg, model) {
+		if (msg.$ === 'FetchOptions') {
+			var s = msg.a;
+			var sx = (s === '-1') ? $elm$core$Maybe$Nothing : $elm$core$Maybe$Just(s);
+			return _Utils_Tuple2(
+				_Utils_update(
+					model,
+					{selectedTicker: sx}),
+				A2($author$project$Maunaloa$Options$Commands$fetchOptions, model, sx));
+		} else {
+			if (msg.a.$ === 'Ok') {
+				var s = msg.a.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							options: s.opx,
+							stock: $elm$core$Maybe$Just(s.stock)
+						}),
+					$elm$core$Platform$Cmd$none);
+			} else {
+				var s = msg.a.a;
+				var errMsg = $author$project$Common$Html$httpErr2str(s);
+				return A2(
+					$elm$core$Debug$log,
+					errMsg,
+					_Utils_Tuple2(model, $elm$core$Platform$Cmd$none));
+			}
+		}
+	});
+var $author$project$Maunaloa$Options$Types$Ask = function (a) {
+	return {$: 'Ask', a: a};
+};
+var $author$project$Maunaloa$Options$Types$Bid = function (a) {
+	return {$: 'Bid', a: a};
+};
+var $author$project$Common$ModalDialog$DialogVisible = {$: 'DialogVisible'};
+var $author$project$Common$ModalDialog$Info = {$: 'Info'};
+var $author$project$Maunaloa$Options$Types$Spot = function (a) {
+	return {$: 'Spot', a: a};
+};
+var $author$project$Maunaloa$Options$Types$Ticker = function (a) {
+	return {$: 'Ticker', a: a};
+};
+var $author$project$Maunaloa$Options$Types$Volume = function (a) {
+	return {$: 'Volume', a: a};
+};
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $author$project$Maunaloa$Options$Types$OptionPurchased = function (a) {
+	return {$: 'OptionPurchased', a: a};
+};
+var $author$project$Maunaloa$Options$Types$PurchaseMsgFor = function (a) {
+	return {$: 'PurchaseMsgFor', a: a};
+};
+var $elm$json$Json$Encode$object = function (pairs) {
+	return _Json_wrap(
+		A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v0, obj) {
+					var k = _v0.a;
+					var v = _v0.b;
+					return A3(_Json_addField, k, v, obj);
+				}),
+			_Json_emptyObject(_Utils_Tuple0),
+			pairs));
+};
+var $elm$http$Http$Internal$StringBody = F2(
+	function (a, b) {
+		return {$: 'StringBody', a: a, b: b};
+	});
+var $elm$http$Http$stringBody = $elm$http$Http$Internal$StringBody;
+var $author$project$Common$Utils$asHttpBody = function (lx) {
+	var x = $elm$json$Json$Encode$object(lx);
+	return A2(
+		$elm$http$Http$stringBody,
+		'application/json',
+		A2($elm$json$Json$Encode$encode, 0, x));
+};
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$json$Json$Encode$float = _Json_wrap;
+var $elm$json$Json$Encode$int = _Json_wrap;
+var $author$project$Common$Types$JsonStatus = F3(
+	function (ok, msg, statusCode) {
+		return {msg: msg, ok: ok, statusCode: statusCode};
+	});
+var $author$project$Common$Types$jsonStatusDecoder = A3(
+	$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'statusCode',
+	$elm$json$Json$Decode$int,
+	A3(
+		$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+		'msg',
+		$elm$json$Json$Decode$string,
+		A3(
+			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+			'ok',
+			$elm$json$Json$Decode$bool,
+			$elm$json$Json$Decode$succeed($author$project$Common$Types$JsonStatus))));
+var $elm$http$Http$post = F3(
+	function (url, body, decoder) {
+		return $elm$http$Http$request(
+			{
+				body: body,
+				expect: $elm$http$Http$expectJson(decoder),
+				headers: _List_Nil,
+				method: 'POST',
+				timeout: $elm$core$Maybe$Nothing,
+				url: url,
+				withCredentials: false
+			});
+	});
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $author$project$Maunaloa$Options$Commands$purchaseOption = F6(
+	function (_v0, _v1, _v2, _v3, _v4, isRealTime) {
+		var ticker = _v0.a;
+		var ask = _v1.a;
+		var bid = _v2.a;
+		var volume = _v3.a;
+		var spot = _v4.a;
+		var url = $author$project$Maunaloa$Options$Commands$mainUrl + '/stockoption/purchase';
+		var params = _List_fromArray(
+			[
+				_Utils_Tuple2(
+				'ticker',
+				$elm$json$Json$Encode$string(ticker)),
+				_Utils_Tuple2(
+				'ask',
+				$elm$json$Json$Encode$float(ask)),
+				_Utils_Tuple2(
+				'bid',
+				$elm$json$Json$Encode$float(bid)),
+				_Utils_Tuple2(
+				'volume',
+				$elm$json$Json$Encode$int(volume)),
+				_Utils_Tuple2(
+				'spot',
+				$elm$json$Json$Encode$float(spot)),
+				_Utils_Tuple2(
+				'rt',
+				$elm$json$Json$Encode$bool(isRealTime))
+			]);
+		var jbody = $author$project$Common$Utils$asHttpBody(params);
+		return A2(
+			$elm$http$Http$send,
+			A2($elm$core$Basics$composeL, $author$project$Maunaloa$Options$Types$PurchaseMsgFor, $author$project$Maunaloa$Options$Types$OptionPurchased),
+			A3($elm$http$Http$post, url, jbody, $author$project$Common$Types$jsonStatusDecoder));
+	});
+var $elm$core$String$toFloat = _String_toFloat;
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var $author$project$Maunaloa$Options$Commands$registerAndPurchaseOption_ = F2(
+	function (model, opx) {
+		var url = $author$project$Maunaloa$Options$Commands$mainUrl + '/stockoption/regpur';
+		var soids = A2($elm$core$Maybe$withDefault, '-1', model.selectedTicker);
+		var soid = A2(
+			$elm$core$Maybe$withDefault,
+			-1,
+			$elm$core$String$toInt(soids));
+		var opType = model.flags.isCalls ? 'c' : 'p';
+		var curVol = A2(
+			$elm$core$Maybe$withDefault,
+			-1,
+			$elm$core$String$toInt(model.volume));
+		var curSpot = A2(
+			$elm$core$Maybe$withDefault,
+			-1,
+			$elm$core$String$toFloat(model.spot));
+		var curBid = A2(
+			$elm$core$Maybe$withDefault,
+			-1,
+			$elm$core$String$toFloat(model.bid));
+		var curAsk = A2(
+			$elm$core$Maybe$withDefault,
+			-1,
+			$elm$core$String$toFloat(model.ask));
+		var params = _List_fromArray(
+			[
+				_Utils_Tuple2(
+				'ticker',
+				$elm$json$Json$Encode$string(opx.ticker)),
+				_Utils_Tuple2(
+				'ask',
+				$elm$json$Json$Encode$float(curAsk)),
+				_Utils_Tuple2(
+				'bid',
+				$elm$json$Json$Encode$float(curBid)),
+				_Utils_Tuple2(
+				'volume',
+				$elm$json$Json$Encode$int(curVol)),
+				_Utils_Tuple2(
+				'spot',
+				$elm$json$Json$Encode$float(curSpot)),
+				_Utils_Tuple2(
+				'rt',
+				$elm$json$Json$Encode$bool(model.isRealTimePurchase)),
+				_Utils_Tuple2(
+				'stockId',
+				$elm$json$Json$Encode$int(soid)),
+				_Utils_Tuple2(
+				'opType',
+				$elm$json$Json$Encode$string(opType)),
+				_Utils_Tuple2(
+				'expiry',
+				$elm$json$Json$Encode$string(opx.expiry)),
+				_Utils_Tuple2(
+				'x',
+				$elm$json$Json$Encode$float(opx.x))
+			]);
+		var jbody = $author$project$Common$Utils$asHttpBody(params);
+		return A2(
+			$elm$http$Http$send,
+			A2($elm$core$Basics$composeL, $author$project$Maunaloa$Options$Types$PurchaseMsgFor, $author$project$Maunaloa$Options$Types$OptionPurchased),
+			A3($elm$http$Http$post, url, jbody, $author$project$Common$Types$jsonStatusDecoder));
+	});
+var $author$project$Maunaloa$Options$Commands$registerAndPurchaseOption = function (model) {
+	var _v0 = model.selectedPurchase;
+	if (_v0.$ === 'Nothing') {
+		return $elm$core$Platform$Cmd$none;
+	} else {
+		var opx = _v0.a;
+		return A2($author$project$Maunaloa$Options$Commands$registerAndPurchaseOption_, model, opx);
+	}
+};
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Common$Utils$unpackMaybe = F3(
+	function (obj, fn, _default) {
+		return A2(
+			$elm$core$Maybe$withDefault,
+			_default,
+			A2($elm$core$Maybe$map, fn, obj));
+	});
+var $author$project$Maunaloa$Options$Update$updatePurchase = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'PurchaseClick':
+				var opt = msg.a;
+				var curSpot = A3(
+					$author$project$Common$Utils$unpackMaybe,
+					model.stock,
+					function ($) {
+						return $.c;
+					},
+					0);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							ask: $elm$core$String$fromFloat(opt.sell),
+							bid: $elm$core$String$fromFloat(opt.buy),
+							dlgPurchase: $author$project$Common$ModalDialog$DialogVisible,
+							selectedPurchase: $elm$core$Maybe$Just(opt),
+							spot: $elm$core$String$fromFloat(curSpot),
+							volume: '10'
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 'PurchaseDlgOk':
+				var _v1 = model.selectedPurchase;
+				if (_v1.$ === 'Just') {
+					var opx = _v1.a;
+					var curVol = A2(
+						$elm$core$Maybe$withDefault,
+						-1,
+						$elm$core$String$toInt(model.volume));
+					var curSpot = A2(
+						$elm$core$Maybe$withDefault,
+						-1,
+						$elm$core$String$toFloat(model.spot));
+					var curBid = A2(
+						$elm$core$Maybe$withDefault,
+						-1,
+						$elm$core$String$toFloat(model.bid));
+					var curAsk = A2(
+						$elm$core$Maybe$withDefault,
+						-1,
+						$elm$core$String$toFloat(model.ask));
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{dlgPurchase: $author$project$Common$ModalDialog$DialogHidden}),
+						A6(
+							$author$project$Maunaloa$Options$Commands$purchaseOption,
+							$author$project$Maunaloa$Options$Types$Ticker(opx.ticker),
+							$author$project$Maunaloa$Options$Types$Ask(curAsk),
+							$author$project$Maunaloa$Options$Types$Bid(curBid),
+							$author$project$Maunaloa$Options$Types$Volume(curVol),
+							$author$project$Maunaloa$Options$Types$Spot(curSpot),
+							model.isRealTimePurchase));
+				} else {
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{dlgPurchase: $author$project$Common$ModalDialog$DialogHidden}),
+						$elm$core$Platform$Cmd$none);
+				}
+			case 'PurchaseDlgCancel':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{dlgPurchase: $author$project$Common$ModalDialog$DialogHidden}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				if (msg.a.$ === 'Ok') {
+					var s = msg.a.a;
+					if (s.statusCode === 1) {
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{dlgPurchase: $author$project$Common$ModalDialog$DialogHidden}),
+							$author$project$Maunaloa$Options$Commands$registerAndPurchaseOption(model));
+					} else {
+						var alertCat = s.ok ? $author$project$Common$ModalDialog$Info : $author$project$Common$ModalDialog$Error;
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{
+									dlgAlert: A3($author$project$Common$ModalDialog$DialogVisibleAlert, 'Option purchase', s.msg, alertCat)
+								}),
+							$elm$core$Platform$Cmd$none);
+					}
+				} else {
+					var s = msg.a.a;
+					return _Utils_Tuple2(
+						A4($author$project$Common$ModalDialog$errorAlert, 'Purchase Sale ERROR!', 'SaleOk Error: ', s, model),
+						$elm$core$Platform$Cmd$none);
+				}
+		}
+	});
+var $author$project$Maunaloa$Options$Types$RiscCalculated = function (a) {
+	return {$: 'RiscCalculated', a: a};
+};
+var $author$project$Maunaloa$Options$Types$RiscMsgFor = function (a) {
+	return {$: 'RiscMsgFor', a: a};
+};
+var $author$project$Maunaloa$Options$Types$RiscResult = F3(
+	function (ticker, stockprice, status) {
+		return {status: status, stockprice: stockprice, ticker: ticker};
+	});
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$json$Json$Encode$list = F2(
+	function (func, entries) {
+		return _Json_wrap(
+			A3(
+				$elm$core$List$foldl,
+				_Json_addEntry(func),
+				_Json_emptyArray(_Utils_Tuple0),
+				entries));
+	});
+var $author$project$Common$Utils$listAsHttpBody = function (lx) {
+	var xx = A2($elm$json$Json$Encode$list, $elm$json$Json$Encode$object, lx);
+	return A2(
+		$elm$http$Http$stringBody,
+		'application/json',
+		A2($elm$json$Json$Encode$encode, 0, xx));
+};
+var $author$project$Maunaloa$Options$Commands$calcRisc = F3(
+	function (stockTicker, riscStr, options) {
+		if (stockTicker.$ === 'Nothing') {
+			return $elm$core$Platform$Cmd$none;
+		} else {
+			var st = stockTicker.a;
+			var url = $author$project$Maunaloa$Options$Commands$mainUrl + ('/stockprice/calculate/' + st);
+			var risc = A2(
+				$elm$core$Maybe$withDefault,
+				0,
+				$elm$core$String$toFloat(riscStr));
+			var myDecoder = A3(
+				$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+				'status',
+				$elm$json$Json$Decode$int,
+				A3(
+					$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+					'stockprice',
+					$elm$json$Json$Decode$float,
+					A3(
+						$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+						'ticker',
+						$elm$json$Json$Decode$string,
+						$elm$json$Json$Decode$succeed($author$project$Maunaloa$Options$Types$RiscResult))));
+			var checked = A2(
+				$elm$core$List$filter,
+				function (x) {
+					return x.selected;
+				},
+				options);
+			var jbody = $author$project$Common$Utils$listAsHttpBody(
+				A2(
+					$elm$core$List$map,
+					function (x) {
+						return _List_fromArray(
+							[
+								_Utils_Tuple2(
+								'ticker',
+								$elm$json$Json$Encode$string(x.ticker)),
+								_Utils_Tuple2(
+								'risc',
+								$elm$json$Json$Encode$float(risc))
+							]);
+					},
+					checked));
+			return A2(
+				$elm$http$Http$send,
+				A2($elm$core$Basics$composeL, $author$project$Maunaloa$Options$Types$RiscMsgFor, $author$project$Maunaloa$Options$Types$RiscCalculated),
+				A3(
+					$elm$http$Http$post,
+					url,
+					jbody,
+					$elm$json$Json$Decode$list(myDecoder)));
+		}
+	});
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Maunaloa$Options$Commands$setRisc = F3(
+	function (curRisc, riscResults, opt) {
+		var predicate = function (x) {
+			return _Utils_eq(x.ticker, opt.ticker);
+		};
+		var curRiscItem = $elm$core$List$head(
+			A2($elm$core$List$filter, predicate, riscResults));
+		if (curRiscItem.$ === 'Nothing') {
+			return opt;
+		} else {
+			var curResult1 = curRiscItem.a;
+			return _Utils_update(
+				opt,
+				{
+					optionPriceAtRisc: opt.sell - curRisc,
+					risc: curRisc,
+					stockPriceAtRisc: A2($author$project$Common$Utils$toDecimal, curResult1.stockprice, 100)
+				});
+		}
+	});
+var $author$project$Maunaloa$Options$Update$updateRisc = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'CalcRisc':
+				return _Utils_Tuple2(
+					model,
+					A3($author$project$Maunaloa$Options$Commands$calcRisc, model.selectedTicker, model.risc, model.options));
+			case 'RiscCalculated':
+				if (msg.a.$ === 'Ok') {
+					var riscResults = msg.a.a;
+					var curRisc = A2(
+						$elm$core$Maybe$withDefault,
+						0,
+						$elm$core$String$toFloat(model.risc));
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								options: A2(
+									$elm$core$List$map,
+									A2($author$project$Maunaloa$Options$Commands$setRisc, curRisc, riscResults),
+									model.options)
+							}),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					var s = msg.a.a;
+					return _Utils_Tuple2(
+						A4($author$project$Common$ModalDialog$errorAlert, 'RiscCalculated', 'RiscCalculated Error: ', s, model),
+						$elm$core$Platform$Cmd$none);
+				}
+			default:
+				var s = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{risc: s}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
+var $author$project$Maunaloa$Options$Update$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'OptionMsgFor':
+				var optMsg = msg.a;
+				return A2($author$project$Maunaloa$Options$Update$updateOption, optMsg, model);
+			case 'PurchaseMsgFor':
+				var purchaseMsg = msg.a;
+				return A2($author$project$Maunaloa$Options$Update$updatePurchase, purchaseMsg, model);
+			case 'RiscMsgFor':
+				var riscMsg = msg.a;
+				return A2($author$project$Maunaloa$Options$Update$updateRisc, riscMsg, model);
+			case 'AlertOk':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{dlgAlert: $author$project$Common$ModalDialog$DialogHidden}),
+					$elm$core$Platform$Cmd$none);
+			case 'TickersFetched':
+				if (msg.a.$ === 'Ok') {
+					var s = msg.a.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{tickers: s}),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					var s = msg.a.a;
+					return _Utils_Tuple2(
+						A4($author$project$Common$ModalDialog$errorAlert, 'Error', 'TickersFetched Error: ', s, model),
+						$elm$core$Platform$Cmd$none);
+				}
+			case 'SetTableState':
+				var newState = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{tableState: newState}),
+					$elm$core$Platform$Cmd$none);
+			case 'ResetCache':
+				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+			case 'ToggleSelected':
+				var ticker = msg.a;
+				var newOptions = A2(
+					$elm$core$List$map,
+					$author$project$Maunaloa$Options$Commands$toggle(ticker),
+					model.options);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{options: newOptions}),
+					$elm$core$Platform$Cmd$none);
+			case 'ToggleRealTimePurchase':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isRealTimePurchase: !model.isRealTimePurchase}),
+					$elm$core$Platform$Cmd$none);
+			case 'ToggleOnlyIvGtZero':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isOnlyIvGtZero: !model.isOnlyIvGtZero}),
+					$elm$core$Platform$Cmd$none);
+			case 'AskChange':
+				var s = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{ask: s}),
+					$elm$core$Platform$Cmd$none);
+			case 'BidChange':
+				var s = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{bid: s}),
+					$elm$core$Platform$Cmd$none);
+			case 'VolumeChange':
+				var s = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{volume: s}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				var s = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{spot: s}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
+var $author$project$Maunaloa$Options$Types$AlertOk = {$: 'AlertOk'};
+var $author$project$Maunaloa$Options$Types$AskChange = function (a) {
+	return {$: 'AskChange', a: a};
+};
+var $author$project$Maunaloa$Options$Types$BidChange = function (a) {
+	return {$: 'BidChange', a: a};
+};
+var $author$project$Maunaloa$Options$Types$CalcRisc = {$: 'CalcRisc'};
+var $author$project$Common$Html$Checked = function (a) {
+	return {$: 'Checked', a: a};
+};
+var $author$project$Maunaloa$Options$Types$FetchOptions = function (a) {
+	return {$: 'FetchOptions', a: a};
+};
+var $author$project$Common$Html$HtmlClass = function (a) {
+	return {$: 'HtmlClass', a: a};
+};
+var $author$project$Common$Html$HtmlId = function (a) {
+	return {$: 'HtmlId', a: a};
+};
+var $author$project$Common$Html$InputCaption = function (a) {
+	return {$: 'InputCaption', a: a};
+};
+var $author$project$Common$Html$InputType = function (a) {
+	return {$: 'InputType', a: a};
+};
+var $author$project$Common$Html$InputValue = function (a) {
+	return {$: 'InputValue', a: a};
+};
+var $author$project$Maunaloa$Options$Types$PurchaseDlgCancel = {$: 'PurchaseDlgCancel'};
+var $author$project$Maunaloa$Options$Types$PurchaseDlgOk = {$: 'PurchaseDlgOk'};
+var $author$project$Maunaloa$Options$Types$ResetCache = {$: 'ResetCache'};
+var $author$project$Maunaloa$Options$Types$RiscChange = function (a) {
+	return {$: 'RiscChange', a: a};
+};
+var $author$project$Maunaloa$Options$Types$SpotChange = function (a) {
+	return {$: 'SpotChange', a: a};
+};
+var $author$project$Maunaloa$Options$Types$ToggleOnlyIvGtZero = {$: 'ToggleOnlyIvGtZero'};
+var $author$project$Maunaloa$Options$Types$ToggleRealTimePurchase = {$: 'ToggleRealTimePurchase'};
+var $author$project$Maunaloa$Options$Types$VolumeChange = function (a) {
+	return {$: 'VolumeChange', a: a};
+};
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$h4 = _VirtualDom_node('h4');
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Common$ModalDialog$alert = F2(
+	function (state, ok) {
+		if (state.$ === 'DialogVisibleAlert') {
+			var title = state.a;
+			var msg = state.b;
+			var alertCat = state.c;
+			var titleDiv = A2(
+				$elm$html$Html$h4,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(title)
+					]));
+			var content = A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text(msg)
+							]))
+					]));
+			var btnClass = function () {
+				switch (alertCat.$) {
+					case 'Info':
+						return 'btn btn-info';
+					case 'Warn':
+						return 'btn btn-warning';
+					default:
+						return 'btn btn-danger';
+				}
+			}();
+			var okButton = A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class(btnClass),
+						$elm$html$Html$Events$onClick(ok)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('OK')
+					]));
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('modalDialog'),
+						A2($elm$html$Html$Attributes$style, 'opacity', '1'),
+						A2($elm$html$Html$Attributes$style, 'pointer-events', 'auto')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[titleDiv, content, okButton]))
+					]));
+		} else {
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('modalDialog'),
+						A2($elm$html$Html$Attributes$style, 'opacity', '0'),
+						A2($elm$html$Html$Attributes$style, 'pointer-events', 'none')
+					]),
+				_List_Nil);
+		}
+	});
+var $author$project$Common$Buttons$button = F2(
+	function (caption, clickEvent) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('form-group form-group--elm')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('btn btn-outline-success'),
+							$elm$html$Html$Events$onClick(clickEvent)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(caption)
+						]))
+				]));
+	});
+var $author$project$Maunaloa$Options$Types$SetTableState = function (a) {
+	return {$: 'SetTableState', a: a};
+};
+var $NoRedInk$elm_sortable_table$Table$HtmlDetails = F2(
+	function (attributes, children) {
+		return {attributes: attributes, children: children};
+	});
+var $author$project$Maunaloa$Options$Types$PurchaseClick = function (a) {
+	return {$: 'PurchaseClick', a: a};
+};
+var $author$project$Maunaloa$Options$Tables$tableButton = function (opt) {
+	return A2(
+		$NoRedInk$elm_sortable_table$Table$HtmlDetails,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('btn btn-success'),
+						$elm$html$Html$Events$onClick(
+						$author$project$Maunaloa$Options$Types$PurchaseMsgFor(
+							$author$project$Maunaloa$Options$Types$PurchaseClick(opt)))
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Buy')
+					]))
+			]));
+};
+var $NoRedInk$elm_sortable_table$Table$None = {$: 'None'};
+var $NoRedInk$elm_sortable_table$Table$unsortable = $NoRedInk$elm_sortable_table$Table$None;
+var $NoRedInk$elm_sortable_table$Table$Column = function (a) {
+	return {$: 'Column', a: a};
+};
+var $NoRedInk$elm_sortable_table$Table$veryCustomColumn = $NoRedInk$elm_sortable_table$Table$Column;
+var $author$project$Maunaloa$Options$Tables$buttonColumn = $NoRedInk$elm_sortable_table$Table$veryCustomColumn(
+	{name: 'Purchase', sorter: $NoRedInk$elm_sortable_table$Table$unsortable, viewData: $author$project$Maunaloa$Options$Tables$tableButton});
+var $author$project$Maunaloa$Options$Types$ToggleSelected = function (a) {
+	return {$: 'ToggleSelected', a: a};
+};
+var $elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $elm$html$Html$Attributes$checked = $elm$html$Html$Attributes$boolProperty('checked');
+var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
+var $author$project$Maunaloa$Options$Tables$viewCheckbox = function (_v0) {
+	var selected = _v0.selected;
+	var ticker = _v0.ticker;
+	return A2(
+		$NoRedInk$elm_sortable_table$Table$HtmlDetails,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$input,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$type_('checkbox'),
+						$elm$html$Html$Attributes$checked(selected),
+						$elm$html$Html$Events$onClick(
+						$author$project$Maunaloa$Options$Types$ToggleSelected(ticker))
+					]),
+				_List_Nil)
+			]));
+};
+var $author$project$Maunaloa$Options$Tables$checkboxColumn = $NoRedInk$elm_sortable_table$Table$veryCustomColumn(
+	{name: 'Select', sorter: $NoRedInk$elm_sortable_table$Table$unsortable, viewData: $author$project$Maunaloa$Options$Tables$viewCheckbox});
+var $NoRedInk$elm_sortable_table$Table$Config = function (a) {
+	return {$: 'Config', a: a};
+};
+var $NoRedInk$elm_sortable_table$Table$customConfig = function (_v0) {
+	var toId = _v0.toId;
+	var toMsg = _v0.toMsg;
+	var columns = _v0.columns;
+	var customizations = _v0.customizations;
+	return $NoRedInk$elm_sortable_table$Table$Config(
+		{
+			columns: A2(
+				$elm$core$List$map,
+				function (_v1) {
+					var cData = _v1.a;
+					return cData;
+				},
+				columns),
+			customizations: customizations,
+			toId: toId,
+			toMsg: toMsg
+		});
+};
+var $NoRedInk$elm_sortable_table$Table$simpleRowAttrs = function (_v0) {
+	return _List_Nil;
+};
+var $elm$html$Html$span = _VirtualDom_node('span');
+var $NoRedInk$elm_sortable_table$Table$darkGrey = function (symbol) {
+	return A2(
+		$elm$html$Html$span,
+		_List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$style, 'color', '#555')
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(' ' + symbol)
+			]));
+};
+var $NoRedInk$elm_sortable_table$Table$lightGrey = function (symbol) {
+	return A2(
+		$elm$html$Html$span,
+		_List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$style, 'color', '#ccc')
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(' ' + symbol)
+			]));
+};
+var $elm$html$Html$th = _VirtualDom_node('th');
+var $NoRedInk$elm_sortable_table$Table$simpleTheadHelp = function (_v0) {
+	var name = _v0.a;
+	var status = _v0.b;
+	var onClick_ = _v0.c;
+	var content = function () {
+		switch (status.$) {
+			case 'Unsortable':
+				return _List_fromArray(
+					[
+						$elm$html$Html$text(name)
+					]);
+			case 'Sortable':
+				var selected = status.a;
+				return _List_fromArray(
+					[
+						$elm$html$Html$text(name),
+						selected ? $NoRedInk$elm_sortable_table$Table$darkGrey('↓') : $NoRedInk$elm_sortable_table$Table$lightGrey('↓')
+					]);
+			default:
+				if (status.a.$ === 'Nothing') {
+					var _v2 = status.a;
+					return _List_fromArray(
+						[
+							$elm$html$Html$text(name),
+							$NoRedInk$elm_sortable_table$Table$lightGrey('↕')
+						]);
+				} else {
+					var isReversed = status.a.a;
+					return _List_fromArray(
+						[
+							$elm$html$Html$text(name),
+							$NoRedInk$elm_sortable_table$Table$darkGrey(
+							isReversed ? '↑' : '↓')
+						]);
+				}
+		}
+	}();
+	return A2(
+		$elm$html$Html$th,
+		_List_fromArray(
+			[onClick_]),
+		content);
+};
+var $NoRedInk$elm_sortable_table$Table$simpleThead = function (headers) {
+	return A2(
+		$NoRedInk$elm_sortable_table$Table$HtmlDetails,
+		_List_Nil,
+		A2($elm$core$List$map, $NoRedInk$elm_sortable_table$Table$simpleTheadHelp, headers));
+};
+var $NoRedInk$elm_sortable_table$Table$defaultCustomizations = {caption: $elm$core$Maybe$Nothing, rowAttrs: $NoRedInk$elm_sortable_table$Table$simpleRowAttrs, tableAttrs: _List_Nil, tbodyAttrs: _List_Nil, tfoot: $elm$core$Maybe$Nothing, thead: $NoRedInk$elm_sortable_table$Table$simpleThead};
+var $NoRedInk$elm_sortable_table$Table$IncOrDec = function (a) {
+	return {$: 'IncOrDec', a: a};
+};
+var $elm$core$List$sortBy = _List_sortBy;
+var $NoRedInk$elm_sortable_table$Table$increasingOrDecreasingBy = function (toComparable) {
+	return $NoRedInk$elm_sortable_table$Table$IncOrDec(
+		$elm$core$List$sortBy(toComparable));
+};
+var $NoRedInk$elm_sortable_table$Table$textDetails = function (str) {
+	return A2(
+		$NoRedInk$elm_sortable_table$Table$HtmlDetails,
+		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$text(str)
+			]));
+};
+var $NoRedInk$elm_sortable_table$Table$floatColumn = F2(
+	function (name, toFloat) {
+		return $NoRedInk$elm_sortable_table$Table$Column(
+			{
+				name: name,
+				sorter: $NoRedInk$elm_sortable_table$Table$increasingOrDecreasingBy(toFloat),
+				viewData: A2(
+					$elm$core$Basics$composeL,
+					A2($elm$core$Basics$composeL, $NoRedInk$elm_sortable_table$Table$textDetails, $elm$core$String$fromFloat),
+					toFloat)
+			});
+	});
+var $NoRedInk$elm_sortable_table$Table$stringColumn = F2(
+	function (name, toStr) {
+		return $NoRedInk$elm_sortable_table$Table$Column(
+			{
+				name: name,
+				sorter: $NoRedInk$elm_sortable_table$Table$increasingOrDecreasingBy(toStr),
+				viewData: A2($elm$core$Basics$composeL, $NoRedInk$elm_sortable_table$Table$textDetails, toStr)
+			});
+	});
+var $author$project$Maunaloa$Options$Tables$toRowAttrs = function (opt) {
+	var myStyle = opt.selected ? '#FFCC99' : 'white';
+	return _List_fromArray(
+		[
+			A2($elm$html$Html$Attributes$style, 'background', myStyle)
+		]);
+};
+var $author$project$Maunaloa$Options$Tables$toTableAttrs = _List_fromArray(
+	[
+		$elm$html$Html$Attributes$class('table')
+	]);
+var $author$project$Maunaloa$Options$Tables$config = $NoRedInk$elm_sortable_table$Table$customConfig(
+	{
+		columns: _List_fromArray(
+			[
+				$author$project$Maunaloa$Options$Tables$checkboxColumn,
+				$author$project$Maunaloa$Options$Tables$buttonColumn,
+				A2(
+				$NoRedInk$elm_sortable_table$Table$stringColumn,
+				'Ticker',
+				function ($) {
+					return $.ticker;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'Exercise',
+				function ($) {
+					return $.x;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'Days',
+				function ($) {
+					return $.days;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'Buy',
+				function ($) {
+					return $.buy;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'Sell',
+				function ($) {
+					return $.sell;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'Spread',
+				function ($) {
+					return $.spread;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'IvBuy',
+				function ($) {
+					return $.ivBuy;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'IvSell',
+				function ($) {
+					return $.ivSell;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'Break-Even',
+				function ($) {
+					return $.breakEven;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'Risc',
+				function ($) {
+					return $.risc;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'O.P. at Risc',
+				function ($) {
+					return $.optionPriceAtRisc;
+				}),
+				A2(
+				$NoRedInk$elm_sortable_table$Table$floatColumn,
+				'S.P. at Risc',
+				function ($) {
+					return $.stockPriceAtRisc;
+				})
+			]),
+		customizations: _Utils_update(
+			$NoRedInk$elm_sortable_table$Table$defaultCustomizations,
+			{rowAttrs: $author$project$Maunaloa$Options$Tables$toRowAttrs, tableAttrs: $author$project$Maunaloa$Options$Tables$toTableAttrs}),
+		toId: function ($) {
+			return $.ticker;
+		},
+		toMsg: $author$project$Maunaloa$Options$Types$SetTableState
+	});
+var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $elm$html$Html$label = _VirtualDom_node('label');
+var $author$project$Common$Html$labelCheckBox = F4(
+	function (_v0, _v1, _v2, event) {
+		var htmlId = _v0.a;
+		var caption = _v1.a;
+		var isChecked = _v2.a;
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('form-group form-group--elm')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('checkbox')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$label,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$for(htmlId)
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$input,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$type_('checkbox'),
+											$elm$html$Html$Attributes$class('fake-cb'),
+											$elm$html$Html$Attributes$checked(isChecked),
+											$elm$html$Html$Events$onClick(event),
+											$elm$html$Html$Attributes$id(htmlId)
+										]),
+									_List_Nil),
+									A2(
+									$elm$html$Html$span,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('fake-input')
+										]),
+									_List_Nil),
+									A2(
+									$elm$html$Html$span,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('fake-label')
+										]),
+									_List_fromArray(
+										[
+											$elm$html$Html$text(caption)
+										]))
+								]))
+						]))
+				]));
+	});
+var $elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$html$Html$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
+};
+var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
+var $author$project$Common$Html$inputItem = F4(
+	function (_v0, _v1, _v2, event) {
+		var inputType = _v0.a;
+		var value = _v1.a;
+		var clazz = _v2.a;
+		if (event.$ === 'Nothing') {
+			return A2(
+				$elm$html$Html$input,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$value(value),
+						$elm$html$Html$Attributes$type_(inputType),
+						$elm$html$Html$Attributes$class(clazz)
+					]),
+				_List_Nil);
+		} else {
+			var event_ = event.a;
+			return A2(
+				$elm$html$Html$input,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$value(value),
+						$elm$html$Html$Events$onInput(event_),
+						$elm$html$Html$Attributes$type_(inputType),
+						$elm$html$Html$Attributes$class(clazz)
+					]),
+				_List_Nil);
+		}
+	});
+var $author$project$Common$Html$labelInputItem = F5(
+	function (_v0, inputType, inputValue, htmlClass, event) {
+		var caption = _v0.a;
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('form-group')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$label,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('control-label')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(caption)
+						])),
+					A4($author$project$Common$Html$inputItem, inputType, inputValue, htmlClass, event)
+				]));
+	});
+var $elm$html$Html$option = _VirtualDom_node('option');
+var $author$project$Common$Select$emptySelectOption = A2(
+	$elm$html$Html$option,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$value('')
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('-')
+		]));
+var $elm$html$Html$Attributes$selected = $elm$html$Html$Attributes$boolProperty('selected');
+var $author$project$Common$Select$makeSelectOption = F2(
+	function (selected, item) {
+		if (selected.$ === 'Nothing') {
+			return A2(
+				$elm$html$Html$option,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$value(item.val)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(item.txt)
+					]));
+		} else {
+			var sel = selected.a;
+			return A2(
+				$elm$html$Html$option,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$value(item.val),
+						$elm$html$Html$Attributes$selected(
+						_Utils_eq(sel, item.val))
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(item.txt)
+					]));
+		}
+	});
+var $author$project$Common$Html$onChange = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'change',
+		A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue));
+};
+var $elm$html$Html$select = _VirtualDom_node('select');
+var $author$project$Common$Select$makeSelect = F4(
+	function (caption, msg, payload, selected) {
+		var makeSelectOption_ = $author$project$Common$Select$makeSelectOption(selected);
+		var px = A2(
+			$elm$core$List$cons,
+			$author$project$Common$Select$emptySelectOption,
+			A2($elm$core$List$map, makeSelectOption_, payload));
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('form-group')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$label,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text(caption)
+						])),
+					A2(
+					$elm$html$Html$select,
+					_List_fromArray(
+						[
+							$author$project$Common$Html$onChange(msg),
+							$elm$html$Html$Attributes$class('form-control')
+						]),
+					px)
+				]));
+	});
+var $author$project$Common$ModalDialog$dialogStatePrm = function (s) {
+	if (s.$ === 'DialogHidden') {
+		return _Utils_Tuple2('0', 'none');
+	} else {
+		return _Utils_Tuple2('1', 'auto');
+	}
+};
+var $author$project$Common$ModalDialog$modalDialog = F5(
+	function (title, dialogState, ok, cancel, content) {
+		var titleDiv = A2(
+			$elm$html$Html$h4,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text(title)
+				]));
+		var okButton = A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('btn btn-info'),
+					$elm$html$Html$Events$onClick(ok)
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('OK')
+				]));
+		var cancelButton = A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('btn btn-danger'),
+					$elm$html$Html$Events$onClick(cancel)
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Cancel')
+				]));
+		var buttons = _List_fromArray(
+			[okButton, cancelButton]);
+		var _v0 = $author$project$Common$ModalDialog$dialogStatePrm(dialogState);
+		var opc = _v0.a;
+		var ptre = _v0.b;
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('modalDialog'),
+					A2($elm$html$Html$Attributes$style, 'opacity', opc),
+					A2($elm$html$Html$Attributes$style, 'pointer-events', ptre)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					A2(
+						$elm$core$List$cons,
+						titleDiv,
+						_Utils_ap(content, buttons)))
+				]));
+	});
+var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
+var $elm$time$Time$Posix = function (a) {
+	return {$: 'Posix', a: a};
+};
+var $elm$time$Time$millisToPosix = $elm$time$Time$Posix;
+var $author$project$Common$DateUtil$monthStr = function (month) {
+	switch (month.$) {
+		case 'Jan':
+			return '01';
+		case 'Feb':
+			return '02';
+		case 'Mar':
+			return '03';
+		case 'Apr':
+			return '04';
+		case 'May':
+			return '05';
+		case 'Jun':
+			return '06';
+		case 'Jul':
+			return '07';
+		case 'Aug':
+			return '08';
+		case 'Sep':
+			return '09';
+		case 'Oct':
+			return '10';
+		case 'Nov':
+			return '11';
+		default:
+			return '12';
+	}
+};
+var $elm$time$Time$flooredDiv = F2(
+	function (numerator, denominator) {
+		return $elm$core$Basics$floor(numerator / denominator);
+	});
+var $elm$time$Time$posixToMillis = function (_v0) {
+	var millis = _v0.a;
+	return millis;
+};
+var $elm$time$Time$toAdjustedMinutesHelp = F3(
+	function (defaultOffset, posixMinutes, eras) {
+		toAdjustedMinutesHelp:
+		while (true) {
+			if (!eras.b) {
+				return posixMinutes + defaultOffset;
+			} else {
+				var era = eras.a;
+				var olderEras = eras.b;
+				if (_Utils_cmp(era.start, posixMinutes) < 0) {
+					return posixMinutes + era.offset;
+				} else {
+					var $temp$defaultOffset = defaultOffset,
+						$temp$posixMinutes = posixMinutes,
+						$temp$eras = olderEras;
+					defaultOffset = $temp$defaultOffset;
+					posixMinutes = $temp$posixMinutes;
+					eras = $temp$eras;
+					continue toAdjustedMinutesHelp;
+				}
+			}
+		}
+	});
+var $elm$time$Time$toAdjustedMinutes = F2(
+	function (_v0, time) {
+		var defaultOffset = _v0.a;
+		var eras = _v0.b;
+		return A3(
+			$elm$time$Time$toAdjustedMinutesHelp,
+			defaultOffset,
+			A2(
+				$elm$time$Time$flooredDiv,
+				$elm$time$Time$posixToMillis(time),
+				60000),
+			eras);
+	});
+var $elm$core$Basics$ge = _Utils_ge;
+var $elm$time$Time$toCivil = function (minutes) {
+	var rawDay = A2($elm$time$Time$flooredDiv, minutes, 60 * 24) + 719468;
+	var era = (((rawDay >= 0) ? rawDay : (rawDay - 146096)) / 146097) | 0;
+	var dayOfEra = rawDay - (era * 146097);
+	var yearOfEra = ((((dayOfEra - ((dayOfEra / 1460) | 0)) + ((dayOfEra / 36524) | 0)) - ((dayOfEra / 146096) | 0)) / 365) | 0;
+	var dayOfYear = dayOfEra - (((365 * yearOfEra) + ((yearOfEra / 4) | 0)) - ((yearOfEra / 100) | 0));
+	var mp = (((5 * dayOfYear) + 2) / 153) | 0;
+	var month = mp + ((mp < 10) ? 3 : (-9));
+	var year = yearOfEra + (era * 400);
+	return {
+		day: (dayOfYear - ((((153 * mp) + 2) / 5) | 0)) + 1,
+		month: month,
+		year: year + ((month <= 2) ? 1 : 0)
+	};
+};
+var $elm$time$Time$toDay = F2(
+	function (zone, time) {
+		return $elm$time$Time$toCivil(
+			A2($elm$time$Time$toAdjustedMinutes, zone, time)).day;
+	});
+var $elm$core$Basics$modBy = _Basics_modBy;
+var $elm$time$Time$toHour = F2(
+	function (zone, time) {
+		return A2(
+			$elm$core$Basics$modBy,
+			24,
+			A2(
+				$elm$time$Time$flooredDiv,
+				A2($elm$time$Time$toAdjustedMinutes, zone, time),
+				60));
+	});
+var $elm$time$Time$toMinute = F2(
+	function (zone, time) {
+		return A2(
+			$elm$core$Basics$modBy,
+			60,
+			A2($elm$time$Time$toAdjustedMinutes, zone, time));
+	});
+var $elm$time$Time$Apr = {$: 'Apr'};
+var $elm$time$Time$Aug = {$: 'Aug'};
+var $elm$time$Time$Dec = {$: 'Dec'};
+var $elm$time$Time$Feb = {$: 'Feb'};
+var $elm$time$Time$Jan = {$: 'Jan'};
+var $elm$time$Time$Jul = {$: 'Jul'};
+var $elm$time$Time$Jun = {$: 'Jun'};
+var $elm$time$Time$Mar = {$: 'Mar'};
+var $elm$time$Time$May = {$: 'May'};
+var $elm$time$Time$Nov = {$: 'Nov'};
+var $elm$time$Time$Oct = {$: 'Oct'};
+var $elm$time$Time$Sep = {$: 'Sep'};
+var $elm$time$Time$toMonth = F2(
+	function (zone, time) {
+		var _v0 = $elm$time$Time$toCivil(
+			A2($elm$time$Time$toAdjustedMinutes, zone, time)).month;
+		switch (_v0) {
+			case 1:
+				return $elm$time$Time$Jan;
+			case 2:
+				return $elm$time$Time$Feb;
+			case 3:
+				return $elm$time$Time$Mar;
+			case 4:
+				return $elm$time$Time$Apr;
+			case 5:
+				return $elm$time$Time$May;
+			case 6:
+				return $elm$time$Time$Jun;
+			case 7:
+				return $elm$time$Time$Jul;
+			case 8:
+				return $elm$time$Time$Aug;
+			case 9:
+				return $elm$time$Time$Sep;
+			case 10:
+				return $elm$time$Time$Oct;
+			case 11:
+				return $elm$time$Time$Nov;
+			default:
+				return $elm$time$Time$Dec;
+		}
+	});
+var $elm$time$Time$toYear = F2(
+	function (zone, time) {
+		return $elm$time$Time$toCivil(
+			A2($elm$time$Time$toAdjustedMinutes, zone, time)).year;
+	});
+var $elm$time$Time$Zone = F2(
+	function (a, b) {
+		return {$: 'Zone', a: a, b: b};
+	});
+var $elm$time$Time$utc = A2($elm$time$Time$Zone, 0, _List_Nil);
+var $author$project$Common$DateUtil$unixTimeStr = function (tm) {
+	var pt = $elm$time$Time$millisToPosix(tm);
+	var y = $elm$core$String$fromInt(
+		A2($elm$time$Time$toYear, $elm$time$Time$utc, pt));
+	var mo = $author$project$Common$DateUtil$monthStr(
+		A2($elm$time$Time$toMonth, $elm$time$Time$utc, pt));
+	var mi = $elm$core$String$fromInt(
+		A2($elm$time$Time$toMinute, $elm$time$Time$utc, pt));
+	var h = $elm$core$String$fromInt(
+		A2($elm$time$Time$toHour, $elm$time$Time$utc, pt));
+	var d = $elm$core$String$fromInt(
+		A2($elm$time$Time$toDay, $elm$time$Time$utc, pt));
+	return y + ('-' + (mo + ('-' + (d + (' ' + (h + (':' + mi)))))));
+};
+var $elm$html$Html$caption = _VirtualDom_node('caption');
+var $elm$virtual_dom$VirtualDom$keyedNode = function (tag) {
+	return _VirtualDom_keyedNode(
+		_VirtualDom_noScript(tag));
+};
+var $elm$html$Html$Keyed$node = $elm$virtual_dom$VirtualDom$keyedNode;
+var $NoRedInk$elm_sortable_table$Table$applySorter = F3(
+	function (isReversed, sorter, data) {
+		switch (sorter.$) {
+			case 'None':
+				return data;
+			case 'Increasing':
+				var sort_ = sorter.a;
+				return sort_(data);
+			case 'Decreasing':
+				var sort_ = sorter.a;
+				return $elm$core$List$reverse(
+					sort_(data));
+			case 'IncOrDec':
+				var sort_ = sorter.a;
+				return isReversed ? $elm$core$List$reverse(
+					sort_(data)) : sort_(data);
+			default:
+				var sort_ = sorter.a;
+				return isReversed ? sort_(data) : $elm$core$List$reverse(
+					sort_(data));
+		}
+	});
+var $NoRedInk$elm_sortable_table$Table$findSorter = F2(
+	function (selectedColumn, columnData) {
+		findSorter:
+		while (true) {
+			if (!columnData.b) {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var name = columnData.a.name;
+				var sorter = columnData.a.sorter;
+				var remainingColumnData = columnData.b;
+				if (_Utils_eq(name, selectedColumn)) {
+					return $elm$core$Maybe$Just(sorter);
+				} else {
+					var $temp$selectedColumn = selectedColumn,
+						$temp$columnData = remainingColumnData;
+					selectedColumn = $temp$selectedColumn;
+					columnData = $temp$columnData;
+					continue findSorter;
+				}
+			}
+		}
+	});
+var $NoRedInk$elm_sortable_table$Table$sort = F3(
+	function (_v0, columnData, data) {
+		var selectedColumn = _v0.a;
+		var isReversed = _v0.b;
+		var _v1 = A2($NoRedInk$elm_sortable_table$Table$findSorter, selectedColumn, columnData);
+		if (_v1.$ === 'Nothing') {
+			return data;
+		} else {
+			var sorter = _v1.a;
+			return A3($NoRedInk$elm_sortable_table$Table$applySorter, isReversed, sorter, data);
+		}
+	});
+var $elm$html$Html$table = _VirtualDom_node('table');
+var $elm$html$Html$tfoot = _VirtualDom_node('tfoot');
+var $elm$html$Html$thead = _VirtualDom_node('thead');
+var $NoRedInk$elm_sortable_table$Table$Reversible = function (a) {
+	return {$: 'Reversible', a: a};
+};
+var $NoRedInk$elm_sortable_table$Table$Sortable = function (a) {
+	return {$: 'Sortable', a: a};
+};
+var $NoRedInk$elm_sortable_table$Table$Unsortable = {$: 'Unsortable'};
+var $NoRedInk$elm_sortable_table$Table$onClick = F3(
+	function (name, isReversed, toMsg) {
+		return A2(
+			$elm$html$Html$Events$on,
+			'click',
+			A2(
+				$elm$json$Json$Decode$map,
+				toMsg,
+				A3(
+					$elm$json$Json$Decode$map2,
+					$NoRedInk$elm_sortable_table$Table$State,
+					$elm$json$Json$Decode$succeed(name),
+					$elm$json$Json$Decode$succeed(isReversed))));
+	});
+var $NoRedInk$elm_sortable_table$Table$toHeaderInfo = F3(
+	function (_v0, toMsg, _v1) {
+		var sortName = _v0.a;
+		var isReversed = _v0.b;
+		var name = _v1.name;
+		var sorter = _v1.sorter;
+		switch (sorter.$) {
+			case 'None':
+				return _Utils_Tuple3(
+					name,
+					$NoRedInk$elm_sortable_table$Table$Unsortable,
+					A3($NoRedInk$elm_sortable_table$Table$onClick, sortName, isReversed, toMsg));
+			case 'Increasing':
+				return _Utils_Tuple3(
+					name,
+					$NoRedInk$elm_sortable_table$Table$Sortable(
+						_Utils_eq(name, sortName)),
+					A3($NoRedInk$elm_sortable_table$Table$onClick, name, false, toMsg));
+			case 'Decreasing':
+				return _Utils_Tuple3(
+					name,
+					$NoRedInk$elm_sortable_table$Table$Sortable(
+						_Utils_eq(name, sortName)),
+					A3($NoRedInk$elm_sortable_table$Table$onClick, name, false, toMsg));
+			case 'IncOrDec':
+				return _Utils_eq(name, sortName) ? _Utils_Tuple3(
+					name,
+					$NoRedInk$elm_sortable_table$Table$Reversible(
+						$elm$core$Maybe$Just(isReversed)),
+					A3($NoRedInk$elm_sortable_table$Table$onClick, name, !isReversed, toMsg)) : _Utils_Tuple3(
+					name,
+					$NoRedInk$elm_sortable_table$Table$Reversible($elm$core$Maybe$Nothing),
+					A3($NoRedInk$elm_sortable_table$Table$onClick, name, false, toMsg));
+			default:
+				return _Utils_eq(name, sortName) ? _Utils_Tuple3(
+					name,
+					$NoRedInk$elm_sortable_table$Table$Reversible(
+						$elm$core$Maybe$Just(isReversed)),
+					A3($NoRedInk$elm_sortable_table$Table$onClick, name, !isReversed, toMsg)) : _Utils_Tuple3(
+					name,
+					$NoRedInk$elm_sortable_table$Table$Reversible($elm$core$Maybe$Nothing),
+					A3($NoRedInk$elm_sortable_table$Table$onClick, name, false, toMsg));
+		}
+	});
+var $elm$virtual_dom$VirtualDom$lazy3 = _VirtualDom_lazy3;
+var $elm$html$Html$Lazy$lazy3 = $elm$virtual_dom$VirtualDom$lazy3;
+var $elm$html$Html$tr = _VirtualDom_node('tr');
+var $elm$html$Html$td = _VirtualDom_node('td');
+var $NoRedInk$elm_sortable_table$Table$viewCell = F2(
+	function (data, _v0) {
+		var viewData = _v0.viewData;
+		var details = viewData(data);
+		return A2($elm$html$Html$td, details.attributes, details.children);
+	});
+var $NoRedInk$elm_sortable_table$Table$viewRowHelp = F3(
+	function (columns, toRowAttrs, data) {
+		return A2(
+			$elm$html$Html$tr,
+			toRowAttrs(data),
+			A2(
+				$elm$core$List$map,
+				$NoRedInk$elm_sortable_table$Table$viewCell(data),
+				columns));
+	});
+var $NoRedInk$elm_sortable_table$Table$viewRow = F4(
+	function (toId, columns, toRowAttrs, data) {
+		return _Utils_Tuple2(
+			toId(data),
+			A4($elm$html$Html$Lazy$lazy3, $NoRedInk$elm_sortable_table$Table$viewRowHelp, columns, toRowAttrs, data));
+	});
+var $NoRedInk$elm_sortable_table$Table$view = F3(
+	function (_v0, state, data) {
+		var toId = _v0.a.toId;
+		var toMsg = _v0.a.toMsg;
+		var columns = _v0.a.columns;
+		var customizations = _v0.a.customizations;
+		var theadDetails = customizations.thead(
+			A2(
+				$elm$core$List$map,
+				A2($NoRedInk$elm_sortable_table$Table$toHeaderInfo, state, toMsg),
+				columns));
+		var thead = A2($elm$html$Html$thead, theadDetails.attributes, theadDetails.children);
+		var sortedData = A3($NoRedInk$elm_sortable_table$Table$sort, state, columns, data);
+		var tbody = A3(
+			$elm$html$Html$Keyed$node,
+			'tbody',
+			customizations.tbodyAttrs,
+			A2(
+				$elm$core$List$map,
+				A3($NoRedInk$elm_sortable_table$Table$viewRow, toId, columns, customizations.rowAttrs),
+				sortedData));
+		var withFoot = function () {
+			var _v2 = customizations.tfoot;
+			if (_v2.$ === 'Nothing') {
+				return A2($elm$core$List$cons, tbody, _List_Nil);
+			} else {
+				var attributes = _v2.a.attributes;
+				var children = _v2.a.children;
+				return A2(
+					$elm$core$List$cons,
+					A2($elm$html$Html$tfoot, attributes, children),
+					A2($elm$core$List$cons, tbody, _List_Nil));
+			}
+		}();
+		return A2(
+			$elm$html$Html$table,
+			customizations.tableAttrs,
+			function () {
+				var _v1 = customizations.caption;
+				if (_v1.$ === 'Nothing') {
+					return A2($elm$core$List$cons, thead, withFoot);
+				} else {
+					var attributes = _v1.a.attributes;
+					var children = _v1.a.children;
+					return A2(
+						$elm$core$List$cons,
+						A2($elm$html$Html$caption, attributes, children),
+						A2($elm$core$List$cons, thead, withFoot));
+				}
+			}());
+	});
+var $author$project$Maunaloa$Options$Views$view = function (model) {
+	var stockInfo = function () {
+		var _v1 = model.stock;
+		if (_v1.$ === 'Nothing') {
+			return '';
+		} else {
+			var sx = _v1.a;
+			var o = $elm$core$String$fromFloat(sx.o);
+			var lo = $elm$core$String$fromFloat(sx.l);
+			var hi = $elm$core$String$fromFloat(sx.h);
+			var c = $elm$core$String$fromFloat(sx.c);
+			return $author$project$Common$DateUtil$unixTimeStr(sx.unixTime) + (', o: ' + (o + (', hi: ' + (hi + (', lo: ' + (lo + (', c: ' + c)))))));
+		}
+	}();
+	var dlgHeader = function () {
+		var _v0 = model.selectedPurchase;
+		if (_v0.$ === 'Nothing') {
+			return 'Option Purchase';
+		} else {
+			var sp = _v0.a;
+			return 'Option Purchase ' + sp.ticker;
+		}
+	}();
+	var curOptions = model.isOnlyIvGtZero ? A2(
+		$elm$core$List$filter,
+		function (x) {
+			return (x.ivBuy > 0.0) && (x.ivSell > 0.0);
+		},
+		model.options) : model.options;
+	var cbStem = model.flags.isCalls ? 'cb-calls' : 'cb-puts';
+	return A2(
+		$elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('grid-elm')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('form-group form-group--elm')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(stockInfo)
+							])),
+						A2(
+						$author$project$Common$Buttons$button,
+						'Calc Risc',
+						$author$project$Maunaloa$Options$Types$RiscMsgFor($author$project$Maunaloa$Options$Types$CalcRisc)),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('form-group form-group--elm')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$input,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$placeholder('Risc'),
+										$elm$html$Html$Events$onInput(
+										A2($elm$core$Basics$composeL, $author$project$Maunaloa$Options$Types$RiscMsgFor, $author$project$Maunaloa$Options$Types$RiscChange))
+									]),
+								_List_Nil)
+							])),
+						A2($author$project$Common$Buttons$button, 'Reset Cache', $author$project$Maunaloa$Options$Types$ResetCache),
+						A4(
+						$author$project$Common$Select$makeSelect,
+						'Tickers: ',
+						A2($elm$core$Basics$composeL, $author$project$Maunaloa$Options$Types$OptionMsgFor, $author$project$Maunaloa$Options$Types$FetchOptions),
+						model.tickers,
+						model.selectedTicker),
+						A4(
+						$author$project$Common$Html$labelCheckBox,
+						$author$project$Common$Html$HtmlId(cbStem + '-1'),
+						$author$project$Common$Html$InputCaption('Only iv > 0.0'),
+						$author$project$Common$Html$Checked(model.isOnlyIvGtZero),
+						$author$project$Maunaloa$Options$Types$ToggleOnlyIvGtZero)
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('grid-elm')
+					]),
+				_List_fromArray(
+					[
+						A3($NoRedInk$elm_sortable_table$Table$view, $author$project$Maunaloa$Options$Tables$config, model.tableState, curOptions)
+					])),
+				A5(
+				$author$project$Common$ModalDialog$modalDialog,
+				dlgHeader,
+				model.dlgPurchase,
+				$author$project$Maunaloa$Options$Types$PurchaseMsgFor($author$project$Maunaloa$Options$Types$PurchaseDlgOk),
+				$author$project$Maunaloa$Options$Types$PurchaseMsgFor($author$project$Maunaloa$Options$Types$PurchaseDlgCancel),
+				_List_fromArray(
+					[
+						A4(
+						$author$project$Common$Html$labelCheckBox,
+						$author$project$Common$Html$HtmlId(cbStem + '-2'),
+						$author$project$Common$Html$InputCaption('Real-time purchase'),
+						$author$project$Common$Html$Checked(model.isRealTimePurchase),
+						$author$project$Maunaloa$Options$Types$ToggleRealTimePurchase),
+						A5(
+						$author$project$Common$Html$labelInputItem,
+						$author$project$Common$Html$InputCaption('Ask:'),
+						$author$project$Common$Html$InputType('number'),
+						$author$project$Common$Html$InputValue(model.ask),
+						$author$project$Common$Html$HtmlClass('form-control'),
+						$elm$core$Maybe$Just($author$project$Maunaloa$Options$Types$AskChange)),
+						A5(
+						$author$project$Common$Html$labelInputItem,
+						$author$project$Common$Html$InputCaption('Bid:'),
+						$author$project$Common$Html$InputType('number'),
+						$author$project$Common$Html$InputValue(model.bid),
+						$author$project$Common$Html$HtmlClass('form-control'),
+						$elm$core$Maybe$Just($author$project$Maunaloa$Options$Types$BidChange)),
+						A5(
+						$author$project$Common$Html$labelInputItem,
+						$author$project$Common$Html$InputCaption('Voluime:'),
+						$author$project$Common$Html$InputType('number'),
+						$author$project$Common$Html$InputValue(model.volume),
+						$author$project$Common$Html$HtmlClass('form-control'),
+						$elm$core$Maybe$Just($author$project$Maunaloa$Options$Types$VolumeChange)),
+						A5(
+						$author$project$Common$Html$labelInputItem,
+						$author$project$Common$Html$InputCaption('Spot:'),
+						$author$project$Common$Html$InputType('number'),
+						$author$project$Common$Html$InputValue(model.spot),
+						$author$project$Common$Html$HtmlClass('form-control'),
+						$elm$core$Maybe$Just($author$project$Maunaloa$Options$Types$SpotChange))
+					])),
+				A2($author$project$Common$ModalDialog$alert, model.dlgAlert, $author$project$Maunaloa$Options$Types$AlertOk)
+			]));
+};
+var $author$project$Maunaloa$Options$Main$main = $elm$browser$Browser$element(
+	{
+		init: $author$project$Maunaloa$Options$Main$init,
+		subscriptions: function (_v0) {
+			return $elm$core$Platform$Sub$none;
+		},
+		update: $author$project$Maunaloa$Options$Update$update,
+		view: $author$project$Maunaloa$Options$Views$view
+	});
+_Platform_export({'Maunaloa':{'Options':{'Main':{'init':$author$project$Maunaloa$Options$Main$main(
+	A2(
+		$elm$json$Json$Decode$andThen,
+		function (isCalls) {
+			return $elm$json$Json$Decode$succeed(
+				{isCalls: isCalls});
+		},
+		A2($elm$json$Json$Decode$field, 'isCalls', $elm$json$Json$Decode$bool)))(0)}}}});}(this));

@@ -6,13 +6,13 @@
    [ring.util.response :as ring-resp]
    [harborview.htmlutils :as hu]
    [harborview.maunaloa.config :as config]
-   [harborview.maunaloa.adapters.dbadapters]
-   [harborview.maunaloa.adapters.nordnetadapters] ; :refer (->Postgres)]
+   [harborview.maunaloa.adapter.dbadapter]
+   [harborview.maunaloa.adapter.nordnetadapter] ; :refer (->Postgres)]
    [harborview.maunaloa.core :as maunaloa]
    [harborview.thyme :as thyme])
   (:import
-   (harborview.maunaloa.adapters.dbadapters PostgresAdapter StockMarketAdapter)
-   (harborview.maunaloa.adapters.nordnetadapters NordnetEtradeAdapter)))
+   (harborview.maunaloa.adapter.dbadapter PostgresAdapter StockMarketAdapter)
+   (harborview.maunaloa.adapter.nordnetadapter NordnetEtradeAdapter)))
 
 ;(require '[clojure.core.match :refer [match]])
 
@@ -25,7 +25,7 @@
 ;      :else n)))
 
 
-(def ctx (config/get-context :demo))
+(def ctx (config/get-context :prod))
 
 (reset! maunaloa/db-adapter (PostgresAdapter. ctx))
 

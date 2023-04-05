@@ -15,14 +15,11 @@
 
 (defprotocol Etrade
   (invalidateRiscs [this])
-  (invalidate
-    [this]
-    [this s])
   (calls [this s])
   (puts [this s])
   (stockPrice [this s])
   (stockOptionPrice [this s])
-  (calcRiscStockprices [this s riscs])
+  (calcRiscStockprices [this oid riscs])
   (calcRiscOptionPrice [this s price])
   (riscLines [this s]))
 

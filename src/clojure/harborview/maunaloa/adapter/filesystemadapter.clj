@@ -1,4 +1,4 @@
-(ns harborview.maunaloa.adapters.filesystemadapters
+(ns harborview.maunaloa.adapter.filesystemadapter
   (:gen-class)
   (:import
    (java.io File)))

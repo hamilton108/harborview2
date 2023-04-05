@@ -1,8 +1,8 @@
 (ns harborview.maunaloa.core
   (:gen-class)
   (:require
-   [harborview.maunaloa.adapters.dbadapters] ; :refer (->Postgres)]
-   [harborview.maunaloa.adapters.nordnetadapters]
+   [harborview.maunaloa.adapter.dbadapter] ; :refer (->Postgres)]
+   [harborview.maunaloa.adapter.nordnetadapter]
    [harborview.htmlutils :as hu]
    [harborview.commonutils :as cu]
    [harborview.pedestalutils :as pu])
@@ -38,9 +38,11 @@
 (defn tix [request]
   (tix-m))
 
-(defn req-oid [request]
+(defn req-oid [request & {:keys [do-cast] :or {do-cast true}}]
   (let [oid (get-in request [:path-params :oid])]
-    (cu/rs oid)))
+    (if (= do-cast true)
+      (cu/rs oid)
+      oid)))
 
 (defn charts [request ^ElmChartsFactory factory]
   (let [oid (req-oid request)
@@ -84,16 +86,16 @@
                               (charts req factory-months))))
 
 (def calls
-  (pu/default-json-response ::calls 200
-                            (fn [_ req]
-                              (let [oid (req-oid req)]
-                                (.calls @nordnet-adapter oid)))))
+  (pu/redirect-json-response ::calls
+                             (fn [req]
+                               (let [oid (req-oid req :do-cast false)]
+                                 (.calls @nordnet-adapter oid)))))
 
 (def puts
-  (pu/default-json-response ::puts 200
-                            (fn [_ req]
-                              (let [oid (req-oid req)]
-                                (.puts @nordnet-adapter oid)))))
+  (pu/redirect-json-response ::puts
+                             (fn [req]
+                               (let [oid (req-oid req :do-cast false)]
+                                 (.puts @nordnet-adapter oid)))))
 
 (def calcoptionprice
   (pu/default-json-response ::calcoptionprice 200
@@ -108,6 +110,7 @@
   (pu/default-json-response ::calcriscstockprices 200
                             (fn [body req]
                               (let [oid (req-oid req)]
+                                (prn "body: " body ", req: " req ", oid: " oid)
                                 (.calcRiscStockprices @nordnet-adapter oid body)))
                             :om-json false))
 

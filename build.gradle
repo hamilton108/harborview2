@@ -39,12 +39,12 @@ dependencies {
     implementation "net.sourceforge.htmlunit:htmlunit:$htmlUnitVersion"
     implementation "com.google.guava:guava:29.0-jre"
 
-    compile project(':oahu')
-    compile project(':vega')
-    compile project(':critter-repos')
-    compile project(':nordnet-repos')
+    implementation project(':oahu')
+    implementation project(':vega')
+    implementation project(':critter-repos')
+    implementation project(':nordnet-repos')
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 

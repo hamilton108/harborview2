@@ -2,6 +2,7 @@ module Maunaloa.Options.Update exposing (update)
 
 --import Common.Miscellaneous as M
 
+import Common.Html as W
 import Common.ModalDialog as DLG exposing (errorAlert)
 import Common.Utils as U
 import Maunaloa.Options.Commands as C
@@ -40,7 +41,16 @@ updateOption msg model =
             ( { model | stock = Just s.stock, options = s.opx }, Cmd.none )
 
         OptionsFetched (Err s) ->
-            ( errorAlert "Error" "OptionsFetched Error: " s model, Cmd.none )
+            let
+                errMsg =
+                    W.httpErr2str s
+            in
+            Debug.log errMsg
+                ( model, Cmd.none )
+
+
+
+--( errorAlert "Error" "OptionsFetched Error: " s model, Cmd.none )
 
 
 updatePurchase : PurchaseMsg -> Model -> ( Model, Cmd Msg )

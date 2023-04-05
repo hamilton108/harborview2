@@ -1,4 +1,4 @@
-(ns harborview.maunaloa.adapters.dbadapters
+(ns harborview.maunaloa.adapter.dbadapter
   (:gen-class)
   (:import
    (java.sql Date)
@@ -136,9 +136,8 @@
           (.setSpotAtPurchase spot)
           (.setBuyAtPurchase bid))
         (try
-          (do
-            (.insertPurchase it2 p)
-            {:ok true  :msg (str "Option purchase oid: " (.getOid p)) :statusCode 0})
+          (.insertPurchase it2 p)
+          {:ok true  :msg (str "Option purchase oid: " (.getOid p)) :statusCode 0}
           (catch Exception ex
             {:ok false :msg (str ex) :statusCode 2})))
       {:ok false :msg (str "No suck option: " ticker) :statusCode 1})))
@@ -181,7 +180,8 @@
         volume (:sv j)]
     (try
       (if-let [sale-oid (.registerOptionSale oid price volume)]
-        {:ok true :msg (str "Option ale oid: " sale-oid) :statusCode 0})
+        {:ok true :msg (str "Option ale oid: " sale-oid) :statusCode 0}
+        {:ok false :msg (str "Could not sell option: " oid) :statusCode 2})
       (catch Exception ex
         {:ok false :msg (.getMessage ex) :statusCode 1}))))
 
@@ -218,7 +218,8 @@
         (Optional/empty))))
   (activePurchasesWithCritters [this purchaseType]
       ;Int -> List<StockOptionPurchase>
-    [])
+    (with-session CritterMapper
+      (.activePurchasesWithCritters it purchaseType)))
   (purchasesWithSalesAll [this purchaseType status optionType]
       ;Int -> Int -> StockOption.OptionType -> List<StockOptionPurchase> 
     (with-session CritterMapper
@@ -239,5 +240,6 @@
 
 
 
+(def demo (StockMarketAdapter.))
 
 

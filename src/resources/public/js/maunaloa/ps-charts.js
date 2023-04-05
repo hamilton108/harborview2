@@ -4104,6 +4104,16 @@ var PS =
   var RISC_LINE = 2;
   var BREAK_EVEN_LINE = 3;
   var NO_SUCH_LINE = 99;
+  var getLin = (chartType) => {
+    switch (chartType) {
+      case 1:
+        return linDay;
+      case 2:
+        return linWeek;
+      case 3:
+        return linMonth;
+    }
+  };
   var lineShapeOf = (line) => {
     return line.value0.lt;
   };
@@ -4137,6 +4147,9 @@ var PS =
       pilotLine: null
     };
   };
+  var randomBetween = function(min5, max7) {
+    return Math.floor(Math.random() * (max7 - min5 + 1) + min5);
+  };
   var LevelLineInternal = class {
     constructor() {
       this.ctx = null;
@@ -4146,7 +4159,7 @@ var PS =
     }
     paint(x2, y, displayValue, strokeStyle) {
       const _ctx = this.ctx;
-      _ctx.lineWidth = 1;
+      _ctx.lineWidth = 2;
       _ctx.strokeStyle = strokeStyle;
       _ctx.beginPath();
       _ctx.moveTo(x1, y);
@@ -4189,7 +4202,7 @@ var PS =
       const y = rec.y;
       const displayValue = this.pixToValue(y).toFixed(2);
       const x2 = this.v.w - x1;
-      this.paint(x2, y, displayValue, "black");
+      this.paint(x2, y, displayValue, rec.color);
     }
     paintRiscLine(line) {
       const rec = line.value0;
@@ -4290,8 +4303,10 @@ var PS =
       const items = this.lines.items;
       for (var i = 0; i < items.length; ++i) {
         const item = items[i];
+        var obj = item.value0;
         if (item === riscLine) {
-          item.value0.bid = newValue;
+          obj.riscPrice = newValue;
+          obj.risc = obj.ask - newValue;
           break;
         }
       }
@@ -4337,16 +4352,6 @@ var PS =
   var linDay = new LevelLineInternal();
   var linWeek = new LevelLineInternal();
   var linMonth = new LevelLineInternal();
-  var getLin = (chartType) => {
-    switch (chartType) {
-      case 1:
-        return linDay;
-      case 2:
-        return linWeek;
-      case 3:
-        return linMonth;
-    }
-  };
   var addListener = (chartType) => (listener) => () => {
     const lin = getLin(chartType);
     lin.addListener(listener);
@@ -4390,6 +4395,12 @@ var PS =
   var addLine = (chartType) => (line) => () => {
     const lin = getLin(chartType);
     lin.addLine(line);
+  };
+  var randomRgb = () => {
+    const r = randomBetween(0, 220);
+    const g = randomBetween(0, 220);
+    const b = randomBetween(0, 220);
+    return `rgb(${r},${g},${b})`;
   };
 
   // output/Affjax/foreign.js
@@ -6380,41 +6391,45 @@ var PS =
       return "y";
     }
   })(showNumber);
-  var show9 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons2(/* @__PURE__ */ showRecordFieldsCons1(showRecordFieldsConsNil2)(showBoolean))(showInt)));
-  var bidIsSymbol = {
+  var show9 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons({
     reflectSymbol: function() {
-      return "bid";
+      return "color";
     }
-  };
-  var showRecordFieldsCons22 = /* @__PURE__ */ showRecordFieldsCons(bidIsSymbol);
-  var riscIsSymbol = {
-    reflectSymbol: function() {
-      return "risc";
-    }
-  };
-  var showRecordFieldsCons3 = /* @__PURE__ */ showRecordFieldsCons(riscIsSymbol);
-  var tickerIsSymbol = {
-    reflectSymbol: function() {
-      return "ticker";
-    }
-  };
-  var showRecordFieldsCons4 = /* @__PURE__ */ showRecordFieldsCons(tickerIsSymbol)(showRecordFieldsConsNil2)(showTicker);
-  var show15 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons22(/* @__PURE__ */ showRecordFieldsCons2(/* @__PURE__ */ showRecordFieldsCons3(/* @__PURE__ */ showRecordFieldsCons({
-    reflectSymbol: function() {
-      return "riscPrice";
-    }
-  })(/* @__PURE__ */ showRecordFieldsCons1(showRecordFieldsCons4)(showBoolean))(showNumber))(showNumber))(showInt))(showNumber)));
+  })(/* @__PURE__ */ showRecordFieldsCons2(/* @__PURE__ */ showRecordFieldsCons1(showRecordFieldsConsNil2)(showBoolean))(showInt))(showString)));
   var askIsSymbol = {
     reflectSymbol: function() {
       return "ask";
     }
   };
-  var showRecordFieldsCons5 = /* @__PURE__ */ showRecordFieldsCons(askIsSymbol);
-  var show23 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons5(/* @__PURE__ */ showRecordFieldsCons({
+  var showRecordFieldsCons22 = /* @__PURE__ */ showRecordFieldsCons(askIsSymbol);
+  var bidIsSymbol = {
+    reflectSymbol: function() {
+      return "bid";
+    }
+  };
+  var showRecordFieldsCons3 = /* @__PURE__ */ showRecordFieldsCons(bidIsSymbol);
+  var riscIsSymbol = {
+    reflectSymbol: function() {
+      return "risc";
+    }
+  };
+  var showRecordFieldsCons4 = /* @__PURE__ */ showRecordFieldsCons(riscIsSymbol);
+  var tickerIsSymbol = {
+    reflectSymbol: function() {
+      return "ticker";
+    }
+  };
+  var showRecordFieldsCons5 = /* @__PURE__ */ showRecordFieldsCons(tickerIsSymbol)(showRecordFieldsConsNil2)(showTicker);
+  var show15 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons22(/* @__PURE__ */ showRecordFieldsCons3(/* @__PURE__ */ showRecordFieldsCons2(/* @__PURE__ */ showRecordFieldsCons4(/* @__PURE__ */ showRecordFieldsCons({
+    reflectSymbol: function() {
+      return "riscPrice";
+    }
+  })(/* @__PURE__ */ showRecordFieldsCons1(showRecordFieldsCons5)(showBoolean))(showNumber))(showNumber))(showInt))(showNumber))(showNumber)));
+  var show23 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons22(/* @__PURE__ */ showRecordFieldsCons({
     reflectSymbol: function() {
       return "breakEven";
     }
-  })(/* @__PURE__ */ showRecordFieldsCons2(showRecordFieldsCons4)(showInt))(showNumber))(showNumber)));
+  })(/* @__PURE__ */ showRecordFieldsCons2(showRecordFieldsCons5)(showInt))(showNumber))(showNumber)));
   var riscStockPriceIsSymbol = {
     reflectSymbol: function() {
       return "riscStockPrice";
@@ -6436,8 +6451,7 @@ var PS =
   var pure12 = /* @__PURE__ */ pure(applicativeAff);
   var applySecond1 = /* @__PURE__ */ applySecond(applyAff);
   var liftEffect3 = /* @__PURE__ */ liftEffect(monadEffectAff);
-  var logShow3 = /* @__PURE__ */ logShow(showString);
-  var logShow1 = /* @__PURE__ */ logShow(/* @__PURE__ */ showArray(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons5(/* @__PURE__ */ showRecordFieldsCons(beIsSymbol)(/* @__PURE__ */ showRecordFieldsCons22(/* @__PURE__ */ showRecordFieldsCons3(/* @__PURE__ */ showRecordFieldsCons(riscOptionPriceIsSymbol)(/* @__PURE__ */ showRecordFieldsCons(riscStockPriceIsSymbol)(/* @__PURE__ */ showRecordFieldsConsNil(tickerIsSymbol)(showString))(showNumber))(showNumber))(showNumber))(showNumber))(showNumber))(showNumber))));
+  var logShow3 = /* @__PURE__ */ logShow(/* @__PURE__ */ showArray(/* @__PURE__ */ showRecord3(/* @__PURE__ */ showRecordFieldsCons22(/* @__PURE__ */ showRecordFieldsCons(beIsSymbol)(/* @__PURE__ */ showRecordFieldsCons3(/* @__PURE__ */ showRecordFieldsCons4(/* @__PURE__ */ showRecordFieldsCons(riscOptionPriceIsSymbol)(/* @__PURE__ */ showRecordFieldsCons(riscStockPriceIsSymbol)(/* @__PURE__ */ showRecordFieldsConsNil(tickerIsSymbol)(showString))(showNumber))(showNumber))(showNumber))(showNumber))(showNumber))(showNumber))));
   var StdLine = /* @__PURE__ */ function() {
     function StdLine2(value0) {
       this.value0 = value0;
@@ -6478,7 +6492,7 @@ var PS =
         return pure6(unit);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 432, column 5 - line 434, column 28): " + [el.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 437, column 5 - line 439, column 28): " + [el.constructor.name]);
     };
   };
   var updOptionPriceFromJson = /* @__PURE__ */ decodeJson(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons2(gDecodeJsonNil)({
@@ -6510,10 +6524,10 @@ var PS =
         return "BreakEvenLine: " + show23(v.value0);
       }
       ;
-      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 126, column 1 - line 129, column 57): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 130, column 1 - line 133, column 57): " + [v.constructor.name]);
     }
   };
-  var logShow22 = /* @__PURE__ */ logShow(showLine);
+  var logShow1 = /* @__PURE__ */ logShow(showLine);
   var riscLinesFromJson = /* @__PURE__ */ decodeJson(/* @__PURE__ */ decodeArray2(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(decodeJsonString))(gDecodeJsonNil)(tickerIsSymbol)()())(riscStockPriceIsSymbol)()())(riscOptionPriceIsSymbol)()())(riscIsSymbol)()())(bidIsSymbol)()())(beIsSymbol)()())(askIsSymbol)()())()));
   var optionPriceURL = function(v) {
     return function(curStockPrice) {
@@ -6600,10 +6614,10 @@ var PS =
               return new Right(json2.value0.value);
             }
             ;
-            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 361, column 25 - line 365, column 50): " + [json2.constructor.name]);
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 366, column 25 - line 370, column 50): " + [json2.constructor.name]);
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 354, column 17 - line 365, column 50): " + [res.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 359, column 17 - line 370, column 50): " + [res.constructor.name]);
         }();
         return pure12(result);
       });
@@ -6616,7 +6630,7 @@ var PS =
           return launchAff_(function() {
             var sp = pixToValue(v1)(v2.value0.y);
             var cti = chartTypeAsInt(v);
-            return bind22(applySecond1(liftEffect3(logShow22(v2)))(fetchUpdatedOptionPrice(v2.value0.ticker)(sp)))(function(n) {
+            return bind22(applySecond1(liftEffect3(logShow1(v2)))(fetchUpdatedOptionPrice(v2.value0.ticker)(sp)))(function(n) {
               if (n instanceof Left) {
                 return handleErrorAff(n.value0);
               }
@@ -6625,7 +6639,7 @@ var PS =
                 return liftEffect3(updateRiscLine(cti)(v2)(n.value0));
               }
               ;
-              throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 378, column 13 - line 382, column 65): " + [n.constructor.name]);
+              throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 383, column 13 - line 387, column 65): " + [n.constructor.name]);
             });
           }());
         }
@@ -6645,7 +6659,7 @@ var PS =
           return handleUpdateOptionPrice(ct)(vr)(line.value0);
         }
         ;
-        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 388, column 5 - line 392, column 48): " + [line.constructor.name]);
+        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 393, column 5 - line 397, column 48): " + [line.constructor.name]);
       };
     };
   };
@@ -6669,10 +6683,10 @@ var PS =
             return new Right(lines3.value0);
           }
           ;
-          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 310, column 25 - line 314, column 45): " + [lines3.constructor.name]);
+          throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 316, column 25 - line 320, column 45): " + [lines3.constructor.name]);
         }
         ;
-        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 303, column 17 - line 314, column 45): " + [res.constructor.name]);
+        throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 309, column 17 - line 320, column 45): " + [res.constructor.name]);
       }();
       return pure12(result);
     });
@@ -6710,6 +6724,7 @@ var PS =
           y: valueToPix(vr)(line.riscStockPrice),
           selected: false,
           ticker: line.ticker,
+          ask: line.ask,
           bid: line.bid,
           risc: line.risc,
           riscPrice: line.riscOptionPrice,
@@ -6739,16 +6754,16 @@ var PS =
     return function(ticker) {
       return function(vruler2) {
         return function(evt) {
-          return applySecond3(applySecond3(defaultEventHandling(evt))(logShow3("fxbtn1")))(launchAff_(bind22(fetchLevelLines(ticker))(function(lines3) {
+          return applySecond3(defaultEventHandling(evt))(launchAff_(bind22(fetchLevelLines(ticker))(function(lines3) {
             if (lines3 instanceof Left) {
               return handleErrorAff(lines3.value0);
             }
             ;
             if (lines3 instanceof Right) {
-              return liftEffect3(applySecond3(applySecond3(logShow1(lines3.value0))(clearLines(chartTypeAsInt(ct))))(addRiscLines(ct)(vruler2)(lines3.value0)));
+              return liftEffect3(applySecond3(applySecond3(logShow3(lines3.value0))(clearLines(chartTypeAsInt(ct))))(addRiscLines(ct)(vruler2)(lines3.value0)));
             }
             ;
-            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 325, column 13 - line 334, column 22): " + [lines3.constructor.name]);
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 330, column 13 - line 339, column 22): " + [lines3.constructor.name]);
           })));
         };
       };
@@ -6756,12 +6771,16 @@ var PS =
   };
   var addLevelLineButtonClick = function(ct) {
     return function(v) {
-      var line = new StdLine({
-        y: 200,
-        selected: false,
-        lt: ltSTD
-      });
-      return addLine(chartTypeAsInt(ct))(line);
+      return function __do2() {
+        var curColor = randomRgb();
+        var line = new StdLine({
+          y: 200,
+          selected: false,
+          lt: ltSTD,
+          color: curColor
+        });
+        return addLine(chartTypeAsInt(ct))(line)();
+      };
     };
   };
   var initEvents = function(ct) {
@@ -6779,7 +6798,7 @@ var PS =
               return applySecond3(applySecond3(applySecond3(applySecond3(applySecond3(redraw(chartTypeAsInt(ct))(ctx)(vruler2))(initEvent(ct)(addLevelLineButtonClick(ct))(context.value0.addLevelLineBtn)("click")))(initEvent(ct)(fetchLevelLineButtonClick(ct)(ticker)(vruler2))(context.value0.fetchLevelLinesBtn)("click")))(initEvent(ct)(mouseEventDown(ct))(context.value0.canvasElement)("mousedown")))(initEvent(ct)(mouseEventDrag(ct))(context.value0.canvasElement)("mousemove")))(initEvent(ct)(mouseEventUp(ct)(vruler2))(context.value0.canvasElement)("mouseup"))();
             }
             ;
-            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 472, column 9 - line 486, column 103): " + [context.constructor.name]);
+            throw new Error("Failed pattern match at HarborView.Maunaloa.LevelLine (line 477, column 9 - line 491, column 103): " + [context.constructor.name]);
           };
         };
       };
@@ -7223,6 +7242,9 @@ var PS =
       return nothing;
     }
   };
+  var resetCharts = () => {
+    _charts = {};
+  };
 
   // output/HarborView.Maunaloa.Repository/index.js
   var getJsonResponse = function(key) {
@@ -7236,6 +7258,7 @@ var PS =
   var bind6 = /* @__PURE__ */ bind(bindAff);
   var applySecond12 = /* @__PURE__ */ applySecond(applyAff);
   var liftEffect5 = /* @__PURE__ */ liftEffect(monadEffectAff);
+  var resetCharts2 = resetCharts;
   var reposIdFor = function(chartTypeId) {
     return function(ticker) {
       return ticker + (":" + toString(toNumber(chartTypeId)));
@@ -7301,11 +7324,11 @@ var PS =
                   return applySecond12(liftEffect5(setJsonResponse(reposId)(charts.value0)))(paintAff(curChartType)(collection2));
                 }
                 ;
-                throw new Error("Failed pattern match at Main (line 90, column 21 - line 98, column 77): " + [charts.constructor.name]);
+                throw new Error("Failed pattern match at Main (line 101, column 21 - line 109, column 77): " + [charts.constructor.name]);
               }));
             }
             ;
-            throw new Error("Failed pattern match at Main (line 80, column 5 - line 98, column 77): " + [cachedResponse.constructor.name]);
+            throw new Error("Failed pattern match at Main (line 91, column 5 - line 109, column 77): " + [cachedResponse.constructor.name]);
           };
         };
       };
@@ -7314,11 +7337,12 @@ var PS =
   var clearLevelLines = function(cti) {
     return applySecond5(logShow5("clearLevelLines"))(clear2(cti));
   };
-  var main = /* @__PURE__ */ applySecond5(/* @__PURE__ */ applySecond5(/* @__PURE__ */ paint7(4)([])("-")(0)(0))(/* @__PURE__ */ paintEmpty3([])))(/* @__PURE__ */ clearLevelLines(1));
+  var main = /* @__PURE__ */ applySecond5(/* @__PURE__ */ applySecond5(/* @__PURE__ */ applySecond5(/* @__PURE__ */ paint7(4)([])("-")(0)(0))(/* @__PURE__ */ paintEmpty3([])))(/* @__PURE__ */ clearLevelLines(1)))(resetCharts2);
 
   // <stdin>
   return {
            paint: paint7,
            paintEmpty: paintEmpty3,
+           resetCharts: resetCharts2,
            clearLevelLines:  clearLevelLines }
 })();

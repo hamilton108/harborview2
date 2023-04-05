@@ -18,15 +18,16 @@
                  [com.fasterxml.jackson.core/jackson-core "2.10.2"]
                  [com.fasterxml.jackson.core/jackson-annotations "2.10.2"]
                  [com.fasterxml.jackson.core/jackson-databind "2.10.2"]
+                ;------------------ Logging  ------------------ 
+                 [ch.qos.logback/logback-classic "1.2.10"]
                 ;------------------ Database ------------------ 
                  [org.mybatis/mybatis "3.5.9"]
                  [org.postgresql/postgresql "42.3.3"]
                  [org.jsoup/jsoup "1.11.3"]
                 ;------------------ Local libs ------------------ 
-                 [rcstadheim/critter-repos "3.0.0-20221015.095752-16"]
-                 [rcstadheim/nordnet-repos "3.0.0-20221015.102119-9"]
+                 [rcstadheim/critter-repos "3.0.0-20230113.105404-27"]
                  [rcstadheim/oahu "3.0.0-20220413.092122-1"]
-                 [rcstadheim/vega "3.0.0-20220413.092302-1"]
+                 [rcstadheim/vega "3.0.0-20230219.205202-2"]
                 ;------------------ Diverse ------------------ 
                  [net.sourceforge.htmlunit/htmlunit "2.44.0"
                   :exclusions [org.eclipse.jetty/jetty-http org.eclipse.jetty/jetty-io]]
@@ -38,6 +39,7 @@
                  [redis.clients/jedis "3.3.0" :exclusions [org.slf4j/slf4j-api]]
                  [org.clojure/tools.trace "0.7.11"]
                  [swiss-arrows "1.0.0"]
+                 [clj-http "3.12.3"]
                  ;[org.clojure/core.cache "1.0.207"]
                  ;[com.github.ben-manes.caffeine/caffeine "3.0.2"]
 

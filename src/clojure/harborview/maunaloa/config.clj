@@ -1,20 +1,15 @@
 (ns harborview.maunaloa.config
   (:gen-class)
-  (:require [harborview.maunaloa.adapters.dbadapters]
+  (:require [harborview.maunaloa.adapter.dbadapter]
             [clojure.core.match :refer [match]])
   ;(:require [harborview.maunaloa.repository :as repository])
   (:import
-   (harborview.maunaloa.adapters.dbadapters
+   (harborview.maunaloa.adapter.dbadapter
     StockMarketAdapter
     StockMarketAdapterTest)
    (critter.util StockOptionUtil)
-   (vega.financial.calculator BlackScholes)
-   (harborview.downloader DownloaderStub)
    (harborview.factory StockMarketFactory)
-   (java.time LocalDate)
-   (nordnet.downloader DefaultDownloader)
-   (nordnet.html StockOptionParser3)
-   (nordnet.redis NordnetRedis)))
+   (java.time LocalDate)))
 
 (defn dl-stub-path [ct]
   (match ct
@@ -23,19 +18,19 @@
     :demo
     "/home/rcs/opt/java/harborview2/feed/2022/10/17"))
 
-(defn downloader [ct]
-  (match ct
-    :prod
-    (DefaultDownloader. "172.20.1.2" 6379 0)
-    :else
-    (DownloaderStub. (dl-stub-path ct))))
+;; (defn downloader [ct]
+;;   (match ct
+;;     :prod
+;;     (DefaultDownloader. "172.20.1.2" 6379 0)
+;;     :else
+;;     (DownloaderStub. (dl-stub-path ct))))
 
-(defn redis [ct]
-  (match ct
-    :prod
-    (NordnetRedis. "172.20.1.2" 0)
-    :else
-    (NordnetRedis. "172.20.1.2" 5)))
+;; (defn redis [ct]
+;;   (match ct
+;;     :prod
+;;     (NordnetRedis. "172.20.1.2" 0)
+;;     :else
+;;     (NordnetRedis. "172.20.1.2" 5)))
 
 (defn stock-option-util [ct]
   (match ct
@@ -58,15 +53,16 @@
     (StockMarketAdapter.)
     (StockMarketAdapterTest. (factory ct))))
 
-(defn etrade [ct]
-  (let [calc (BlackScholes.)]
-    (StockOptionParser3. calc (redis ct) (repos ct) (stock-option-util ct))))
+;; (defn etrade [ct]
+;;   (let [calc (BlackScholes.)]
+;;     (StockOptionParser3. calc (redis ct) (repos ct) (stock-option-util ct))))
 
 (defn get-context [ct]
   {:repos (repos ct)
-   :etrade (etrade ct)
-   :dl (downloader ct)
-   :redis (redis ct)
+   ;:etrade (etrade ct)
+   ;:dl (downloader ct)
+   ;:redis (redis ct)
+   :nordnetservice "http://localhost:8082/"
    :scrapbook "/home/rcs/opt/java/harborview2/scrapbook"})
 
 ;; (comment consumer
