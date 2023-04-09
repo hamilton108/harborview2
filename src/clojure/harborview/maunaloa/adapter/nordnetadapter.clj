@@ -162,8 +162,28 @@
       (.warn logger (str ex))
       nil)))
 
+(def risc-line-repos
+  (atom {}))
+
+;; type RiscLineJson = 
+;;     { ticker :: String
+;;     , be :: Number
+;;     , riscStockPrice :: Number
+;;     , riscOptionPrice :: Number
+;;     , bid :: Number
+;;     , ask :: Number
+;;     , risc :: Number
+;;     }
+
+(defn add-risc-line-repos [oid rline]
+  (let [v (@risc-line-repos oid)
+        old-vec (if (nil? v) [] v)
+        new-vec (conj old-vec rline)]
+    (swap! risc-line-repos assoc oid new-vec)))
+
 (defn calc-risc-stockprice
-  [opx
+  [oid
+   opx
    risc-json]
   (let [risc-value (:risc risc-json)
         risc-ticker (:ticker risc-json)
@@ -184,7 +204,16 @@
                   x (risc-option-price risc-adjusted-price o start-val)]
               (if (nil? x)
                 {:ticker risc-ticker :stockprice -1.0 :status 2}
-                {:ticker risc-ticker :stockprice x :status 1}))
+                (let [rline
+                      {:ticker risc-ticker
+                       :be 0.0
+                       :riscStockPrice x
+                       :riscOptionPrice risc-adjusted-price
+                       :bid (:sell o)
+                       :ask (:buy o)
+                       :risc risc-value}]
+                  (add-risc-line-repos oid rline)
+                  {:ticker risc-ticker :stockprice x :status 1})))
             {:ticker risc-ticker :stockprice -1.0 :status 3}))
           ;else
         {:ticker risc-ticker :stockprice -1.0 :status 4}))))
@@ -223,17 +252,19 @@
 ;;                calculated (map #(.getStockOptionPrice %) (filter #(= (.isCalculated %) true) opx))]
 ;;            (map #(RiscLineDTO. %) calculated)))
 
-(defn risc-lines [oid] [])
+
+(defn risc-lines [oid]
+  (@risc-line-repos oid))
   ;; (let [riscs-oid (get-riscs oid)]
   ;;   (if (= (.size riscs-oid) 0)
   ;;     clojure.lang.PersistentVector/EMPTY
   ;;     (map #(RiscLineDTO. (.getValue %)) riscs-oid))))
 
-(comment (risc-lines 3))
+(defn invalidate-riscs []
+  (reset! risc-line-repos {}))
 
 (defrecord NordnetEtradeAdapter [ctx]
   ports/Etrade
-  (invalidateRiscs [_])
   (calls [_ oid]
     (calls-json ctx oid))
   (puts [_ oid]
@@ -241,15 +272,18 @@
   (stockPrice [_ oid]
     (:stock-price (calls-json ctx oid)))
   (stockOptionPrice [_ s])
-  (calcRiscStockprices [_ oid riscs]
+  (calcRiscStockprices [_ riscs]
     (if-let [risc-1 (first riscs)]
       (let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker (:ticker risc-1))
             oid (.first info)
             opx (options ctx oid)]
-        (map (partial calc-risc-stockprice opx) riscs))
+        (map (partial calc-risc-stockprice oid opx) riscs))
       []))
   (calcRiscOptionPrice [_ s price])
-  (riscLines [_ s]))
+  (invalidateRiscs [_]
+    (invalidate-riscs))
+  (riscLines [_ oid]
+    (risc-lines oid)))
 
 (def t "YAR3A528.02X")
 

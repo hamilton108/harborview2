@@ -68,7 +68,6 @@
 
 (defrecord TestNordnetEtradeAdapter [ctx]
   ports/Etrade
-  (invalidateRiscs [_])
   (calls [_ oid]
     test-calls)
   (puts [_ oid]
@@ -76,10 +75,12 @@
   (stockPrice [_ s]
     (:stock-price test-calls))
   (stockOptionPrice [_ s])
-  (calcRiscStockprices [_ oid riscs]
+  (calcRiscStockprices [_ riscs]
     (let [opx (test-options)]
-      (map (partial n/calc-risc-stockprice opx) riscs)))
+      (map (partial n/calc-risc-stockprice 3 opx) riscs)))
   (calcRiscOptionPrice [_ s price])
+  (invalidateRiscs [_]
+    (n/invalidate-riscs))
   (riscLines [_ oid]
     (n/risc-lines oid)))
 
@@ -99,19 +100,24 @@
   (find-first #(= (:ticker %) s) coll))
 
 (deftest yar-calc-risc-stockprices
-  (let [riscs [{:ticker "YAR3M440.01X" :risc 0.2}
-               {:ticker "YAR3F510" :risc 2.0}
-               {:ticker "YAR3F470" :risc 6.25}]
-        calculated (.calcRiscStockprices sut riscs)
-        yar-1 (find-ticker "YAR3M440.01X" calculated)
-        yar-2 (find-ticker "YAR3F510" calculated)
-        yar-3 (find-ticker "YAR3F470" calculated)]
-    (is (= (count calculated) 3))
-    (prn yar-1)
-    (is (= (:status yar-1) 1))
-    (is (close-to (:stockprice yar-1) 444.6 0.5))
-    (is (= (:status yar-2) 4))
-    (is (= (:status yar-3) 4))))
+  (do (.invalidateRiscs sut)
+      (let [riscs [{:ticker "YAR3M440.01X" :risc 0.2}
+                   {:ticker "YAR3F510" :risc 2.0}
+                   {:ticker "YAR3F470" :risc 6.25}]
+            calculated (.calcRiscStockprices sut riscs)
+            yar-1 (find-ticker "YAR3M440.01X" calculated)
+            yar-2 (find-ticker "YAR3F510" calculated)
+            yar-3 (find-ticker "YAR3F470" calculated)
+            rlines (.riscLines sut 3)]
+        (is (= (count calculated) 3))
+        (prn yar-1)
+        (prn rlines)
+        (is (= (:status yar-1) 1))
+        (is (close-to (:stockprice yar-1) 444.6 0.5))
+        (is (= (:status yar-2) 4))
+        (is (= (:status yar-3) 4))
+        (is (= (count rlines) 1)))))
+
 
     ;; (let [yar_550 (find-ticker 550 calculated)    ; 487.4 ->  473.5   (0.85 (0.806) / 1.25 (1.295) ->  0.2 (0.289) )     - iv buy: 0.2875, iv sell: 0.31875
     ;;       yar_510 (find-ticker 510 calculated)    ; 487.4 ->    (6.0/6.9 -> )       - iv buy: 0.28125, iv sell: 0.30312
