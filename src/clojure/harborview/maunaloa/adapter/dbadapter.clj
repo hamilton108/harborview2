@@ -129,7 +129,7 @@
         (doto p
           (.setOptionId (.getOid o))
           (.setLocalDx (LocalDate/now))
-          (.setPrice bid)
+          (.setPrice ask)
           (.setVolume vol)
           (.setStatus 1)
           (.setPurchaseType purchase-type)

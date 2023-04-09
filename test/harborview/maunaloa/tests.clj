@@ -76,7 +76,7 @@
   (stockPrice [_ s]
     (:stock-price test-calls))
   (stockOptionPrice [_ s])
-  (calcRiscStockprices [_ oid riscs]
+  (calcRiscStockprices [_ riscs]
     (let [opx (test-options)]
       (map (partial n/calc-risc-stockprice opx) riscs)))
   (calcRiscOptionPrice [_ s price])
@@ -105,13 +105,17 @@
         calculated (.calcRiscStockprices sut riscs)
         yar-1 (find-ticker "YAR3M440.01X" calculated)
         yar-2 (find-ticker "YAR3F510" calculated)
-        yar-3 (find-ticker "YAR3F470" calculated)]
+        yar-3 (find-ticker "YAR3F470" calculated)
+        rlines (.riscLines sut 2)]
     (is (= (count calculated) 3))
     (prn yar-1)
     (is (= (:status yar-1) 1))
     (is (close-to (:stockprice yar-1) 444.6 0.5))
     (is (= (:status yar-2) 4))
-    (is (= (:status yar-3) 4))))
+    (is (= (:status yar-3) 4))
+    (is (= (count rlines) 3))))
+
+
 
     ;; (let [yar_550 (find-ticker 550 calculated)    ; 487.4 ->  473.5   (0.85 (0.806) / 1.25 (1.295) ->  0.2 (0.289) )     - iv buy: 0.2875, iv sell: 0.31875
     ;;       yar_510 (find-ticker 510 calculated)    ; 487.4 ->    (6.0/6.9 -> )       - iv buy: 0.28125, iv sell: 0.30312

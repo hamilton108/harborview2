@@ -162,6 +162,9 @@
       (.warn logger (str ex))
       nil)))
 
+(def risc-line-repos
+  (atom {}))
+  
 (defn calc-risc-stockprice
   [opx
    risc-json]
@@ -223,13 +226,13 @@
 ;;                calculated (map #(.getStockOptionPrice %) (filter #(= (.isCalculated %) true) opx))]
 ;;            (map #(RiscLineDTO. %) calculated)))
 
+  
 (defn risc-lines [oid] [])
   ;; (let [riscs-oid (get-riscs oid)]
   ;;   (if (= (.size riscs-oid) 0)
   ;;     clojure.lang.PersistentVector/EMPTY
   ;;     (map #(RiscLineDTO. (.getValue %)) riscs-oid))))
 
-(comment (risc-lines 3))
 
 (defrecord NordnetEtradeAdapter [ctx]
   ports/Etrade
@@ -241,7 +244,7 @@
   (stockPrice [_ oid]
     (:stock-price (calls-json ctx oid)))
   (stockOptionPrice [_ s])
-  (calcRiscStockprices [_ oid riscs]
+  (calcRiscStockprices [_ riscs]
     (if-let [risc-1 (first riscs)]
       (let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker (:ticker risc-1))
             oid (.first info)
@@ -249,7 +252,7 @@
         (map (partial calc-risc-stockprice opx) riscs))
       []))
   (calcRiscOptionPrice [_ s price])
-  (riscLines [_ s]))
+  (riscLines [_ oid]))
 
 (def t "YAR3A528.02X")
 

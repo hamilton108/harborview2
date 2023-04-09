@@ -19,7 +19,7 @@
   (puts [this s])
   (stockPrice [this s])
   (stockOptionPrice [this s])
-  (calcRiscStockprices [this oid riscs])
+  (calcRiscStockprices [this riscs])
   (calcRiscOptionPrice [this s price])
   (riscLines [this s]))
 
