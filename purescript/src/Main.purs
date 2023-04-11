@@ -22,7 +22,7 @@ import HarborView.Maunaloa.Common
     , Drop(..)
     , Take(..)
     , Env(..)
-    , Ticker(..)
+    , StockTicker(..)
     , ChartType
     , ChartWidth(..)
     , Scaling(..)
@@ -39,7 +39,7 @@ import HarborView.Maunaloa.JsonCharts (fetchCharts)
 import HarborView.Maunaloa.MaunaloaError (handleErrorAff)
 import HarborView.Maunaloa.Repository as Repository 
 
-createEnv :: ChartType -> Ticker -> Drop -> Take -> ChartMappings -> Env
+createEnv :: ChartType -> StockTicker -> Drop -> Take -> ChartMappings -> Env
 createEnv ctype tik curDrop curTake mappings = 
     Env
     { ticker: tik 
@@ -54,7 +54,7 @@ createEnv ctype tik curDrop curTake mappings =
 createEnvEmpty :: ChartMappings -> Env
 createEnvEmpty mappings = 
     Env
-    { ticker: Ticker "-"
+    { ticker: StockTicker "-"
     , dropAmt: Drop 0 
     , takeAmt: Take 0
     , chartType: asChartType 1 
@@ -82,7 +82,7 @@ resetCharts =
 paint :: Int -> ChartMappings -> String -> Int -> Int -> Effect Unit
 paint chartTypeId mappings ticker dropAmt takeAmt = 
     let
-        curTicker = Ticker ticker 
+        curTicker = StockTicker ticker 
         curChartType = asChartType chartTypeId
         curEnv = createEnv curChartType curTicker (Drop dropAmt) (Take takeAmt) mappings
         reposId = reposIdFor chartTypeId ticker 

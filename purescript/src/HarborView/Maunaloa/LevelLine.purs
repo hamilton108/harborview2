@@ -38,7 +38,8 @@ import HarborView.Maunaloa.MaunaloaError
 import HarborView.Maunaloa.Common 
     ( Pix(..)
     , HtmlId(..)
-    , Ticker(..)
+    , OptionTicker(..)
+    , StockTicker(..)
     , ChartType
     , chartTypeAsInt
     , mainURL
@@ -112,7 +113,7 @@ data Line =
     | RiscLine
     { y :: Number
     , selected :: Boolean
-    , ticker :: Ticker 
+    , ticker :: OptionTicker 
     , ask :: Number
     , bid :: Number
     , risc :: Number
@@ -121,7 +122,7 @@ data Line =
     }
     | BreakEvenLine
     { y :: Number
-    , ticker :: Ticker
+    , ticker :: OptionTicker
     , ask :: Number
     , breakEven :: Number
     , lt :: Int
@@ -257,13 +258,13 @@ addLevelLineButtonClick ct _ =
     in
     addLine (chartTypeAsInt ct) line
 
-fetchLevelLinesURL :: Ticker -> String
-fetchLevelLinesURL (Ticker ticker) =
+fetchLevelLinesURL :: StockTicker -> String
+fetchLevelLinesURL (StockTicker ticker) =
     -- "http://localhost:6346/maunaloa/risclines/" <> ticker
     mainURL <>  "/risclines/" <> ticker
 
-optionPriceURL :: Ticker -> Number -> String
-optionPriceURL (Ticker ticker) curStockPrice =
+optionPriceURL :: OptionTicker -> Number -> String
+optionPriceURL (OptionTicker ticker) curStockPrice =
     mainURL <> "/stockoption/price/" <> ticker <> "/" <> toStringWith (fixed 2) curStockPrice
 
 
@@ -271,7 +272,7 @@ addRiscLine :: ChartType -> VRuler -> RiscLineJson -> Effect Unit
 addRiscLine ct vr line = 
     let 
         cti = chartTypeAsInt ct
-        ticker = Ticker line.ticker
+        ticker = OptionTicker line.ticker
         rl = RiscLine
                 { y: valueToPix vr line.riscStockPrice
                 , selected: false
@@ -300,7 +301,7 @@ addRiscLines ct vr lines =
     in
     Traversable.traverse_ addRiscLine1 lines
 
-fetchLevelLines :: Ticker -> Aff (Either MaunaloaError RiscLinesJson)
+fetchLevelLines :: StockTicker -> Aff (Either MaunaloaError RiscLinesJson)
 fetchLevelLines ticker = 
     Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
         let 
@@ -321,7 +322,7 @@ fetchLevelLines ticker =
         in
         pure result
 
-fetchLevelLineButtonClick :: ChartType -> Ticker -> VRuler -> Event.Event -> Effect Unit
+fetchLevelLineButtonClick :: ChartType -> StockTicker -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ct ticker vruler evt = 
     defaultEventHandling evt *>
     launchAff_ 
@@ -350,7 +351,7 @@ mouseEventDrag ct evt =
     defaultEventHandling evt *>
     onMouseDrag (chartTypeAsInt ct) evt
 
-fetchUpdatedOptionPrice :: Ticker -> Number -> Aff (Either MaunaloaError Number)
+fetchUpdatedOptionPrice :: OptionTicker -> Number -> Aff (Either MaunaloaError Number)
 fetchUpdatedOptionPrice ticker curStockPrice = 
     Affjax.get ResponseFormat.json (optionPriceURL ticker curStockPrice) >>= \res ->
         let 
@@ -470,7 +471,7 @@ initEvent ct toListener element eventType =
     addListener cti info *>
     EventTarget.addEventListener eventType e1 false (toEventTarget element) 
 
-initEvents :: ChartType -> Ticker -> VRuler -> ChartLevel -> Effect Unit
+initEvents :: ChartType -> StockTicker -> VRuler -> ChartLevel -> Effect Unit
 initEvents ct ticker vruler chartLevel =
     unlistenEvents ct *>
     getHtmlContext chartLevel >>= \context ->

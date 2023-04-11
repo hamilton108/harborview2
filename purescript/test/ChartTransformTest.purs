@@ -46,7 +46,7 @@ import HarborView.Maunaloa.ChartCollection
     )
 import HarborView.Maunaloa.Common 
     ( HtmlId(..)
-    , Ticker(..)
+    , StockTicker(..)
     , ChartHeight(..)
     , ChartWidth(..)
     , Scaling(..)
@@ -204,7 +204,7 @@ defaultJsonChartInfo =
 chartMapping :: HtmlId -> HtmlId -> HtmlId -> ChartMapping
 chartMapping levelCanvasId addLevelId fetchLevelId = 
     ChartMapping 
-    { ticker: Ticker "NHY"
+    { ticker: StockTicker "NHY"
     , chartId: ChartId "chart"
     , canvasId: HtmlId "test-canvasId"
     , chartHeight: ChartHeight 500.0
@@ -363,7 +363,7 @@ expectedChartLevel =
 
 testEnv :: Env
 testEnv = Env
-    { ticker: Ticker "1"
+    { ticker: StockTicker "1"
     , dropAmt: Drop 0
     , takeAmt: Take 90
     , chartType: DayChart
@@ -426,7 +426,7 @@ testChartTransformSuite =
             Assert.equal 1 (length coll.charts)
             Assert.equal (UnixTime 1615939200000.0) hruler.startTime
             Assert.equal (UnixTime 1627430400000.0) hruler.endTime
-            let (Ticker tkr) = coll.ticker
+            let (StockTicker tkr) = coll.ticker
             Assert.equal "NHY" tkr 
             Assert.equal (Pix 9.029850746268657) hruler.ppx
             let actualXaxis10 = take 10 hruler.xaxis

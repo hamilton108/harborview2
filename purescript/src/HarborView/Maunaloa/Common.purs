@@ -71,10 +71,15 @@ instance showChartHeight :: Show ChartHeight where
 derive instance eqChartHeight :: Eq ChartHeight
 
 ------------------------- Ticker ------------------------- 
-newtype Ticker = Ticker String 
+newtype OptionTicker = OptionTicker String 
 
-instance showTicker :: Show Ticker where
-  show (Ticker x) = "(Ticker: " <> x <> ")"
+instance showOptionTicker :: Show OptionTicker where
+  show (OptionTicker x) = "(OptionTicker : " <> x <> ")"
+
+newtype StockTicker = StockTicker String 
+
+instance showStockTicker :: Show StockTicker where
+  show (StockTicker x) = "(StockTicker: " <> x <> ")"
 
 ------------------------- HtmlId ------------------------- 
 newtype HtmlId = HtmlId String 
@@ -188,7 +193,7 @@ instance showChartId :: Show ChartId where
 
 
 newtype ChartMapping = ChartMapping 
-    { ticker ::Ticker 
+    { ticker ::StockTicker 
     , chartId :: ChartId
     , canvasId :: HtmlId
     , chartHeight :: ChartHeight 
@@ -228,7 +233,7 @@ newtype Take = Take Int
 
 newtype Env = 
     Env
-    { ticker :: Ticker
+    { ticker :: StockTicker
     , dropAmt :: Drop
     , takeAmt :: Take
     , chartType :: ChartType

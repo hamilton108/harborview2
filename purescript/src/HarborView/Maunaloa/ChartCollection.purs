@@ -40,13 +40,14 @@ import HarborView.Maunaloa.Common
     ( HtmlId(..)
     , ChartMapping(..)
     , ChartType
-    , Ticker
+    , OptionTicker
+    , StockTicker
     )
 import HarborView.Maunaloa.LevelLine as LevelLine
 
 
 newtype ChartCollection = ChartCollection 
-    { ticker :: Ticker 
+    { ticker :: StockTicker 
     , charts :: Array Chart -- List C.Chart
     , hruler :: H.HRuler
     }
@@ -86,7 +87,7 @@ findLevelLineChart :: Array Chart -> Maybe Chart
 findLevelLineChart charts = 
     Array.find findChartPredicate charts
 
-levelLines :: ChartType -> Ticker -> Array Chart -> Effect Unit
+levelLines :: ChartType -> StockTicker -> Array Chart -> Effect Unit
 levelLines ct ticker charts = 
     let
         levelLine = Array.find findChartPredicate charts

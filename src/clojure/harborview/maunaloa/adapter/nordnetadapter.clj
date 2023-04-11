@@ -252,7 +252,6 @@
 ;;                calculated (map #(.getStockOptionPrice %) (filter #(= (.isCalculated %) true) opx))]
 ;;            (map #(RiscLineDTO. %) calculated)))
 
-
 (defn risc-lines [oid]
   (@risc-line-repos oid))
   ;; (let [riscs-oid (get-riscs oid)]
