@@ -26,7 +26,7 @@ import Data.Maybe
     )
 import HarborView.Maunaloa.Common
     ( ValueRange
-    , Ticker(..)
+    , StockTicker(..)
     , ChartType(..)
     )
 import HarborView.Maunaloa.MaunaloaError
@@ -79,15 +79,15 @@ emptyJsonChart =
 chartsFromJson :: Json -> Either JsonDecodeError JsonChartResponse 
 chartsFromJson = Decode.decodeJson
 
-chartUrl :: ChartType -> Ticker -> URL
-chartUrl DayChart (Ticker ticker) = 
+chartUrl :: ChartType -> StockTicker -> URL
+chartUrl DayChart (StockTicker ticker) = 
     "/maunaloa/stockprice/days/" <> ticker
-chartUrl WeekChart (Ticker ticker) = 
+chartUrl WeekChart (StockTicker ticker) = 
     "/maunaloa/stockprice/weeks/" <> ticker
-chartUrl MonthChart (Ticker ticker) = 
+chartUrl MonthChart (StockTicker ticker) = 
     "/maunaloa/stockprice/months/" <> ticker
 
-fetchCharts :: Ticker -> ChartType -> Aff (Either MaunaloaError JsonChartResponse)
+fetchCharts :: StockTicker -> ChartType -> Aff (Either MaunaloaError JsonChartResponse)
 fetchCharts ticker chartType =  
     Affjax.get ResponseFormat.json (chartUrl chartType ticker) >>= \res ->
         let 

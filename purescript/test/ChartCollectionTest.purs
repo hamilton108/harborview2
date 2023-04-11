@@ -5,7 +5,7 @@ import HarborView.Maunaloa.Chart as Chart
 --import Maunaloa.ChartCollection as ChartCollection
 import HarborView.Maunaloa.Common 
     ( HtmlId(..)
-    , Ticker(..)
+    , StockTicker(..)
     , ChartHeight(..)
     , ChartMapping(..)
     , ChartId(..)
@@ -15,7 +15,7 @@ import HarborView.Maunaloa.Common
 chartMapping :: HtmlId -> HtmlId -> HtmlId -> ChartMapping
 chartMapping levelCanvasId addLevelId fetchLevelId = 
     ChartMapping 
-    { ticker: Ticker "1"
+    { ticker: StockTicker "1"
     , chartId: ChartId "chart"
     , canvasId: HtmlId "test-canvasId"
     , chartHeight: ChartHeight 500.0

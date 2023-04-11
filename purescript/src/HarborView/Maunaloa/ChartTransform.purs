@@ -64,7 +64,7 @@ import HarborView.Maunaloa.Common
     , ChartId(..)
     , ChartMapping(..)
     , ChartWidth
-    , Ticker(..)
+    , StockTicker(..)
     , valueRange
     )
 import HarborView.Maunaloa.JsonCharts 
@@ -267,7 +267,7 @@ transform response =
     in
     pure $ 
     ChartCollection 
-        { ticker: (Ticker response.ticker)
+        { ticker: (StockTicker response.ticker)
         , charts: charts1
         , hruler: ruler1 
         }
