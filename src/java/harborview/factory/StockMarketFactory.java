@@ -64,7 +64,7 @@ public class StockMarketFactory {
         so.setLifeCycle(StockOption.LifeCycle.FROM_HTML);
         so.setOpType(optionType);
         so.setX(x);
-        so.setStockOptionUtil(util);
+        //so.setStockOptionUtil(util);
         so.setStock(stockPrice.getStock());
         return so;
     }
@@ -104,7 +104,7 @@ public class StockMarketFactory {
     public StockOptionPurchase createPurchase(StockOptionPrice price) {
         var p = new StockOptionPurchase();
         p.setOptionName(price.getTicker());
-        p.setCalculator(optionCalculator);
+        //p.setCalculator(optionCalculator);
         p.setStatus(11);
         p.setBuyAtPurchase(price.getBuy());
         p.setX(price.getX());

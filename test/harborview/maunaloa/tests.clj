@@ -13,8 +13,10 @@
 (def ctx (config/get-context :test))
 
 
+(def test-stock {:h 458.9, :l 450.6, :c 452.6, :o 452.0, :unix-time 1677062640000})
+
 (def test-calls
-  {:stock-price {:h 458.9, :l 450.6, :c 452.6, :o 452.0, :unix-time 1677062640000},
+  {:stock-price test-stock
    :opx [{:brEven 0.0, :expiry "2023-01-20", :ticker "YAR3A528.02X", :days 117, :ivSell 0.1375, :sell 0.6, :buy 0.0, :ivBuy 0.05, :ot 1, :x 528.02}
          {:brEven 0.0, :expiry "2023-01-20", :ticker "YAR3A518.24X", :days 117, :ivSell 0.125, :sell 0.6, :buy 0.0, :ivBuy 0.05, :ot 1, :x 518.24}
          {:brEven 0.0, :expiry "2023-01-20", :ticker "YAR3A508.46X", :days 117, :ivSell 0.10625000000000001, :sell 0.6, :buy 0.0, :ivBuy 0.05, :ot 1, :x 508.46}
@@ -37,7 +39,7 @@
          {:brEven 0.0, :expiry "2023-01-20", :ticker "YAR3A366.68X", :days 117, :ivSell -1.0, :sell 87.25, :buy 84.25, :ivBuy -1.0, :ot 1, :x 366.68}
          {:brEven 0.0, :expiry "2023-01-20", :ticker "YAR3A361.79X", :days 117, :ivSell -1.0, :sell 92.25, :buy 89.25, :ivBuy -1.0, :ot 1, :x 361.79}]})
 (def test-puts
-  {:stock-price {:h 458.9, :l 450.6, :c 452.6, :o 452.0, :unix-time 1677062640000},
+  {:stock-price test-stock
    :opx [{:brEven 0.0, :expiry "2023-01-20", :ticker "YAR3M528.02X", :days 117, :ivSell 0.3046875, :sell 77.0, :buy 74.0, :ivBuy -1.0, :ot 2, :x 528.02}
          {:brEven 0.0, :expiry "2023-01-20", :ticker "YAR3M518.24X", :days 117, :ivSell 0.2796875, :sell 67.25, :buy 64.25, :ivBuy -1.0, :ot 2, :x 518.24}
          {:brEven 0.0, :expiry "2023-01-20", :ticker "YAR3M508.46X", :days 117, :ivSell 0.253125, :sell 57.5, :buy 54.5, :ivBuy -1.0, :ot 2, :x 508.46}
@@ -66,6 +68,20 @@
     {:stock-price s
      :opx options}))
 
+(defn find-ticker [s coll]
+  (find-first #(= (:ticker %) s) coll))
+
+(defn mock-find-option-json []
+  (let [opx (:opx (test-options))]
+    (fn [ticker]
+      (if-let [result (find-ticker ticker opx)]
+        (do
+          (prn "TICKER: " ticker)
+          (prn "RESULT : " result)
+          (prn "TEST-STOCK: " test-stock)
+          {:stock-price test-stock :option result})
+        nil))))
+
 (defrecord TestNordnetEtradeAdapter [ctx]
   ports/Etrade
   (calls [_ oid]
@@ -76,9 +92,11 @@
     (:stock-price test-calls))
   (stockOptionPrice [_ s])
   (calcRiscStockprices [_ riscs]
-    (let [opx (test-options)]
-      (map (partial n/calc-risc-stockprice 3 opx) riscs)))
-  (calcRiscOptionPrice [_ s price])
+    (map (partial n/calc-risc-stockprice 3 (mock-find-option-json)) riscs))
+  (calcRiscOptionPrice [_ ticker price]
+    (let [o (find-ticker ticker (:opx test-puts))]
+      (prn o)
+      (n/calc-option-price o price)))
   (invalidateRiscs [_]
     (n/invalidate-riscs))
   (riscLines [_ oid]
@@ -96,8 +114,6 @@
 
 ;------------------------------------------------------
 
-(defn find-ticker [s coll]
-  (find-first #(= (:ticker %) s) coll))
 
 (deftest yar-calc-risc-stockprices
   (do (.invalidateRiscs sut)
@@ -116,7 +132,19 @@
         (is (close-to (:stockprice yar-1) 444.6 0.5))
         (is (= (:status yar-2) 4))
         (is (= (:status yar-3) 4))
-        (is (= (count rlines) 1)))))
+        (is (= (count rlines) 1))
+        (let [rline (nth rlines 0)]
+          (is (close-to (:bid rline) 0.1 0.01))
+          (is (close-to (:ask rline) 0.7 0.01))
+          (is (close-to (:riscOptionPrice rline) 0.5 0.01))
+          (is (close-to (:riscStockPrice rline) 444.6 0.1))
+          (is (close-to (:be rline) 442.9 0.1))))))
+
+(deftest yar-calc-risc-option-price
+  (let [ticker "YAR3M361.79X"
+        price 350.0
+        option-price (.calcRiscOptionPrice sut ticker price)]
+    (is (close-to option-price 11.4 0.5))))
 
 
     ;; (let [yar_550 (find-ticker 550 calculated)    ; 487.4 ->  473.5   (0.85 (0.806) / 1.25 (1.295) ->  0.2 (0.289) )     - iv buy: 0.2875, iv sell: 0.31875

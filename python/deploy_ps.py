@@ -138,6 +138,8 @@ if __name__ == '__main__':
                       help="Copy exp.js or min.js to src/public/js/maunaloa")
     parser.add_option("--all", action="store_true", default=False,
                       help="Export, minify and copy")
+    parser.add_option("--bec", action="store_true", default=False,
+                      help="Build, export, and copy")
     (opts, args) = parser.parse_args()
 
     if not opts.module:
@@ -156,15 +158,22 @@ if __name__ == '__main__':
         print("Minifying...")
         minify()
 
+    TARGET_JS = "%s/ps-charts.js" % TARGET
+
     if opts.copy:
         # preprocess()
-        TARGET_JS = "%s/ps-charts.js" % TARGET
         if opts.min:
             print("Copying %s to %s ..." % (JS_MIN, TARGET_JS))
             copyfile(JS_MIN, TARGET_JS)
         else:
             print("Copying %s to %s ..." % (JS_EXP, TARGET_JS))
             copyfile(JS_EXP, TARGET_JS)
+
+    if opts.bec:
+        print("Build, exporting, and copy...")
+        build()
+        export()
+        copyfile(JS_EXP, TARGET_JS)
 
     if opts.all:
         print("Building, exporting, minifying, and copy ...")

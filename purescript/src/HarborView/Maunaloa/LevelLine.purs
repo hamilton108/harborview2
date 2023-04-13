@@ -3,6 +3,7 @@ module HarborView.Maunaloa.LevelLine (initEvents,clear,Line(..)) where
 import Prelude
 import Data.Maybe (Maybe(..))
 --import Data.Array ((:)) 
+import Data.Array (length)
 import Data.Either (Either(..))
 import Data.Number.Format (toStringWith,fixed)
 import Effect (Effect)
@@ -30,20 +31,20 @@ import Data.Argonaut.Core (Json)
 import Data.Argonaut.Decode as Decode
 import Data.Argonaut.Decode.Error (JsonDecodeError)
 import HarborView.Maunaloa.MaunaloaError
-    ( MaunaloaError(..)
-    , handleErrorAff
-    )
+  ( MaunaloaError(..)
+  , handleErrorAff
+  )
 
 
 import HarborView.Maunaloa.Common 
-    ( Pix(..)
-    , HtmlId(..)
-    , OptionTicker(..)
-    , StockTicker(..)
-    , ChartType
-    , chartTypeAsInt
-    , mainURL
-    , alert)
+  ( Pix(..)
+  , HtmlId(..)
+  , OptionTicker(..)
+  , StockTicker(..)
+  , ChartType
+  , chartTypeAsInt
+  , mainURL
+  , alert)
 import HarborView.Maunaloa.VRuler (VRuler,valueToPix,pixToValue)
 import HarborView.Maunaloa.Chart (ChartLevel)
 
@@ -104,34 +105,34 @@ foreign import randomRgb :: Effect String
 
 
 data Line = 
-    StdLine 
-    { y :: Number
-    , selected :: Boolean
-    , lt :: Int
-    , color :: String
-    } 
-    | RiscLine
-    { y :: Number
-    , selected :: Boolean
-    , ticker :: OptionTicker 
-    , ask :: Number
-    , bid :: Number
-    , risc :: Number
-    , riscPrice :: Number
-    , lt :: Int
-    }
-    | BreakEvenLine
-    { y :: Number
-    , ticker :: OptionTicker
-    , ask :: Number
-    , breakEven :: Number
-    , lt :: Int
-    }
+  StdLine 
+  { y :: Number
+  , selected :: Boolean
+  , lt :: Int
+  , color :: String
+  } 
+  | RiscLine
+  { y :: Number
+  , selected :: Boolean
+  , ticker :: OptionTicker 
+  , ask :: Number
+  , bid :: Number
+  , risc :: Number
+  , riscPrice :: Number
+  , lt :: Int
+  }
+  | BreakEvenLine
+  { y :: Number
+  , ticker :: OptionTicker
+  , ask :: Number
+  , breakEven :: Number
+  , lt :: Int
+  }
 
 instance showLine :: Show Line where
-    show (StdLine v) = "StdLine: " <> show v 
-    show (RiscLine v) = "RiscLine: " <> show v 
-    show (BreakEvenLine v) = "BreakEvenLine: " <> show v 
+  show (StdLine v) = "StdLine: " <> show v 
+  show (RiscLine v) = "RiscLine: " <> show v 
+  show (BreakEvenLine v) = "BreakEvenLine: " <> show v 
 
 ltSTD :: Int
 ltSTD= 1
@@ -175,42 +176,42 @@ instance showLines :: Show Lines where
 
 defaultEventHandling :: Event.Event -> Effect Unit
 defaultEventHandling event = 
-    Event.stopPropagation event *>
-    Event.preventDefault event 
+  Event.stopPropagation event *>
+  Event.preventDefault event 
 
 getDoc :: Effect NonElementParentNode
 getDoc = 
-    HTML.window >>= \win ->
-        Window.document win >>= \doc ->
-            pure $ HTMLDocument.toNonElementParentNode doc
+  HTML.window >>= \win ->
+    Window.document win >>= \doc ->
+      pure $ HTMLDocument.toNonElementParentNode doc
 
 newtype EventListenerInfo =
-    EventListenerInfo 
-    { target :: Element 
-    , listener :: EventTarget.EventListener
-    , eventType :: EventType
-    }
+  EventListenerInfo 
+  { target :: Element 
+  , listener :: EventTarget.EventListener
+  , eventType :: EventType
+  }
 
 -- type EventListeners = Array EventListenerInfo -- List.List EventListenerInfo 
 
 -- type EventListenerRef = Ref.Ref EventListeners
 
 type HtmlContext = 
-    { canvasContext :: CanvasElement --Canvas.Context2D
-    , canvasElement :: Element
-    , addLevelLineBtn :: Element
-    , fetchLevelLinesBtn :: Element
-    }
+  { canvasContext :: CanvasElement --Canvas.Context2D
+  , canvasElement :: Element
+  , addLevelLineBtn :: Element
+  , fetchLevelLinesBtn :: Element
+  }
 
 type RiscLineJson = 
-    { ticker :: String
-    , be :: Number
-    , riscStockPrice :: Number
-    , riscOptionPrice :: Number
-    , bid :: Number
-    , ask :: Number
-    , risc :: Number
-    }
+  { ticker :: String
+  , be :: Number
+  , riscStockPrice :: Number
+  , riscOptionPrice :: Number
+  , bid :: Number
+  , ask :: Number
+  , risc :: Number
+  }
 
 type RiscLinesJson = Array RiscLineJson
 
@@ -218,24 +219,24 @@ riscLinesFromJson :: Json -> Either JsonDecodeError RiscLinesJson
 riscLinesFromJson = Decode.decodeJson
 
 type UpdatedOptionPriceJson = 
-    { value :: Number
-    }
+  { value :: Number
+  }
 
 updOptionPriceFromJson :: Json -> Either JsonDecodeError UpdatedOptionPriceJson 
 updOptionPriceFromJson = Decode.decodeJson
 
 unlisten :: EventListenerInfo -> Effect Unit
 unlisten (EventListenerInfo {target,listener,eventType}) = 
-    EventTarget.removeEventListener eventType listener false (toEventTarget target)
+  EventTarget.removeEventListener eventType listener false (toEventTarget target)
 
 unlistenEvents :: ChartType -> Effect Unit
 unlistenEvents ct = 
-    let 
-        cti = chartTypeAsInt ct
-    in
-    getListeners cti >>= \listeners ->
-    Traversable.traverse_ unlisten listeners *>
-    resetListeners cti
+  let 
+    cti = chartTypeAsInt ct
+  in
+  getListeners cti >>= \listeners ->
+  Traversable.traverse_ unlisten listeners *>
+  resetListeners cti
 
 {-
 unlistener :: EventListenerRef -> Int -> Effect Unit
@@ -252,150 +253,152 @@ remButtonClick evt =
 
 addLevelLineButtonClick :: ChartType -> Event.Event -> Effect Unit
 addLevelLineButtonClick ct _ =
-    randomRgb >>= \curColor ->
-    let
-        line = StdLine { y: 200.0, selected: false, lt: ltSTD, color: curColor }
-    in
-    addLine (chartTypeAsInt ct) line
+  randomRgb >>= \curColor ->
+  let
+    line = StdLine { y: 200.0, selected: false, lt: ltSTD, color: curColor }
+  in
+  addLine (chartTypeAsInt ct) line
 
 fetchLevelLinesURL :: StockTicker -> String
 fetchLevelLinesURL (StockTicker ticker) =
     -- "http://localhost:6346/maunaloa/risclines/" <> ticker
-    mainURL <>  "/risclines/" <> ticker
+  mainURL <>  "/risclines/" <> ticker
 
 optionPriceURL :: OptionTicker -> Number -> String
 optionPriceURL (OptionTicker ticker) curStockPrice =
-    mainURL <> "/stockoption/price/" <> ticker <> "/" <> toStringWith (fixed 2) curStockPrice
+  mainURL <> "/stockoption/price/" <> ticker <> "/" <> toStringWith (fixed 2) curStockPrice
 
 
 addRiscLine :: ChartType -> VRuler -> RiscLineJson -> Effect Unit
 addRiscLine ct vr line = 
-    let 
-        cti = chartTypeAsInt ct
-        ticker = OptionTicker line.ticker
-        rl = RiscLine
-                { y: valueToPix vr line.riscStockPrice
-                , selected: false
-                , ticker: ticker
-                , ask: line.ask 
-                , bid: line.bid
-                , risc: line.risc 
-                , riscPrice: line.riscOptionPrice
-                , lt: ltRISC
-                }
-        bl = BreakEvenLine
-                { y: valueToPix vr line.be
-                , ticker: ticker
-                , ask: line.ask 
-                , breakEven: line.be
-                , lt: ltBREAK_EVEN
-                }
-    in
-    addLine cti rl *>
-    addLine cti bl 
+  let 
+    cti = chartTypeAsInt ct
+    ticker = OptionTicker line.ticker
+    rl = 
+      RiscLine
+      { y: valueToPix vr line.riscStockPrice
+      , selected: false
+      , ticker: ticker
+      , ask: line.ask 
+      , bid: line.bid
+      , risc: line.risc 
+      , riscPrice: line.riscOptionPrice
+      , lt: ltRISC
+      }
+    bl = 
+      BreakEvenLine
+      { y: valueToPix vr line.be
+      , ticker: ticker
+      , ask: line.ask 
+      , breakEven: line.be
+      , lt: ltBREAK_EVEN
+      }
+  in
+  addLine cti rl *>
+  addLine cti bl 
 
 addRiscLines :: ChartType -> VRuler -> RiscLinesJson -> Effect Unit
 addRiscLines ct vr lines = 
-    let 
-        addRiscLine1 = addRiscLine ct vr
-    in
-    Traversable.traverse_ addRiscLine1 lines
+  let 
+    addRiscLine1 = addRiscLine ct vr
+  in
+  Traversable.traverse_ addRiscLine1 lines
 
 fetchLevelLines :: StockTicker -> Aff (Either MaunaloaError RiscLinesJson)
 fetchLevelLines ticker = 
-    Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
-        let 
-            result :: Either MaunaloaError RiscLinesJson 
-            result = 
-                case res of  
-                    Left err -> 
-                        Left $ AffjaxError (Affjax.printError err)
-                    Right response ->
-                        let 
-                            lines = riscLinesFromJson response.body
-                        in
-                        case lines of
-                            Left err ->
-                                Left $ JsonError (show err)
-                            Right lines1 ->
-                                Right lines1 
-        in
-        pure result
+  Affjax.get ResponseFormat.json (fetchLevelLinesURL ticker) >>= \res ->
+    let 
+      result :: Either MaunaloaError RiscLinesJson 
+      result = 
+        case res of  
+          Left err -> 
+            Left $ AffjaxError (Affjax.printError err)
+          Right response ->
+            let 
+              lines = riscLinesFromJson response.body
+            in
+            case lines of
+              Left err ->
+                Left $ JsonError (show err)
+              Right lines1 ->
+                Right lines1 
+    in
+    pure result
 
 fetchLevelLineButtonClick :: ChartType -> StockTicker -> VRuler -> Event.Event -> Effect Unit
 fetchLevelLineButtonClick ct ticker vruler evt = 
-    defaultEventHandling evt *>
-    launchAff_ 
-    (
-        fetchLevelLines ticker >>= \lines ->
-            case lines of
-                Left err ->
-                    handleErrorAff err
-                Right lines1 ->
-                    liftEffect 
-                    (
-                        logShow lines1 *>
-                        clearLines (chartTypeAsInt ct) *>
-                        addRiscLines ct vruler lines1
-                    )
-    )
+  defaultEventHandling evt *>
+  launchAff_ 
+  (
+    fetchLevelLines ticker >>= \lines ->
+      case lines of
+        Left err ->
+          handleErrorAff err
+        Right lines1 ->
+          liftEffect 
+          (
+            --logShow lines1 *>
+            clearLines (chartTypeAsInt ct) *>
+            addRiscLines ct vruler lines1
+          )
+  )
 
 
 mouseEventDown :: ChartType -> Event.Event -> Effect Unit
 mouseEventDown ct evt = 
-    defaultEventHandling evt *>
-    onMouseDown (chartTypeAsInt ct) evt 
+  defaultEventHandling evt *>
+  onMouseDown (chartTypeAsInt ct) evt 
 
 mouseEventDrag :: ChartType -> Event.Event -> Effect Unit
 mouseEventDrag ct evt = 
-    defaultEventHandling evt *>
-    onMouseDrag (chartTypeAsInt ct) evt
+  defaultEventHandling evt *>
+  onMouseDrag (chartTypeAsInt ct) evt
 
 fetchUpdatedOptionPrice :: OptionTicker -> Number -> Aff (Either MaunaloaError Number)
 fetchUpdatedOptionPrice ticker curStockPrice = 
-    Affjax.get ResponseFormat.json (optionPriceURL ticker curStockPrice) >>= \res ->
-        let 
-            result :: Either MaunaloaError Number 
-            result = 
-                case res of  
-                    Left err -> 
-                        Left $ AffjaxError (Affjax.printError err)
-                    Right response -> 
-                        let 
-                            json = updOptionPriceFromJson response.body 
-                        in
-                        case json of
-                            Left err ->
-                                Left $ JsonError (show err)
-                            Right json1 ->
-                                Right json1.value
-        in 
-        pure result
+  Affjax.get ResponseFormat.json (optionPriceURL ticker curStockPrice) >>= \res ->
+    let 
+      result :: Either MaunaloaError Number 
+      result = 
+        case res of  
+          Left err -> 
+            Left $ AffjaxError (Affjax.printError err)
+          Right response -> 
+            let 
+              json = updOptionPriceFromJson response.body 
+            in
+            case json of
+              Left err ->
+                Left $ JsonError (show err)
+              Right json1 ->
+                Right json1.value
+    in 
+    pure result
 
 handleUpdateOptionPrice :: ChartType -> VRuler -> Line -> Effect Unit
 handleUpdateOptionPrice ct vr lref@(RiscLine line) = 
-    launchAff_ $
-        let 
-            cti = chartTypeAsInt ct
-            sp = pixToValue vr (Pix line.y)
-        in
-        (liftEffect $ logShow lref) *>
-        fetchUpdatedOptionPrice line.ticker sp >>= \n ->
-            case n of 
-                Left err ->
-                    handleErrorAff err
-                Right value ->
-                    (liftEffect $ updateRiscLine cti lref value)
+  launchAff_ $
+    let 
+      cti = chartTypeAsInt ct
+      sp = pixToValue vr (Pix line.y)
+    in
+    --(liftEffect $ logShow lref) *>
+    fetchUpdatedOptionPrice line.ticker sp >>= \n ->
+      case n of 
+        Left err ->
+          handleErrorAff err
+        Right value ->
+          (liftEffect $ updateRiscLine cti lref value)
 handleUpdateOptionPrice _ _ _ = 
-    pure unit
+  pure unit
 
 handleMouseEventUpLine :: ChartType -> VRuler -> Maybe Line -> Effect Unit
 handleMouseEventUpLine ct vr line = 
-    case line of 
-        Nothing -> 
-            pure unit
-        Just line1 ->
-            handleUpdateOptionPrice ct vr line1
+  case line of 
+    Nothing -> 
+      pure unit
+    Just line1 ->
+      handleUpdateOptionPrice ct vr line1
 
 {- 
         Just lref@(RiscLine rec0) ->76
@@ -411,85 +414,85 @@ handleMouseEventUpLine ct vr line =
 
 mouseEventUp :: ChartType -> VRuler -> Event.Event -> Effect Unit
 mouseEventUp ct vruler evt = 
-    defaultEventHandling evt *>
-    onMouseUp ct evt >>= \line ->
-    handleMouseEventUpLine ct vruler line 
+  defaultEventHandling evt *>
+  onMouseUp ct evt >>= \line ->
+  handleMouseEventUpLine ct vruler line 
 
 
 getHtmlContext1 :: 
-    { canvas :: Maybe Element
-    , add :: Maybe Element
-    , fetch :: Maybe Element
-    , ctx :: Maybe CanvasElement } -> Maybe HtmlContext
+  { canvas :: Maybe Element
+  , add :: Maybe Element
+  , fetch :: Maybe Element
+  , ctx :: Maybe CanvasElement } -> Maybe HtmlContext
 getHtmlContext1 prm = 
-    prm.canvas >>= \canvas1 ->
-    prm.add >>= \addLlBtn1 ->
-    prm.fetch >>= \fetchLlBtn1 ->
-    prm.ctx >>= \ctx1 ->
-        Just
-        { canvasContext: ctx1 
-        , canvasElement: canvas1 
-        , addLevelLineBtn : addLlBtn1
-        , fetchLevelLinesBtn : fetchLlBtn1
-        }
+  prm.canvas >>= \canvas1 ->
+  prm.add >>= \addLlBtn1 ->
+  prm.fetch >>= \fetchLlBtn1 ->
+  prm.ctx >>= \ctx1 ->
+    Just
+    { canvasContext: ctx1 
+    , canvasElement: canvas1 
+    , addLevelLineBtn : addLlBtn1
+    , fetchLevelLinesBtn : fetchLlBtn1
+    }
 
 validateMaybe :: forall a . String -> Maybe a -> Effect Unit
 validateMaybe desc el = 
-    case el of
-        Nothing -> alert ("ERROR!: " <> desc)
-        Just _ -> pure unit -- logShow ("OK: " <> desc)
+  case el of
+    Nothing -> alert ("ERROR!: " <> desc)
+    Just _ -> pure unit -- logShow ("OK: " <> desc)
 
 getHtmlContext :: ChartLevel -> Effect (Maybe HtmlContext)
 getHtmlContext 
-    { levelCanvasId: ( HtmlId levelCanvasId1)
-    , addLevelId: (HtmlId addLevelId1)
-    , fetchLevelId: (HtmlId fetchLevelId1)
-    } =
-    getDoc >>= \doc ->
-        getElementById levelCanvasId1 doc >>= \canvasElement ->
-        getElementById addLevelId1 doc >>= \addLevelId2 ->
-        getElementById fetchLevelId1 doc >>= \fetchLevelId2 ->
-        Canvas.getCanvasElementById levelCanvasId1 >>= \canvas ->
-        validateMaybe "canvasElement" canvasElement *>
-        validateMaybe "addLevelId2" addLevelId2 *>
-        validateMaybe "fetchLevelId2" fetchLevelId2 *>
-        validateMaybe "canvas" canvas *>
-        pure (getHtmlContext1 { canvas: canvasElement
-                              , add: addLevelId2
-                              , fetch: fetchLevelId2
-                              , ctx: canvas })
+  { levelCanvasId: ( HtmlId levelCanvasId1)
+  , addLevelId: (HtmlId addLevelId1)
+  , fetchLevelId: (HtmlId fetchLevelId1)
+  } =
+  getDoc >>= \doc ->
+    getElementById levelCanvasId1 doc >>= \canvasElement ->
+    getElementById addLevelId1 doc >>= \addLevelId2 ->
+    getElementById fetchLevelId1 doc >>= \fetchLevelId2 ->
+    Canvas.getCanvasElementById levelCanvasId1 >>= \canvas ->
+    validateMaybe "canvasElement" canvasElement *>
+    validateMaybe "addLevelId2" addLevelId2 *>
+    validateMaybe "fetchLevelId2" fetchLevelId2 *>
+    validateMaybe "canvas" canvas *>
+    pure (getHtmlContext1 { canvas: canvasElement
+                          , add: addLevelId2
+                          , fetch: fetchLevelId2
+                          , ctx: canvas })
 
 
 
 initEvent :: ChartType -> (Event.Event -> Effect Unit) -> Element -> EventType -> Effect Unit
 initEvent ct toListener element eventType =
-    EventTarget.eventListener toListener >>= \e1 -> 
-    let
-        info = EventListenerInfo {target: element, listener: e1, eventType: eventType}
-        cti = chartTypeAsInt ct
-    in 
-    addListener cti info *>
-    EventTarget.addEventListener eventType e1 false (toEventTarget element) 
+  EventTarget.eventListener toListener >>= \e1 -> 
+  let
+    info = EventListenerInfo {target: element, listener: e1, eventType: eventType}
+    cti = chartTypeAsInt ct
+  in 
+  addListener cti info *>
+  EventTarget.addEventListener eventType e1 false (toEventTarget element) 
 
 initEvents :: ChartType -> StockTicker -> VRuler -> ChartLevel -> Effect Unit
 initEvents ct ticker vruler chartLevel =
-    unlistenEvents ct *>
-    getHtmlContext chartLevel >>= \context ->
-        case context of
-            Nothing ->
-                alert "ERROR! (initEvents) No getHtmlContext chartLevel!" *>
-                pure unit
-            Just context1 ->
-                let 
-                    ce = context1.canvasContext  
-                in
-                Canvas.getContext2D ce >>= \ctx ->
-                    redraw (chartTypeAsInt ct) ctx vruler *>
-                    initEvent ct (addLevelLineButtonClick ct) context1.addLevelLineBtn (EventType "click") *>
-                    initEvent ct (fetchLevelLineButtonClick ct ticker vruler) context1.fetchLevelLinesBtn (EventType "click") *>
-                    initEvent ct (mouseEventDown ct) context1.canvasElement (EventType "mousedown") *>
-                    initEvent ct (mouseEventDrag ct) context1.canvasElement (EventType "mousemove") *>
-                    initEvent ct (mouseEventUp ct vruler) context1.canvasElement (EventType "mouseup") 
+  unlistenEvents ct *>
+  getHtmlContext chartLevel >>= \context ->
+    case context of
+        Nothing ->
+          alert "ERROR! (initEvents) No getHtmlContext chartLevel!" *>
+          pure unit
+        Just context1 ->
+          let 
+            ce = context1.canvasContext  
+          in
+          Canvas.getContext2D ce >>= \ctx ->
+            redraw (chartTypeAsInt ct) ctx vruler *>
+            initEvent ct (addLevelLineButtonClick ct) context1.addLevelLineBtn (EventType "click") *>
+            initEvent ct (fetchLevelLineButtonClick ct ticker vruler) context1.fetchLevelLinesBtn (EventType "click") *>
+            initEvent ct (mouseEventDown ct) context1.canvasElement (EventType "mousedown") *>
+            initEvent ct (mouseEventDrag ct) context1.canvasElement (EventType "mousemove") *>
+            initEvent ct (mouseEventUp ct vruler) context1.canvasElement (EventType "mouseup") 
 
 clear :: Int -> Effect Unit
 clear cti = clearCanvas cti

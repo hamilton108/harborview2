@@ -22,6 +22,8 @@ data MaunaloaError =
 
 handleErrorAff :: MaunaloaError -> Aff Unit
 handleErrorAff (AffjaxError err) = 
-    liftEffect $ alert $ "AffjaxError: " <> err 
+    -- liftEffect $ alert $ "AffjaxError: " <> err 
+    liftEffect $ logShow $ "AffjaxError: " <> err 
 handleErrorAff (JsonError err) = 
-    liftEffect $ alert $ "JsonError: " <> err 
+    -- liftEffect $ alert $ "JsonError: " <> err 
+    liftEffect $ logShow $ "JsonError: " <> err 

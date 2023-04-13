@@ -1,8 +1,8 @@
 package harborview.downloader;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import nordnet.downloader.PageInfo;
-import nordnet.downloader.TickerInfo;
+import harborview.downloader.PageInfo;
+import harborview.downloader.TickerInfo;
 import oahu.financial.html.EtradeDownloader;
 
 import java.io.IOException;

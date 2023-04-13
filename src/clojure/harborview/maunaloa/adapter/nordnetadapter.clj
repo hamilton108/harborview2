@@ -8,7 +8,6 @@
    [harborview.maunaloa.ports :as ports])
   (:import
    (org.slf4j LoggerFactory)
-   (harborview.dto.html StockPriceDTO RiscLineDTO)
    (critter.util StockOptionUtil)
    (oahu.dto Tuple3)
    (oahu.exceptions BinarySearchException)
@@ -16,60 +15,6 @@
    (vega.financial.calculator BlackScholes)))
 
 (def logger (LoggerFactory/getLogger "harborview.maunaloa.adapter.nordnetadapter"))
-
-;; (defn ticker-info
-;;   "critter.repos.StockMarketRepository -> Int -> TickerInfo"
-;;   [repos oid]
-;;   (let [stock (.findStock repos oid)
-;;         ticker (.getTicker stock)]
-;;     (TickerInfo. ticker)))
-
-
-;; (defn stock-options
-;;   "Map -> Int -> [OptionDTO]"
-;;   [ctx oid]
-;;   (let [{:keys [repos etrade dl]} ctx
-;;         tif (ticker-info repos oid)
-;;         pages (.downloadDerivatives dl tif)
-;;         page (first pages)
-;;         sp (.stockPrice etrade oid page)
-;;         opx (map #(OptionDTO. %) (.options etrade page sp))]
-;;     opx))
-
-;; (def options-cache (atom {}))
-
-
-;; (defn stock-options-cache
-;;   "Map -> Int -> [OptionDTO]"
-;;   [ctx oid]
-;;   (let [cached (get @options-cache oid)]
-;;     (if (nil? cached)
-;;       (let [data (stock-options ctx oid)]
-;;         (swap! options-cache assoc oid data)
-;;         data)
-;;       cached)))
-
-
-;; (defn find-option
-;;   "String -> [OptionDTO] -> OptionDTO"
-;;   [ticker
-;;    opx]
-;;   (find-first #(= (.getTicker %) ticker) opx))
-
-
-;; (defn calls-or-puts
-;;   "Map -> Int -> Bool -> [OptionDTO]"
-;;   [ctx
-;;    oid
-;;    is-call]
-;;   (filter #(= (.isCall %) is-call)
-;;           (stock-options-cache ctx oid)))
-
-
-;; (defn calls_
-;;   "Map -> Int -> [OptionDTO]"
-;;   [ctx oid]
-;;   (calls-or-puts ctx oid true))
 
 (def calculator (BlackScholes.))
 
@@ -83,49 +28,9 @@
   (let [url (str (:nordnetservice ctx) "/puts/" oid)]
     (client/get url)))
 
-(defn options
-  [ctx oid]
-  (let [url (str (:nordnetservice ctx) "/stockoptions/" oid)]
+(defn find-option-json [ctx ticker]
+  (let [url (str (:nordnetservice ctx) "/option/" ticker)]
     (cheshire/parse-string (:body (client/get url)) true)))
-
-  ;(calls-or-puts ctx oid false))
-
-
-;; (defn stockprice_
-;;   "Map -> Int -> StockPriceDTO"
-;;   [ctx oid]
-;;   (let [data (stock-options-cache ctx oid)]
-;;     (if (> (.size data) 0)
-;;       (StockPriceDTO. (.getStockPrice (first data)))
-;;       nil)))
-
-
-;; (defn get-riscs
-;;   "Int -> [Map String StockOptionRisc]"
-;;   [stock-oid]
-;;   (if-let [riscs-ticker (get @risc-repos stock-oid)]
-;;     riscs-ticker
-;;     (clojure.lang.PersistentHashMap/EMPTY)))
-
-;; (defn get-risc
-;;   "String -> Map"
-;;   [option-ticker]
-;;   (let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker option-ticker)
-;;         oid (.first info)]
-;;     ((get-riscs oid) option-ticker)))
-
-;; (defn update-risc
-;;   "Map -> ()"
-;;   [risc-obj]
-;;   (let [opt-tik (:ticker risc-obj)
-;;         ^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker opt-tik)
-;;         oid (.first info)]
-;;     (reset! risc-repos
-;;             (update @risc-repos oid (fn [s] (assoc-in s [opt-tik] risc-obj))))))
-
-;StockOptionRisc -> String
-;; (defn make-risc-json [risc-ticker risc]
-;;   {:ticker risc-ticker :stockprice (.getStockPrice risc) :status 1})
 
 (defn find-option
   "String -> [Map] -> Map"
@@ -140,24 +45,34 @@
 (defn get-risc
   [option-ticker])
 
-; double stockPrice = blackScholes.stockPriceFor2(CALL, 12.0, 100.0, 200, 0.2, 110);
-; {:brEven 0.0, :expiry "2023-01-20", 
-;:ticker "YAR3A528.02X", 
-;:days 117, :ivSell 0.1375, 
-;:sell 0.6, :buy 0.0, :ivBuy 0.05, :ot 1, :x 528.02} 
 (defn risc-option-price [risc-adjusted-price option start-val]
   (try
     (let [ot (if (= (:ot option) 1)
                StockOption$OptionType/CALL
-               StockOption$OptionType/PUT)
-          adjusted-stock-price (.stockPriceFor2 calculator
-                                                ot
-                                                risc-adjusted-price
-                                                (:x option)
-                                                (:days option)
-                                                (:ivBuy option)
-                                                start-val)]
-      adjusted-stock-price)
+               StockOption$OptionType/PUT)]
+      (.stockPriceFor2 calculator
+                       ot
+                       risc-adjusted-price
+                       (:x option)
+                       (:days option)
+                       (:ivBuy option)
+                       start-val))
+    (catch BinarySearchException ex
+      (.warn logger (str ex))
+      nil)))
+
+(defn break-even [option start-val]
+  (try
+    (let [ot (if (= (:ot option) 1)
+               StockOption$OptionType/CALL
+               StockOption$OptionType/PUT)]
+      (.stockPriceFor2 calculator
+                       ot
+                       (:sell option)
+                       (:x option)
+                       (:days option)
+                       (:ivBuy option)
+                       start-val))
     (catch BinarySearchException ex
       (.warn logger (str ex))
       nil)))
@@ -165,102 +80,65 @@
 (def risc-line-repos
   (atom {}))
 
-;; type RiscLineJson = 
-;;     { ticker :: String
-;;     , be :: Number
-;;     , riscStockPrice :: Number
-;;     , riscOptionPrice :: Number
-;;     , bid :: Number
-;;     , ask :: Number
-;;     , risc :: Number
-;;     }
-
 (defn add-risc-line-repos [oid rline]
   (let [v (@risc-line-repos oid)
         old-vec (if (nil? v) [] v)
         new-vec (conj old-vec rline)]
     (swap! risc-line-repos assoc oid new-vec)))
 
+
+;{:stock-price stock-price :option calc-op}
+
 (defn calc-risc-stockprice
   [oid
-   opx
+   find-fn
    risc-json]
   (let [risc-value (:risc risc-json)
         risc-ticker (:ticker risc-json)
         cached (get-risc risc-ticker)]
     (if (not-nil? cached)
       cached
-      ;; (let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker risc-ticker)
-      ;;       oid (.first info)
-      ;;       opx (if (= StockOption$OptionType/CALL (.third info))
-      ;;             (calls-json ctx oid)
-      ;;             (puts-json ctx oid))]
-      (if-let [o (find-option risc-ticker opx)]
+      (if-let [o (find-fn risc-ticker)]
           ;then
         (let
-         [risc-adjusted-price (- (:sell o) risc-value)]
-          (if (and (> (:ivBuy o) 0.0) (> risc-adjusted-price 0.0))
-            (let [start-val (get-in opx [:stock-price :c])
-                  x (risc-option-price risc-adjusted-price o start-val)]
+         [ox (:option o)
+          risc-adjusted-price (- (:sell ox) risc-value)]
+          (if (and (> (:ivBuy ox) 0.0) (> risc-adjusted-price 0.0))
+            (let [start-val (get-in o [:stock-price :c])
+                  x (risc-option-price risc-adjusted-price ox start-val)
+                  be (break-even ox start-val)]
               (if (nil? x)
                 {:ticker risc-ticker :stockprice -1.0 :status 2}
-                (let [rline
-                      {:ticker risc-ticker
-                       :be 0.0
-                       :riscStockPrice x
-                       :riscOptionPrice risc-adjusted-price
-                       :bid (:sell o)
-                       :ask (:buy o)
-                       :risc risc-value}]
-                  (add-risc-line-repos oid rline)
-                  {:ticker risc-ticker :stockprice x :status 1})))
+                (if (nil? be)
+                  {:ticker risc-ticker :stockprice -1.0 :status 5}
+                  (let [rline
+                        {:ticker risc-ticker
+                         :be be
+                         :riscStockPrice x
+                         :riscOptionPrice risc-adjusted-price
+                         :bid (:buy ox)
+                         :ask (:sell ox)
+                         :risc risc-value}]
+                    (add-risc-line-repos oid rline)
+                    {:ticker risc-ticker :stockprice x :status 1}))))
             {:ticker risc-ticker :stockprice -1.0 :status 3}))
           ;else
         {:ticker risc-ticker :stockprice -1.0 :status 4}))))
 
-
-  ;; (let [opx (stock-options-cache ctx oid)
-  ;;       risc-ticker (:ticker risc-json)
-  ;;       risc-value (:risc risc-json)
-  ;;       cached (get-risc risc-ticker)]
-  ;;   (if (not-nil? cached)
-  ;;     (make-risc-json risc-ticker cached)
-  ;;     (if-let [^OptionDTO o (find-option risc-ticker opx)] ;[o (cu/find-first #(= (.getTicker %) risc-ticker) opx)]
-  ;;     ;then
-  ;;       (let [^StockOptionPrice sp (.getStockOptionPrice o)
-  ;;             cur-option-price (- (.getSell o) risc-value)
-  ;;             ^StockOptionRisc risc (.riscOptionPrice sp cur-option-price)] ;adjusted-stockprice (.stockPriceFor sp cur-option-price)]
-  ;;         (if (= (.isPresent risc) true)
-  ;;           (let [risc1 (.get risc)]
-  ;;             (update-risc risc1)
-  ;;             (make-risc-json risc-ticker risc1))
-  ;;           {:ticker risc-ticker :stockprice -1.0 :status 2}))
-  ;;     ;else
-  ;;       {:ticker risc-ticker :stockprice -1.0 :status 3}))))
-
-;; (defn find-option-from-ticker
-;;   "String -> OptionDTO"
-;;   [ctx ticker]
-;;   (if-let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker ticker)]
-;;     (let [is-calls (= (.third info) StockOption$OptionType/CALL)
-;;           opx (calls-or-puts ctx (.first info) is-calls)]
-;;       (find-option ticker opx))
-;;     nil))
-
-;; (comment risc-lines [ctx oid]
-;;          (let [opx (stock-options-cache ctx oid)
-;;                calculated (map #(.getStockOptionPrice %) (filter #(= (.isCalculated %) true) opx))]
-;;            (map #(RiscLineDTO. %) calculated)))
-
 (defn risc-lines [oid]
   (@risc-line-repos oid))
-  ;; (let [riscs-oid (get-riscs oid)]
-  ;;   (if (= (.size riscs-oid) 0)
-  ;;     clojure.lang.PersistentVector/EMPTY
-  ;;     (map #(RiscLineDTO. (.getValue %)) riscs-oid))))
 
 (defn invalidate-riscs []
   (reset! risc-line-repos {}))
+
+(defn calc-option-price [o price]
+  ;(if-let [o (find-option-json ctx option-ticker)]
+  (let [strike (:x o)
+        sigma (:ivBuy o)
+        days (:days o)]
+    (if (= (:ot o) 1)
+      (.callPrice2 calculator price strike days sigma)
+      (.putPrice2 calculator price strike days sigma))))
 
 (defrecord NordnetEtradeAdapter [ctx]
   ports/Etrade
@@ -274,11 +152,13 @@
   (calcRiscStockprices [_ riscs]
     (if-let [risc-1 (first riscs)]
       (let [^Tuple3 info (StockOptionUtil/stockOptionInfoFromTicker (:ticker risc-1))
-            oid (.first info)
-            opx (options ctx oid)]
-        (map (partial calc-risc-stockprice oid opx) riscs))
+            oid (.first info)]
+        (map (partial calc-risc-stockprice oid (partial find-option-json ctx)) riscs))
       []))
-  (calcRiscOptionPrice [_ s price])
+  (calcRiscOptionPrice [_ option-ticker price]
+    (if-let [o (find-option-json ctx option-ticker)]
+      (calc-option-price (:option o) price)
+      nil))
   (invalidateRiscs [_]
     (invalidate-riscs))
   (riscLines [_ oid]
@@ -290,7 +170,9 @@
 
 (def demo (NordnetEtradeAdapter. (get-context :demo)))
 
+(def riscs [risc])
 
+(def map-fn (partial calc-risc-stockprice 3 (partial find-option-json (get-context :demo))))
 
   ;; (invalidateRiscs
   ;;   [this]

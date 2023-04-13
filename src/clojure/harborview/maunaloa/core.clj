@@ -61,7 +61,8 @@
   (pu/default-json-response ::risclines 200
                             (fn [_ req]
                               (let [oid (req-oid req)]
-                                (.riscLines @nordnet-adapter oid)))))
+                                (.riscLines @nordnet-adapter oid)))
+                            :om-json false))
 
 (def fetch-optionpurchases
   (pu/default-json-response ::fetchoptionpurchases 200
@@ -109,9 +110,8 @@
 (def calcriscstockprices
   (pu/default-json-response ::calcriscstockprices 200
                             (fn [body req]
-                              (let [oid (req-oid req)]
-                                (prn "body: " body ", req: " req ", oid: " oid)
-                                (.calcRiscStockprices @nordnet-adapter oid body)))
+                              (prn "body: " body ", req: " req)
+                              (.calcRiscStockprices @nordnet-adapter body))
                             :om-json false))
 
 (def purchaseoption

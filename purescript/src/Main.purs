@@ -88,6 +88,7 @@ paint chartTypeId mappings ticker dropAmt takeAmt =
         reposId = reposIdFor chartTypeId ticker 
         cachedResponse =  Repository.getJsonResponse reposId
     in 
+    logShow ("StockTicker: " <> ticker) *>
     case cachedResponse of 
         Just cachedResponse1 ->
             let 

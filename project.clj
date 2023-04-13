@@ -27,7 +27,7 @@
                 ;------------------ Local libs ------------------ 
                  [rcstadheim/critter-repos "3.0.0-20230113.105404-27"]
                  [rcstadheim/oahu "3.0.0-20220413.092122-1"]
-                 [rcstadheim/vega "3.0.0-20230219.205202-2"]
+                 [rcstadheim/vega "3.0.0-20230412.183928-3"]
                 ;------------------ Diverse ------------------ 
                  [net.sourceforge.htmlunit/htmlunit "2.44.0"
                   :exclusions [org.eclipse.jetty/jetty-http org.eclipse.jetty/jetty-io]]
