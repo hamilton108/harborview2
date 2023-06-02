@@ -1,10 +1,13 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'java'
+repositories {
+    mavenCentral()
+}
+
 //apply plugin: 'idea'
 
 apply from: '../gradlecommon/spring-boot-deps.gradle'
@@ -19,6 +22,7 @@ version = '0.4.0'
 sourceCompatibility = JavaVersion.VERSION_11
 //sourceCompatibility = JavaVersion.VERSION_1_8
 
+/*
 sourceSets {
     main {
         java{
@@ -26,27 +30,23 @@ sourceSets {
         }
     }
 }
-
-repositories {
-    mavenCentral()
-}
+ */
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
-    implementation "net.sourceforge.htmlunit:htmlunit:$htmlUnitVersion"
-    implementation "com.google.guava:guava:29.0-jre"
-
     implementation project(':oahu')
     implementation project(':vega')
     implementation project(':critter-repos')
-    implementation project(':nordnet-repos')
+
+    //implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //implementation "net.sourceforge.htmlunit:htmlunit:$htmlUnitVersion"
+    //implementation "com.google.guava:guava:29.0-jre"
+
+    runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 
-bootJar.enabled = false
-jar.enabled = true
+bootJar.enabled = true
+jar.enabled = false

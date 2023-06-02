@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
             OSC: 'osc-1',
             LEVEL_LINES: 'levellines-1',
             BTN_LEVELLINE: "btn-levelline-1",
-            BTN_RISCLINES: "btn-persistent-levelline-1"
+            BTN_RISCLINES: "btn-persistent-levelline-1",
+            BTN_DEL_RISCLINES: "btn-del-persistent-levelline-1"
         },
         WEEK: {
             MAIN_CHART: 'chart-2',
@@ -19,7 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
             OSC: 'osc-2',
             LEVEL_LINES: 'levellines-2',
             BTN_LEVELLINE: "btn-levelline-2",
-            BTN_RISCLINES: "btn-persistent-levelline-2"
+            BTN_RISCLINES: "btn-persistent-levelline-2",
+            BTN_DEL_RISCLINES: "btn-del-persistent-levelline-2"
         },
         MONTH: {
             MAIN_CHART: 'chart-3',
@@ -27,7 +29,8 @@ document.addEventListener("DOMContentLoaded", function () {
             OSC: 'osc-3',
             LEVEL_LINES: 'levellines-3',
             BTN_LEVELLINE: "btn-levelline-3",
-            BTN_RISCLINES: "btn-persistent-levelline-3"
+            BTN_RISCLINES: "btn-persistent-levelline-3",
+            BTN_DEL_RISCLINES: "btn-del-persistent-levelline-3"
         }
     };
     const scrapbooks = {
@@ -139,11 +142,20 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     const toChartMappings = (c) => {
         const mainChart = {
-            chartId: "chart", canvasId: c.MAIN_CHART, chartHeight: 600.0,
-            levelCanvasId: c.LEVEL_LINES, addLevelId: c.BTN_LEVELLINE, fetchLevelId: c.BTN_RISCLINES
+            chartId: "chart", canvasId: c.MAIN_CHART,
+            chartHeight: 600.0,
+            levelCanvasId: c.LEVEL_LINES,
+            addLevelId: c.BTN_LEVELLINE,
+            fetchLevelId: c.BTN_RISCLINES,
+            delLevelId: c.BTN_DEL_RISCLINES
         };
         const osc = {
-            chartId: "chart2", canvasId: c.OSC, chartHeight: 200.0, levelCanvasId: "", addLevelId: "", fetchLevelId: ""
+            chartId: "chart2", canvasId: c.OSC,
+            chartHeight: 200.0,
+            levelCanvasId: "",
+            addLevelId: "",
+            fetchLevelId: "",
+            delLevelId: ""
         };
         return [mainChart, osc];
     };
