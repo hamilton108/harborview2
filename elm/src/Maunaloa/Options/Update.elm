@@ -45,8 +45,7 @@ updateOption msg model =
                 errMsg =
                     W.httpErr2str s
             in
-            Debug.log errMsg
-                ( model, Cmd.none )
+            ( model, Cmd.none )
 
 
 
